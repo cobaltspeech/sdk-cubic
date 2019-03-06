@@ -8,6 +8,8 @@ import "google/api/annotations.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/empty.proto";
 
+option go_package = "cubicpb";
+
 // Service that implements the Cobalt Cubic Speech Recognition API
 service Cubic {
   // Queries the Version of the Server
