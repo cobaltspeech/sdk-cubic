@@ -84,7 +84,7 @@ func setupGRPCServerWithTLS(mutual bool) (*grpc.Server, int, error) {
 
 	s := grpc.NewServer(grpc.Creds(credentials.NewTLS(tc)))
 	cubicpb.RegisterCubicServer(s, &MockCubicServer{})
-	go s.Serve(lis)
+	go func() { _ = s.Serve(lis) }()
 	return s, lis.Addr().(*net.TCPAddr).Port, nil
 }
 
@@ -147,20 +147,20 @@ func TestServerTLS(t *testing.T) {
 	// should not be able to call methods, as the certificate can not be
 	// validated.
 	shouldFail(t, "default client with self-signed server cert",
-		testClientConnection(cubic.NewClient(addr, &tls.Config{})))
+		testClientConnection(cubic.NewClient(addr)))
 
 	// by adding the appropriate CA to the client config, we should be now able to call methods.
-	caCertPool := x509.NewCertPool()
-	if ok := caCertPool.AppendCertsFromPEM(certPem); !ok {
-		t.Errorf("could not add certificate to certpool")
-		return
-	}
-
 	shouldSucceed(t, "default client with root CA of server",
-		testClientConnection(cubic.NewClient(addr, &tls.Config{RootCAs: caCertPool})))
+		testClientConnection(cubic.NewClient(addr, cubic.WithServerCert(certPem))))
 
 	shouldFail(t, "insecure client with tls server",
-		testClientConnection(cubic.NewClientWithInsecure(addr)))
+		testClientConnection(cubic.NewClient(addr, cubic.WithInsecure())))
+
+	_, err = cubic.NewClient(addr, cubic.WithServerCert(certPem[:3]))
+	if err == nil {
+		t.Errorf("tls with bad server cert, want failure, got success")
+	}
+
 }
 
 // TestMutualTLS starts a server with mutual TLS enabled and makes sure only the
@@ -202,13 +202,19 @@ B6KD9XmVFWXX
 
 	// mutual tls should work with appropriate certificates
 	shouldSucceed(t, "mutual tls with correct keys",
-		testClientConnection(cubic.NewClientWithMutualTLS(addr, certPem, keyPem, certPem)))
+		testClientConnection(cubic.NewClient(addr, cubic.WithClientCert(certPem, keyPem), cubic.WithServerCert(certPem))))
 
 	// mutual tls with correct cert but wrong CA should fail (client can not validate the server)
 	shouldFail(t, "mutual tls with wrong CA cert",
-		testClientConnection(cubic.NewClientWithMutualTLS(addr, certPem, keyPem, fakeCertPem)))
+		testClientConnection(cubic.NewClient(addr, cubic.WithClientCert(certPem, keyPem), cubic.WithServerCert(fakeCertPem))))
 
 	// mutual tls with wrong cert but correct CA should fail (server can not validate the client)
 	shouldFail(t, "mutual tls with wrong client cert",
-		testClientConnection(cubic.NewClientWithMutualTLS(addr, fakeCertPem, fakeKeyPem, certPem)))
+		testClientConnection(cubic.NewClient(addr, cubic.WithClientCert(fakeCertPem, fakeKeyPem), cubic.WithServerCert(certPem))))
+
+	// client creation should fail when presented with a bad client cert/key.
+	_, err = cubic.NewClient(addr, cubic.WithClientCert(fakeCertPem[:3], fakeKeyPem))
+	if err == nil {
+		t.Errorf("client creation with invalid client cert, want failure, got success")
+	}
 }

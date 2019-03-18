@@ -17,7 +17,6 @@ package cubic_test
 import (
 	"bytes"
 	"context"
-	"crypto/rand"
 	"fmt"
 	"io"
 	"net"
@@ -55,7 +54,7 @@ func TestVersion(t *testing.T) {
 		t.Errorf("could not set up testing server: %v", err)
 	}
 
-	c, err := cubic.NewClientWithInsecure(fmt.Sprintf("localhost:%d", port))
+	c, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure())
 	if err != nil {
 		t.Errorf("could not create client: %v", err)
 	}
@@ -91,7 +90,7 @@ func TestListModels(t *testing.T) {
 		t.Errorf("could not set up testing server: %v", err)
 	}
 
-	c, err := cubic.NewClientWithInsecure(fmt.Sprintf("localhost:%d", port))
+	c, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure())
 	if err != nil {
 		t.Errorf("could not create client: %v", err)
 	}
@@ -137,13 +136,13 @@ func TestRecognize(t *testing.T) {
 		t.Errorf("could not set up testing server: %v", err)
 	}
 
-	c, err := cubic.NewClientWithInsecure(fmt.Sprintf("localhost:%d", port))
+	c, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure())
 	if err != nil {
 		t.Errorf("could not create client: %v", err)
 	}
 	defer c.Close()
 
-	resp, err := c.Recognize(context.Background(),
+	_, err = c.Recognize(context.Background(),
 		&cubicpb.RecognitionConfig{
 			AudioEncoding: cubicpb.RecognitionConfig_MP3,
 		},
@@ -153,7 +152,7 @@ func TestRecognize(t *testing.T) {
 		t.Errorf("expected error with MP3 encoding, got none")
 	}
 
-	resp, err = c.Recognize(context.Background(), &cubicpb.RecognitionConfig{}, bytes.NewReader([]byte{}))
+	resp, err := c.Recognize(context.Background(), &cubicpb.RecognitionConfig{}, bytes.NewReader([]byte{}))
 	if err != nil {
 		t.Errorf("did not expect error in recognize; got %v", err)
 	}
@@ -229,7 +228,7 @@ func TestStreamingRecognize(t *testing.T) {
 		t.Errorf("could not set up testing server: %v", err)
 	}
 
-	c, err := cubic.NewClientWithInsecure(fmt.Sprintf("localhost:%d", port))
+	c, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure())
 	if err != nil {
 		t.Errorf("could not create client: %v", err)
 	}
@@ -241,10 +240,9 @@ func TestStreamingRecognize(t *testing.T) {
 		got = resp
 	}
 
-	audio := make([]byte, 10*4096)
-	rand.Read(audio)
+	audio := make([]byte, 10*4096) // all zeros
 
-	err = c.StreamingRecognize(context.Background(), &cubicpb.RecognitionConfig{}, bytes.NewReader(audio), 4096, handleResult)
+	err = c.StreamingRecognize(context.Background(), &cubicpb.RecognitionConfig{}, bytes.NewReader(audio), handleResult)
 	if err != nil {
 		t.Errorf("did not expect error in streamingrecognize; got %v", err)
 	}
@@ -254,10 +252,32 @@ func TestStreamingRecognize(t *testing.T) {
 	}
 
 	// Now check that the server will never send a nil message.
-	err = c.StreamingRecognize(context.Background(), &cubicpb.RecognitionConfig{ModelId: "test-nil"}, bytes.NewReader(audio), 4096, handleResult)
+	err = c.StreamingRecognize(context.Background(), &cubicpb.RecognitionConfig{ModelId: "test-nil"}, bytes.NewReader(audio), handleResult)
 	if err == nil {
 		t.Errorf("streamingrecognize should have failed when server sent a nil message, but instead succeeded")
 	}
+
+}
+
+// Test Streaming Buffer Size Option
+func TestStreamingBufSize(t *testing.T) {
+	svr, port, err := setupGRPCServer()
+	defer svr.Stop()
+
+	if err != nil {
+		t.Errorf("could not set up testing server: %v", err)
+	}
+
+	_, err = cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure(), cubic.WithStreamingBufferSize(0))
+	if err == nil {
+		t.Errorf("client creation with streaming buffer size 0, want failure, got success")
+	}
+
+	c, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure(), cubic.WithStreamingBufferSize(1))
+	if err != nil {
+		t.Errorf("client creation with streaming buffer size 1, want success, got %v", err)
+	}
+	defer c.Close()
 
 }
 
@@ -306,7 +326,7 @@ func TestGateway(t *testing.T) {
 	}()
 
 	<-time.After(1 * time.Second)
-	httpsvr.Shutdown(context.Background())
+	_ = httpsvr.Shutdown(context.Background())
 }
 
 func setupGRPCServer() (*grpc.Server, int, error) {
@@ -317,6 +337,6 @@ func setupGRPCServer() (*grpc.Server, int, error) {
 
 	s := grpc.NewServer()
 	cubicpb.RegisterCubicServer(s, &MockCubicServer{})
-	go s.Serve(lis)
+	go func() { _ = s.Serve(lis) }()
 	return s, lis.Addr().(*net.TCPAddr).Port, nil
 }
