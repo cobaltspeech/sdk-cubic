@@ -35,58 +35,99 @@ import (
 //
 // All methods except Close may be called concurrently.
 type Client struct {
-	conn   *grpc.ClientConn
-	client cubicpb.CubicClient
+	conn             *grpc.ClientConn
+	cubic            cubicpb.CubicClient
+	insecure         bool
+	tlscfg           tls.Config
+	streamingBufSize uint32
 }
 
-// NewClient creates a new Cubic client to use the provided address as the cubic
-// server and with the provided tls configuration.  This should be the default
-// method you use in production when connecting with a TLS enabled server.
-func NewClient(addr string, tc *tls.Config) (*Client, error) {
-	conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(credentials.NewTLS(tc)))
+// NewClient creates a new Client that connects to a Cubic Server listening on
+// the provided address.  Transport security is enabled by default.  Use Options
+// to override default settings if necessary.
+func NewClient(addr string, opts ...Option) (*Client, error) {
+	c := Client{}
+	c.streamingBufSize = defaultStreamingBufsize
+
+	for _, opt := range opts {
+		err := opt(&c)
+		if err != nil {
+			return nil, fmt.Errorf("unable to create a client: %v", err)
+		}
+	}
+
+	var dopt grpc.DialOption
+
+	if c.insecure {
+		dopt = grpc.WithInsecure()
+	} else {
+		dopt = grpc.WithTransportCredentials(credentials.NewTLS(&c.tlscfg))
+	}
+
+	conn, err := grpc.Dial(addr, dopt)
 	if err != nil {
 		return nil, fmt.Errorf("unable to create a client: %v", err)
 	}
-
-	return &Client{
-		conn:   conn,
-		client: cubicpb.NewCubicClient(conn),
-	}, nil
+	c.conn = conn
+	c.cubic = cubicpb.NewCubicClient(c.conn)
+	return &c, nil
 }
 
-// NewClientWithInsecure creates a new Cubic Client to use the provided addr as
-// the cubic server.  Use this method when working with a non-TLS cubic server,
-// such as during debugging.
-func NewClientWithInsecure(addr string) (*Client, error) {
-	conn, err := grpc.Dial(addr, grpc.WithInsecure())
-	if err != nil {
-		return nil, fmt.Errorf("unable to create a client: %v", err)
-	}
+// Option configures how we setup the connection with a server.
+type Option func(*Client) error
 
-	return &Client{
-		conn:   conn,
-		client: cubicpb.NewCubicClient(conn),
-	}, nil
+// WithInsecure returns an Option which disables transport security for this
+// Client.  Use this when connecting to a non-TLS enabled cubic server, such as
+// during debugging.
+func WithInsecure() Option {
+	return func(c *Client) error {
+		c.insecure = true
+		return nil
+	}
 }
 
-// NewClientWithMutualTLS creates a new Cubic Client to use the provided addr as
-// the cubic server.  Use this method if Cobalt has provided you with TLS
-// certificates for mutual authentication.
-func NewClientWithMutualTLS(addr string, certPem []byte, keyPem []byte, caCert []byte) (*Client, error) {
-	clientCert, err := tls.X509KeyPair(certPem, keyPem)
-	if err != nil {
-		return nil, fmt.Errorf("unable to create a client: %v", err)
+// WithServerCert returns an Option which sets up the given PEM certificate as a
+// root certificate that can validate the certificate presented by the server we
+// are connecting to.  Use this when connecting to an instance of cubic server
+// that is using a self-signed certificate.
+func WithServerCert(cert []byte) Option {
+	return func(c *Client) error {
+		caCertPool := x509.NewCertPool()
+		if ok := caCertPool.AppendCertsFromPEM(cert); !ok {
+			return fmt.Errorf("unable to use given caCert")
+		}
+		c.tlscfg.RootCAs = caCertPool
+		return nil
 	}
+}
 
-	caCertPool := x509.NewCertPool()
-	if ok := caCertPool.AppendCertsFromPEM(caCert); !ok {
-		return nil, fmt.Errorf("unable to use given caCert: %v", err)
+// WithClientCert returns an Option which sets up the given PEM certificate and
+// key as the credentials presented by this Client when connecting to a server.
+// Use this when setting up mutually authenticated TLS.
+func WithClientCert(certPem []byte, keyPem []byte) Option {
+	return func(c *Client) error {
+		clientCert, err := tls.X509KeyPair(certPem, keyPem)
+		if err != nil {
+			return err
+		}
+
+		c.tlscfg.Certificates = []tls.Certificate{clientCert}
+		return nil
 	}
+}
 
-	return NewClient(addr, &tls.Config{
-		Certificates: []tls.Certificate{clientCert},
-		RootCAs:      caCertPool,
-	})
+// WithStreamingBufferSize returns an Option that sets up the buffer size
+// (bytes) of each message sent from the Client to the server during streaming
+// GRPC calls.  Use this only if Cobalt recommends you to do so.  A value n>0 is
+// required.
+func WithStreamingBufferSize(n uint32) Option {
+	return func(c *Client) error {
+		if n == 0 {
+			return fmt.Errorf("invalid streaming buffer size of 0")
+		}
+		c.streamingBufSize = n
+		return nil
+	}
 }
 
 // Close closes the connection to the API service.  The user should only invoke
@@ -99,12 +140,12 @@ func (c *Client) Close() error {
 
 // Version queries the server for its version
 func (c *Client) Version(ctx context.Context) (*cubicpb.VersionResponse, error) {
-	return c.client.Version(ctx, &empty.Empty{})
+	return c.cubic.Version(ctx, &empty.Empty{})
 }
 
 // ListModels retrieves a list of available speech recognition models
 func (c *Client) ListModels(ctx context.Context) (*cubicpb.ListModelsResponse, error) {
-	return c.client.ListModels(ctx, &cubicpb.ListModelsRequest{})
+	return c.cubic.ListModels(ctx, &cubicpb.ListModelsRequest{})
 }
 
 // Recognize performs synchronous speech recognition and returns after all audio
@@ -120,13 +161,13 @@ func (c *Client) Recognize(
 		return nil, fmt.Errorf("unable to read audio: %v", err)
 	}
 
-	return c.client.Recognize(ctx, &cubicpb.RecognizeRequest{
+	return c.cubic.Recognize(ctx, &cubicpb.RecognizeRequest{
 		Config: cfg,
 		Audio:  &cubicpb.RecognitionAudio{Data: b},
 	})
 }
 
-const defaultStreamBufsize uint32 = 8192
+const defaultStreamingBufsize uint32 = 8192
 
 // RecognitionResponseHandler is a type of callback function that will be called
 // when the `StreamingRecognize` method is running.  For each response received
@@ -139,9 +180,9 @@ type RecognitionResponseHandler func(*cubicpb.RecognitionResponse)
 // StreamingRecognize uses the bidirectional streaming API for performing speech
 // recognition.  It sets up recognition using the given cfg.
 //
-// Data is read from the given audio reader into a buffer of the specified size
-// and streamed to cubic server.  If bufsize is set to zero, a default value is
-// chosen by this package.
+// Data is read from the given audio reader into a buffer and streamed to cubic
+// server.  The default buffer size may be overridden using Options when
+// creating the Client.
 //
 // As results are received from the cubic server, they will be sent to the
 // provided handlerFunc.
@@ -153,13 +194,9 @@ type RecognitionResponseHandler func(*cubicpb.RecognitionResponse)
 // resultHandler.
 func (c *Client) StreamingRecognize(ctx context.Context,
 	cfg *cubicpb.RecognitionConfig, audio io.Reader,
-	bufsize uint32, handlerFunc RecognitionResponseHandler) error {
+	handlerFunc RecognitionResponseHandler) error {
 
-	if bufsize == 0 {
-		bufsize = defaultStreamBufsize
-	}
-
-	stream, err := c.client.StreamingRecognize(ctx)
+	stream, err := c.cubic.StreamingRecognize(ctx)
 	if err != nil {
 		return fmt.Errorf("unable to start streaming recognition: %v", err)
 	}
@@ -177,7 +214,7 @@ func (c *Client) StreamingRecognize(ctx context.Context,
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func() {
-		if err := sendaudio(stream, cfg, audio, bufsize); err != nil {
+		if err := sendaudio(stream, cfg, audio, c.streamingBufSize); err != nil {
 			errch <- nil
 		}
 		wg.Done()
