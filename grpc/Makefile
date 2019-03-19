@@ -1,12 +1,14 @@
 # Copyright (2019) Cobalt Speech and Language Inc.
 
-.PHONY: all go go-test
+.PHONY: all go go-test docs
 
-all: go
+all: go docs
 
 GO_OUTDIR=go-cubic/cubicpb
+DOCS_OUTDIR=../docs-src/content/protobuf
 
 go: ${GO_OUTDIR}/cubic.pb.go ${GO_OUTDIR}/gw/cubic.pb.gw.go go-test
+docs: ${DOCS_OUTDIR}/autogen-doc-cubic-proto.md
 
 ${GO_OUTDIR}/cubic.pb.go: cubic.proto
 	mkdir -p ${GO_OUTDIR}
@@ -34,3 +36,7 @@ ${GO_OUTDIR}/gw/cubic.pb.gw.go: cubic.proto
 
 go-test:
 	cd go-cubic && go test
+
+${DOCS_OUTDIR}/autogen-doc-cubic-proto.md: cubic.proto doc.md.tmpl
+	protoc -I . -I ${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --doc_out=${DOCS_OUTDIR} --doc_opt=doc.md.tmpl,autogen-doc-cubic-proto.md cubic.proto
+
