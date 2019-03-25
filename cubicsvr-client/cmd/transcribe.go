@@ -106,7 +106,6 @@ var transcribeCmd = &cobra.Command{
 		return nil
 	},
 	RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("Args: %v", args)
 		if err := transcribe(); err != nil {
 			return err
 		}
@@ -118,9 +117,9 @@ var transcribeCmd = &cobra.Command{
 // Flags have been previously verified in the cobra.Cmd.Args function above.
 // It performs the following steps:
 //   1. organizes the input file(s)
-//   3. Starts up n [--workers] worker goroutines
-//   4. passes all audiofiles to the workers
-//   5. Collects the resulting transcription and outputs the results.
+//   2. Starts up n [--workers] worker goroutines
+//   3. passes all audiofiles to the workers
+//   4. Collects the resulting transcription and outputs the results.
 func transcribe() error {
 
 	// Get output writter (file or stdout)
@@ -132,7 +131,7 @@ func transcribe() error {
 	// Setup channels for communicating between the various goroutines
 	fileChannel := make(chan inputs)
 	resultsChannel := make(chan outputs)
-	// TODO setup an error channel?
+	errChannel := make(chan error)
 
 	// Set up a cubicsvr client
 	client, err := createClient()
@@ -146,6 +145,7 @@ func transcribe() error {
 	if err != nil {
 		return fmt.Errorf("Error loading file(s): %v", err)
 	}
+	verbosePrintf(os.Stdout, "Found %d files.\n", len(files))
 
 	// Starts a goroutine that ads files to the channel and closes
 	// it when there are no more files to add.
@@ -154,11 +154,23 @@ func transcribe() error {
 	// Starts multipe goroutines that each pull from the fileChannel,
 	// send requests to cubic server, and then adds the results to the
 	// results channel
-	startWorkers(client, fileChannel, resultsChannel)
+	startWorkers(client, fileChannel, resultsChannel, errChannel)
+
+	// Handle errors
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	go func() {
+		verbosePrintf(os.Stdout, "Watching for errors during process.\n")
+		for err := range errChannel {
+			fmt.Fprintf(os.Stderr, "%v\n", err)
+		}
+		wg.Done()
+	}()
 
 	// Deal with the transcription results
 	processResults(outputWriter, resultsChannel)
 
+	wg.Wait()
 	return nil
 }
 
@@ -173,23 +185,6 @@ func getOutputWriter(out string) (io.Writer, error) {
 		return nil, fmt.Errorf("Error opening output file: %v", err)
 	}
 	return file, nil
-}
-
-func createClient() (*cubic.Client, error) {
-	var client *cubic.Client
-	var err error
-
-	if insecure {
-		client, err = cubic.NewClient(cubicSvrAddress, cubic.WithInsecure())
-	} else {
-		client, err = cubic.NewClient(cubicSvrAddress)
-	}
-
-	if err != nil {
-		return nil, fmt.Errorf("failed to connect to server at '%s'", cubicSvrAddress)
-	}
-
-	return client, nil
 }
 
 func loadFiles(path string) ([]inputs, error) {
@@ -221,7 +216,9 @@ func loadListFiles(path string) ([]inputs, error) {
 		txt := scanner.Text()
 		arr := strings.Split(txt, "\t")
 		if len(arr) != 2 {
-			return nil, fmt.Errorf("Error parsing list file on line #%d, contents: '%s'", lineNumber, txt)
+			return nil, fmt.Errorf("Error parsing list file on line #%d, "+
+				"format should be '[UttID]\\t[path/to/audio.wav]'.  "+
+				"Line contents: '%s'", lineNumber, txt)
 		}
 
 		// Convert relative paths to absolute paths
@@ -261,45 +258,55 @@ func feedInputFiles(fileChannel chan<- inputs, files []inputs) {
 	// so we can manage the results in the current goroutine.
 	go func() {
 		for _, f := range files {
+			verbosePrintf(os.Stdout, "Feeding next file '%s'.\n", f.filepath)
 			fileChannel <- f
 		}
+		verbosePrintf(os.Stdout, "Done feeding audio files.\n")
 		close(fileChannel)
 	}()
 }
 
 // Open the audio files and transcribe them, in parallel
-func startWorkers(client *cubic.Client, fileChannel <-chan inputs, resultsChannel chan<- outputs) {
+func startWorkers(client *cubic.Client, fileChannel <-chan inputs,
+	resultsChannel chan<- outputs, errChannel chan<- error) {
+
 	wg := &sync.WaitGroup{}
 
+	verbosePrintf(os.Stdout, "Starting '%d' workers.\n", nConcurrentRequests)
 	for i := 0; i < nConcurrentRequests; i++ {
 		wg.Add(nConcurrentRequests)
-		go runFiles(client, fileChannel, resultsChannel, wg)
+		go transcribeFiles(i, wg, client, fileChannel, resultsChannel, errChannel)
 	}
 
 	// close the results channel once all the workers have finished their steps
 	go func() {
 		wg.Wait()
 		close(resultsChannel)
+		close(errChannel)
+		verbosePrintf(os.Stdout, "Finished getting results back from cubicsvr for all files.\n")
 	}()
 }
 
-func runFiles(client *cubic.Client, fileChannel <-chan inputs, resultsChannel chan<- outputs, wg *sync.WaitGroup) {
-	defer wg.Done()
-
+func transcribeFiles(workerID int, wg *sync.WaitGroup, client *cubic.Client,
+	fileChannel <-chan inputs, resultsChannel chan<- outputs, errChannel chan<- error) {
+	verbosePrintf(os.Stdout, "Worker %d starting\n", workerID)
 	for input := range fileChannel {
+
 		// Open the file
-		// fmt.Printf("Opening file '%s'\n", input.filepath)
 		audio, err := os.Open(input.filepath)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error opening file: %s\n", err)
-			os.Exit(1)
+			errChannel <- fmt.Errorf(
+				"Error: skipping Utterance '%s', couldn't open file '%s'",
+				input.uttID, input.filepath)
 		}
 
 		// Counter for segments
 		segmentID := 0
 
+		verbosePrintf(os.Stdout, "Worker%2d streaming Utterance '%s' (file '%s').\n",
+			workerID, input.uttID, input.filepath)
+
 		// Create and send the Streaming Recognize config
-		// fmt.Printf("Starting Stream\n")
 		err = client.StreamingRecognize(context.Background(),
 			&cubicpb.RecognitionConfig{
 				ModelId:       model,
@@ -308,6 +315,8 @@ func runFiles(client *cubic.Client, fileChannel <-chan inputs, resultsChannel ch
 			},
 			audio, // The file to send
 			func(response *cubicpb.RecognitionResponse) { // The callback for results
+				verbosePrintf(os.Stdout, "Worker%2d recieved result segment #%d for Utterance '%s'.\n",
+					workerID, segmentID, input.uttID)
 				resultsChannel <- outputs{
 					uttID:    input.uttID,
 					segment:  segmentID,
@@ -316,17 +325,24 @@ func runFiles(client *cubic.Client, fileChannel <-chan inputs, resultsChannel ch
 				segmentID++
 			})
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error streaming the file '%s': %v\n", input.filepath, err)
+			errChannel <- fmt.Errorf("error streaming the file '%s': unable to connect to --server at '%s'",
+				input.filepath, cubicSvrAddress)
 		}
 	}
+	verbosePrintf(os.Stdout, "Worker %d done\n", workerID)
+	wg.Done()
 }
 
 func processResults(outputWriter io.Writer, resultsChannel <-chan outputs) {
 	for result := range resultsChannel {
-		if str, err := json.Marshal(result.response); err != nil {
-			fmt.Fprintf(os.Stderr, "[Error serializing]: %s_%d\t%v\n", result.uttID, result.segment, err)
-		} else {
-			fmt.Fprintf(outputWriter, "%s_%d\t%s\n", result.uttID, result.segment, str)
+		for _, resp := range result.response {
+			if !resp.IsPartial {
+				if str, err := json.Marshal(resp); err != nil {
+					fmt.Fprintf(os.Stderr, "[Error serializing]: %s_Segment%d\t%v\n", result.uttID, result.segment, err)
+				} else {
+					fmt.Fprintf(outputWriter, "%s_%d\t%s\n", result.uttID, result.segment, str)
+				}
+			}
 		}
 	}
 

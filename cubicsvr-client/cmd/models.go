@@ -19,42 +19,34 @@ import (
 	"fmt"
 	"os"
 
-	cubic "github.com/cobaltspeech/sdk-cubic/grpc/go-cubic"
 	"github.com/spf13/cobra"
 )
 
 var modelsCmd = &cobra.Command{
 	Use:   "models",
 	Short: "Report cubicsvr models and return.",
-	Run: func(cmd *cobra.Command, args []string) {
-		printModels()
-	},
-}
+	RunE: func(cmd *cobra.Command, args []string) error {
+		// Create client connection
+		verbosePrintf(os.Stdout, "Creating connection to server '%s'\n", cubicSvrAddress)
+		client, err := createClient()
+		if err != nil {
+			return err
+		}
+		defer client.Close()
 
-// printModels returns the list of available models on the server.
-func printModels() {
-	// Create client connection
-	var client *cubic.Client
-	var err error
-	if insecure {
-		client, err = cubic.NewClient(cubicSvrAddress, cubic.WithInsecure())
-	} else {
-		client, err = cubic.NewClient(cubicSvrAddress)
-	}
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error connecting to server: %v", err)
-		os.Exit(1)
-	}
-	defer client.Close()
+		// Grab the models and print them out
+		verbosePrintf(os.Stdout, "Fetching models from server\n")
+		resp, err := client.ListModels(context.Background())
+		if err != nil {
+			return fmt.Errorf("Unable to reach --server at '%s'", cubicSvrAddress)
+		}
 
-	// Grab the models and print them out
-	if resp, err := client.ListModels(context.Background()); err != nil {
-		fmt.Fprintf(os.Stderr, "Error fetching cubicsvr models: %v\n", err)
-		os.Exit(1)
-	} else {
+		// Display the models
 		for _, m := range resp.Models {
-			fmt.Printf("Model ID%3s: '%s' (Sample Rate:%6d)\n",
+			fmt.Printf("Model ID '%q': %s (Sample Rate:%6d)\n",
 				m.Id, m.Name, m.Attributes.SampleRate)
 		}
-	}
+
+		return nil
+	},
 }

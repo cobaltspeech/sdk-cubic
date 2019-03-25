@@ -16,8 +16,10 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"os"
 
+	cubic "github.com/cobaltspeech/sdk-cubic/grpc/go-cubic"
 	"github.com/spf13/cobra"
 )
 
@@ -46,8 +48,38 @@ func init() {
 	rootCmd.AddCommand(modelsCmd)
 	rootCmd.AddCommand(transcribeCmd)
 
-	rootCmd.PersistentFlags().StringVarP(&cubicSvrAddress, "server", "s", "localhost:2727", "Address of running cubicsvr instance.  Format should be 'address:port'.")
-	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "If true, extra logging will be done.  Helful for debugging. (hidden from help messages.)")
-	rootCmd.PersistentFlags().BoolVar(&insecure, "insecure", false, "By default, connections to the server are encrypted (TLS).  Include this flag if you want TLS disabled.")
-	rootCmd.PersistentFlags().MarkHidden("verbose")
+	rootCmd.PersistentFlags().StringVarP(&cubicSvrAddress, "server", "s", "localhost:2727",
+		"Address of running cubicsvr instance.  Format should be 'address:port'.")
+
+	rootCmd.PersistentFlags().BoolVar(&insecure, "insecure", false,
+		"By default, connections to the server are encrypted (TLS).  Include this flag if you want TLS disabled.")
+
+	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false,
+		"If true, extra logging will be done.  Helful for debugging. (hidden from help messages.)")
+	_ = rootCmd.PersistentFlags().MarkHidden("verbose") // Shouldn't fail.
+}
+
+// createClient is a helper function that is shared by models.go, transcribe.go, and version.go
+func createClient() (*cubic.Client, error) {
+	var client *cubic.Client
+	var err error
+
+	if insecure {
+		client, err = cubic.NewClient(cubicSvrAddress, cubic.WithInsecure())
+	} else {
+		client, err = cubic.NewClient(cubicSvrAddress)
+	}
+
+	if err != nil {
+		return nil, fmt.Errorf("unable to reach --server  '%s'", cubicSvrAddress)
+	}
+
+	return client, nil
+}
+
+// verbosePrintf is a helper function.  Use --verbose to allow these strings to be printed
+func verbosePrintf(w io.Writer, format string, a ...interface{}) {
+	if verbose {
+		fmt.Fprintf(w, format, a...)
+	}
 }

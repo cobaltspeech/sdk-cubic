@@ -19,7 +19,6 @@ import (
 	"fmt"
 	"os"
 
-	cubic "github.com/cobaltspeech/sdk-cubic/grpc/go-cubic"
 	"github.com/spf13/cobra"
 )
 
@@ -31,41 +30,44 @@ var (
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Report cubicsvr version and return.",
-	Run: func(cmd *cobra.Command, args []string) {
-		versionString()
+	RunE: func(cmd *cobra.Command, args []string) error {
+		// Print the client version
+		fmt.Fprint(os.Stdout, clientVersion())
+
+		// Print the server error
+		v, err := serverVersion()
+		if v != "" {
+			fmt.Fprint(os.Stdout, v)
+		}
+
+		return err
 	},
 }
 
-// versionString returns the build version of this binary.
-func versionString() {
-	// Print the client version
+func clientVersion() string {
 	if version == "" {
 		version = "devel"
 	}
 	if commitHash == "" {
 		commitHash = "nil"
 	}
-	fmt.Printf("Client: (Version: %s -- Commit: %s)\n", version, commitHash)
+	return fmt.Sprintf("Client: (Version: %s -- Commit: %s)\n", version, commitHash)
+}
 
-	// Get the version of the cubicsvr
-	var client *cubic.Client
-	var err error
-	if insecure {
-		client, err = cubic.NewClient(cubicSvrAddress, cubic.WithInsecure())
-	} else {
-		client, err = cubic.NewClient(cubicSvrAddress, cubic.WithServerCert([]byte{}))
-	}
+func serverVersion() (string, error) {
+	// Create client connection
+	verbosePrintf(os.Stdout, "Creating connection to server '%s'\n", cubicSvrAddress)
+	client, err := createClient()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error connecting to server: %v", err)
-		os.Exit(1)
-	} else {
-		defer client.Close()
-		if resp, err := client.Version(context.Background()); err != nil {
-			fmt.Fprintf(os.Stderr, "Error fetching cubicsvr version: %v\n", err)
-			os.Exit(1)
-		} else {
-			fmt.Printf("Cubic Server: (Cubic: %s -- Server: %s)\n", resp.Cubic, resp.Server)
-			os.Exit(0)
-		}
+		return "", err
 	}
+	defer client.Close()
+
+	// Request the server version
+	verbosePrintf(os.Stdout, "Fetching version from server\n")
+	resp, err := client.Version(context.Background())
+	if err != nil {
+		return "", fmt.Errorf("Error fetching cubicsvr version: %v", err)
+	}
+	return fmt.Sprintf("Cubic Server: (Cubic: %s -- Server: %s)", resp.Cubic, resp.Server), nil
 }
