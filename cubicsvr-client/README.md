@@ -17,6 +17,8 @@ This folder (and resulting binary) can be used to send audio file(s) to a runnin
 The `Makefile` should provide all necessary commands.
 Specifically `make build`.
 
+TODO: Make this compatable with the `go get` or `go install` process.
+
 ## Running/testing
 
 There are two audio files in the testdata folder.

@@ -1,4 +1,16 @@
-// Copyright (2019) Cobalt Speech and Language, Inc. All rights reserved.
+// Copyright (2019) Cobalt Speech and Language Inc.
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 package cmd
 
@@ -11,7 +23,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"sort"
 	"strings"
 	"sync"
 
@@ -35,27 +46,24 @@ var transcribeListCmd = &cobra.Command{
 
 // Argument variables.
 var listFilePath, resultsFile string
-var overwriteResultsFile bool
 var nConcurrentRequests int
 
 // Initialize flags.
 func init() {
 	transcribeListCmd.Flags().StringVarP(&listFilePath, "listFile", "f", "", "Path to list file")
 	transcribeListCmd.Flags().StringVarP(&resultsFile, "outputFile", "o", "-", "file to send output to.  '-' indicates stdout.")
-	transcribeListCmd.Flags().BoolVar(&overwriteResultsFile, "overwriteOutputFile", false, "True allows existing outputFile to be overwritten.  False protects existing file.")
-	transcribeListCmd.Flags().IntVarP(&nConcurrentRequests, "nConcurrent", "n", 1, "number of concurrent requests to send to cubicsvr")
+	transcribeListCmd.Flags().IntVarP(&nConcurrentRequests, "workers", "n", 1, "number of concurrent requests to send to cubicsvr")
 }
 
 type inputs struct {
 	uttID    string
 	filepath string
-	fileSize int64
 }
 
 type outputs struct {
-	uttID         string
-	segment       int
-	transcription string
+	uttID    string
+	segment  int
+	response []*cubicpb.RecognitionResult
 }
 
 // transcribeListOfAudioFiles is the main function.
@@ -78,20 +86,12 @@ func transcribeListOfAudioFiles() {
 		// If it does not exist, then great!
 		if err == nil {
 			// The file exists, since it didn't throw an error
-			if overwriteResultsFile {
-				// Print a warning
-				fmt.Fprintf(os.Stdout,
-					"\nWarning:--outputFile '%s' already exists.\n"+
-						"The current contents will be overwritten.\n\n", resultsFile)
-			} else {
-				// Explain why we are quitting
-				fmt.Fprintf(os.Stdout,
-					"\nWarning: --outputFile '%s' already exists.\n"+
-						"Use --overwriteOutputFile to continue or choose a different location.\n"+
-						"\n"+
-						"Aborting.\n\n", resultsFile)
-				os.Exit(0)
-			}
+			// Explain why we are quitting
+			fmt.Fprintf(os.Stdout,
+				"\nWarning: --outputFile '%s' already exists.\n"+
+					"\n"+
+					"Aborting.\n\n", resultsFile)
+			os.Exit(0)
 		} else {
 			// We care about all errors, except the FileDoesntExist error.
 			// That would indicate it is safe to procced with the program as normal
@@ -121,11 +121,18 @@ func transcribeListOfAudioFiles() {
 	// TODO setup an error channel?
 
 	// Set up a cubicsvr client
-	client, err := cubic.NewClient(cubicSvrAddress, cubic.WithInsecure())
+	var client *cubic.Client
+	var err error
+	if insecure {
+		client, err = cubic.NewClient(cubicSvrAddress, cubic.WithInsecure())
+	} else {
+		client, err = cubic.NewClient(cubicSvrAddress)
+	}
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to connect to cubicsvr: %v\n", err)
 		os.Exit(1)
 	}
+	defer client.Close()
 
 	// Load the files and place them in a channel
 	if files, err := loadFiles(listFilePath); err != nil {
@@ -155,7 +162,11 @@ func transcribeListOfAudioFiles() {
 
 	// Deal with the transcription results
 	for result := range resultsChannel {
-		fmt.Fprintf(outputWritter, "%s_%d\t%s\n", result.uttID, result.segment, result.transcription)
+		if str, err := json.Marshal(result.response); err != nil {
+			fmt.Fprintf(os.Stderr, "[Error serializing]: %s_%d\t%v\n", result.uttID, result.segment, err)
+		} else {
+			fmt.Fprintf(outputWritter, "%s_%d\t%s\n", result.uttID, result.segment, str)
+		}
 	}
 
 	if resultsFile != "-" {
@@ -204,25 +215,10 @@ func loadFiles(path string) ([]inputs, error) {
 			}
 		}
 
-		// Find the file size
-		fileSize := int64(-1)
-		if f, err := os.Open(fpath); err != nil {
-			fmt.Fprintf(os.Stderr, "Error opening file '%s' to get it's filesize.\n", fpath)
-			os.Exit(1)
-		} else {
-			if fi, err := f.Stat(); err != nil {
-				fmt.Fprintf(os.Stderr, "Error getting size of file '%s'\n", fpath)
-				os.Exit(1)
-			} else {
-				fileSize = fi.Size()
-			}
-		}
-
 		// Add the new entry to the list
 		utterances = append(utterances, inputs{
 			uttID:    arr[0],
 			filepath: fpath,
-			fileSize: fileSize,
 		})
 		lineNumber++
 	}
@@ -230,11 +226,6 @@ func loadFiles(path string) ([]inputs, error) {
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
-
-	// Sor the entries by filesize
-	sort.Slice(utterances, func(i, j int) bool {
-		return utterances[i].fileSize < utterances[j].fileSize
-	})
 
 	return utterances, nil
 }
@@ -259,30 +250,20 @@ func runFiles(client *cubic.Client, fileChannel <-chan inputs, resultsChannel ch
 		err = client.StreamingRecognize(context.Background(),
 			&cubicpb.RecognitionConfig{
 				ModelId:       model,
-				AudioEncoding: cubicpb.RecognitionConfig_RAW_LINEAR16,
+				AudioEncoding: cubicpb.RecognitionConfig_WAV,
 				IdleTimeout:   &pbduration.Duration{Seconds: 30},
 			},
 			audio, // The file to send
 			func(response *cubicpb.RecognitionResponse) { // The callback for results
-				// TODO fix the formatting of the output
-				if str, err := json.Marshal(response.Results); err != nil {
-					resultsChannel <- outputs{
-						uttID:         input.uttID,
-						segment:       segmentID,
-						transcription: fmt.Sprintf("Error serializing the results to json: %v", err),
-					}
-					fmt.Fprintf(os.Stderr, "Error serializing the results to json: %v\n", err)
-				} else {
-					resultsChannel <- outputs{
-						uttID:         input.uttID,
-						segment:       segmentID,
-						transcription: string(str),
-					}
+				resultsChannel <- outputs{
+					uttID:    input.uttID,
+					segment:  segmentID,
+					response: response.Results,
 				}
 				segmentID++
 			})
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error streaming the file: %v\n", err)
+			fmt.Fprintf(os.Stderr, "Error streaming the file '%s': %v\n", input.filepath, err)
 		}
 	}
 }

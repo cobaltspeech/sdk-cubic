@@ -1,0 +1,3 @@
+# Ignore cubicsvr-client builds
+cubicsvr-client/bin/*
+cubicsvr-client/testdata/*

@@ -1,4 +1,16 @@
-// Copyright (2019) Cobalt Speech and Language, Inc. All rights reserved.
+// Copyright (2019) Cobalt Speech and Language Inc.
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 package cmd
 
@@ -16,24 +28,24 @@ import (
 
 // Cmd is the command wrapping the functionality of running a single audio file through cubicsvr.
 var transcribeSingleCmd = &cobra.Command{
-	Use:   "single",
+	Use:   "single PATH [flags]",
 	Short: "Runs a singe audio file through cubic svr and returns the results to stdout.",
-	Long:  ``,
+	// Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		transcribeSingleAudioFile()
+		var audioFilePath string
+		if len(args) != 1 {
+			fmt.Fprintf(os.Stdout, "\nError: Path to audio file must be included.\n\n")
+			cmd.Usage()
+			os.Exit(1)
+		} else {
+			audioFilePath = args[0]
+		}
+		transcribeSingleAudioFile(audioFilePath)
 	},
 }
 
-// Argument variables.
-var audioFilePath string
-
-// Initialize flags.
-func init() {
-	transcribeSingleCmd.Flags().StringVarP(&audioFilePath, "audioFile", "f", "", "Path to audio file")
-}
-
 // transcribeSingleAudioFile is the main function.
-func transcribeSingleAudioFile() {
+func transcribeSingleAudioFile(audioFilePath string) {
 	// Error check flags
 	if audioFilePath == "" {
 		fmt.Printf("Error: --audioFile must be populated")
@@ -49,12 +61,17 @@ func transcribeSingleAudioFile() {
 
 	// Create client connection
 	fmt.Printf("Connecting to %s\n", cubicSvrAddress)
-	client, err := cubic.NewClient(cubicSvrAddress, cubic.WithInsecure())
-	defer client.Close()
+	var client *cubic.Client
+	if insecure {
+		client, err = cubic.NewClient(cubicSvrAddress, cubic.WithInsecure())
+	} else {
+		client, err = cubic.NewClient(cubicSvrAddress)
+	}
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error connecting to server: %v", err)
 		os.Exit(1)
 	}
+	defer client.Close()
 
 	// Create and send the Streaming Recognize config
 	fmt.Printf("Starting Stream\n")
