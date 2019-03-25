@@ -5,7 +5,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2019-03-26T07:22:55 IST">
+<meta name="revised" content="2019-03-26T21:27:36 IST">
 <title>Proto Generated Docs :: Cubic SDK -- Cobalt</title>
 <link rel="shortcut icon" href="/sdk-cubic/images/favicon.ico" type="image/x-icon" />
 <link href="/sdk-cubic/css/nucleus.css" rel="stylesheet">
@@ -561,6 +561,13 @@
 <td></td>
 <td><p>This is an optional field. If this is set to true, the results will include a confusion network. If set to <code>false</code>, no confusion network will be returned. The default is <code>false</code>. If the model being used does not support a confusion network, results may be returned without a confusion network available. If this field is set to <code>true</code>, then <code>enable_raw_transcript</code> is also forced to be true.</p></td>
 </tr>
+
+<tr>
+<td>audio_channels</td>
+<td>uint32</td>
+<td>repeated</td>
+<td><p>This is an optional field. If the audio has multiple channels, this field should be configured with the list of channel indices that should be transcribed. Channels are 0-indexed.</p><p>Example: <code>[0]</code> for a mono file, <code>[0, 1]</code> for a stereo file.</p><p>If this field is not set, a mono file will be assumed by default and only channel-0 will be transcribed even if the file actually has additional channels.</p><p>Channels that are present in the audio may be omitted, but it is an error to include a channel index in this field that is not present in the audio. Channels may be listed in any order but the same index may not be repeated in this list.</p><p>BAD: <code>[0, 2]</code> for a stereo file; BAD: <code>[0, 0]</code> for a mono file.</p></td>
+</tr>
 </tbody>
 </table>
 
@@ -590,7 +597,13 @@
 
 <h3 id="message-recognitionresponse">Message: RecognitionResponse</h3>
 
-<p>Collection of sequence of recognition results in portion of an audio</p>
+<p>Collection of sequence of recognition results in a portion of audio.  When
+transcribing a single audio channel (e.g. RAW_LINEAR16 input, or a mono
+file), results will be ordered chronologically.  When transcribing multiple
+channels, the results of all channels will be interleaved.  Results of each
+individual channel will be chronological.  No such promise is made for the
+ordering of results of different channels, as results are returned for each
+channel individually as soon as they are ready.</p>
 
 <table>
 <thead>
@@ -614,7 +627,7 @@
 
 <h3 id="message-recognitionresult">Message: RecognitionResult</h3>
 
-<p>A recognition result corresponding to a portion of audio</p>
+<p>A recognition result corresponding to a portion of audio.</p>
 
 <table>
 <thead>
@@ -646,6 +659,13 @@
 <td>RecognitionConfusionNetwork</td>
 <td></td>
 <td><p>If <code>enable_confusion_network</code> was set to true in the <code>RecognitionConfig</code>, and if the model supports it, a confusion network will be available in the results.</p></td>
+</tr>
+
+<tr>
+<td>audio_channel</td>
+<td>uint32</td>
+<td></td>
+<td><p>Channel of the audio file that this result was transcribed from. For a mono file, or RAW_LINEAR16 input, this will be set to 0.</p></td>
 </tr>
 </tbody>
 </table>
@@ -824,13 +844,25 @@ the RAW_LINEAR16 encoding.</p>
 <tr>
 <td>WAV</td>
 <td>1</td>
-<td>WAV (data with RIFF headers), with data sampled at a rate equal to or more than the sample rate expected by the chosen <code>Model</code>. If the WAV data has more than one channels, only the first channel will be used for recognition.</td>
+<td>WAV (data with RIFF headers), with data sampled at a rate equal to or higher than the sample rate expected by the chosen Model.</td>
 </tr>
 
 <tr>
 <td>MP3</td>
 <td>2</td>
-<td>MP3 data, sampled at a rate equal to or more than the sampling rate expected by the chosen <code>Model</code>. If the MP3 data has more than one channels, only the first channel will be used for recognition.</td>
+<td>MP3 data, sampled at a rate equal to or higher than the sampling rate expected by the chosen Model.</td>
+</tr>
+
+<tr>
+<td>FLAC</td>
+<td>3</td>
+<td>FLAC data, sampled at a rate equal to or higher than the sample rate expected by the chosen Model.</td>
+</tr>
+
+<tr>
+<td>VOX8000</td>
+<td>4</td>
+<td>VOX data (Dialogic ADPCM), sampled at 8 KHz.</td>
 </tr>
 </tbody>
 </table>

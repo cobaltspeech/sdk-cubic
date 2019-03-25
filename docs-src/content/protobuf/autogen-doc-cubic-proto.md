@@ -155,6 +155,7 @@ Configuration for setting up a Recognizer
 | enable_word_confidence | bool |  | <p>This is an optional field. If this is set to true, the top result will include a list of words and the confidence for those words. If `false`, no word-level confidence information is returned. The default is `false`.</p> |
 | enable_raw_transcript | bool |  | <p>This is an optional field. If this is set to true, the transcripts will be presented as raw output from the recognizer without any formatting rules applied. They will be in all UPPER CASE, numbers and other special entities would be presented as the spoken words. If set to `false`, formatting rules will be applied to all results. The default is `false`.</p><p>As an example, if the spoken utterance was `here are four words`: with this field set to `false`: "Here are 4 words" with this field set to 'true' : "HERE ARE FOUR WORDS"</p> |
 | enable_confusion_network | bool |  | <p>This is an optional field. If this is set to true, the results will include a confusion network. If set to `false`, no confusion network will be returned. The default is `false`. If the model being used does not support a confusion network, results may be returned without a confusion network available. If this field is set to `true`, then `enable_raw_transcript` is also forced to be true.</p> |
+| audio_channels | uint32 | repeated | <p>This is an optional field. If the audio has multiple channels, this field should be configured with the list of channel indices that should be transcribed. Channels are 0-indexed.</p><p>Example: `[0]` for a mono file, `[0, 1]` for a stereo file.</p><p>If this field is not set, a mono file will be assumed by default and only channel-0 will be transcribed even if the file actually has additional channels.</p><p>Channels that are present in the audio may be omitted, but it is an error to include a channel index in this field that is not present in the audio. Channels may be listed in any order but the same index may not be repeated in this list.</p><p>BAD: `[0, 2]` for a stereo file; BAD: `[0, 0]` for a mono file.</p> |
 
 
 
@@ -177,7 +178,13 @@ Confusion network in recognition output
 
 
 ### Message: RecognitionResponse
-Collection of sequence of recognition results in portion of an audio
+Collection of sequence of recognition results in a portion of audio.  When
+transcribing a single audio channel (e.g. RAW_LINEAR16 input, or a mono
+file), results will be ordered chronologically.  When transcribing multiple
+channels, the results of all channels will be interleaved.  Results of each
+individual channel will be chronological.  No such promise is made for the
+ordering of results of different channels, as results are returned for each
+channel individually as soon as they are ready.
 
 
 | Field | Type | Label | Description |
@@ -191,7 +198,7 @@ Collection of sequence of recognition results in portion of an audio
 
 
 ### Message: RecognitionResult
-A recognition result corresponding to a portion of audio
+A recognition result corresponding to a portion of audio.
 
 
 | Field | Type | Label | Description |
@@ -199,6 +206,7 @@ A recognition result corresponding to a portion of audio
 | alternatives | RecognitionAlternative | repeated | <p>An n-best list of recognition hypotheses alternatives</p> |
 | is_partial | bool |  | <p>If this is set to true, it denotes that the result is an interim partial result, and could change after more audio is processed. If unset, or set to false, it denotes that this is a final result and will not change.</p><p>Servers are not required to implement support for returning partial results, and clients should generally not depend on their availability.</p> |
 | cnet | RecognitionConfusionNetwork |  | <p>If `enable_confusion_network` was set to true in the `RecognitionConfig`, and if the model supports it, a confusion network will be available in the results.</p> |
+| audio_channel | uint32 |  | <p>Channel of the audio file that this result was transcribed from. For a mono file, or RAW_LINEAR16 input, this will be set to 0.</p> |
 
 
 
@@ -287,8 +295,10 @@ the RAW_LINEAR16 encoding.
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | RAW_LINEAR16 | 0 | Raw (headerless) Uncompressed 16-bit signed little endian samples (linear PCM), single channel, sampled at the rate expected by the chosen `Model`. |
-| WAV | 1 | WAV (data with RIFF headers), with data sampled at a rate equal to or more than the sample rate expected by the chosen `Model`. If the WAV data has more than one channels, only the first channel will be used for recognition. |
-| MP3 | 2 | MP3 data, sampled at a rate equal to or more than the sampling rate expected by the chosen `Model`. If the MP3 data has more than one channels, only the first channel will be used for recognition. |
+| WAV | 1 | WAV (data with RIFF headers), with data sampled at a rate equal to or higher than the sample rate expected by the chosen Model. |
+| MP3 | 2 | MP3 data, sampled at a rate equal to or higher than the sampling rate expected by the chosen Model. |
+| FLAC | 3 | FLAC data, sampled at a rate equal to or higher than the sample rate expected by the chosen Model. |
+| VOX8000 | 4 | VOX data (Dialogic ADPCM), sampled at 8 KHz. |
 
 
  <!-- end enums -->
