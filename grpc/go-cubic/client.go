@@ -214,8 +214,13 @@ func (c *Client) StreamingRecognize(ctx context.Context,
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func() {
-		if err := sendaudio(stream, cfg, audio, c.streamingBufSize); err != nil {
-			errch <- nil
+		if err := sendaudio(stream, cfg, audio, c.streamingBufSize); err != nil && err != io.EOF {
+			// if sendaudio encountered io.EOF, it's only a
+			// notification that the stream has closed.  The actual
+			// status will be obtained in a subsequent Recv call, in
+			// the other goroutine below.  We therefore only forward
+			// non-EOF errors.
+			errch <- err
 		}
 		wg.Done()
 	}()
@@ -273,7 +278,9 @@ func sendaudio(stream cubicpb.Cubic_StreamingRecognizeClient,
 					Audio: &cubicpb.RecognitionAudio{Data: buf[:n]},
 				},
 			}); err2 != nil {
-				// if this failed, we don't need to CloseSend
+				// if we couldn't Send, the stream has
+				// encountered an error and we don't need to
+				// CloseSend.
 				return err2
 			}
 		}
