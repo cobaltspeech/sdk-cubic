@@ -173,11 +173,13 @@ func transcribe() error {
 	startWorkers(client, fileChannel, resultsChannel, errChannel)
 
 	// Handle errors
+	errCount := 0
 	wg := sync.WaitGroup{}
 	wg.Add(1)
 	go func() {
 		verbosePrintf(os.Stdout, "Watching for errors during process.\n")
 		for err := range errChannel {
+			errCount++
 			fmt.Fprintf(os.Stderr, "%v\n", err)
 		}
 		wg.Done()
@@ -187,6 +189,8 @@ func transcribe() error {
 	processResults(outputWriter, resultsChannel)
 
 	wg.Wait()
+
+	fmt.Fprintf(os.Stderr, "There were a total of %d failed files.\n", errCount)
 	return nil
 }
 
