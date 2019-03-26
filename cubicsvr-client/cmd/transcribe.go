@@ -56,7 +56,7 @@ func init() {
 			"Must match a model listed from 'models' subcommand.")
 
 	transcribeCmd.Flags().BoolVarP(&listFile, "list-file", "l", false,
-		"When true, the PATH is pointing to a file containing a list of \n"+
+		"When true, the FILE_PATH is pointing to a file containing a list of \n"+
 			"'UtteranceID \\t path/to/audio.wav', no spaces, one entry per line.")
 
 	transcribeCmd.Flags().StringVarP(&resultsFile, "outputFile", "o", "-",
@@ -75,28 +75,28 @@ var longMsg = `
 This command is used for transcribing audio files.
 There are two modes: single file or list file.
 
-    single file: transcribe PATH [flags]
-      list file: transcribe PATH --list-file [flags]
+    single file: transcribe FILE_PATH [flags]
+      list file: transcribe FILE_PATH --list-file [flags]
 
 In single file mode:
-    The PATH should point to a single audio.wav file.
+    The FILE_PATH should point to a single audio.wav file.
 
 In list file mode:
-    The PATH should point to a a file listing multiple audio files
-    with the format 'Utterance_ID \t PATH \n'.
+    The FILE_PATH should point to a a file listing multiple audio files
+    with the format 'Utterance_ID \t FILE_PATH \n'.
     Each entry should be on its own line and no spaces should present.
 
 See 'transcribe --help' for details on the other flags.`
 
 // Cmd is the command wrapping sub commands used to run audio file(s) through cubicsvr.
 var transcribeCmd = &cobra.Command{
-	Use: "transcribe PATH [flags]",
+	Use: "transcribe FILE_PATH [flags]",
 	Example: `
 	# Single audio file
-	transcribe PATH [flags]
+	transcribe FILE_PATH [flags]
 
 	# List of audio files
-	transcribe PATH --list-file [flags]`,
+	transcribe FILE_PATH --list-file [flags]`,
 	Short:         "Command for transcribing audio file(s) through cubicsvr.",
 	Long:          longMsg,
 	SilenceUsage:  true,
@@ -105,7 +105,7 @@ var transcribeCmd = &cobra.Command{
 		if len(args) < 1 {
 			cmd.Usage()
 			fmt.Println()
-			return fmt.Errorf("transcribe requires a PATH argument")
+			return fmt.Errorf("transcribe requires a FILE_PATH argument")
 		}
 		inputFile = args[0]
 
@@ -230,15 +230,25 @@ func loadListFiles(path string) ([]inputs, error) {
 	utterances := make([]inputs, 0)
 	for scanner.Scan() {
 		txt := scanner.Text()
-		arr := strings.Split(txt, "\t")
-		if len(arr) != 2 {
-			return nil, fmt.Errorf("Error parsing list file on line #%d, "+
-				"format should be '[UttID]\\t[path/to/audio.wav]'.  "+
-				"Line contents: '%s'", lineNumber, txt)
+
+		// Allow empty lines in the file
+		if txt == "" {
+			continue
 		}
 
+		// Search for the first tab or space, split on that, and then trim up the filepath.
+		whitespaceSet := "\t "
+		var id, fpath string
+		i := strings.IndexAny(txt, whitespaceSet)
+		if i < 0 { // Didn't find a tab or space on this line.
+			return nil, fmt.Errorf("Error parsing list file on line #%d, "+
+				"format should be '[UttID]\\t[path/to/audio.wav]'.  "+
+				"Line contents: '%s'", lineNumber+1, txt)
+		}
+		id = txt[:i]
+		fpath = strings.Trim(txt[i:], whitespaceSet)
+
 		// Convert relative paths to absolute paths
-		fpath := arr[1]
 		if !filepath.IsAbs(fpath) {
 			fpath, err = filepath.Abs(filepath.Join(folder, fpath))
 			if err != nil {
@@ -248,7 +258,7 @@ func loadListFiles(path string) ([]inputs, error) {
 					"\tCombine path: '%s'\n"+
 					"\tResulting AbsPath: '%s'\n"+
 					"\tError: %v\n",
-					folder, lineNumber, arr[1],
+					folder, lineNumber+1, fpath,
 					filepath.Join(folder, fpath),
 					fpath, err)
 			}
@@ -256,7 +266,7 @@ func loadListFiles(path string) ([]inputs, error) {
 
 		// Add the new entry to the list
 		utterances = append(utterances, inputs{
-			uttID:    arr[0],
+			uttID:    id,
 			filepath: fpath,
 		})
 		lineNumber++
