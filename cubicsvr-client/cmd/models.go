@@ -18,12 +18,13 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"sort"
 
 	"github.com/spf13/cobra"
 )
 
 var modelsCmd = &cobra.Command{
-	Use:           "models",
+	Use:           "models [--server address:port] [--insecure]",
 	Short:         "Report cubicsvr models and return.",
 	SilenceUsage:  true,
 	SilenceErrors: true,
@@ -43,6 +44,11 @@ var modelsCmd = &cobra.Command{
 			verbosePrintf(os.Stderr, "Error fetching cubicsvr models: %v\n", err)
 			return simplifyGrpcErrors("Error fetching cubicsvr models", err)
 		}
+
+		// Sort by model ID for consistent runs
+		sort.Slice(resp.Models, func(i, j int) bool {
+			return resp.Models[i].Id < resp.Models[j].Id
+		})
 
 		// Display the models
 		for _, m := range resp.Models {

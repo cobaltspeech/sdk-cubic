@@ -28,7 +28,7 @@ var (
 )
 
 var versionCmd = &cobra.Command{
-	Use:           "version",
+	Use:           "version [--server address:port] [--insecure]",
 	Short:         "Report cubicsvr version and return.",
 	SilenceUsage:  true,
 	SilenceErrors: true,

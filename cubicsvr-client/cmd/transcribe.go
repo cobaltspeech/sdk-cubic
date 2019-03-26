@@ -52,28 +52,37 @@ var nConcurrentRequests int
 // Initialize flags.
 func init() {
 	transcribeCmd.PersistentFlags().StringVarP(&model, "model", "m", "1",
-		"Selects which model ID to use for transcribing.  Must match a model listed from 'models' subcommand.")
+		"Selects which model ID to use for transcribing.\n"+
+			"Must match a model listed from 'models' subcommand.")
 
 	transcribeCmd.Flags().BoolVarP(&listFile, "list-file", "l", false,
-		"When true, the PATH is pointing to a file containing a list of "+
+		"When true, the PATH is pointing to a file containing a list of \n"+
 			"'UtteranceID \\t path/to/audio.wav', no spaces, one entry per line.")
 
 	transcribeCmd.Flags().StringVarP(&resultsFile, "outputFile", "o", "-",
 		"File to send output to.  '-' indicates stdout.")
 
 	transcribeCmd.Flags().IntVarP(&nConcurrentRequests, "workers", "n", 1,
-		"Number of concurrent requests to send to cubicsvr")
+		"Number of concurrent requests to send to cubicsvr.\n"+
+			"Please note, while this value is defined client-side the performance \n"+
+			"will be limited by the available computational ability of the server.  \n"+
+			"If you are the only connection to an 8-core server, then '-n 8' is a \n"+
+			"reasonable value.  A lower number is suggested if there are multiple \n"+
+			"clients connecting to the same machine.")
 }
 
 var longMsg = `
 This command is used for transcribing audio files.
 There are two modes: single file or list file.
 
+    single file: transcribe PATH [flags]
+      list file: transcribe PATH --list-file [flags]
+
 In single file mode:
-    the PATH should point to a single audio.wav file.
+    The PATH should point to a single audio.wav file.
 
 In list file mode:
-    the PATH should point to a a file listing multiple audio files
+    The PATH should point to a a file listing multiple audio files
     with the format 'Utterance_ID \t PATH \n'.
     Each entry should be on its own line and no spaces should present.
 
@@ -81,7 +90,13 @@ See 'transcribe --help' for details on the other flags.`
 
 // Cmd is the command wrapping sub commands used to run audio file(s) through cubicsvr.
 var transcribeCmd = &cobra.Command{
-	Use:           "transcribe PATH [--list-file] [flags]",
+	Use: "transcribe PATH [flags]",
+	Example: `
+	# Single audio file
+	transcribe PATH [flags]
+
+	# List of audio files
+	transcribe PATH --list-file [flags]`,
 	Short:         "Command for transcribing audio file(s) through cubicsvr.",
 	Long:          longMsg,
 	SilenceUsage:  true,
@@ -197,7 +212,7 @@ func loadFiles(path string) ([]inputs, error) {
 
 func loadSingleFile(path string) ([]inputs, error) {
 	return []inputs{
-		inputs{uttID: "Utterance", filepath: path},
+		inputs{uttID: "utt_0", filepath: path},
 	}, nil
 }
 
@@ -315,12 +330,11 @@ func transcribeFiles(workerID int, wg *sync.WaitGroup, client *cubic.Client,
 			},
 			audio, // The file to send
 			func(response *cubicpb.RecognitionResponse) { // The callback for results
-				verbosePrintf(os.Stdout, "Worker%2d recieved result segment #%d for Utterance '%s'.\n",
-					workerID, segmentID, input.uttID)
+				verbosePrintf(os.Stdout, "Worker%2d recieved result segment #%d for Utterance '%s'.\n", workerID, segmentID, input.uttID)
 				resultsChannel <- outputs{
 					uttID:    input.uttID,
 					segment:  segmentID,
-					response: response.Results,
+					response: response.Results, // TODO return the individual results, instead of slice of them.
 				}
 				segmentID++
 			})
