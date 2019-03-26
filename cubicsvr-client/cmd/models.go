@@ -23,8 +23,10 @@ import (
 )
 
 var modelsCmd = &cobra.Command{
-	Use:   "models",
-	Short: "Report cubicsvr models and return.",
+	Use:           "models",
+	Short:         "Report cubicsvr models and return.",
+	SilenceUsage:  true,
+	SilenceErrors: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// Create client connection
 		verbosePrintf(os.Stdout, "Creating connection to server '%s'\n", cubicSvrAddress)
@@ -38,7 +40,8 @@ var modelsCmd = &cobra.Command{
 		verbosePrintf(os.Stdout, "Fetching models from server\n")
 		resp, err := client.ListModels(context.Background())
 		if err != nil {
-			return fmt.Errorf("Unable to reach --server at '%s'", cubicSvrAddress)
+			verbosePrintf(os.Stderr, "Error fetching cubicsvr models: %v\n", err)
+			return simplifyGrpcErrors("Error fetching cubicsvr models", err)
 		}
 
 		// Display the models

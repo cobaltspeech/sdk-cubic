@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	cubic "github.com/cobaltspeech/sdk-cubic/grpc/go-cubic"
 	"github.com/spf13/cobra"
@@ -52,11 +53,11 @@ func init() {
 		"Address of running cubicsvr instance.  Format should be 'address:port'.")
 
 	rootCmd.PersistentFlags().BoolVar(&insecure, "insecure", false,
-		"By default, connections to the server are encrypted (TLS).  Include this flag if you want TLS disabled.")
+		"By default, connections to the server are encrypted (TLS).  Include '--insecure' if you want TLS disabled.")
 
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false,
-		"If true, extra logging will be done.  Helful for debugging. (hidden from help messages.)")
-	_ = rootCmd.PersistentFlags().MarkHidden("verbose") // Shouldn't fail.
+		"If true, extra logging will be done.  Helful for debugging.")
+	_ = rootCmd.PersistentFlags().MarkHidden("verbose") // Shouldn't fail, since we just added it.
 }
 
 // createClient is a helper function that is shared by models.go, transcribe.go, and version.go
@@ -71,7 +72,7 @@ func createClient() (*cubic.Client, error) {
 	}
 
 	if err != nil {
-		return nil, fmt.Errorf("unable to reach --server  '%s'", cubicSvrAddress)
+		return nil, fmt.Errorf("unable to create client for --server '%s'", cubicSvrAddress)
 	}
 
 	return client, nil
@@ -79,7 +80,28 @@ func createClient() (*cubic.Client, error) {
 
 // verbosePrintf is a helper function.  Use --verbose to allow these strings to be printed
 func verbosePrintf(w io.Writer, format string, a ...interface{}) {
-	if verbose {
-		fmt.Fprintf(w, format, a...)
+	if verbose && w == os.Stderr {
+		fmt.Fprintf(w, "DEBUG: "+format, a...)
 	}
+}
+
+// simplifyGrpcErrors converts semi-cryptic gRPC errors into more user-friendly errors.
+func simplifyGrpcErrors(msg string, err error) error {
+	switch {
+	case strings.Contains(err.Error(), "transport: Error while dialing dial tcp"):
+		return fmt.Errorf(msg+": unable to reach server at the address '%s'", cubicSvrAddress)
+
+	case strings.Contains(err.Error(), "authentication handshake failed: tls:"):
+		return fmt.Errorf(msg + ": '--insecure' required for this connection")
+
+	case strings.Contains(err.Error(), "desc = all SubConns are in TransientFailure, latest connection error: "):
+		return fmt.Errorf(msg + ": '--insecure' must not be used for this connection")
+
+	case strings.Contains(err.Error(), "invalid model requested"):
+		return fmt.Errorf(msg+": invalid --model '%s' (%v)", model, err)
+
+	default:
+		return fmt.Errorf(msg + ": " + err.Error()) // return the grpc error directly
+	}
+
 }

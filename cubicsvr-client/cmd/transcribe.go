@@ -52,17 +52,17 @@ var nConcurrentRequests int
 // Initialize flags.
 func init() {
 	transcribeCmd.PersistentFlags().StringVarP(&model, "model", "m", "1",
-		"Selects which model ID to use for transcribing.")
+		"Selects which model ID to use for transcribing.  Must match a model listed from 'models' subcommand.")
 
-	transcribeCmd.Flags().BoolVarP(&listFile, "listFile", "l", false,
+	transcribeCmd.Flags().BoolVarP(&listFile, "list-file", "l", false,
 		"When true, the PATH is pointing to a file containing a list of "+
-			"'[UtteranceID]\t[path/to/audio.wav]', one entry per line.")
+			"'UtteranceID \\t path/to/audio.wav', no spaces, one entry per line.")
 
 	transcribeCmd.Flags().StringVarP(&resultsFile, "outputFile", "o", "-",
-		"file to send output to.  '-' indicates stdout.")
+		"File to send output to.  '-' indicates stdout.")
 
 	transcribeCmd.Flags().IntVarP(&nConcurrentRequests, "workers", "n", 1,
-		"number of concurrent requests to send to cubicsvr")
+		"Number of concurrent requests to send to cubicsvr")
 }
 
 var longMsg = `
@@ -81,12 +81,16 @@ See 'transcribe --help' for details on the other flags.`
 
 // Cmd is the command wrapping sub commands used to run audio file(s) through cubicsvr.
 var transcribeCmd = &cobra.Command{
-	Use:   "transcribe PATH [--list-file] [flags]",
-	Short: "Command for transcribing audio file(s) through cubicsvr.",
-	Long:  longMsg,
+	Use:           "transcribe PATH [--list-file] [flags]",
+	Short:         "Command for transcribing audio file(s) through cubicsvr.",
+	Long:          longMsg,
+	SilenceUsage:  true,
+	SilenceErrors: true,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) < 1 {
-			return fmt.Errorf("requires a PATH argument")
+			cmd.Usage()
+			fmt.Println()
+			return fmt.Errorf("transcribe requires a PATH argument")
 		}
 		inputFile = args[0]
 
@@ -106,10 +110,7 @@ var transcribeCmd = &cobra.Command{
 		return nil
 	},
 	RunE: func(cmd *cobra.Command, args []string) error {
-		if err := transcribe(); err != nil {
-			return err
-		}
-		return nil
+		return transcribe()
 	},
 }
 
@@ -271,10 +272,9 @@ func startWorkers(client *cubic.Client, fileChannel <-chan inputs,
 	resultsChannel chan<- outputs, errChannel chan<- error) {
 
 	wg := &sync.WaitGroup{}
-
+	wg.Add(nConcurrentRequests)
 	verbosePrintf(os.Stdout, "Starting '%d' workers.\n", nConcurrentRequests)
 	for i := 0; i < nConcurrentRequests; i++ {
-		wg.Add(nConcurrentRequests)
 		go transcribeFiles(i, wg, client, fileChannel, resultsChannel, errChannel)
 	}
 
@@ -325,8 +325,8 @@ func transcribeFiles(workerID int, wg *sync.WaitGroup, client *cubic.Client,
 				segmentID++
 			})
 		if err != nil {
-			errChannel <- fmt.Errorf("error streaming the file '%s': unable to connect to --server at '%s'",
-				input.filepath, cubicSvrAddress)
+			verbosePrintf(os.Stderr, "Error streaming file: %v\n", err)
+			errChannel <- simplifyGrpcErrors("error streaming the file", err)
 		}
 	}
 	verbosePrintf(os.Stdout, "Worker %d done\n", workerID)

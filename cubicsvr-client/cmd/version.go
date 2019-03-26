@@ -28,8 +28,10 @@ var (
 )
 
 var versionCmd = &cobra.Command{
-	Use:   "version",
-	Short: "Report cubicsvr version and return.",
+	Use:           "version",
+	Short:         "Report cubicsvr version and return.",
+	SilenceUsage:  true,
+	SilenceErrors: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// Print the client version
 		fmt.Fprint(os.Stdout, clientVersion())
@@ -67,7 +69,8 @@ func serverVersion() (string, error) {
 	verbosePrintf(os.Stdout, "Fetching version from server\n")
 	resp, err := client.Version(context.Background())
 	if err != nil {
-		return "", fmt.Errorf("Error fetching cubicsvr version: %v", err)
+		verbosePrintf(os.Stderr, "Error fetching cubicsvr version: %v\n", err)
+		return "", simplifyGrpcErrors("Error fetching cubicsvr version", err)
 	}
-	return fmt.Sprintf("Cubic Server: (Cubic: %s -- Server: %s)", resp.Cubic, resp.Server), nil
+	return fmt.Sprintf("Cubic Server: (Cubic: %s -- Server: %s)\n", resp.Cubic, resp.Server), nil
 }
