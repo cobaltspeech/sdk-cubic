@@ -87,6 +87,7 @@ func verbosePrintf(w io.Writer, format string, a ...interface{}) {
 
 // simplifyGrpcErrors converts semi-cryptic gRPC errors into more user-friendly errors.
 func simplifyGrpcErrors(msg string, err error) error {
+	// TODO create more robust/consistent ways of checking for each error.  This is a little too ad-hoc.
 	switch {
 	case strings.Contains(err.Error(), "transport: Error while dialing dial tcp"):
 		return fmt.Errorf(msg+": unable to reach server at the address '%s'", cubicSvrAddress)
