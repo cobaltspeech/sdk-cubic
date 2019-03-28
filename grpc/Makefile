@@ -36,6 +36,7 @@ ${GO_OUTDIR}/gw/cubic.pb.gw.go: cubic.proto
 
 go-test:
 	cd go-cubic && go test
+	cd go-cubic/cubicpb/gw && go test
 
 ${DOCS_OUTDIR}/autogen-doc-cubic-proto.md: cubic.proto doc.md.tmpl
 	protoc -I . -I ${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --doc_out=${DOCS_OUTDIR} --doc_opt=doc.md.tmpl,autogen-doc-cubic-proto.md cubic.proto
