@@ -48,12 +48,12 @@ test: mod
 	go test ./...
 
 # Building debug and release versions
-CLI_BINARY:=cubicsvr-client
+CLI_BINARY:=cubiccli
 
 # Set variables for version reporting.
 VERSION:=$(shell git describe --tags --dirty --always)
 COMMIT_HASH:=$(shell git rev-parse --short HEAD 2>/dev/null)
-PKG:=github.com/cobaltspeech/sdk-cubic/cubicsvr-client/cmd
+PKG:=github.com/cobaltspeech/sdk-cubic/tools/cubiccli/cmd
 LDFLAGSVERSION:=-X $(PKG).commitHash=$(COMMIT_HASH) -X $(PKG).version=$(VERSION)
 
 PLATFORMS := linux darwin windows

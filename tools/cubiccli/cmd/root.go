@@ -26,9 +26,9 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "cubicsvr-client",
-	Short: "cubicsvr-client is a command line interface for interacting with a running instance of cubicsvr",
-	Long:  `cubicsvr-client is a command line interface for interacting with a running instance of cubicsvr`,
+	Use:   "cubiccli",
+	Short: "cubiccli is a command line interface for interacting with a running instance of cubicsvr",
+	Long:  `cubiccli is a command line interface for interacting with a running instance of cubicsvr`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
