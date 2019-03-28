@@ -4,11 +4,10 @@
 
 This folder (and resulting binary) can be used to send audio file(s) to a running instance of a cubic server.  It consists of several sub-commands:
 
-| `cubiccli`                   | Prints the default help message. |
-| `cubiccli models`            | Displays the transcription models being served by the given instance. |
-| `cubiccli version`           | Displays the versions of both the client and the server. |
-| `cubiccli transcribe single` | Sends a single file to server for transcription. |
-| `cubiccli transcribe list`   | Sends multiple files to server for transcription in parallel. |
+| `cubiccli`            | Prints the default help message. |
+| `cubiccli models`     | Displays the transcription models being served by the given instance. |
+| `cubiccli version`    | Displays the versions of both the client and the server. |
+| `cubiccli transcribe` | Sends audio file(s) to server for transcription. |
 
 `[cmd] --help` can be run on any command for more details on usage and included flags.
 
@@ -40,25 +39,25 @@ cubiccli models \
 
 # Transcribe the single file this_is_a_test-en_us-16.wav.
 ## Should result in the transcription of "this is a test"
-bin/cubiccli transcribe single \
+bin/cubiccli transcribe \
     ./testdata/this_is_a_test-en_us-16.wav \
     --server localhost:2727 \
 
 # Transcribe the list of files defined at ./testdata/list.txt
 ## Should result in the transcription of "this is a test" and "the second test" printed to stdout
-bin/cubiccli transcribe list \
+bin/cubiccli transcribe --list-file \
     ./testdata/list.txt \
     --server localhost:2727 \
 
-# Same as the previous `transcribe list` command, but redirects the results to the --outputFile.
-bin/cubiccli transcribe list \
+# Same as the previous `transcribe` command, but redirects the results to the --outputFile.
+bin/cubiccli transcribe --list-file \
     ./testdata/list.txt \
     --server localhost:2727 \
     --outputFile ./testdata/out.txt \
 
-# Same as the first `transcribe list` command, but sends up to two files at a time.
+# Same as the first `transcribe` command, but sends up to two files at a time.
 ## Note that the server may place a limit to the maximum number of concurrent requests processed.
-bin/cubiccli transcribe list \
+bin/cubiccli transcribe --list-file \
     ./testdata/list.txt \
     --server localhost:2727 \
     --workers 2

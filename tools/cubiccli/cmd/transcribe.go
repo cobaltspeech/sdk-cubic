@@ -57,7 +57,7 @@ func init() {
 
 	transcribeCmd.Flags().BoolVarP(&listFile, "list-file", "l", false,
 		"When true, the FILE_PATH is pointing to a file containing a list of \n"+
-			"'UtteranceID \\t path/to/audio.wav', no spaces, one entry per line.")
+			"'UtteranceID \\t path/to/audio.wav', one entry per line.")
 
 	transcribeCmd.Flags().StringVarP(&resultsFile, "outputFile", "o", "-",
 		"File to send output to.  '-' indicates stdout.")
@@ -84,7 +84,8 @@ In single file mode:
 In list file mode:
     The FILE_PATH should point to a a file listing multiple audio files
     with the format 'Utterance_ID \t FILE_PATH \n'.
-    Each entry should be on its own line and no spaces should present.
+    Each entry should be on its own line.  
+    Utterance_IDs may not contain whitespace.
 
 See 'transcribe --help' for details on the other flags.`
 
