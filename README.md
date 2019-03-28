@@ -2,6 +2,9 @@
 
 This repository contains the SDK for Cobalt's Cubic Speech Recognition Engine.
 
+This README has instructions to _build_ the SDK.  For installing and using the
+SDK, see the [SDK Docs](https://cobaltspeech.github.io/sdk-cubic).
+
 ## Network API (using GRPC)
 
 The `grpc` folder at the top level of this repository contains code for Cubic's
