@@ -27,7 +27,7 @@ Code generation has the following dependencies:
 
 The documentation here is generated using the excellent static-site generator,
 [Hugo](https://gohugo.io). The hugo-template in use is
-[docuapi](https://themes.gohugo.io/docuapi/). The content is authored in the
+[docdock](https://themes.gohugo.io/docdock/). The content is authored in the
 `docs-src/content` folder, and hugo-generated static website is stored in the
 `docs` folder.
 
