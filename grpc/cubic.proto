@@ -146,6 +146,9 @@ message RecognitionConfig {
 
     // VOX data (Dialogic ADPCM), sampled at 8 KHz.
     VOX8000 = 4;
+
+    // μ-law (8-bit) encoded RAW data, single channel, sampled at 8 KHz.
+    ULAW8000 = 5;
   }
 
   // Encoding of audio data sent/streamed through the `RecognitionAudio`
