@@ -173,13 +173,13 @@ message RecognitionConfig {
   // that serverside value, creating of the recognizer will fail with an error.
   google.protobuf.Duration idle_timeout = 3;
 
-  // This is an optional field.  If this is set to true, the top result will
+  // This is an optional field.  If this is set to true, each result will
   // include a list of words and the start time offset (timestamp) and the
   // duration for each of those words.  If set to `false`, no word-level
   // timestamps will be returned.  The default is `false`.
   bool enable_word_time_offsets = 4;
 
-  // This is an optional field.  If this is set to true, the top result will
+  // This is an optional field.  If this is set to true, each result will
   // include a list of words and the confidence for those words.  If `false`, no
   // word-level confidence information is returned.  The default is `false`.
   bool enable_word_confidence = 5;
