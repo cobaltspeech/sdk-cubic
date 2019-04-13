@@ -470,6 +470,20 @@
 <td>repeated</td>
 <td><p>A list of word-specific information for each recognized word. This is available only if <code>enable_word_confidence</code> or <code>enable_word_time_offsets</code> was set to <code>true</code> in the <code>RecognitionConfig</code>.</p></td>
 </tr>
+
+<tr>
+<td>start_time</td>
+<td>google.protobuf.Duration</td>
+<td></td>
+<td><p>Time offset relative to the beginning of audio received by the recognizer and corresponding to the start of this utterance.</p></td>
+</tr>
+
+<tr>
+<td>duration</td>
+<td>google.protobuf.Duration</td>
+<td></td>
+<td><p>Duration of the current utterance in the spoken audio.</p></td>
+</tr>
 </tbody>
 </table>
 

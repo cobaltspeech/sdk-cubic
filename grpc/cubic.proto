@@ -286,6 +286,14 @@ message RecognitionAlternative {
   // available only if `enable_word_confidence` or `enable_word_time_offsets`
   // was set to `true` in the `RecognitionConfig`.
   repeated WordInfo words = 3;
+
+  // Time offset relative to the beginning of audio received by the recognizer
+  // and corresponding to the start of this utterance.
+  google.protobuf.Duration start_time = 4;
+
+  // Duration of the current utterance in the spoken audio.
+  google.protobuf.Duration duration = 5;
+
 }
 
 // Word-specific information for recognized words
