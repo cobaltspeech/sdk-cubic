@@ -121,6 +121,8 @@ A recognition hypothesis
 | transcript | string |  | <p>Text representing the transcription of the words that the user spoke.</p> |
 | confidence | double |  | <p>Confidence estimate between 0 and 1. A higher number represents a higher likelihood of the output being correct.</p> |
 | words | WordInfo | repeated | <p>A list of word-specific information for each recognized word. This is available only if `enable_word_confidence` or `enable_word_time_offsets` was set to `true` in the `RecognitionConfig`.</p> |
+| start_time | google.protobuf.Duration |  | <p>Time offset relative to the beginning of audio received by the recognizer and corresponding to the start of this utterance.</p> |
+| duration | google.protobuf.Duration |  | <p>Duration of the current utterance in the spoken audio.</p> |
 
 
 
