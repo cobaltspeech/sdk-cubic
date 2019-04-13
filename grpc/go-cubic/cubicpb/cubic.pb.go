@@ -408,12 +408,12 @@ type RecognitionConfig struct {
 	// timeout that can be specified, and if the value in this message exceeds
 	// that serverside value, creating of the recognizer will fail with an error.
 	IdleTimeout *duration.Duration `protobuf:"bytes,3,opt,name=idle_timeout,json=idleTimeout,proto3" json:"idle_timeout,omitempty"`
-	// This is an optional field.  If this is set to true, the top result will
+	// This is an optional field.  If this is set to true, each result will
 	// include a list of words and the start time offset (timestamp) and the
 	// duration for each of those words.  If set to `false`, no word-level
 	// timestamps will be returned.  The default is `false`.
 	EnableWordTimeOffsets bool `protobuf:"varint,4,opt,name=enable_word_time_offsets,json=enableWordTimeOffsets,proto3" json:"enable_word_time_offsets,omitempty"`
-	// This is an optional field.  If this is set to true, the top result will
+	// This is an optional field.  If this is set to true, each result will
 	// include a list of words and the confidence for those words.  If `false`, no
 	// word-level confidence information is returned.  The default is `false`.
 	EnableWordConfidence bool `protobuf:"varint,5,opt,name=enable_word_confidence,json=enableWordConfidence,proto3" json:"enable_word_confidence,omitempty"`
