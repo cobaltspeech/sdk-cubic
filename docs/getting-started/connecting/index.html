@@ -216,7 +216,9 @@ connection.</p>
 
 <div class='code-tabs'>
   <ul class="nav-tabs"></ul>
-  <div class="tab-content"><div class="tab-pane" title="Go">
+  <div class="tab-content">
+
+<div class="tab-pane" title="Go">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6ab825;font-weight:bold">package</span> main
 
 <span style="color:#6ab825;font-weight:bold">import</span> (
@@ -245,13 +247,24 @@ connection.</p>
     fmt.<span style="color:#447fcf">Println</span>(version)
 }</code></pre></div>
 </div>
-</div>
+
+<div class="tab-pane" title="Python">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">cubic</span>
+
+serverAddress = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+
+client = cubic.Client(serverAddress)
+
+resp = client.Version()
+<span style="color:#6ab825;font-weight:bold">print</span>(resp)</code></pre></div>
 </div>
 
+<p></div>
+</div></p>
 
 <h2 id="insecure-connection">Insecure Connection</h2>
 
-<p>It is sometimes require to connect to Cubic server without TLS enabled, such as
+<p>It is sometimes required to connect to Cubic server without TLS enabled, such as
 during debugging.</p>
 
 <p>Please note that if the server has TLS enabled, attempting to connect with an
@@ -260,12 +273,18 @@ To connect to such an instance of cubic server, you can use:</p>
 
 <div class='code-tabs'>
   <ul class="nav-tabs"></ul>
-  <div class="tab-content"><div class="tab-pane" title="Go">
+  <div class="tab-content">
+
+<div class="tab-pane" title="Go">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr, cubic.<span style="color:#447fcf">WithInsecure</span>())</code></pre></div>
 </div>
-</div>
+
+<div class="tab-pane" title="Python">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">client = cubic.Client(serverAddress, insecure=True)</code></pre></div>
 </div>
 
+<p></div>
+</div></p>
 
 <h2 id="client-authentication">Client Authentication</h2>
 
@@ -285,12 +304,18 @@ authenticated TLS. This can be done with:</p>
 
 <div class='code-tabs'>
   <ul class="nav-tabs"></ul>
-  <div class="tab-content"><div class="tab-pane" title="Go">
+  <div class="tab-content">
+
+<div class="tab-pane" title="Go">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr,  cubic.<span style="color:#447fcf">WithClientCert</span>(certPem, keyPem))</code></pre></div>
 </div>
-</div>
+
+<div class="tab-pane" title="Python">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">client = cubic.Client(serverAddress, clientCertificate=certPem, clientKey=keyPem)</code></pre></div>
 </div>
 
+<p></div>
+</div></p>
 
 <p>where certPem and keyPem are the bytes of the client certificate and key
 provided to you.</p>

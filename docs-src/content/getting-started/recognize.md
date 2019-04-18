@@ -15,6 +15,7 @@ recognition.
 <!--more-->
 
 {{%tabs %}}
+
 {{% tab "Go" %}}
 ``` go
 
@@ -69,6 +70,40 @@ func main() {
 }
 ```
 {{% /tab %}}
+
+{{% tab "Python" %}}
+``` python
+
+import cubic
+
+serverAddress = '127.0.0.1:2727'
+
+client = cubic.Client(serverAddress)
+
+# get list of available models
+modelResp = client.ListModels()
+for model in modelResp.models:
+	print("ID = {}, Name = {}".format(model.id, model.name))
+
+# use the first available model
+model = modelResp.models[0]
+
+cfg = cubic.RecognitionConfig(
+    model_id = model.id
+)
+
+# open audio file 
+audio = open('test.raw', 'rb')
+
+resp = client.Recognize(cfg, audio)
+
+for result in resp.results:
+	if not result.is_partial:
+		print(result.alternatives[0].transcript)
+
+```
+{{% /tab %}}
+
 {{%/tabs %}}
 
 

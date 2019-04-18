@@ -205,7 +205,9 @@ recognition.</p>
 
 <div class='code-tabs'>
   <ul class="nav-tabs"></ul>
-  <div class="tab-content"><div class="tab-pane" title="Go">
+  <div class="tab-content">
+
+<div class="tab-pane" title="Go">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6ab825;font-weight:bold">package</span> main
 
 <span style="color:#6ab825;font-weight:bold">import</span> (
@@ -256,8 +258,38 @@ recognition.</p>
 
 }</code></pre></div>
 </div>
+
+<div class="tab-pane" title="Python">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">cubic</span>
+
+serverAddress = <span style="color:#ed9d13">&#39;127.0.0.1:2727&#39;</span>
+
+client = cubic.Client(serverAddress)
+
+<span style="color:#999;font-style:italic"># get list of available models</span>
+modelResp = client.ListModels()
+<span style="color:#6ab825;font-weight:bold">for</span> model <span style="color:#6ab825;font-weight:bold">in</span> modelResp.models:
+    <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;ID = {}, Name = {}&#34;</span>.format(model.<span style="color:#24909d">id</span>, model.name))
+
+<span style="color:#999;font-style:italic"># use the first available model</span>
+model = modelResp.models[<span style="color:#3677a9">0</span>]
+
+cfg = cubic.RecognitionConfig(
+    model_id = model.<span style="color:#24909d">id</span>
+)
+
+<span style="color:#999;font-style:italic"># open audio file </span>
+audio = <span style="color:#24909d">open</span>(<span style="color:#ed9d13">&#39;test.raw&#39;</span>, <span style="color:#ed9d13">&#39;rb&#39;</span>)
+
+resp = client.Recognize(cfg, audio)
+
+<span style="color:#6ab825;font-weight:bold">for</span> result <span style="color:#6ab825;font-weight:bold">in</span> resp.results:
+    <span style="color:#6ab825;font-weight:bold">if</span> <span style="color:#6ab825;font-weight:bold">not</span> result.is_partial:
+        <span style="color:#6ab825;font-weight:bold">print</span>(result.alternatives[<span style="color:#3677a9">0</span>].transcript)</code></pre></div>
 </div>
-</div>
+
+<p></div>
+</div></p>
 
     
     

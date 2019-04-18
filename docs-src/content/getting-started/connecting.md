@@ -18,8 +18,9 @@ The following code snipped connects to the server and queries its version.  This
 connection.
 
 {{%tabs %}}
+
 {{% tab "Go" %}}
-```go
+``` go
 package main
 
 import (
@@ -47,15 +48,28 @@ func main() {
 
 	fmt.Println(version)
 }
-
 ```
 {{% /tab %}}
+
+{{% tab "Python" %}}
+``` python
+import cubic
+
+serverAddress = "127.0.0.1:2727"
+
+client = cubic.Client(serverAddress)
+
+resp = client.Version()
+print(resp)
+```
+{{% /tab %}}
+
 {{%/tabs %}}
 
 
 ## Insecure Connection
 
-It is sometimes require to connect to Cubic server without TLS enabled, such as
+It is sometimes required to connect to Cubic server without TLS enabled, such as
 during debugging. 
 
 Please note that if the server has TLS enabled, attempting to connect with an
@@ -63,11 +77,19 @@ insecure client will fail.
 To connect to such an instance of cubic server, you can use:
 
 {{%tabs %}}
+
 {{% tab "Go" %}}
 ``` go
 client, err := cubic.NewClient(serverAddr, cubic.WithInsecure())
 ```
 {{% /tab %}}
+
+{{% tab "Python" %}}
+``` python
+client = cubic.Client(serverAddress, insecure=True)
+```
+{{% /tab %}}
+
 {{%/tabs %}}
 
 ## Client Authentication
@@ -80,20 +102,27 @@ connections work in web browsers.
 In some setups, it may be desired that the server should also validate clients
 connecting to it and only respond to the ones it can verify. If your Cubic
 server is configured to do client authentication, you will need to present the
-appropriate certificate and key when connecting to it. 
+appropriate certificate and key when connecting to it.
 
 Please note that in the client-authentication mode, the client will still also
 verify the server's certificate, and therefore this setup uses mutually
 authenticated TLS. This can be done with:
 
 {{%tabs %}}
+
 {{% tab "Go" %}}
 ``` go
 client, err := cubic.NewClient(serverAddr,  cubic.WithClientCert(certPem, keyPem))
 ```
 {{% /tab %}}
+
+{{% tab "Python" %}}
+``` python
+client = cubic.Client(serverAddress, clientCertificate=certPem, clientKey=keyPem)
+```
+{{% /tab %}}
+
 {{%/tabs %}}
 
 where certPem and keyPem are the bytes of the client certificate and key
 provided to you.
-
