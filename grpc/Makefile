@@ -1,13 +1,15 @@
 # Copyright (2019) Cobalt Speech and Language Inc.
 
-.PHONY: all go go-test docs
+.PHONY: all go py go-test py-test docs
 
-all: go docs
+all: go py docs
 
 GO_OUTDIR=go-cubic/cubicpb
+PY_OUTDIR=py-cubic/cubic
 DOCS_OUTDIR=../docs-src/content/protobuf
 
 go: ${GO_OUTDIR}/cubic.pb.go ${GO_OUTDIR}/gw/cubic.pb.gw.go go-test
+py: $(PY_OUTDIR)/cubic_pb2.py ${PY_OUTDIR}/cubic_pb2_grpc.py py-test
 docs: ${DOCS_OUTDIR}/autogen-doc-cubic-proto.md
 
 ${GO_OUTDIR}/cubic.pb.go: cubic.proto
@@ -34,10 +36,22 @@ ${GO_OUTDIR}/gw/cubic.pb.gw.go: cubic.proto
 	sed -i -E "s/New[A-Za-z]*Client/cubicpb.&/" $@
 	go fmt $@
 
+${PY_OUTDIR}/cubic_pb2.py: cubic.proto
+	mkdir -p ${PY_OUTDIR}
+	python -m grpc_tools.protoc -I . -I ${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --python_out=${PY_OUTDIR} $<
+
+${PY_OUTDIR}/cubic_pb2_grpc.py: cubic.proto
+	mkdir -p ${PY_OUTDIR}
+	python -m grpc_tools.protoc -I . -I ${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc_python_out=${PY_OUTDIR} $<
+
 go-test:
 	cd go-cubic && go test
 	cd go-cubic/cubicpb/gw && go test
 
+py-test:
+	cd py-cubic/cubic && python test_client.py
+	cd py-cubic/cubic && python test_tls.py
+	
 ${DOCS_OUTDIR}/autogen-doc-cubic-proto.md: cubic.proto doc.md.tmpl
 	protoc -I . -I ${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --doc_out=${DOCS_OUTDIR} --doc_opt=doc.md.tmpl,autogen-doc-cubic-proto.md cubic.proto
 

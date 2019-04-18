@@ -51,10 +51,10 @@ recognition.&lt;/p&gt;</description>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://cobaltspeech.github.io/sdk-cubic/getting-started/streaming/</guid>
-      <description>&lt;p&gt;The following example shows how to transcribe an audio file using Cubic&amp;rsquo;s
-Streaming Recognize Request. It is assumed that the audio file contains raw
-samples, PCM16SLE like Cubic expects.  We will query the server for available
-models and use the first model to transcribe this speech.&lt;/p&gt;</description>
+      <description>&lt;p&gt;The following example shows how to transcribe an audio file using Cubic’s
+Streaming Recognize Request. The example uses a WAV file as input to the
+streaming recognition. We will query the server for available models and
+use the first model to transcribe the speech.&lt;/p&gt;</description>
     </item>
     
     <item>
