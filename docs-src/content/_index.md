@@ -10,7 +10,7 @@ Once running, Cubic’s API provides a method to which you can stream audio. Thi
 
 ![Cubic setup](cubicoverview.png)
 
-Cubic’s API provides a number of options for accessing the speech recognition results. The results are passed back using Google’s protobuf library, allowing them to easily be handled by your application. Cubic can estimate its confidence in the transcription result, at the word or utterance level, along with timestamps of the words. Confidence scores are in the range 0-1. Cubic’s output options are described below.
+Cubic’s API provides a number of options for returning the speech recognition results. The results are passed back using Google’s protobuf library, allowing them to be handled natively by your application. Cubic can estimate its confidence in the transcription result at the word or utterance level, along with timestamps of the words. Confidence scores are in the range 0-1. Cubic’s output options are described below.
 
 ## Automatic Transcription Results
 
