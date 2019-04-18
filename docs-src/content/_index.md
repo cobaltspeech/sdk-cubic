@@ -4,7 +4,7 @@ title: "Cubic SDK Documentation"
 
 # Cubic API Overview
 
-Cubic is Cobalt’s automatic speech recognition (ASR) engine. It can be deployed on-prem and accessed over the network or on your local machine via an API. We currently support Go, Python and Java, and are adding support for more languages.
+Cubic is Cobalt’s automatic speech recognition (ASR) engine. It can be deployed on-prem and accessed over the network or on your local machine via an API. We currently support Go and Python, and are adding support for more languages.
 
 Once running, Cubic’s API provides a method to which you can stream audio. This audio can either be from a microphone or a file. We recommend uncompressed WAV as the encoding, but support other formats such as MP3.
 
@@ -18,7 +18,7 @@ The simplest result that Cubic returns is its best guess at the transcription of
 
 Cubic maintains its transcriptions in an N-best list, i.e. is the top N transcriptions from the recogniser. The best ASR result is the first entry in this list. A json representation of Cubic’s N-best list with utterance-level confidence scores is:
 
-```
+``` json
 {
   "alternatives": [
     {
@@ -45,7 +45,9 @@ Cubic maintains its transcriptions in an N-best list, i.e. is the top N transcri
 }
 ```
 
-A single stream may consist of multiple utterances separated by silence. Cubic handles each utterance separately. For longer utterances, it is often useful to see the partial speech recognition results while the audio is being streamed. For example, this allows you to see what the ASR system is predicting in real-time while someone is speaking. Cubic supports both partial and final ASR results.
+A single stream may consist of multiple utterances separated by silence. Cubic handles each utterance separately.
+
+For longer utterances, it is often useful to see the partial speech recognition results while the audio is being streamed. For example, this allows you to see what the ASR system is predicting in real-time while someone is speaking. Cubic supports both partial and final ASR results.
 
 ## Confusion Network
 
@@ -55,7 +57,7 @@ A Confusion Network is a form of speech recognition output that’s been turned 
 
 Note that `<eps>` in this representation is silence. A json representation of this particular Confusion Network object, with additional time stamps and word-level confidence scores, is:
 
-```
+``` json
 {
   "cnet": {
     "links": [
