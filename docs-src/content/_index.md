@@ -16,7 +16,10 @@ Cubic’s API provides a number of options for returning the speech recognition 
 
 The simplest result that Cubic returns is its best guess at the transcription of your audio. Cubic recognizes the audio you are streaming, listens for the end of each utterance, and returns the speech recognition result. 
 
-Cubic maintains its transcriptions in an N-best list, i.e. is the top N transcriptions from the recogniser. The best ASR result is the first entry in this list. A json representation of Cubic’s N-best list with utterance-level confidence scores is:
+Cubic maintains its transcriptions in an N-best list, i.e. is the top N transcriptions from the recogniser. The best ASR result is the first entry in this list.
+
+<details>
+<summary>Click here to see an example json representation of Cubic’s N-best list with utterance-level confidence scores</summary>
 
 ``` json
 {
@@ -44,6 +47,8 @@ Cubic maintains its transcriptions in an N-best list, i.e. is the top N transcri
   ],
 }
 ```
+</details>
+
 
 A single stream may consist of multiple utterances separated by silence. Cubic handles each utterance separately.
 
@@ -55,7 +60,11 @@ A Confusion Network is a form of speech recognition output that’s been turned 
 
 ![Confusion Network Example](confnet.png)
 
-Note that `<eps>` in this representation is silence. A json representation of this particular Confusion Network object, with additional time stamps and word-level confidence scores, is:
+Note that `<eps>` in this representation is silence.
+
+<details>
+<summary>Click here to see an example json representation of this Confusion Network object, with time stamps and word-level confidence scores</summary>
+
 
 ``` json
 {
@@ -211,6 +220,8 @@ Note that `<eps>` in this representation is silence. A json representation of th
   }
 }
 ```
+</details>
+
 
 ## Formatted output
 
