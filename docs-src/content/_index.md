@@ -14,7 +14,7 @@ Cubic’s API provides a number of options for accessing the speech recognition 
 
 ## Automatic Transcription Results
 
-The simplest item that Cubic returns is its best guess at the transcription of your audio. Cubic recognises the audio you are streaming, listens for the end of each utterance, and returns the speech recognition result. 
+The simplest result that Cubic returns is its best guess at the transcription of your audio. Cubic recognizes the audio you are streaming, listens for the end of each utterance, and returns the speech recognition result. 
 
 Cubic maintains its transcriptions in an N-best list, i.e. is the top N transcriptions from the recogniser. The best ASR result is the first entry in this list. A json representation of Cubic’s N-best list with utterance-level confidence scores is:
 
