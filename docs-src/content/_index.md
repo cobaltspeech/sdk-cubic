@@ -53,7 +53,7 @@ A Confusion Network is a form of speech recognition output that’s been turned 
 
 ![Confusion Network Example](confnet.png)
 
-Note that <eps> in this representation is silence. A json representation of this particular Confusion Network object, with additional time stamps and word-level confidence scores, is:
+Note that `<eps>` in this representation is silence. A json representation of this particular Confusion Network object, with additional time stamps and word-level confidence scores, is:
 
 ```
 {
