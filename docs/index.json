@@ -11,7 +11,7 @@
 	"title": "Installation",
 	"tags": [],
 	"description": "",
-	"content": "Instructions for installing the SDK are language specific.\nGo The Go SDK supports Go modules and requires Go 1.12 or later. To use the SDK, import this package into your application:\nimport \u0026#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic\u0026#34; Python The Python SDK depends on Python \u0026gt;= 3.5. You may use pip to perform a system-wide install, or use virtualenv for a local install.\npip install --upgrade pip pip install git+https://github.com/cobaltspeech/sdk-cubic/grpc/py-cubic#egg=cobalt-cubic"
+	"content": "Instructions for installing the SDK are language specific.\nGo The Go SDK supports Go modules and requires Go 1.12 or later. To use the SDK, import this package into your application:\nimport \u0026#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic\u0026#34; Python The Python SDK depends on Python \u0026gt;= 3.5. You may use pip to perform a system-wide install, or use virtualenv for a local install.\npip install --upgrade pip pip install \u0026#34;git+https://github.com/cobaltspeech/sdk-cubic#egg=cobalt-cubic\u0026amp;subdirectory=grpc/py-cubic\u0026#34;"
 },
 {
 	"uri": "https://cobaltspeech.github.io/sdk-cubic/protobuf/",
