@@ -20,5 +20,5 @@ The Python SDK depends on Python >= 3.5. You may use pip to perform a system-wid
 
 ``` bash
 pip install --upgrade pip
-pip install git+https://github.com/cobaltspeech/sdk-cubic/grpc/py-cubic#egg=cobalt-cubic
+pip install "git+https://github.com/cobaltspeech/sdk-cubic#egg=cobalt-cubic&subdirectory=grpc/py-cubic"
 ```
