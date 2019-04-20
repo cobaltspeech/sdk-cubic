@@ -8,7 +8,7 @@ Cubic is Cobalt’s automatic speech recognition (ASR) engine. It can be deploye
 
 Once running, Cubic’s API provides a method to which you can stream audio. This audio can either be from a microphone or a file. We recommend uncompressed WAV as the encoding, but support other formats such as MP3.
 
-![Cubic setup](cubicoverview.png)
+![Cubic setup](img/cubicoverview.png)
 
 Cubic’s API provides a number of options for returning the speech recognition results. The results are passed back using Google’s protobuf library, allowing them to be handled natively by your application. Cubic can estimate its confidence in the transcription result at the word or utterance level, along with timestamps of the words. Confidence scores are in the range 0-1. Cubic’s output options are described below.
 
@@ -58,7 +58,7 @@ For longer utterances, it is often useful to see the partial speech recognition 
 
 A Confusion Network is a form of speech recognition output that’s been turned into a compact graph representation of many possible transcriptions, as here:
 
-![Confusion Network Example](confnet.png)
+![Confusion Network Example](img/confnet.png)
 
 Note that `<eps>` in this representation is silence.
 
