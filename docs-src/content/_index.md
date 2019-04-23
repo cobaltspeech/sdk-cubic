@@ -227,6 +227,7 @@ Note that `<eps>` in this representation is silence.
 
 Speech recognition systems typically output the words that were spoken, with no formatting. For example, utterances with numbers in might return “twenty seven bridges”, and “the year two thousand and three”. Cubic has the option to enable basic formatting of speech recognition results:
 
+* Capitalising the first letter of the utterance
 * Numbers: “cobalt’s atomic number is twenty seven” -> “Cobalt’s atomic number is 27”
 * Truecasing: “the iphone was launched in two thousand and seven” -> “The iPhone was launched in 2007”
 * Ordinals: “summer solstice is twenty first june” -> “Summer solstice is 21st June”
@@ -241,7 +242,7 @@ appropriate speech recognition models and a server application.  This server
 exports Cubic's functionality over the gRPC protocol.  The
 https://github.com/cobaltspeech/sdk-cubic repository contains the SDK that you
 can use in your application to communicate with the Cubic server. This SDK is
-currently available for the Go language; and we would be happy to talk to you if
+currently available for the Go and Python languages; and we would be happy to talk to you if
 you need support for other languages. Most of the core SDK is generated
 automatically using the gRPC tools, and Cobalt provides a top level package for
 more convenient API calls.
