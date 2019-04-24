@@ -11,7 +11,7 @@ setup(
     url='https://cobaltspeech.github.io/sdk-cubic',
     packages=["cubic"],
     install_requires=[
-        'googleapis-common-protos',
-        'grpcio-tools'
+        'googleapis-common-protos==1.5.9',
+        'grpcio-tools==1.20.0'
     ]
 )

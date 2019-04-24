@@ -19,12 +19,15 @@ checked in, and you must make sure it is up to date when you push commits to
 this repository.
 
 Code generation has the following dependencies:
-  - The protobuf compiler itself.  On ubuntu, this package is `protobuf-compiler`.
+  - The protobuf compiler itself. On ubuntu, this package is `protobuf-compiler` and can be installed through `sudo apt install protobuf-compiler`.
+  - The protobuf documentation generation plugin:
+    - `go get -u github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc`
   - The golang plugins:
     - `go get -u github.com/golang/protobuf/protoc-gen-go@v1.3.0`
     - `go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway@v1.8.2`
-  - The documentation generation plugin:
-    - `go get -u github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc`
+  - The python plugins:
+    - `pip install grpcio-tools==1.20.0`
+    - `pip install googleapis-common-protos==1.5.9`
 
 ### Generating Documentation
 
@@ -37,6 +40,14 @@ The documentation here is generated using the excellent static-site generator,
 You can download the latest hugo binary from the [release
 page](https://github.com/gohugoio/hugo/releases). Version 0.54 or later is
 required.
+
+On a Linux 64-bit machine, you can grab the latest binary and add it to your `PATH` by:
+```
+mkdir hugo && cd hugo
+wget $(curl -s https://api.github.com/repos/gohugoio/hugo/releases/latest | grep -oP '"browser_download_url": "\K(.*)hugo_extended(.*)Linux-64bit.tar.gz')
+tar -xzvf hugo_extended*Linux-64bit.tar.gz
+export PATH="$PATH:$(pwd)"
+```
 
 If you are doing local development on the docs, you can use this command to
 serve it locally:
@@ -109,4 +120,3 @@ git tag -a grpc/go-cubic/v$NEW_VERSION -m ''
 git tag -a grpc/go-cubic/cubicpb/gw/v$NEW_VERSION -m ''
 git push origin --tags
 ```
-

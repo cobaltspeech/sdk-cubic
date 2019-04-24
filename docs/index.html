@@ -110,13 +110,13 @@
     <li data-nav-id="/sdk-cubic/protobuf/" class="dd-item haschildren
         ">
       <div>
-      <a href="/sdk-cubic/protobuf/">Protobuf Reference</a><i class="fa fa-angle-right fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
+      <a href="/sdk-cubic/protobuf/">Cubic API Reference</a><i class="fa fa-angle-right fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
       </div>
         <ul>
       <li data-nav-id="/sdk-cubic/protobuf/autogen-doc-cubic-proto/" class="dd-item">
         <div>
           <a href="/sdk-cubic/protobuf/autogen-doc-cubic-proto/">
-            Proto Generated Docs
+            Cubic Protobuf API Docs
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
@@ -162,18 +162,239 @@
  
 
 
-<h1 id="cubic-sdk">Cubic SDK</h1>
+<h1 id="cubic-api-overview">Cubic API Overview</h1>
 
-<p>Cubic is Cobalt&rsquo;s speech recognition engine.  It can be bundled into your
-application as a library, or deployed on-prem and accessed over the network.
-This documentation refers to accessing the network-based Cubic server.</p>
+<p>Cubic is Cobalt’s automatic speech recognition (ASR) engine. It can be deployed on-prem and accessed over the network or on your local machine via an API. We currently support Go and Python, and are adding support for more languages.</p>
+
+<p>Once running, Cubic’s API provides a method to which you can stream audio. This audio can either be from a microphone or a file. We recommend uncompressed WAV as the encoding, but support other formats such as MP3.</p>
+
+<p><img src="img/cubicoverview.png" alt="Cubic setup" /></p>
+
+<p>Cubic’s API provides a number of options for returning the speech recognition results. The results are passed back using Google’s protobuf library, allowing them to be handled natively by your application. Cubic can estimate its confidence in the transcription result at the word or utterance level, along with timestamps of the words. Confidence scores are in the range 0-1. Cubic’s output options are described below.</p>
+
+<h2 id="automatic-transcription-results">Automatic Transcription Results</h2>
+
+<p>The simplest result that Cubic returns is its best guess at the transcription of your audio. Cubic recognizes the audio you are streaming, listens for the end of each utterance, and returns the speech recognition result.</p>
+
+<p>Cubic maintains its transcriptions in an N-best list, i.e. is the top N transcriptions from the recogniser. The best ASR result is the first entry in this list.</p>
+
+<p><details>
+<summary><font color="236ecc"><b>Click here to see an example json representation of Cubic’s N-best list with utterance-level confidence scores</b></font></summary></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#6ab825;font-weight:bold">&#34;alternatives&#34;</span>: [
+    {
+      <span style="color:#6ab825;font-weight:bold">&#34;transcript&#34;</span>: <span style="color:#ed9d13">&#34;TOMORROW IS A NEW DAY&#34;</span>,
+      <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.514</span>
+    },
+    {
+      <span style="color:#6ab825;font-weight:bold">&#34;transcript&#34;</span>: <span style="color:#ed9d13">&#34;TOMORROW IS NEW DAY&#34;</span>,
+      <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.201</span>
+    },
+    {
+      <span style="color:#6ab825;font-weight:bold">&#34;transcript&#34;</span>: <span style="color:#ed9d13">&#34;TOMORROW IS A &lt;UNK&gt; DAY&#34;</span>,
+      <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.105</span>
+    },
+    {
+      <span style="color:#6ab825;font-weight:bold">&#34;transcript&#34;</span>: <span style="color:#ed9d13">&#34;TOMORROW IS ISN&#39;T NEW DAY&#34;</span>,
+      <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.093</span>
+    },
+    {
+      <span style="color:#6ab825;font-weight:bold">&#34;transcript&#34;</span>: <span style="color:#ed9d13">&#34;TOMORROW IS A YOUR DAY&#34;</span>,
+      <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.087</span>
+    }
+  ],
+}</code></pre></div>
+<p></details></p>
+
+<p>A single stream may consist of multiple utterances separated by silence. Cubic handles each utterance separately.</p>
+
+<p>For longer utterances, it is often useful to see the partial speech recognition results while the audio is being streamed. For example, this allows you to see what the ASR system is predicting in real-time while someone is speaking. Cubic supports both partial and final ASR results.</p>
+
+<h2 id="confusion-network">Confusion Network</h2>
+
+<p>A Confusion Network is a form of speech recognition output that’s been turned into a compact graph representation of many possible transcriptions, as here:</p>
+
+<p><img src="img/confnet.png" alt="Confusion Network Example" /></p>
+
+<p>Note that <code>&lt;eps&gt;</code> in this representation is silence.</p>
+
+<p><details>
+<summary><font color="236ecc"><b>Click here to see an example json representation of this Confusion Network object, with time stamps and word-level confidence scores</b></font></summary></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#6ab825;font-weight:bold">&#34;cnet&#34;</span>: {
+    <span style="color:#6ab825;font-weight:bold">&#34;links&#34;</span>: [
+      {
+        <span style="color:#6ab825;font-weight:bold">&#34;duration&#34;</span>: <span style="color:#ed9d13">&#34;1.350s&#34;</span>,
+        <span style="color:#6ab825;font-weight:bold">&#34;arcs&#34;</span>: [
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;&lt;eps&gt;&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">1.0</span>
+          }
+        ],
+        <span style="color:#6ab825;font-weight:bold">&#34;startTime&#34;</span>: <span style="color:#ed9d13">&#34;0s&#34;</span>
+      },
+      {
+        <span style="color:#6ab825;font-weight:bold">&#34;duration&#34;</span>: <span style="color:#ed9d13">&#34;0.690s&#34;</span>,
+        <span style="color:#6ab825;font-weight:bold">&#34;arcs&#34;</span>: [
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;TOMORROW&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">1.0</span>
+          }
+        ],
+        <span style="color:#6ab825;font-weight:bold">&#34;startTime&#34;</span>: <span style="color:#ed9d13">&#34;1.350s&#34;</span>
+      },
+      {
+        <span style="color:#6ab825;font-weight:bold">&#34;duration&#34;</span>: <span style="color:#ed9d13">&#34;0.080s&#34;</span>,
+        <span style="color:#6ab825;font-weight:bold">&#34;arcs&#34;</span>: [
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;&lt;eps&gt;&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">1.0</span>
+          }
+        ],
+        <span style="color:#6ab825;font-weight:bold">&#34;startTime&#34;</span>: <span style="color:#ed9d13">&#34;2.040s&#34;</span>
+      },
+      {
+        <span style="color:#6ab825;font-weight:bold">&#34;duration&#34;</span>: <span style="color:#ed9d13">&#34;0.168s&#34;</span>,
+        <span style="color:#6ab825;font-weight:bold">&#34;arcs&#34;</span>: [
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;IS&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.892</span>
+          },
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;&lt;eps&gt;&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.108</span>
+          }
+        ],
+        <span style="color:#6ab825;font-weight:bold">&#34;startTime&#34;</span>: <span style="color:#ed9d13">&#34;2.120s&#34;</span>
+      },
+      {
+        <span style="color:#6ab825;font-weight:bold">&#34;duration&#34;</span>: <span style="color:#ed9d13">&#34;0.010s&#34;</span>,
+        <span style="color:#6ab825;font-weight:bold">&#34;arcs&#34;</span>: [
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;&lt;eps&gt;&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">1.0</span>
+          }
+        ],
+        <span style="color:#6ab825;font-weight:bold">&#34;startTime&#34;</span>: <span style="color:#ed9d13">&#34;2.288s&#34;</span>
+      },
+      {
+        <span style="color:#6ab825;font-weight:bold">&#34;duration&#34;</span>: <span style="color:#ed9d13">&#34;0.093s&#34;</span>,
+        <span style="color:#6ab825;font-weight:bold">&#34;arcs&#34;</span>: [
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;A&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.620</span>
+          },
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;&lt;eps&gt;&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.233</span>
+          },
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;ISN&#39;T&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.108</span>
+          },
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;THE&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.039</span>
+          }
+        ],
+        <span style="color:#6ab825;font-weight:bold">&#34;startTime&#34;</span>: <span style="color:#ed9d13">&#34;2.298s&#34;</span>
+      },
+      {
+        <span style="color:#6ab825;font-weight:bold">&#34;duration&#34;</span>: <span style="color:#ed9d13">&#34;0.005s&#34;</span>,
+        <span style="color:#6ab825;font-weight:bold">&#34;arcs&#34;</span>: [
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;&lt;eps&gt;&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">1.0</span>
+          }
+        ],
+        <span style="color:#6ab825;font-weight:bold">&#34;startTime&#34;</span>: <span style="color:#ed9d13">&#34;2.391s&#34;</span>
+      },
+      {
+        <span style="color:#6ab825;font-weight:bold">&#34;duration&#34;</span>: <span style="color:#ed9d13">&#34;0.273s&#34;</span>,
+        <span style="color:#6ab825;font-weight:bold">&#34;arcs&#34;</span>: [
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;NEW&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.661</span>
+          },
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;&lt;UNK&gt;&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.129</span>
+          },
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;YOUR&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.107</span>
+          },
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;YOU&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.102</span>
+          }
+        ],
+        <span style="color:#6ab825;font-weight:bold">&#34;startTime&#34;</span>: <span style="color:#ed9d13">&#34;2.396s&#34;</span>
+      },
+      {
+        <span style="color:#6ab825;font-weight:bold">&#34;duration&#34;</span>: <span style="color:#ed9d13">&#34;0s&#34;</span>,
+        <span style="color:#6ab825;font-weight:bold">&#34;arcs&#34;</span>: [
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;&lt;eps&gt;&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">1.0</span>
+          }
+        ],
+        <span style="color:#6ab825;font-weight:bold">&#34;startTime&#34;</span>: <span style="color:#ed9d13">&#34;2.670s&#34;</span>
+      },
+      {
+        <span style="color:#6ab825;font-weight:bold">&#34;duration&#34;</span>: <span style="color:#ed9d13">&#34;0.420s&#34;</span>,
+        <span style="color:#6ab825;font-weight:bold">&#34;arcs&#34;</span>: [
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;DAY&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.954</span>
+          },
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;TODAY&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.044</span>
+          },
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;&lt;UNK&gt;&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.002</span>
+          }
+        ],
+        <span style="color:#6ab825;font-weight:bold">&#34;startTime&#34;</span>: <span style="color:#ed9d13">&#34;2.670s&#34;</span>
+      },
+      {
+        <span style="color:#6ab825;font-weight:bold">&#34;duration&#34;</span>: <span style="color:#ed9d13">&#34;0.270s&#34;</span>,
+        <span style="color:#6ab825;font-weight:bold">&#34;arcs&#34;</span>: [
+          {
+            <span style="color:#6ab825;font-weight:bold">&#34;word&#34;</span>: <span style="color:#ed9d13">&#34;&lt;eps&gt;&#34;</span>,
+            <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">1.0</span>
+          }
+        ],
+        <span style="color:#6ab825;font-weight:bold">&#34;startTime&#34;</span>: <span style="color:#ed9d13">&#34;3.090s&#34;</span>
+      }
+    ]
+  }
+}</code></pre></div>
+<p></details></p>
+
+<h2 id="formatted-output">Formatted output</h2>
+
+<p>Speech recognition systems typically output the words that were spoken, with no formatting. For example, utterances with numbers in might return “twenty seven bridges”, and “the year two thousand and three”. Cubic has the option to enable basic formatting of speech recognition results:</p>
+
+<ul>
+<li>Capitalising the first letter of the utterance</li>
+<li>Numbers: “cobalt’s atomic number is twenty seven” -&gt; “Cobalt’s atomic number is 27”</li>
+<li>Truecasing: “the iphone was launched in two thousand and seven” -&gt; “The iPhone was launched in 2007”</li>
+<li>Ordinals: “summer solstice is twenty first june” -&gt; “Summer solstice is 21st June”</li>
+</ul>
+
+<p>Note that word level timestamps and confidences aren’t supported when formatting is enabled.</p>
+
+<h2 id="obtaining-cubic">Obtaining Cubic</h2>
 
 <p>Cobalt will provide you with a package of Cubic that contains the engine,
 appropriate speech recognition models and a server application.  This server
 exports Cubic&rsquo;s functionality over the gRPC protocol.  The
 <a href="https://github.com/cobaltspeech/sdk-cubic">https://github.com/cobaltspeech/sdk-cubic</a> repository contains the SDK that you
 can use in your application to communicate with the Cubic server. This SDK is
-currently available for the Go language; and we would be happy to talk to you if
+currently available for the Go and Python languages; and we would be happy to talk to you if
 you need support for other languages. Most of the core SDK is generated
 automatically using the gRPC tools, and Cobalt provides a top level package for
 more convenient API calls.</p>
