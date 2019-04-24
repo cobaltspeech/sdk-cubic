@@ -19,7 +19,7 @@ The simplest result that Cubic returns is its best guess at the transcription of
 Cubic maintains its transcriptions in an N-best list, i.e. is the top N transcriptions from the recogniser. The best ASR result is the first entry in this list.
 
 <details>
-<summary>Click here to see an example json representation of Cubic’s N-best list with utterance-level confidence scores</summary>
+<summary><font color="236ecc"><b>Click here to see an example json representation of Cubic’s N-best list with utterance-level confidence scores</b></font></summary>
 
 ``` json
 {
@@ -63,8 +63,7 @@ A Confusion Network is a form of speech recognition output that’s been turned 
 Note that `<eps>` in this representation is silence.
 
 <details>
-<summary>Click here to see an example json representation of this Confusion Network object, with time stamps and word-level confidence scores</summary>
-
+<summary><font color="236ecc"><b>Click here to see an example json representation of this Confusion Network object, with time stamps and word-level confidence scores</b></font></summary>
 
 ``` json
 {

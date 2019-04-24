@@ -15,4 +15,4 @@
 # limitations under the License.
 
 from .client import Client, RecognitionConfig
-from .types import DurationMilliseconds
+from .cubic_types import DurationMilliseconds

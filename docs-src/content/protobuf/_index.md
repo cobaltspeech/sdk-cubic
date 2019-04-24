@@ -1,5 +1,5 @@
 ---
-title: "Protobuf Reference"
+title: "Cubic API Reference"
 weight: 10
 ---
 

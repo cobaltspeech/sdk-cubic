@@ -1,5 +1,5 @@
 ---
-title: "Proto Generated Docs"
+title: "Cubic Protobuf API Docs"
 weight: 100
 ---
 
