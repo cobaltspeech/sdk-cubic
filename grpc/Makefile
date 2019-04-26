@@ -4,6 +4,10 @@
 
 all: go py docs
 
+ifeq ($(PROTOINC),)
+$(error "env variable PROTOINC must be defined to the location of googleapis proto files")
+endif
+
 GO_OUTDIR=go-cubic/cubicpb
 PY_OUTDIR=py-cubic/cubic
 DOCS_OUTDIR=../docs-src/content/protobuf
@@ -14,7 +18,7 @@ docs: ${DOCS_OUTDIR}/autogen-doc-cubic-proto.md
 
 ${GO_OUTDIR}/cubic.pb.go: cubic.proto
 	mkdir -p ${GO_OUTDIR}
-	protoc -I . -I ${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --go_out=plugins=grpc:"${GO_OUTDIR}" $<
+	protoc -I . -I ${PROTOINC} --go_out=plugins=grpc:"${GO_OUTDIR}" $<
 
 # grpc-gateway assumes that the gateway package lives in the same package as the
 # main proto package.  However, the gateway code is not necessary for clients,
@@ -24,7 +28,7 @@ ${GO_OUTDIR}/cubic.pb.go: cubic.proto
 # and serves the gateway.
 ${GO_OUTDIR}/gw/cubic.pb.gw.go: cubic.proto
 	mkdir -p ${GO_OUTDIR}/gw
-	protoc -I . -I ${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:${GO_OUTDIR}/gw $<
+	protoc -I . -I ${PROTOINC} --grpc-gateway_out=logtostderr=true:${GO_OUTDIR}/gw $<
 	sed -i -E "s/package cubicpb/package gw/g" $@
 	sed -i -E "s/Package cubicpb is/Package gw is/g" $@
 	sed -i -E "s|import \(|& \"github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb\"|" $@
@@ -38,11 +42,11 @@ ${GO_OUTDIR}/gw/cubic.pb.gw.go: cubic.proto
 
 ${PY_OUTDIR}/cubic_pb2.py: cubic.proto
 	mkdir -p ${PY_OUTDIR}
-	python -m grpc_tools.protoc -I . -I ${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --python_out=${PY_OUTDIR} $<
+	python -m grpc_tools.protoc -I . -I ${PROTOINC} --python_out=${PY_OUTDIR} $<
 
 ${PY_OUTDIR}/cubic_pb2_grpc.py: cubic.proto
 	mkdir -p ${PY_OUTDIR}
-	python -m grpc_tools.protoc -I . -I ${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc_python_out=${PY_OUTDIR} $<
+	python -m grpc_tools.protoc -I . -I ${PROTOINC} --grpc_python_out=${PY_OUTDIR} $<
 
 go-test:
 	cd go-cubic && go test
@@ -51,7 +55,7 @@ go-test:
 py-test:
 	cd py-cubic/cubic && python test_client.py
 	cd py-cubic/cubic && python test_tls.py
-	
+
 ${DOCS_OUTDIR}/autogen-doc-cubic-proto.md: cubic.proto doc.md.tmpl
-	protoc -I . -I ${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --doc_out=${DOCS_OUTDIR} --doc_opt=doc.md.tmpl,autogen-doc-cubic-proto.md cubic.proto
+	protoc -I . -I ${PROTOINC} --doc_out=${DOCS_OUTDIR} --doc_opt=doc.md.tmpl,autogen-doc-cubic-proto.md cubic.proto
 
