@@ -11,62 +11,43 @@ The `grpc` folder at the top level of this repository contains code for Cubic's
 GRPC API.  The `grpc/cubic.proto` file is the authoritative service definition of
 the API and is used for auto generating SDK code in multiple languages.
 
-### Auto-generated code
+### Auto-generated code and documentation
 
 The `grpc` folder contains auto-generated code in several languages.  In order
-to generate the code again, you should run `cd grpc && make`.  Generated code is
-checked in, and you must make sure it is up to date when you push commits to
-this repository.
+to generate the code again, you should run `make`.  Generated code is checked
+in, and you must make sure it is up to date when you push commits to this
+repository.
 
 Code generation has the following dependencies:
-  - The protobuf compiler itself. On ubuntu, this package is `protobuf-compiler` and can be installed through `sudo apt install protobuf-compiler`.
-  - The protobuf documentation generation plugin:
-    - `go get -u github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc`
-  - The golang plugins:
-    - `go get -u github.com/golang/protobuf/protoc-gen-go@v1.3.0`
-    - `go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway@v1.8.2`
-  - The python plugins:
-    - `pip install grpcio-tools==1.20.0`
-    - `pip install googleapis-common-protos==1.5.9`
+  - The protobuf compiler itself (protoc)
+  - The protobuf documentation generation plugin (protoc-gen-doc)
+  - The golang plugins (protoc-gen-go and protoc-gen-grpc-gateway)
+  - The python plugins (grpcio-tools and googleapis-common-protos)
+  - The static website generator (hugo)
 
-### Generating Documentation
+A few system dependencies are required:
+  - Go 1.12
+  - git
+  - python3
+  - virtualenv
+  - unzip
+  - wget
 
-The documentation here is generated using the excellent static-site generator,
-[Hugo](https://gohugo.io). The hugo-template in use is
-[docdock](https://themes.gohugo.io/docdock/). The content is authored in the
-`docs-src/content` folder, and hugo-generated static website is stored in the
-`docs` folder.
+The top level Makefile can set up all other dependencies.
 
-You can download the latest hugo binary from the [release
-page](https://github.com/gohugoio/hugo/releases). Version 0.54 or later is
-required.
+Documentation is authored in the `docs-src` folder and generated static website
+is stored in the `docs` folder.
 
-On a Linux 64-bit machine, you can grab the latest binary and add it to your `PATH` by:
-```
-mkdir hugo && cd hugo
-wget $(curl -s https://api.github.com/repos/gohugoio/hugo/releases/latest | grep -oP '"browser_download_url": "\K(.*)hugo_extended(.*)Linux-64bit.tar.gz')
-tar -xzvf hugo_extended*Linux-64bit.tar.gz
-export PATH="$PATH:$(pwd)"
-```
+To generate the code and documentation, run `make`.  This is currently only
+supported under linux.
 
 If you are doing local development on the docs, you can use this command to
 serve it locally:
+
 ```
 cd docs-src
 hugo server -D
 ```
-
-To generate the static documentation content, run:
-```
-# first make sure the generated code is up to date.  This also generates the latest auto-docs.
-pushd grpc && make && popd
-
-# then build the static documentation pages
-pushd docs-src && hugo -d ../docs && popd
-```
-
-Please make sure that when changing the documentation, the newly generated
-changes in `docs` are also checked into this repository.
 
 ### Tagging New Versions
 
