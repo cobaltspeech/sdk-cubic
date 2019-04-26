@@ -22,7 +22,7 @@ import "google/protobuf/empty.proto";
 
 option go_package = "cubicpb";
 
-// Service that implements the Cobalt Cubic Speech Recognition API
+// Service that implements the Cobalt Cubic Speech Recognition API [test]
 service Cubic {
   // Queries the Version of the Server
   rpc Version (google.protobuf.Empty) returns (VersionResponse) {
