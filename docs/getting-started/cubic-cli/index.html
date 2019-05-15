@@ -5,7 +5,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Synchronous Recognition :: Cubic SDK -- Cobalt</title>
+<title>Cubic Command-line Interface :: Cubic SDK -- Cobalt</title>
 <link rel="shortcut icon" href="/sdk-cubic/images/favicon.ico" type="image/x-icon" />
 <link href="/sdk-cubic/css/nucleus.css" rel="stylesheet">
 <link href="/sdk-cubic/css/font-awesome.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
 
     
   </head>
-  <body data-url="/sdk-cubic/getting-started/recognize/">
+  <body data-url="/sdk-cubic/getting-started/cubic-cli/">
     
       <div id="headermain"></div>
 <nav id="sidebar" class="showVisitedLinks">
@@ -97,7 +97,7 @@
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
-      <li data-nav-id="/sdk-cubic/getting-started/recognize/" class="dd-item active">
+      <li data-nav-id="/sdk-cubic/getting-started/recognize/" class="dd-item">
         <div>
           <a href="/sdk-cubic/getting-started/recognize/">
             Synchronous Recognition
@@ -111,7 +111,7 @@
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
-      <li data-nav-id="/sdk-cubic/getting-started/cubic-cli/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/getting-started/cubic-cli/" class="dd-item active">
         <div>
           <a href="/sdk-cubic/getting-started/cubic-cli/">
             Cubic Command-line Interface
@@ -177,7 +177,7 @@
 
 
 
- <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > <a href='/sdk-cubic/getting-started/'>Getting started</a> > Synchronous Recognition
+ <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > <a href='/sdk-cubic/getting-started/'>Getting started</a> > Cubic Command-line Interface
 
  
 
@@ -200,7 +200,7 @@
 
 <div id="body-inner">
   
-    <h1>Synchronous Recognition</h1>
+    <h1>Cubic Command-line Interface</h1>
   
 
 
@@ -208,102 +208,8 @@
     
     
     
-    <p>The following example shows how to transcribe a short audio clip using Cubic&rsquo;s
-Synchoronous Recognize Request. It is assumed that the audio file contains raw
-samples, PCM16SLE like Cubic expects.  We will query the server for available
-models and use the first model to transcribe this speech.</p>
+    <p>Cobalt provides a command-line interface built using our Go SDK to specify an audio file or list of files and get transcripts back from a running instance of cubicsvr. The <a href="https://github.com/cobaltspeech/cubic-cli">source code</a> is available to use as an example client.</p>
 
-<p>Synchronous recognize requests are suitable only for audio clips shorter than 30
-seconds. In general, it is strongly recommended that you use streaming
-recognition.</p>
-
-<div class='code-tabs'>
-  <ul class="nav-tabs"></ul>
-  <div class="tab-content">
-
-<div class="tab-pane" title="Go">
-  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6ab825;font-weight:bold">package</span> main
-
-<span style="color:#6ab825;font-weight:bold">import</span> (
-    <span style="color:#ed9d13">&#34;context&#34;</span>
-    <span style="color:#ed9d13">&#34;fmt&#34;</span>
-    <span style="color:#ed9d13">&#34;log&#34;</span>
-    <span style="color:#ed9d13">&#34;os&#34;</span>
-
-    <span style="color:#ed9d13">&#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic&#34;</span>
-    <span style="color:#ed9d13">&#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb&#34;</span>
-)
-
-<span style="color:#6ab825;font-weight:bold">const</span> serverAddr = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
-
-<span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">main</span>() {
-    client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr)
-    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
-        log.<span style="color:#447fcf">Fatal</span>(err)
-    }
-    <span style="color:#6ab825;font-weight:bold">defer</span> client.<span style="color:#447fcf">Close</span>()
-
-    modelResp, err := client.<span style="color:#447fcf">ListModels</span>(context.<span style="color:#447fcf">Background</span>())
-    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
-        log.<span style="color:#447fcf">Fatal</span>(err)
-    }
-
-    <span style="color:#999;font-style:italic">// Use the first available model
-</span><span style="color:#999;font-style:italic"></span>   model := modelResp.Models[<span style="color:#3677a9">0</span>]
-
-    f, err := os.<span style="color:#447fcf">Open</span>(<span style="color:#ed9d13">&#34;test.raw&#34;</span>)
-    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
-        log.<span style="color:#447fcf">Fatal</span>(err)
-    }
-
-    <span style="color:#6ab825;font-weight:bold">defer</span> f.<span style="color:#447fcf">Close</span>()
-
-    cfg := &amp;cubicpb.RecognitionConfig{
-        ModelId: model.Id,
-    }
-
-    recResp, err := client.<span style="color:#447fcf">Recognize</span>(context.<span style="color:#447fcf">Background</span>(), cfg, f)
-
-    <span style="color:#6ab825;font-weight:bold">for</span> _, r := <span style="color:#6ab825;font-weight:bold">range</span> recResp.Results {
-        <span style="color:#6ab825;font-weight:bold">if</span> !r.IsPartial {
-            fmt.<span style="color:#447fcf">Println</span>(r.Alternatives[<span style="color:#3677a9">0</span>].Transcript)
-        }
-    }
-
-}</code></pre></div>
-</div>
-
-<div class="tab-pane" title="Python">
-  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">cubic</span>
-
-serverAddress = <span style="color:#ed9d13">&#39;127.0.0.1:2727&#39;</span>
-
-client = cubic.Client(serverAddress)
-
-<span style="color:#999;font-style:italic"># get list of available models</span>
-modelResp = client.ListModels()
-<span style="color:#6ab825;font-weight:bold">for</span> model <span style="color:#6ab825;font-weight:bold">in</span> modelResp.models:
-    <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;ID = {}, Name = {}&#34;</span>.format(model.<span style="color:#24909d">id</span>, model.name))
-
-<span style="color:#999;font-style:italic"># use the first available model</span>
-model = modelResp.models[<span style="color:#3677a9">0</span>]
-
-cfg = cubic.RecognitionConfig(
-    model_id = model.<span style="color:#24909d">id</span>
-)
-
-<span style="color:#999;font-style:italic"># open audio file </span>
-audio = <span style="color:#24909d">open</span>(<span style="color:#ed9d13">&#39;test.raw&#39;</span>, <span style="color:#ed9d13">&#39;rb&#39;</span>)
-
-resp = client.Recognize(cfg, audio)
-
-<span style="color:#6ab825;font-weight:bold">for</span> result <span style="color:#6ab825;font-weight:bold">in</span> resp.results:
-    <span style="color:#6ab825;font-weight:bold">if</span> <span style="color:#6ab825;font-weight:bold">not</span> result.is_partial:
-        <span style="color:#6ab825;font-weight:bold">print</span>(result.alternatives[<span style="color:#3677a9">0</span>].transcript)</code></pre></div>
-</div>
-
-<p></div>
-</div></p>
 
     
     
@@ -314,8 +220,8 @@ resp = client.Recognize(cfg, audio)
 </div>
 
 <div id="navigation">
-<a class="nav nav-prev" href="/sdk-cubic/getting-started/connecting/" title="Setup Connection"> <i class="fa fa-chevron-left"></i><label>Setup Connection</label></a>
-    <a class="nav nav-next" href="/sdk-cubic/getting-started/streaming/" title="Streaming Recognition" style="margin-right: 0px;"><label>Streaming Recognition</label><i class="fa fa-chevron-right"></i></a></div>
+<a class="nav nav-prev" href="/sdk-cubic/getting-started/streaming/" title="Streaming Recognition"> <i class="fa fa-chevron-left"></i><label>Streaming Recognition</label></a>
+    <a class="nav nav-next" href="/sdk-cubic/protobuf/" title="Cubic API Reference" style="margin-right: 0px;"><label>Cubic API Reference</label><i class="fa fa-chevron-right"></i></a></div>
 
 </section>
 <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">

@@ -10,4 +10,4 @@ apt update && apt install -y python3 python-virtualenv unzip
 make
 
 # it's an error if we generated something that wasn't checked in.
-git diff --quiet || exit 1
+git diff --name-only --exit-code || (echo "Not all generated files were checked in" && exit 1)
