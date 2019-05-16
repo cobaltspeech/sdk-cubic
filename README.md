@@ -46,7 +46,7 @@ serve it locally:
 
 ```
 cd docs-src
-hugo server -D
+../deps/bin/hugo server -D
 ```
 
 ### Tagging New Versions
