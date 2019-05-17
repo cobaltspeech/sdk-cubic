@@ -41,7 +41,7 @@ ${DEPSGO}/bin/protoc-gen-go:
 deps-gengateway: ${DEPSGO}/bin/protoc-gen-grpc-gateway
 ${DEPSGO}/bin/protoc-gen-grpc-gateway:
 	rm -rf $(DEPSTMP)/gengw
-	cd $(DEPSTMP) && mkdir gengw && cd gengw && go mod init tmp && GOPATH=${DEPSGO} go get github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway@v1.8.2
+	cd $(DEPSTMP) && mkdir gengw && cd gengw && go mod init tmp && GOPATH=${DEPSGO} go get github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway@v1.9.0
 
 deps-py: ${DEPSVENV}/.done
 ${DEPSVENV}/.done:
@@ -51,7 +51,7 @@ ${DEPSVENV}/.done:
 
 gen: deps
 	@ source ${DEPSVENV}/bin/activate && \
-		PROTOINC=${DEPSGO}/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.8.2/third_party/googleapis \
+		PROTOINC=${DEPSGO}/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.9.0/third_party/googleapis \
 		$(MAKE) -C grpc
 	@ pushd docs-src && hugo -d ../docs && popd
 
