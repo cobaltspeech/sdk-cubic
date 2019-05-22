@@ -7,11 +7,15 @@
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/getting-started/installation/</loc>
+    <loc>https://cobaltspeech.github.io/sdk-cubic/getting-started/quickstart/</loc>
   </url>
   
   <url>
     <loc>https://cobaltspeech.github.io/sdk-cubic/getting-started/cubic_docker/</loc>
+  </url>
+  
+  <url>
+    <loc>https://cobaltspeech.github.io/sdk-cubic/getting-started/installation/</loc>
   </url>
   
   <url>
@@ -28,10 +32,6 @@
   
   <url>
     <loc>https://cobaltspeech.github.io/sdk-cubic/getting-started/streaming/</loc>
-  </url>
-  
-  <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/getting-started/cubic-cli/</loc>
   </url>
   
   <url>

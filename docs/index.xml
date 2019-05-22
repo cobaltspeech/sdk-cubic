@@ -11,12 +11,13 @@
     
     
     <item>
-      <title>Installing the SDK</title>
-      <link>https://cobaltspeech.github.io/sdk-cubic/getting-started/installation/</link>
+      <title>Quick Start</title>
+      <link>https://cobaltspeech.github.io/sdk-cubic/getting-started/quickstart/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://cobaltspeech.github.io/sdk-cubic/getting-started/installation/</guid>
-      <description>&lt;p&gt;Instructions for installing the SDK are language specific.&lt;/p&gt;</description>
+      <guid>https://cobaltspeech.github.io/sdk-cubic/getting-started/quickstart/</guid>
+      <description>To evaluate Cobalt&amp;rsquo;s speech recognition, you can access the Cubic web demo or can download a command-line interface built using our Go SDK to specify an audio file or list of files and get transcripts back from a running instance of cubicsvr. The source code for cubic-cli is available to use as an example client.
+The command-line tool can call a local instance of Cubic (see Installing the cubicsvr Image) or the demo server.</description>
     </item>
     
     <item>
@@ -25,7 +26,17 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://cobaltspeech.github.io/sdk-cubic/getting-started/cubic_docker/</guid>
-      <description>&lt;p&gt;The SDK is used to call an instance of cubicsvr using gRPC.  Cobalt distributes a docker image that contains the cubicsvr binary and model files.&lt;/p&gt;</description>
+      <description>&lt;p&gt;The SDK is used to call an instance of cubicsvr using gRPC.  Cobalt distributes a docker image that contains the cubicsvr binary and model files.
+It is not necessary to go through through these steps to call the demo server for evaluation purposes, only to run cubicsvr on premises.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Installing the SDK</title>
+      <link>https://cobaltspeech.github.io/sdk-cubic/getting-started/installation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://cobaltspeech.github.io/sdk-cubic/getting-started/installation/</guid>
+      <description>&lt;p&gt;Instructions for installing the SDK are language specific.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -64,15 +75,6 @@ recognition.&lt;/p&gt;</description>
 Streaming Recognize Request. The example uses a WAV file as input to the
 streaming recognition. We will query the server for available models and
 use the first model to transcribe the speech.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Cubic Command-line Interface</title>
-      <link>https://cobaltspeech.github.io/sdk-cubic/getting-started/cubic-cli/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://cobaltspeech.github.io/sdk-cubic/getting-started/cubic-cli/</guid>
-      <description>Cobalt provides a command-line interface built using our Go SDK to specify an audio file or list of files and get transcripts back from a running instance of cubicsvr. The source code is available to use as an example client.</description>
     </item>
     
     <item>

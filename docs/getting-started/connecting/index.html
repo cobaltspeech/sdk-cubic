@@ -76,10 +76,10 @@
             <i class="fa fa-angle-down fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
       </div>
         <ul>
-      <li data-nav-id="/sdk-cubic/getting-started/installation/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/getting-started/quickstart/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/installation/">
-            Installing the SDK
+          <a href="/sdk-cubic/getting-started/quickstart/">
+            Quick Start
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
@@ -87,6 +87,13 @@
         <div>
           <a href="/sdk-cubic/getting-started/cubic_docker/">
             Installing the cubicsvr Image
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
+      <li data-nav-id="/sdk-cubic/getting-started/installation/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/getting-started/installation/">
+            Installing the SDK
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
@@ -108,13 +115,6 @@
         <div>
           <a href="/sdk-cubic/getting-started/streaming/">
             Streaming Recognition
-          </a><i class="fa fa-circle-thin read-icon"></i>
-        </div>
-    </li>
-      <li data-nav-id="/sdk-cubic/getting-started/cubic-cli/" class="dd-item">
-        <div>
-          <a href="/sdk-cubic/getting-started/cubic-cli/">
-            Cubic Command-line Interface
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
@@ -194,6 +194,7 @@
 <ul>
 <li>
 <ul>
+<li><a href="#default-connection">Default Connection</a></li>
 <li><a href="#insecure-connection">Insecure Connection</a></li>
 <li><a href="#client-authentication">Client Authentication</a></li>
 </ul></li>
@@ -221,14 +222,19 @@ to connect to it.</p>
 
 <p>First, you need to know the address (<code>host</code>:<code>port</code>) where the server is running.
 This document will assume the values <code>127.0.0.1:2727</code>, but be sure to change
-those to point to your server instance.  Port 2727 is the default GRPC port that
+those to point to your server instance. For example, to connect to Cobalt&rsquo;s demo server,
+use <code>demo-cubic.cobaltspeech.com:2727</code><sup>1</sup>.  Port 2727 is the default GRPC port that
 Cubic server binds to.</p>
 
-<p>For quick testing, Cobalt&rsquo;s demo server can be accessed at demo-cubic.cobaltspeech.com:2727. Commercial use of the demo service is not permitted. This server is for testing and demonstration purposes only and is not guaranteed to support high availability or high volume. Data uploaded to the server may be stored for internal purposes.</p>
+<blockquote>
+<p><sup>1</sup>Commercial use of the demo service is not permitted. This server is for testing and demonstration purposes only and is not guaranteed to support high availability or high volume. Data uploaded to the server may be stored for internal purposes.</p>
+</blockquote>
 
-<p>The following code snipped connects to the server and queries its version.  This
-(default) connection expects the server to be listening on a TLS encrypted
-connection.</p>
+<h2 id="default-connection">Default Connection</h2>
+
+<p>The following code snippet connects to the server and queries its version.  It uses our recommended
+default setup, expecting the server to be listening on a TLS encrypted connection,  as the demo
+server does.</p>
 
 <div class='code-tabs'>
   <ul class="nav-tabs"></ul>
@@ -345,7 +351,7 @@ provided to you.</p>
 </div>
 
 <div id="navigation">
-<a class="nav nav-prev" href="/sdk-cubic/getting-started/cubic_docker/" title="Installing the cubicsvr Image"> <i class="fa fa-chevron-left"></i><label>Installing the cubicsvr Image</label></a>
+<a class="nav nav-prev" href="/sdk-cubic/getting-started/installation/" title="Installing the SDK"> <i class="fa fa-chevron-left"></i><label>Installing the SDK</label></a>
     <a class="nav nav-next" href="/sdk-cubic/getting-started/recognize/" title="Synchronous Recognition" style="margin-right: 0px;"><label>Synchronous Recognition</label><i class="fa fa-chevron-right"></i></a></div>
 
 </section>

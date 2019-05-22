@@ -5,7 +5,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>404 Page not found :: Cubic SDK -- Cobalt</title>
+<title>Quick Start :: Cubic SDK -- Cobalt</title>
 <link rel="shortcut icon" href="/sdk-cubic/images/favicon.ico" type="image/x-icon" />
 <link href="/sdk-cubic/css/nucleus.css" rel="stylesheet">
 <link href="/sdk-cubic/css/font-awesome.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
 
     
   </head>
-  <body data-url="/sdk-cubic/404.html">
+  <body data-url="/sdk-cubic/getting-started/quickstart/">
     
       <div id="headermain"></div>
 <nav id="sidebar" class="showVisitedLinks">
@@ -69,14 +69,14 @@
             <li data-nav-id="/sdk-cubic/" class="dd-item">
             <a href="/sdk-cubic/"><i class="fa fa-fw fa-home"></i></a>
             </li>
-    <li data-nav-id="/sdk-cubic/getting-started/" class="dd-item alwaysopen haschildren
+    <li data-nav-id="/sdk-cubic/getting-started/" class="dd-item parent alwaysopen haschildren
         ">
       <div>
       <a href="/sdk-cubic/getting-started/">Getting started</a>
             <i class="fa fa-angle-down fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
       </div>
         <ul>
-      <li data-nav-id="/sdk-cubic/getting-started/quickstart/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/getting-started/quickstart/" class="dd-item active">
         <div>
           <a href="/sdk-cubic/getting-started/quickstart/">
             Quick Start
@@ -171,7 +171,17 @@
         <span class="links">
         
 
- 404 Page not found
+
+
+
+
+
+
+ <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > <a href='/sdk-cubic/getting-started/'>Getting started</a> > Quick Start
+
+ 
+
+ 
 
    
         </span>
@@ -190,20 +200,25 @@
 
 <div id="body-inner">
   
-    <h1>404 Page not found</h1>
+    <h1>Quick Start</h1>
   
 
 
 
     
     
-	<h1>Error</h1>
-	<p>
-	</p>
-	<p>Woops. Looks like this page doesn&#39;t exist.</p>
-	<p></p>
-	<p><a href="https://cobaltspeech.github.io/sdk-cubic">Go to homepage</a></p>
-	<p><img src="/sdk-cubic/images/gopher-404.jpg" style="width:50%"></img></p>    
+    
+    <p>To evaluate Cobalt&rsquo;s speech recognition, you can access the <a href="https://demo-cubic.cobaltspeech.com:8080">Cubic web demo</a> or can download a command-line interface built using our Go SDK to specify an audio file or list of files and get transcripts back from a running instance of cubicsvr. The <a href="https://github.com/cobaltspeech/cubic-cli">source code for cubic-cli</a> is available to use as an example client.</p>
+
+<p>The command-line tool can call a local instance of Cubic (see <a href="cubic_docker.md">Installing the cubicsvr Image</a>) or the demo server.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># Local instance</span>
+bin/cubic-cli --insecure --server localhost:2727 transcribe ./test.wav
+
+<span style="color:#999;font-style:italic"># Demo server</span>
+./bin/cubic-cli --server demo-cubic.cobaltspeech.com:2727 transcribe ./test.wav</code></pre></div>
+<p>Commercial use of the demo service is not permitted. This server is for testing and demonstration purposes only and is not guaranteed to support high availability or high volume. Data uploaded to the server may be stored for internal purposes.</p>
+
+
     
     
           <footer class=" footline" >
@@ -213,7 +228,8 @@
 </div>
 
 <div id="navigation">
-<a class="nav nav-next" href="/sdk-cubic/getting-started/" title="Getting started" style="margin-right: 0px;"><label>Getting started</label><i class="fa fa-chevron-right"></i></a></div>
+<a class="nav nav-prev" href="/sdk-cubic/getting-started/" title="Getting started"> <i class="fa fa-chevron-left"></i><label>Getting started</label></a>
+    <a class="nav nav-next" href="/sdk-cubic/getting-started/cubic_docker/" title="Installing the cubicsvr Image" style="margin-right: 0px;"><label>Installing the cubicsvr Image</label><i class="fa fa-chevron-right"></i></a></div>
 
 </section>
 <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
@@ -237,5 +253,3 @@
     
   </body>
 </html>
-
-
