@@ -10,14 +10,17 @@ to connect to it.
 
 First, you need to know the address (`host`:`port`) where the server is running.
 This document will assume the values `127.0.0.1:2727`, but be sure to change
-those to point to your server instance.  Port 2727 is the default GRPC port that
+those to point to your server instance. For example, to connect to Cobalt's demo server,
+use `demo-cubic.cobaltspeech.com:2727`<sup>1</sup>.  Port 2727 is the default GRPC port that
 Cubic server binds to.
 
-For quick testing, Cobalt's demo server can be accessed at demo-cubic.cobaltspeech.com:2727. Commercial use of the demo service is not permitted. This server is for testing and demonstration purposes only and is not guaranteed to support high availability or high volume. Data uploaded to the server may be stored for internal purposes.
+> <sup>1</sup>Commercial use of the demo service is not permitted. This server is for testing and demonstration purposes only and is not guaranteed to support high availability or high volume. Data uploaded to the server may be stored for internal purposes.
 
-The following code snipped connects to the server and queries its version.  This
-(default) connection expects the server to be listening on a TLS encrypted
-connection.
+## Default Connection
+
+The following code snippet connects to the server and queries its version.  It uses our recommended 
+default setup, expecting the server to be listening on a TLS encrypted connection,  as the demo 
+server does.
 
 {{%tabs %}}
 
@@ -128,3 +131,4 @@ client = cubic.Client(serverAddress, clientCertificate=certPem, clientKey=keyPem
 
 where certPem and keyPem are the bytes of the client certificate and key
 provided to you.
+

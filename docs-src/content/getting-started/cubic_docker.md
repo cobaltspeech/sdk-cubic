@@ -4,6 +4,7 @@ weight: 5
 ---
 
 The SDK is used to call an instance of cubicsvr using gRPC.  Cobalt distributes a docker image that contains the cubicsvr binary and model files.
+It is not necessary to go through through these steps to call the demo server for evaluation purposes, only to run cubicsvr on premises. 
 
 <!--more-->
 

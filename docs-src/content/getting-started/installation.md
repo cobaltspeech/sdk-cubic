@@ -1,6 +1,6 @@
 ---
 title: "Installing the SDK"
-weight: 2
+weight: 7
 ---
 
 Instructions for installing the SDK are language specific.
