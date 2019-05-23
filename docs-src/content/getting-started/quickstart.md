@@ -9,7 +9,7 @@ The command-line tool can call a local instance of Cubic (see [Installing the Cu
 
 ```bash
 # Local instance
-bin/cubic-cli --insecure --server localhost:2727 transcribe ./test.wav
+./bin/cubic-cli --insecure --server localhost:2727 transcribe ./test.wav
 
 # Demo server
 ./bin/cubic-cli --server demo-cubic.cobaltspeech.com:2727 transcribe ./test.wav
