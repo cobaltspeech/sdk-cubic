@@ -1,5 +1,5 @@
 ---
-title: Installing the cubicsvr Image
+title: Installing the Cubicsvr Image
 weight: 5
 ---
 
