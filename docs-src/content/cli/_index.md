@@ -1,6 +1,6 @@
 +++
 title = "Command-line interface"
 description = ""
-weight = 1
+weight = 2
 alwaysopen = true
 +++

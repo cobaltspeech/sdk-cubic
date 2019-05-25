@@ -5,7 +5,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Cubic API Reference :: Cubic SDK -- Cobalt</title>
+<title>Command-line interface :: Cubic SDK -- Cobalt</title>
 <link rel="shortcut icon" href="/sdk-cubic/images/favicon.ico" type="image/x-icon" />
 <link href="/sdk-cubic/css/nucleus.css" rel="stylesheet">
 <link href="/sdk-cubic/css/font-awesome.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
 
     
   </head>
-  <body data-url="/sdk-cubic/protobuf/">
+  <body data-url="/sdk-cubic/cli/">
     
       <div id="headermain"></div>
 <nav id="sidebar" class="showVisitedLinks">
@@ -120,7 +120,7 @@
     </li>
         </ul>
     </li>
-    <li data-nav-id="/sdk-cubic/cli/" class="dd-item alwaysopen haschildren
+    <li data-nav-id="/sdk-cubic/cli/" class="dd-item parent active alwaysopen haschildren
         ">
       <div>
       <a href="/sdk-cubic/cli/">Command-line interface</a>
@@ -150,11 +150,10 @@
     </li>
         </ul>
     </li>
-    <li data-nav-id="/sdk-cubic/protobuf/" class="dd-item parent active haschildren
+    <li data-nav-id="/sdk-cubic/protobuf/" class="dd-item haschildren
         ">
       <div>
-      <a href="/sdk-cubic/protobuf/">Cubic API Reference</a>
-            <i class="fa fa-angle-down fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
+      <a href="/sdk-cubic/protobuf/">Cubic API Reference</a><i class="fa fa-angle-right fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
       </div>
         <ul>
       <li data-nav-id="/sdk-cubic/protobuf/autogen-doc-cubic-proto/" class="dd-item">
@@ -205,7 +204,7 @@
 
 
 
- <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > Cubic API Reference
+ <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > Command-line interface
 
  
 
@@ -226,7 +225,7 @@
 
 <div id="body-inner">
   
-    <h1>Cubic API Reference</h1>
+    <h1>Command-line interface</h1>
   
 
 
@@ -235,12 +234,105 @@
     
     
 
-<p>The Cubic API is specified as a <a href="https://github.com/cobaltspeech/sdk-cubic/blob/master/grpc/cubic.proto">proto
-file</a>.
-This section of the documentation is auto-generated from the spec.  It describes
-the data types and functions defined in the spec. The &ldquo;messages&rdquo; below
-correspond to the data structures to be used, and the &ldquo;service&rdquo; contains the
-methods that can be called.</p>
+
+
+<div class="extra-pagination inner">
+<nav class="pagination" role="navigation">
+	
+	<span class="page-number">Page 1 of 1</span>
+	
+</nav>
+
+</div>
+
+
+   <article class="post cli">
+    <header class="post-header">
+        <h2 class="post-title"><a href="/sdk-cubic/cli/commandline/">CLI Overview</a></h2>
+    </header>
+    <section class="post-excerpt">
+        <p><p>The cubic-cli binary provides a convenient way to generate transcripts from an audio file in order to evaluate a model.  It accepts either a single audio file or a list of files, sends the audio to a running instance of cubicsvr, and outputs the transcript in one of several formats.</p> <a class="read-more" href="/sdk-cubic/cli/commandline/">&raquo;</a></p>
+    </section>
+    <footer class=" footline" >
+         
+        
+
+        
+        
+
+    </footer>
+</article>
+
+   <article class="post cli">
+    <header class="post-header">
+        <h2 class="post-title"><a href="/sdk-cubic/cli/transcribe/">Transcribe Command</a></h2>
+    </header>
+    <section class="post-excerpt">
+        <p><p>This command is used for transcribing audio files.
+There are two modes: single file or list file.</p>
+
+<p>Usage:</p>
+
+<pre><code>transcribe FILE_PATH [flags]
+</code></pre>
+
+<p>In single mode, FILE_PATH should point to a single audio file.</p>
+
+<p>In list-file mode, FILE_PATH should point to a file listing multiple audio files with the format &ldquo;Utterance_ID \t FILE_PATH \n&rdquo;.</p>
+
+<p>Audio files in the following formats are supported:
+    WAV, FLAC, MP3, VOX, and RAW(PCM16SLE).</p>
+
+<p>The file extension (wav, flac, mp3, vox, raw) will be used to determine which
+ codec to use.  Use WAV or FLAC for best results.</p> <a class="read-more" href="/sdk-cubic/cli/transcribe/">&raquo;</a></p>
+    </section>
+    <footer class=" footline" >
+         
+        
+
+        
+        
+
+    </footer>
+</article>
+
+   <article class="post cli">
+    <header class="post-header">
+        <h2 class="post-title"><a href="/sdk-cubic/cli/formats/">Output formats</a></h2>
+    </header>
+    <section class="post-excerpt">
+        <p><p>There are four different output options supported:</p>
+
+<ul>
+<li><a href="#timeline">timeline</a></li>
+<li><a href="#json-and-json-pretty">json</a></li>
+<li><a href="#json-and-json-pretty">json-pretty</a></li>
+<li><a href="#utterance-json">utterance-json</a></li>
+</ul>
+
+<p>All the output options return a list of JSON representations of each result recognized in the
+transcript. Cubic can be configured with different endpoint settings to determine how long a
+pause between words will begin a new result; the default is half a second.</p> <a class="read-more" href="/sdk-cubic/cli/formats/">&raquo;</a></p>
+    </section>
+    <footer class=" footline" >
+         
+        
+
+        
+        
+
+    </footer>
+</article>
+
+
+<div style="margin-bottom:2rem"></div>
+
+<nav class="pagination" role="navigation">
+	
+	<span class="page-number">Page 1 of 1</span>
+	
+</nav>
+
 
 
 
@@ -253,8 +345,8 @@ methods that can be called.</p>
 </div>
 
 <div id="navigation">
-<a class="nav nav-prev" href="/sdk-cubic/cli/formats/" title="Output formats"> <i class="fa fa-chevron-left"></i><label>Output formats</label></a>
-    <a class="nav nav-next" href="/sdk-cubic/protobuf/autogen-doc-cubic-proto/" title="Cubic Protobuf API Docs" style="margin-right: 0px;"><label>Cubic Protobuf API Docs</label><i class="fa fa-chevron-right"></i></a></div>
+<a class="nav nav-prev" href="/sdk-cubic/getting-started/streaming/" title="Streaming Recognition"> <i class="fa fa-chevron-left"></i><label>Streaming Recognition</label></a>
+    <a class="nav nav-next" href="/sdk-cubic/cli/commandline/" title="CLI Overview" style="margin-right: 0px;"><label>CLI Overview</label><i class="fa fa-chevron-right"></i></a></div>
 
 </section>
 <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">

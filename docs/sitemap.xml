@@ -7,6 +7,10 @@
   </url>
   
   <url>
+    <loc>https://cobaltspeech.github.io/sdk-cubic/cli/</loc>
+  </url>
+  
+  <url>
     <loc>https://cobaltspeech.github.io/sdk-cubic/getting-started/quickstart/</loc>
   </url>
   
@@ -19,6 +23,10 @@
   </url>
   
   <url>
+    <loc>https://cobaltspeech.github.io/sdk-cubic/cli/commandline/</loc>
+  </url>
+  
+  <url>
     <loc>https://cobaltspeech.github.io/sdk-cubic/protobuf/</loc>
   </url>
   
@@ -28,6 +36,14 @@
   
   <url>
     <loc>https://cobaltspeech.github.io/sdk-cubic/getting-started/recognize/</loc>
+  </url>
+  
+  <url>
+    <loc>https://cobaltspeech.github.io/sdk-cubic/cli/transcribe/</loc>
+  </url>
+  
+  <url>
+    <loc>https://cobaltspeech.github.io/sdk-cubic/cli/formats/</loc>
   </url>
   
   <url>

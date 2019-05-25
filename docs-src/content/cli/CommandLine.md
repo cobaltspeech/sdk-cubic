@@ -22,9 +22,9 @@ All commands accept the following flags
 
 | Short | Long form      | Arg | Purpose |
 | ------|--------------- | ---- | ------- |
-| |      --insecure      | none | By default, connections to the server are encrypted (TLS).  Include '--insecure' if you want TLS disabled. |
-| -s | --server | string | Address of running cubicsvr instance.  Format should be 'address:port'. (default "localhost:2727") |
-| -h | --help | none | Display more details on usage and available flags |
+| |      `--insecure`      | none | By default, connections to the server are encrypted (TLS).  Include`'--insecure` if you want TLS disabled. |
+| -s | `--server` | string | Address of running cubicsvr instance.  Format should be 'address:port'. (default "localhost:2727") |
+| -h | `--help` | none | Display more details on usage and available flags |
 
 ## Examples
 
@@ -48,9 +48,8 @@ internal purposes.
 ./bin/cubic-cli --insecure --server localhost:2727 models
 
 # Transcribe the single file this_is_a_test-en_us-16.wav.
-## Should result in the transcription of "this is a test"
-./bin/cubic-cli --insecure --server localhost:2727 \
-    transcribe ./testdata/this_is_a_test-en_us-16.wav
+# Should result in the transcription of "this is a test"
+./bin/cubic-cli --insecure --server localhost:2727 transcribe ./testdata/this_is_a_test-en_us-16.wav
 ```
 
-For more examples of the transcribe command, see [Transcribe](/cubic-sdk/cli/Transcribe)
+For more examples of the transcribe command, see [Transcribe](/sdk-cubic/cli/transcribe)

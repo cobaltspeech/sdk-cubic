@@ -5,7 +5,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Cubic API Reference :: Cubic SDK -- Cobalt</title>
+<title>CLI Overview :: Cubic SDK -- Cobalt</title>
 <link rel="shortcut icon" href="/sdk-cubic/images/favicon.ico" type="image/x-icon" />
 <link href="/sdk-cubic/css/nucleus.css" rel="stylesheet">
 <link href="/sdk-cubic/css/font-awesome.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
 
     
   </head>
-  <body data-url="/sdk-cubic/protobuf/">
+  <body data-url="/sdk-cubic/cli/commandline/">
     
       <div id="headermain"></div>
 <nav id="sidebar" class="showVisitedLinks">
@@ -120,14 +120,14 @@
     </li>
         </ul>
     </li>
-    <li data-nav-id="/sdk-cubic/cli/" class="dd-item alwaysopen haschildren
+    <li data-nav-id="/sdk-cubic/cli/" class="dd-item parent alwaysopen haschildren
         ">
       <div>
       <a href="/sdk-cubic/cli/">Command-line interface</a>
             <i class="fa fa-angle-down fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
       </div>
         <ul>
-      <li data-nav-id="/sdk-cubic/cli/commandline/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/cli/commandline/" class="dd-item active">
         <div>
           <a href="/sdk-cubic/cli/commandline/">
             CLI Overview
@@ -150,11 +150,10 @@
     </li>
         </ul>
     </li>
-    <li data-nav-id="/sdk-cubic/protobuf/" class="dd-item parent active haschildren
+    <li data-nav-id="/sdk-cubic/protobuf/" class="dd-item haschildren
         ">
       <div>
-      <a href="/sdk-cubic/protobuf/">Cubic API Reference</a>
-            <i class="fa fa-angle-down fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
+      <a href="/sdk-cubic/protobuf/">Cubic API Reference</a><i class="fa fa-angle-right fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
       </div>
         <ul>
       <li data-nav-id="/sdk-cubic/protobuf/autogen-doc-cubic-proto/" class="dd-item">
@@ -205,7 +204,12 @@
 
 
 
- <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > Cubic API Reference
+
+
+
+ <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > <a href='/sdk-cubic/cli/'>Command-line interface</a> > CLI Overview
+
+ 
 
  
 
@@ -216,7 +220,15 @@
     
     <div class="progress">
         <div class="wrapper">
-    
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#global-flags">Global Flags</a></li>
+<li><a href="#examples">Examples</a></li>
+</ul></li>
+</ul>
+</nav>
         </div>
     </div>
     
@@ -226,7 +238,7 @@
 
 <div id="body-inner">
   
-    <h1>Cubic API Reference</h1>
+    <h1>CLI Overview</h1>
   
 
 
@@ -234,15 +246,104 @@
     
     
     
+    <p>The cubic-cli binary provides a convenient way to generate transcripts from an audio file in order to evaluate a model.  It accepts either a single audio file or a list of files, sends the audio to a running instance of cubicsvr, and outputs the transcript in one of several formats.</p>
 
-<p>The Cubic API is specified as a <a href="https://github.com/cobaltspeech/sdk-cubic/blob/master/grpc/cubic.proto">proto
-file</a>.
-This section of the documentation is auto-generated from the spec.  It describes
-the data types and functions defined in the spec. The &ldquo;messages&rdquo; below
-correspond to the data structures to be used, and the &ldquo;service&rdquo; contains the
-methods that can be called.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
 
+<tbody>
+<tr>
+<td><code>cubic-cli</code></td>
+<td>Prints the default help message.</td>
+</tr>
 
+<tr>
+<td><code>cubic-cli models</code></td>
+<td>Displays the transcription models being served by the given instance.</td>
+</tr>
+
+<tr>
+<td><code>cubic-cli version</code></td>
+<td>Displays the versions of both the client and the server.</td>
+</tr>
+
+<tr>
+<td><code>cubic-cli transcribe</code></td>
+<td>Sends audio file(s) to server for transcription.</td>
+</tr>
+</tbody>
+</table>
+
+<p><code>[cmd] --help</code> can be run on any command for more details on usage and included flags.</p>
+
+<h2 id="global-flags">Global Flags</h2>
+
+<p>All commands accept the following flags</p>
+
+<table>
+<thead>
+<tr>
+<th>Short</th>
+<th>Long form</th>
+<th>Arg</th>
+<th>Purpose</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td></td>
+<td><code>--insecure</code></td>
+<td>none</td>
+<td>By default, connections to the server are encrypted (TLS).  Include<code>'--insecure</code> if you want TLS disabled.</td>
+</tr>
+
+<tr>
+<td>-s</td>
+<td><code>--server</code></td>
+<td>string</td>
+<td>Address of running cubicsvr instance.  Format should be &lsquo;address:port&rsquo;. (default &ldquo;localhost:2727&rdquo;)</td>
+</tr>
+
+<tr>
+<td>-h</td>
+<td><code>--help</code></td>
+<td>none</td>
+<td>Display more details on usage and available flags</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<p>Note: These commands assume that the your instance of cubic server is available
+at <code>localhost:2727</code> and that the command is being run from the root of the cubic-cli directory.</p>
+
+<p>If you do not have a local instance, Cobalt&rsquo;s demo server can be accessed with <code>--server
+demo-cubic.cobaltspeech.com:2727</code>. This uses TLS and does not need the
+<code>--insecure</code> flag.</p>
+
+<blockquote>
+<p>Commercial use of the demo service is not permitted. This server is for testing
+and demonstration purposes only and is not guaranteed to support high
+availability or high volume. Data uploaded to the server may be stored for
+internal purposes.</p>
+</blockquote>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#999;font-style:italic"># Display the versions of client and server</span>
+./bin/cubic-cli --insecure --server localhost:2727 version
+
+<span style="color:#999;font-style:italic"># List available models.  Note: The listed modelIDs are used in transcription methods</span>
+./bin/cubic-cli --insecure --server localhost:2727 models
+
+<span style="color:#999;font-style:italic"># Transcribe the single file this_is_a_test-en_us-16.wav.</span>
+<span style="color:#999;font-style:italic"># Should result in the transcription of &#34;this is a test&#34;</span>
+./bin/cubic-cli --insecure --server localhost:2727 transcribe ./testdata/this_is_a_test-en_us-16.wav</code></pre></div>
+<p>For more examples of the transcribe command, see <a href="/sdk-cubic/cli/transcribe">Transcribe</a></p>
 
     
     
@@ -253,8 +354,8 @@ methods that can be called.</p>
 </div>
 
 <div id="navigation">
-<a class="nav nav-prev" href="/sdk-cubic/cli/formats/" title="Output formats"> <i class="fa fa-chevron-left"></i><label>Output formats</label></a>
-    <a class="nav nav-next" href="/sdk-cubic/protobuf/autogen-doc-cubic-proto/" title="Cubic Protobuf API Docs" style="margin-right: 0px;"><label>Cubic Protobuf API Docs</label><i class="fa fa-chevron-right"></i></a></div>
+<a class="nav nav-prev" href="/sdk-cubic/cli/" title="Command-line interface"> <i class="fa fa-chevron-left"></i><label>Command-line interface</label></a>
+    <a class="nav nav-next" href="/sdk-cubic/cli/transcribe/" title="Transcribe Command" style="margin-right: 0px;"><label>Transcribe Command</label><i class="fa fa-chevron-right"></i></a></div>
 
 </section>
 <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">

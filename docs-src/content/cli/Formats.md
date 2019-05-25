@@ -4,14 +4,15 @@ weight: 30
 ---
 
 There are four different output options supported:
-* json
-* json-pretty
-* timeline
-* utterance-json
 
-All the output options provide return an array of JSON representations of each result recognized in the
-transcript. Cubic can be configured with different endpoint settings to determine how long a pause between
-words will be considered to begin a new result; the default is half a second.
+* [timeline](#timeline)
+* [json](#json-and-json-pretty)
+* [json-pretty](#json-and-json-pretty)
+* [utterance-json](#utterance-json)
+
+All the output options return a list of JSON representations of each result recognized in the
+transcript. Cubic can be configured with different endpoint settings to determine how long a 
+pause between words will begin a new result; the default is half a second.
 
 <!--more-->
 
@@ -67,7 +68,7 @@ bin/cubic-cli -s localhost:2727 transcribe -m 1 -f timeline --stereo --insecure 
           {
             "start_time": 2800,
             "duration": 470,
-            "word": "Acme",
+            "word": "Acme.",
             "confidence": 0.943
           },
           {
@@ -264,7 +265,7 @@ by a tab character:
 bin/cubic-cli -s demo-cubic.cobaltspeech.com:2727 transcribe -m 1 -f utterance-json --list-file testdata/list.txt 
 ```
 
-```json
+```
 Utterance_1_0	{"alternatives":[{"transcript":"This is a test.","confidence":0.994,"start_time":{"nanos":900000000},"duration":{"seconds":1,"nanos":50000000}},{"transcript":"Hi this is a test.","confidence":0.006,"start_time":{"nanos":5000000},"duration":{"seconds":1,"nanos":945000000}}]}
 Utterance_1_1	{"alternatives":[{"transcript":"","confidence":0.731},{"transcript":"Yeah.","confidence":0.163,"start_time":{"seconds":3,"nanos":261000000},"duration":{"seconds":1,"nanos":801000000}},{"transcript":"I.","confidence":0.039,"start_time":{"seconds":3,"nanos":261000000},"duration":{"seconds":1,"nanos":801000000}},{"transcript":"Hey.","confidence":0.036,"start_time":{"seconds":3,"nanos":261000000},"duration":{"seconds":1,"nanos":801000000}},{"transcript":"Bye.","confidence":0.032,"start_time":{"seconds":3,"nanos":261000000},"duration":{"seconds":1,"nanos":801000000}}]}
 Utterance_2_0	{"alternatives":[{"transcript":"The second test.","confidence":0.6,"start_time":{"nanos":944000000},"duration":{"seconds":1,"nanos":96000000}},{"transcript":"What the second test.","confidence":0.154,"start_time":{},"duration":{"seconds":2,"nanos":40000000}},{"transcript":"At the second test.","confidence":0.134,"start_time":{},"duration":{"seconds":2,"nanos":40000000}},{"transcript":"But the second test.","confidence":0.09,"start_time":{},"duration":{"seconds":2,"nanos":40000000}},{"transcript":"Is the second test.","confidence":0.022,"start_time":{},"duration":{"seconds":2,"nanos":40000000}}]}

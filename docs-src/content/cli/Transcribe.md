@@ -11,9 +11,9 @@ Usage:
 transcribe FILE_PATH [flags]
 ```
 
-In single file mode, FILE_PATH should point to a single audio file.
+In single mode, FILE_PATH should point to a single audio file.
 
-In list file mode, FILE_PATH should point to a file listing multiple audio files with the format "Utterance_ID \t FILE_PATH \n". 
+In list-file mode, FILE_PATH should point to a file listing multiple audio files with the format "Utterance_ID \t FILE_PATH \n". 
     
 Audio files in the following formats are supported:
     WAV, FLAC, MP3, VOX, and RAW(PCM16SLE).
@@ -25,14 +25,14 @@ The file extension (wav, flac, mp3, vox, raw) will be used to determine which
 
 | Short | Long form      | Arg | Purpose |
 | ----- | -------------- | --- | ------- |
-| -l | --list-file | none | Indicates that FILE_PATH is pointing to a list of audio files. |
-| -o | --output | string | Path to directory where the results should be written.<br/>"-" indicates stdout. (default "-") |
-| -m | --model | string | Selects which model ID to use for transcribing. (default "1") |
-| -c | --audioChannels | ints   | Audio channels to transcribe.  (Defaults to mono) |
-| | --stereo | none |  Sets `--audioChannels "0,1"` to transcribe both audio channels of a stereo file.|
-| -n | --workers | int | Number of concurrent requests to send to cubicsvr. (default 1) |
-| -f | --outputFormat | string | Format of output.  Can be [json,json-pretty,timeline,utterance-json]. (default "timeline") |
-| -a | --fmt.timeline.maxAlts | int | Maximum number of alternatives to provide for each result, if the outputFormat includes alternatives (such as 'timeline'). (default 1) |
+| -l | `--list-file` | none | Indicates that FILE_PATH is pointing to a list of audio files. |
+| -o | `--output` | string | Path to directory where the results should be written.<br/>"-" indicates stdout. (default "-") |
+| -m | `--model` | string | Selects which model ID to use for transcribing. (default "1") |
+| -c | `--audioChannels` | ints   | Audio channels to transcribe.  (Defaults to mono) |
+| | `--stereo` | none |  Sets `--audioChannels "0,1"` to transcribe both audio channels of a stereo file.|
+| -n | `--workers` | int | Number of concurrent requests to send to cubicsvr. (default 1) |
+| -f | `--outputFormat` | string | Format of output.  Can be [json,json-pretty,timeline,utterance-json]. (default "timeline") |
+| -a | `--fmt.timeline.maxAlts` | int | Maximum number of alternatives to provide for each result in the timeline format. (default 1) |
 
 
 ### List-file
@@ -82,9 +82,9 @@ $ bin/cubic-cli -s demo-cubic.cobaltspeech.com:2727 transcribe -m 2 sample-8khz.
 ### Audio channels
 
 By default, cubic-svr assumes the input is a mono file and transcribes channel 0.
-Pass `--audioChannels` to specify other channels
+Pass `--audioChannels` to specify other channels.
 
-E.g. `-c "0,2"` would transcribe the first and third channels in the file
+E.g. `-c "0,2"` would transcribe the first and third channels in the file.
 
 `--stereo` is equivalent to `-c 0,1`
 
@@ -92,11 +92,15 @@ E.g. `-c "0,2"` would transcribe the first and third channels in the file
 
 ### Workers
 
-The `workers` parameter limits the number of requests to send to cubicsvr at once.  Please note, while this value is defined client-side, the throughput will be limited by the available computational ability of the server.  If you are the only connection to an 8-core server, then "-n 8" is a reasonable value. A lower number is suggested if there are multiple clients connecting to the same machine.
+The `workers` parameter limits the number of requests to send to cubicsvr at once.  
+
+Please note, while this value is defined client-side, the throughput will be limited by 
+the available computational ability of the server.  If you are the only connection to an 
+8-core server, then "-n 8" is a reasonable value. 
 
 ### Output format
 
-See [Formats](/cubic-sdk/cli/Formats)
+See [Formats](/sdk-cubic/cli/formats)
 
 ## Examples
 
