@@ -33,6 +33,8 @@ Timeline is the default output format. For multi-channel audio, it sorts the res
 ```bash
 bin/cubic-cli -s localhost:2727 transcribe -m 1 -f timeline --stereo --insecure 2-channel.wav
 ```
+<details>
+<summary><font color="236ecc"><b>Click here to see sample output</b></font></summary>
 
 ```json
 [
@@ -203,11 +205,18 @@ bin/cubic-cli -s localhost:2727 transcribe -m 1 -f timeline --stereo --insecure 
   }
 ]
 ```
+</details>
+
 ## Json and Json-pretty
 
 Both `json` and `json-pretty` return the same data.
 The only difference is that `json-pretty` includes line breaks and indentation to make it more human-readable.
-Both formats return all alternatives recognized for each result. 
+Both formats return all alternatives recognized for each result, with the default JSON encoding for
+the [RecognitionAlternative](/sdk-cubic/protobuf/autogen-doc-cubic-proto/#message-recognitionalternative) 
+object. That encoding makes it straightforward to deserialize start_time and duration fields into 
+[google.protobuf.Duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration) objects, but may not be as human-readable because the JSON encoding for
+Duration objects has separate fields for seconds and nanoseconds.
+
 Word-level information is not included and the results are the order cubic processed them, so results from 
 different channels are not guaranteed to be ordered according to their timestamps.
 
@@ -215,6 +224,9 @@ different channels are not guaranteed to be ordered according to their timestamp
 ```bash
 bin/cubic-cli -s demo-cubic.cobaltspeech.com:2727 transcribe -m 1 -f json-pretty testdata/this_is_a_test-en_us-16.wav 
 ```
+
+<details>
+<summary><font color="236ecc"><b>Click here to see sample output</b></font></summary>
 
 ```json
 {
@@ -249,6 +261,7 @@ bin/cubic-cli -s demo-cubic.cobaltspeech.com:2727 transcribe -m 1 -f json-pretty
   ]
 }
 ```
+</details>
 
 ## Utterance-json
 
@@ -265,8 +278,12 @@ by a tab character:
 bin/cubic-cli -s demo-cubic.cobaltspeech.com:2727 transcribe -m 1 -f utterance-json --list-file testdata/list.txt 
 ```
 
+<details>
+<summary><font color="236ecc"><b>Click here to see sample output</b></font></summary>
+
 ```
 Utterance_1_0	{"alternatives":[{"transcript":"This is a test.","confidence":0.994,"start_time":{"nanos":900000000},"duration":{"seconds":1,"nanos":50000000}},{"transcript":"Hi this is a test.","confidence":0.006,"start_time":{"nanos":5000000},"duration":{"seconds":1,"nanos":945000000}}]}
 Utterance_1_1	{"alternatives":[{"transcript":"","confidence":0.731},{"transcript":"Yeah.","confidence":0.163,"start_time":{"seconds":3,"nanos":261000000},"duration":{"seconds":1,"nanos":801000000}},{"transcript":"I.","confidence":0.039,"start_time":{"seconds":3,"nanos":261000000},"duration":{"seconds":1,"nanos":801000000}},{"transcript":"Hey.","confidence":0.036,"start_time":{"seconds":3,"nanos":261000000},"duration":{"seconds":1,"nanos":801000000}},{"transcript":"Bye.","confidence":0.032,"start_time":{"seconds":3,"nanos":261000000},"duration":{"seconds":1,"nanos":801000000}}]}
 Utterance_2_0	{"alternatives":[{"transcript":"The second test.","confidence":0.6,"start_time":{"nanos":944000000},"duration":{"seconds":1,"nanos":96000000}},{"transcript":"What the second test.","confidence":0.154,"start_time":{},"duration":{"seconds":2,"nanos":40000000}},{"transcript":"At the second test.","confidence":0.134,"start_time":{},"duration":{"seconds":2,"nanos":40000000}},{"transcript":"But the second test.","confidence":0.09,"start_time":{},"duration":{"seconds":2,"nanos":40000000}},{"transcript":"Is the second test.","confidence":0.022,"start_time":{},"duration":{"seconds":2,"nanos":40000000}}]}
 ```
+</details>

@@ -414,8 +414,20 @@ The filenames contain the intended transcription.</p>
 <p>As a quick start, these commands are provided as examples of how to use the
 binary.  They should be run from the root directory of <code>cubic-cli</code>.</p>
 
-<p>Note: These commands assume that the your instance of cubic server is available
-at <code>localhost:2727</code>.</p>
+<p>Note: These examples show commands both for a local instance
+(assuming cubic server is running at localhost:2727) and for calling Cobalt&rsquo;s demo server.
+(<code>--server demo-cubic.cobaltspeech.com:2727</code>). The demo server uses TLS and does not need the
+<code>--insecure</code> flag. Any of the examples could be run against either server.
+All examples use the default modelId (1), which is the U.S. English 16 kHz model on the
+demo server, but there may be a different model in the local instance which is not a good fit
+for the sample audio files provided.</p>
+
+<blockquote>
+<p>Commercial use of the demo service is not permitted. This server is for testing
+and demonstration purposes only and is not guaranteed to support high
+availability or high volume. Data uploaded to the server may be stored for
+internal purposes.</p>
+</blockquote>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#999;font-style:italic"># Display the versions of client and server</span>
 ./bin/cubic-cli --insecure --server localhost:2727 version
 
@@ -423,12 +435,12 @@ at <code>localhost:2727</code>.</p>
 ./bin/cubic-cli --insecure --server localhost:2727 models
 
 <span style="color:#999;font-style:italic"># Transcribe the single file this_is_a_test-en_us-16.wav.</span>
-<span style="color:#999;font-style:italic">## Should result in the transcription of &#34;this is a test&#34;</span>
+<span style="color:#999;font-style:italic"># Should result in the transcription of &#34;this is a test&#34;</span>
 ./bin/cubic-cli --insecure --server localhost:2727 <span style="color:#ed9d13">\
 </span><span style="color:#ed9d13"></span>    transcribe ./testdata/this_is_a_test-en_us-16.wav
 
 <span style="color:#999;font-style:italic"># Transcribe the list of files defined at ./testdata/list.txt</span>
-<span style="color:#999;font-style:italic">## Should result in the transcription of &#34;this is a test&#34; and &#34;the second test&#34; printed to stdout</span>
+<span style="color:#999;font-style:italic"># Should result in the transcription of &#34;this is a test&#34; and &#34;the second test&#34; printed to stdout</span>
 ./bin/cubic-cli --insecure --server localhost:2727 <span style="color:#ed9d13">\
 </span><span style="color:#ed9d13"></span>    transcribe --list-file ./testdata/list.txt
 
@@ -439,7 +451,7 @@ at <code>localhost:2727</code>.</p>
 </span><span style="color:#ed9d13"></span>    --output ./testdata --workers <span style="color:#3677a9">2</span>
 
 <span style="color:#999;font-style:italic"># Transcribe multiple channels. Note: this is the same as &#39;--stereo&#39;</span>
-./bin/cubic-cli --insecure --server localhost:2727 <span style="color:#ed9d13">\
+./bin/cubic-cli --server demo-cubic.cobaltspeech.com:2727 <span style="color:#ed9d13">\
 </span><span style="color:#ed9d13"></span>    transcribe ./testdata/this_is_a_test-en_us-16.wav <span style="color:#ed9d13">\
 </span><span style="color:#ed9d13"></span>    --audioChannels <span style="color:#3677a9">0</span>,1
 
@@ -448,14 +460,6 @@ at <code>localhost:2727</code>.</p>
 ./bin/cubic-cli --insecure --server localhost:2727 <span style="color:#ed9d13">\
 </span><span style="color:#ed9d13"></span>    transcribe ./testdata/this_is_a_test-en_us-16.wav <span style="color:#ed9d13">\
 </span><span style="color:#ed9d13"></span>    --outputFormat json</code></pre></div>
-<p>For quick testing, Cobalt&rsquo;s demo server can be accessed with <code>--server
-demo-cubic.cobaltspeech.com:2727</code>. This uses TLS and does not need the
-<code>--insecure</code> flag.</p>
-
-<p>Commercial use of the demo service is not permitted. This server is for testing
-and demonstration purposes only and is not guaranteed to support high
-availability or high volume. Data uploaded to the server may be stored for
-internal purposes.</p>
 
     
     

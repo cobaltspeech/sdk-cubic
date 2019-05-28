@@ -111,8 +111,18 @@ The filenames contain the intended transcription.
 As a quick start, these commands are provided as examples of how to use the
 binary.  They should be run from the root directory of `cubic-cli`.
 
-Note: These commands assume that the your instance of cubic server is available
-at `localhost:2727`.
+Note: These examples show commands both for a local instance 
+(assuming cubic server is running at localhost:2727) and for calling Cobalt's demo server.
+(`--server demo-cubic.cobaltspeech.com:2727`). The demo server uses TLS and does not need the
+`--insecure` flag. Any of the examples could be run against either server. 
+All examples use the default modelId (1), which is the U.S. English 16 kHz model on the 
+demo server, but there may be a different model in the local instance which is not a good fit 
+for the sample audio files provided.
+
+> Commercial use of the demo service is not permitted. This server is for testing
+and demonstration purposes only and is not guaranteed to support high
+availability or high volume. Data uploaded to the server may be stored for
+internal purposes.
 
 ```sh
 # Display the versions of client and server
@@ -122,12 +132,12 @@ at `localhost:2727`.
 ./bin/cubic-cli --insecure --server localhost:2727 models
 
 # Transcribe the single file this_is_a_test-en_us-16.wav.
-## Should result in the transcription of "this is a test"
+# Should result in the transcription of "this is a test"
 ./bin/cubic-cli --insecure --server localhost:2727 \
     transcribe ./testdata/this_is_a_test-en_us-16.wav
 
 # Transcribe the list of files defined at ./testdata/list.txt
-## Should result in the transcription of "this is a test" and "the second test" printed to stdout
+# Should result in the transcription of "this is a test" and "the second test" printed to stdout
 ./bin/cubic-cli --insecure --server localhost:2727 \
     transcribe --list-file ./testdata/list.txt
 
@@ -138,7 +148,7 @@ at `localhost:2727`.
     --output ./testdata --workers 2
 
 # Transcribe multiple channels. Note: this is the same as '--stereo'
-./bin/cubic-cli --insecure --server localhost:2727 \
+./bin/cubic-cli --server demo-cubic.cobaltspeech.com:2727 \
     transcribe ./testdata/this_is_a_test-en_us-16.wav \
     --audioChannels 0,1
 
@@ -148,12 +158,3 @@ at `localhost:2727`.
     transcribe ./testdata/this_is_a_test-en_us-16.wav \
     --outputFormat json
 ```
-
-For quick testing, Cobalt's demo server can be accessed with `--server
-demo-cubic.cobaltspeech.com:2727`. This uses TLS and does not need the
-`--insecure` flag.
-
-Commercial use of the demo service is not permitted. This server is for testing
-and demonstration purposes only and is not guaranteed to support high
-availability or high volume. Data uploaded to the server may be stored for
-internal purposes.

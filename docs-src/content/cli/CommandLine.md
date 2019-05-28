@@ -47,9 +47,11 @@ internal purposes.
 # List available models.  Note: The listed modelIDs are used in transcription methods
 ./bin/cubic-cli --insecure --server localhost:2727 models
 
-# Transcribe the single file this_is_a_test-en_us-16.wav.
+# Transcribe the single file this_is_a_test-en_us-16.wav using modelId1.
+# (On the demo server, modelId 1 is the U.S. English 16 kHz model--the model id depends on the
+# cubic server configuration.)
 # Should result in the transcription of "this is a test"
-./bin/cubic-cli --insecure --server localhost:2727 transcribe ./testdata/this_is_a_test-en_us-16.wav
+./bin/cubic-cli --insecure --server localhost:2727 -m 1 transcribe ./testdata/this_is_a_test-en_us-16.wav
 ```
 
 For more examples of the transcribe command, see [Transcribe](/sdk-cubic/cli/transcribe)

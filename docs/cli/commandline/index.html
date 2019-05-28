@@ -340,9 +340,11 @@ internal purposes.</p>
 <span style="color:#999;font-style:italic"># List available models.  Note: The listed modelIDs are used in transcription methods</span>
 ./bin/cubic-cli --insecure --server localhost:2727 models
 
-<span style="color:#999;font-style:italic"># Transcribe the single file this_is_a_test-en_us-16.wav.</span>
+<span style="color:#999;font-style:italic"># Transcribe the single file this_is_a_test-en_us-16.wav using modelId1.</span>
+<span style="color:#999;font-style:italic"># (On the demo server, modelId 1 is the U.S. English 16 kHz model--the model id depends on the</span>
+<span style="color:#999;font-style:italic"># cubic server configuration.)</span>
 <span style="color:#999;font-style:italic"># Should result in the transcription of &#34;this is a test&#34;</span>
-./bin/cubic-cli --insecure --server localhost:2727 transcribe ./testdata/this_is_a_test-en_us-16.wav</code></pre></div>
+./bin/cubic-cli --insecure --server localhost:2727 -m <span style="color:#3677a9">1</span> transcribe ./testdata/this_is_a_test-en_us-16.wav</code></pre></div>
 <p>For more examples of the transcribe command, see <a href="/sdk-cubic/cli/transcribe">Transcribe</a></p>
 
     

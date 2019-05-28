@@ -290,7 +290,10 @@ pause between words will begin a new result; the default is half a second.</p>
 </ul>
 
 <h3 id="example">Example</h3>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bin/cubic-cli -s localhost:2727 transcribe -m <span style="color:#3677a9">1</span> -f timeline --stereo --insecure <span style="color:#3677a9">2</span>-channel.wav</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">[
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bin/cubic-cli -s localhost:2727 transcribe -m <span style="color:#3677a9">1</span> -f timeline --stereo --insecure <span style="color:#3677a9">2</span>-channel.wav</code></pre></div>
+<p><details>
+<summary><font color="236ecc"><b>Click here to see sample output</b></font></summary></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">[
   {
     <span style="color:#6ab825;font-weight:bold">&#34;channel_id&#34;</span>: <span style="color:#3677a9">0</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;nbest&#34;</span>: [
@@ -457,16 +460,26 @@ pause between words will begin a new result; the default is half a second.</p>
     ]
   }
 ]</code></pre></div>
+<p></details></p>
+
 <h2 id="json-and-json-pretty">Json and Json-pretty</h2>
 
 <p>Both <code>json</code> and <code>json-pretty</code> return the same data.
 The only difference is that <code>json-pretty</code> includes line breaks and indentation to make it more human-readable.
-Both formats return all alternatives recognized for each result.
-Word-level information is not included and the results are the order cubic processed them, so results from
+Both formats return all alternatives recognized for each result, with the default JSON encoding for
+the <a href="/sdk-cubic/protobuf/autogen-doc-cubic-proto/#message-recognitionalternative">RecognitionAlternative</a>
+object. That encoding makes it straightforward to deserialize start_time and duration fields into
+<a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration">google.protobuf.Duration</a> objects, but may not be as human-readable because the JSON encoding for
+Duration objects has separate fields for seconds and nanoseconds.</p>
+
+<p>Word-level information is not included and the results are the order cubic processed them, so results from
 different channels are not guaranteed to be ordered according to their timestamps.</p>
 
 <h3 id="example-1">Example</h3>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bin/cubic-cli -s demo-cubic.cobaltspeech.com:2727 transcribe -m <span style="color:#3677a9">1</span> -f json-pretty testdata/this_is_a_test-en_us-16.wav </code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bin/cubic-cli -s demo-cubic.cobaltspeech.com:2727 transcribe -m <span style="color:#3677a9">1</span> -f json-pretty testdata/this_is_a_test-en_us-16.wav </code></pre></div>
+<p><details>
+<summary><font color="236ecc"><b>Click here to see sample output</b></font></summary></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
   <span style="color:#6ab825;font-weight:bold">&#34;UttID&#34;</span>: <span style="color:#ed9d13">&#34;this_is_a_test-en_us-16.wav&#34;</span>,
   <span style="color:#6ab825;font-weight:bold">&#34;Responses&#34;</span>: [
     {
@@ -497,6 +510,8 @@ different channels are not guaranteed to be ordered according to their timestamp
     }
   ]
 }</code></pre></div>
+<p></details></p>
+
 <h2 id="utterance-json">Utterance-json</h2>
 
 <p>Utterance-json is a tab-delimited format, included for backward compatibility with asr_tool, the previous command-line test utility for cubic.</p>
@@ -509,10 +524,15 @@ by a tab character:</p>
 
 <h3 id="example-2">Example</h3>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bin/cubic-cli -s demo-cubic.cobaltspeech.com:2727 transcribe -m <span style="color:#3677a9">1</span> -f utterance-json --list-file testdata/list.txt </code></pre></div>
+<p><details>
+<summary><font color="236ecc"><b>Click here to see sample output</b></font></summary></p>
+
 <pre><code>Utterance_1_0	{&quot;alternatives&quot;:[{&quot;transcript&quot;:&quot;This is a test.&quot;,&quot;confidence&quot;:0.994,&quot;start_time&quot;:{&quot;nanos&quot;:900000000},&quot;duration&quot;:{&quot;seconds&quot;:1,&quot;nanos&quot;:50000000}},{&quot;transcript&quot;:&quot;Hi this is a test.&quot;,&quot;confidence&quot;:0.006,&quot;start_time&quot;:{&quot;nanos&quot;:5000000},&quot;duration&quot;:{&quot;seconds&quot;:1,&quot;nanos&quot;:945000000}}]}
 Utterance_1_1	{&quot;alternatives&quot;:[{&quot;transcript&quot;:&quot;&quot;,&quot;confidence&quot;:0.731},{&quot;transcript&quot;:&quot;Yeah.&quot;,&quot;confidence&quot;:0.163,&quot;start_time&quot;:{&quot;seconds&quot;:3,&quot;nanos&quot;:261000000},&quot;duration&quot;:{&quot;seconds&quot;:1,&quot;nanos&quot;:801000000}},{&quot;transcript&quot;:&quot;I.&quot;,&quot;confidence&quot;:0.039,&quot;start_time&quot;:{&quot;seconds&quot;:3,&quot;nanos&quot;:261000000},&quot;duration&quot;:{&quot;seconds&quot;:1,&quot;nanos&quot;:801000000}},{&quot;transcript&quot;:&quot;Hey.&quot;,&quot;confidence&quot;:0.036,&quot;start_time&quot;:{&quot;seconds&quot;:3,&quot;nanos&quot;:261000000},&quot;duration&quot;:{&quot;seconds&quot;:1,&quot;nanos&quot;:801000000}},{&quot;transcript&quot;:&quot;Bye.&quot;,&quot;confidence&quot;:0.032,&quot;start_time&quot;:{&quot;seconds&quot;:3,&quot;nanos&quot;:261000000},&quot;duration&quot;:{&quot;seconds&quot;:1,&quot;nanos&quot;:801000000}}]}
 Utterance_2_0	{&quot;alternatives&quot;:[{&quot;transcript&quot;:&quot;The second test.&quot;,&quot;confidence&quot;:0.6,&quot;start_time&quot;:{&quot;nanos&quot;:944000000},&quot;duration&quot;:{&quot;seconds&quot;:1,&quot;nanos&quot;:96000000}},{&quot;transcript&quot;:&quot;What the second test.&quot;,&quot;confidence&quot;:0.154,&quot;start_time&quot;:{},&quot;duration&quot;:{&quot;seconds&quot;:2,&quot;nanos&quot;:40000000}},{&quot;transcript&quot;:&quot;At the second test.&quot;,&quot;confidence&quot;:0.134,&quot;start_time&quot;:{},&quot;duration&quot;:{&quot;seconds&quot;:2,&quot;nanos&quot;:40000000}},{&quot;transcript&quot;:&quot;But the second test.&quot;,&quot;confidence&quot;:0.09,&quot;start_time&quot;:{},&quot;duration&quot;:{&quot;seconds&quot;:2,&quot;nanos&quot;:40000000}},{&quot;transcript&quot;:&quot;Is the second test.&quot;,&quot;confidence&quot;:0.022,&quot;start_time&quot;:{},&quot;duration&quot;:{&quot;seconds&quot;:2,&quot;nanos&quot;:40000000}}]}
 </code></pre>
+
+<p></details></p>
 
     
     
