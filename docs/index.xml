@@ -72,9 +72,8 @@ recognition.&lt;/p&gt;</description>
       
       <guid>https://cobaltspeech.github.io/sdk-cubic/getting-started/streaming/</guid>
       <description>&lt;p&gt;The following example shows how to transcribe an audio file using Cubic’s
-Streaming Recognize Request. The example uses a WAV file as input to the
-streaming recognition. We will query the server for available models and
-use the first model to transcribe the speech.&lt;/p&gt;</description>
+Streaming Recognize Request. The stream can come from a file on disk or be
+directly from a microphone in real time.&lt;/p&gt;</description>
     </item>
     
     <item>
