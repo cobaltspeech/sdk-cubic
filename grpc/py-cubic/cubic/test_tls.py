@@ -60,13 +60,13 @@ class TestTLS(unittest.TestCase):
         with self.assertRaises(grpc.RpcError) as context:
             client = Client(serverAddress, insecure=False)
             response = client.Version()
-        self.assertEqual(context.exception.details(), "Connect Failed")
+        self.assertEqual(context.exception.details(), "failed to connect to all addresses")
         
         # client provides incorrect server certificate; should fail
         with self.assertRaises(grpc.RpcError) as context:
             client = Client(serverAddress, insecure=False, serverCertificate=fakeCertPem)
             response = client.Version()
-        self.assertEqual(context.exception.details(), "Failed to create subchannel")
+        self.assertEqual(context.exception.details(), "Empty update")
 
         # client tries to connect with insecure channel; should fail
         with self.assertRaises(grpc.RpcError) as context:
@@ -90,13 +90,13 @@ class TestTLS(unittest.TestCase):
         with self.assertRaises(grpc.RpcError) as context:
             client = Client(serverAddress, insecure=False, serverCertificate=fakeCertPem, clientCertificate=certPem, clientKey=keyPem)
             response = client.Version()
-        self.assertEqual(context.exception.details(), "Failed to create subchannel")
+        self.assertEqual(context.exception.details(), "Empty update")
         
         # mutual tls with wrong cert but correct CA; should fail (server can not validate the client)
         with self.assertRaises(grpc.RpcError) as context:
             client = Client(serverAddress, insecure=False, serverCertificate=certPem, clientCertificate=fakeCertPem, clientKey=fakeKeyPem)
             response = client.Version()
-        self.assertEqual(context.exception.details(), "Failed to create subchannel")
+        self.assertEqual(context.exception.details(), "Empty update")
 
         # mutual tls with correct cert and CA but no key provided; should fail (client raises exception)
         with self.assertRaises(ValueError):
@@ -113,7 +113,7 @@ class TestTLS(unittest.TestCase):
         with self.assertRaises(grpc.RpcError) as context:
             client = Client(serverAddress, insecure=False, serverCertificate=certPem, clientCertificate=certPem[:3], clientKey=keyPem)
             response = client.Version()
-        self.assertEqual(context.exception.details(), "Failed to create subchannel")
+        self.assertEqual(context.exception.details(), "Empty update")
 
         # client provides appropriate certificates; should succeed
         client = Client(serverAddress, insecure=False, serverCertificate=certPem, clientCertificate=certPem, clientKey=keyPem)
