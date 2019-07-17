@@ -21,6 +21,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/empty.proto";
 
 option go_package = "cubicpb";
+option csharp_namespace = "CobaltSpeech.Cubic";
 
 // Service that implements the Cobalt Cubic Speech Recognition API
 service Cubic {

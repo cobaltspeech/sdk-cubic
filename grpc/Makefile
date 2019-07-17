@@ -10,10 +10,12 @@ endif
 
 GO_OUTDIR=go-cubic/cubicpb
 PY_OUTDIR=py-cubic/cubic
+CSHARP_OUTDIR=csharp-cubic/cubic
 DOCS_OUTDIR=../docs-src/content/protobuf
 
 go: ${GO_OUTDIR}/cubic.pb.go ${GO_OUTDIR}/gw/cubic.pb.gw.go go-test
 py: $(PY_OUTDIR)/cubic_pb2.py ${PY_OUTDIR}/cubic_pb2_grpc.py py-test
+cs: ${CSHARP_OUTDIR}/cubic/Cubic.cs
 docs: ${DOCS_OUTDIR}/autogen-doc-cubic-proto.md
 
 ${GO_OUTDIR}/cubic.pb.go: cubic.proto
@@ -47,6 +49,10 @@ ${PY_OUTDIR}/cubic_pb2.py: cubic.proto
 ${PY_OUTDIR}/cubic_pb2_grpc.py: cubic.proto
 	mkdir -p ${PY_OUTDIR}
 	python -m grpc_tools.protoc -I . -I ${PROTOINC} --grpc_python_out=${PY_OUTDIR} $<
+
+${CSHARP_OUTDIR}/cubic/Cubic.cs: cubic.proto
+	mkdir -p ${CSHARP_OUTDIR}
+	protoc -I . -I ${PROTOINC} --csharp_out=${CSHARP_OUTDIR} $<
 
 go-test:
 	cd go-cubic && go test
