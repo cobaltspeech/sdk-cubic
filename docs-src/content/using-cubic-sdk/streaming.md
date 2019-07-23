@@ -116,6 +116,71 @@ for resp in client.StreamingRecognize(cfg, audio):
 ```
 {{% /tab %}}
 
+{{% tab "C#" %}}
+``` c#
+// Initialize a gRPC connection
+var creds = Grpc.Core.ChannelCredentials.Insecure;
+var channel = new Grpc.Core.Channel(url, creds);
+var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+
+// List the available models
+var listModelsRequest = new CobaltSpeech.Cubic.ListModelsRequest();
+var models = client.ListModels(listModelsRequest);
+
+// Setup the bi-directional gRPC stream.
+var call = client.StreamingRecognize();
+using (call)
+{
+    // Setup recieve task
+    var responseReaderTask = Task.Run(async () =>
+    {
+        // Wait for the next response
+        while (await call.ResponseStream.MoveNext())
+        {
+            var response = call.ResponseStream.Current;
+            foreach (var result in response.Results)
+            {
+                Console.WriteLine(result.Alternatives[0].Transcript);
+            }
+        }
+    });
+
+    // Send config first, followed by the audio
+    {
+        // Send the configs
+        var request = new CobaltSpeech.Cubic.StreamingRecognizeRequest();
+        request.Config = cfg;
+        await call.RequestStream.WriteAsync(request);
+
+        // Setup object for streaming audio
+        request.Config = null;
+        request.Audio = new CobaltSpeech.Cubic.RecognitionAudio { };
+
+        // Send the audio, in 8kb chunks
+        const int chunkSize = 8192;
+        using (FileStream file = File.OpenRead("test.raw"))
+        {
+            int bytesRead;
+            var buffer = new byte[chunkSize];
+            while ((bytesRead = file.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                var bytes = Google.Protobuf.ByteString.CopyFrom(buffer);
+                request.Audio.Data = bytes;
+                await call.RequestStream.WriteAsync(request);
+            }
+
+            // Close the sending stream
+            await call.RequestStream.CompleteAsync();
+        }
+    }
+
+    // Wait for all of the responses to come back through the receiving stream
+    await responseReaderTask;
+}
+
+```
+{{% /tab %}}
+
 {{%/tabs %}}
 
 ### Streaming from microphone
@@ -311,6 +376,14 @@ except Exception as err:
 audio.stop_stream()
 audio.close()
 ```
+{{% /tab %}}
+
+
+{{% tab "C#" %}}
+
+We do not currently have example C# code for streaming from a microphone.
+Simply pass the bytes from the microphone the same as is done from the file in the `Streaming from an audio file` example above.
+
 {{% /tab %}}
 
 {{%/tabs %}}

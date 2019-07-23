@@ -106,6 +106,47 @@ for result in resp.results:
 ```
 {{% /tab %}}
 
+{{% tab "C#" %}}
+``` c#
+// Initialize a gRPC connection
+var creds = Grpc.Core.ChannelCredentials.Insecure;
+var channel = new Grpc.Core.Channel(url, creds);
+var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+
+// List the available models
+var listModelsRequest = new CobaltSpeech.Cubic.ListModelsRequest();
+var models = client.ListModels(listModelsRequest);
+
+var cfg = new CobaltSpeech.Cubic.RecognitionConfig
+{
+    // Use the first available model
+    ModelId = models.Models[0].Id,
+};
+
+// Open the audio file.
+FileStream file = File.OpenRead("test.raw")
+var audio = new CobaltSpeech.Cubic.RecognitionAudio{
+    Data = Google.Protobuf.ByteString.FromStream(file)
+};
+
+// Create the request
+var request = new CobaltSpeech.Cubic.RecognizeRequest
+{
+    Config = cfg,
+    Audio = audio,
+};
+
+// Send the request
+var resp = client.Recognize(request);
+foreach (var result in resp.Results)
+{
+    if (!result.IsPartial)
+    {
+        Console.WriteLine(result.Alternatives[0].Transcript)
+    }
+}
+
+```
+{{% /tab %}}
+
 {{%/tabs %}}
-
-

@@ -69,6 +69,17 @@ print(resp)
 ```
 {{% /tab %}}
 
+{{% tab "C#" %}}
+``` c#
+var creds = new Grpc.Core.SslCredentials();
+var channel = new Grpc.Core.Channel(serverAddr, creds);
+var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+
+var resp = client.Version(new Google.Protobuf.WellKnownTypes.Empty());
+Console.WriteLine(String.Format("CubicServer: {0}, Cubic: {1}", resp.Server, resp.Cubic));
+```
+{{% /tab %}}
+
 {{%/tabs %}}
 
 
@@ -92,6 +103,14 @@ client, err := cubic.NewClient(serverAddr, cubic.WithInsecure())
 {{% tab "Python" %}}
 ``` python
 client = cubic.Client(serverAddress, insecure=True)
+```
+{{% /tab %}}
+
+{{% tab "C#" %}}
+``` c#
+var creds = Grpc.Core.ChannelCredentials.Insecure;
+var channel = new Grpc.Core.Channel(serverAddr, creds);
+var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
 ```
 {{% /tab %}}
 
@@ -124,6 +143,14 @@ client, err := cubic.NewClient(serverAddr,  cubic.WithClientCert(certPem, keyPem
 {{% tab "Python" %}}
 ``` python
 client = cubic.Client(serverAddress, clientCertificate=certPem, clientKey=keyPem)
+```
+{{% /tab %}}
+
+{{% tab "C#" %}}
+``` c#
+var creds = new Grpc.Core.SslCredentials(File.ReadAllText("root.pem"));
+var channel = new Grpc.Core.Channel(serverAddr, creds);
+var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
 ```
 {{% /tab %}}
 
