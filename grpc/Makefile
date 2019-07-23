@@ -1,6 +1,6 @@
 # Copyright (2019) Cobalt Speech and Language Inc.
 
-.PHONY: all go py go-test py-test docs
+.PHONY: all go py cs cs_push go-test py-test docs
 
 all: go py docs
 
@@ -15,7 +15,21 @@ DOCS_OUTDIR=../docs-src/content/protobuf
 
 go: ${GO_OUTDIR}/cubic.pb.go ${GO_OUTDIR}/gw/cubic.pb.gw.go go-test
 py: $(PY_OUTDIR)/cubic_pb2.py ${PY_OUTDIR}/cubic_pb2_grpc.py py-test
-cs: ${CSHARP_OUTDIR}/cubic/Cubic.cs
+
+## C#
+## https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-the-dotnet-cli
+## You need to copy the PROTOINC files over to the ~/.nuget/packages/grpc.tools/1.22.0/build/native/include directory.
+VERSION="1.2.2"
+NUGET_API_KEY="" # Must be set to push the nuget package.
+cs:
+	cd csharp-cubic/ && dotnet build ./cubic.csproj \
+		-p:PackageVersion=${VERSION}
+cs_push:
+	dotnet nuget push \
+		./csharp-cubic/bin/Debug/Cubic-SDK.${VERSION}.nupkg \
+		-k ${NUGET_API_KEY} \
+		-s https://api.nuget.org/v3/index.json
+
 docs: ${DOCS_OUTDIR}/autogen-doc-cubic-proto.md
 
 ${GO_OUTDIR}/cubic.pb.go: cubic.proto
@@ -49,10 +63,6 @@ ${PY_OUTDIR}/cubic_pb2.py: cubic.proto
 ${PY_OUTDIR}/cubic_pb2_grpc.py: cubic.proto
 	mkdir -p ${PY_OUTDIR}
 	python -m grpc_tools.protoc -I . -I ${PROTOINC} --grpc_python_out=${PY_OUTDIR} $<
-
-${CSHARP_OUTDIR}/cubic/Cubic.cs: cubic.proto
-	mkdir -p ${CSHARP_OUTDIR}
-	protoc -I . -I ${PROTOINC} --csharp_out=${CSHARP_OUTDIR} $<
 
 go-test:
 	cd go-cubic && go test

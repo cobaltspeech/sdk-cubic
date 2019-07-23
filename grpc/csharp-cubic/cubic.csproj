@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Cubic-SDK</PackageId>
+    <Version>1.2.1</Version>
+    <VersionSuffix>$(VersionSuffix)</VersionSuffix>
+    <Authors>Jacob Holloway</Authors>
+    <Company>Cobalt Speech and Langugage</Company>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>csharp_cubic</RootNamespace>
+    <!-- Run dotnet pack during dotnet build  -->
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Api.CommonProtos" Version="1.7.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.8.0" />
+    <PackageReference Include="Grpc" Version="1.22.0" />
+    <PackageReference Include="Grpc.Tools" Version="1.22.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  
+    <Protobuf Include="../cubic.proto" />
+  </ItemGroup>
+
+</Project>
