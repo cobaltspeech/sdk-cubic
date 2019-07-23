@@ -308,6 +308,47 @@ resp = client.Recognize(cfg, audio)
         <span style="color:#6ab825;font-weight:bold">print</span>(result.alternatives[<span style="color:#3677a9">0</span>].transcript)</code></pre></div>
 </div>
 
+<div class="tab-pane" title="C#">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#"><span style="color:#999;font-style:italic">// Initialize a gRPC connection
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> creds = Grpc.Core.ChannelCredentials.Insecure;
+<span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(url, creds);
+<span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+
+<span style="color:#999;font-style:italic">// List the available models
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> listModelsRequest = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.ListModelsRequest();
+<span style="color:#6ab825;font-weight:bold">var</span> models = client.ListModels(listModelsRequest);
+
+<span style="color:#6ab825;font-weight:bold">var</span> cfg = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognitionConfig
+{
+    <span style="color:#999;font-style:italic">// Use the first available model
+</span><span style="color:#999;font-style:italic"></span>    ModelId = models.Models<span style="color:#bbb">[0]</span>.Id,
+};
+
+<span style="color:#999;font-style:italic">// Open the audio file.
+</span><span style="color:#999;font-style:italic"></span>FileStream file = File.OpenRead(<span style="color:#ed9d13">&#34;test.raw&#34;</span>)
+<span style="color:#6ab825;font-weight:bold">var</span> audio = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognitionAudio{
+    Data = Google.Protobuf.ByteString.FromStream(file)
+};
+
+<span style="color:#999;font-style:italic">// Create the request
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> request = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognizeRequest
+{
+    Config = cfg,
+    Audio = audio,
+};
+
+<span style="color:#999;font-style:italic">// Send the request
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> resp = client.Recognize(request);
+<span style="color:#6ab825;font-weight:bold">foreach</span> (<span style="color:#6ab825;font-weight:bold">var</span> result <span style="color:#6ab825;font-weight:bold">in</span> resp.Results)
+{
+    <span style="color:#6ab825;font-weight:bold">if</span> (!result.IsPartial)
+    {
+        Console.WriteLine(result.Alternatives<span style="color:#bbb">[0]</span>.Transcript)
+    }
+}
+</code></pre></div>
+</div>
+
 <p></div>
 </div></p>
 

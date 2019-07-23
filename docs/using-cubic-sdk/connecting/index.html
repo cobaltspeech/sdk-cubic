@@ -280,6 +280,16 @@ resp = client.Version()
 <span style="color:#6ab825;font-weight:bold">print</span>(resp)</code></pre></div>
 </div>
 
+<div class="tab-pane" title="C#">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#"><span style="color:#6ab825;font-weight:bold">var</span> creds = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.SslCredentials();
+<span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(serverAddr, creds);
+<span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+
+<span style="color:#6ab825;font-weight:bold">var</span> resp = client.Version(<span style="color:#6ab825;font-weight:bold">new</span> Google.Protobuf.WellKnownTypes.Empty());
+Console.WriteLine(String.Format(<span style="color:#ed9d13">&#34;CubicServer: {0}, Cubic: {1}&#34;</span>, resp.Server, resp.Cubic));
+</code></pre></div>
+</div>
+
 <p></div>
 </div></p>
 
@@ -302,6 +312,13 @@ To connect to such an instance of cubic server, you can use:</p>
 
 <div class="tab-pane" title="Python">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">client = cubic.Client(serverAddress, insecure=True)</code></pre></div>
+</div>
+
+<div class="tab-pane" title="C#">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#"><span style="color:#6ab825;font-weight:bold">var</span> creds = Grpc.Core.ChannelCredentials.Insecure;
+<span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(serverAddr, creds);
+<span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+</code></pre></div>
 </div>
 
 <p></div>
@@ -333,6 +350,13 @@ authenticated TLS. This can be done with:</p>
 
 <div class="tab-pane" title="Python">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">client = cubic.Client(serverAddress, clientCertificate=certPem, clientKey=keyPem)</code></pre></div>
+</div>
+
+<div class="tab-pane" title="C#">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#"><span style="color:#6ab825;font-weight:bold">var</span> creds = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.SslCredentials(File.ReadAllText(<span style="color:#ed9d13">&#34;root.pem&#34;</span>));
+<span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(serverAddr, creds);
+<span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+</code></pre></div>
 </div>
 
 <p></div>

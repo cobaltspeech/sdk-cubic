@@ -326,6 +326,69 @@ audio = <span style="color:#24909d">open</span>(<span style="color:#ed9d13">&#39
             <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\r</span><span style="color:#ed9d13">{0}&#34;</span>.format(result.alternatives[<span style="color:#3677a9">0</span>].transcript), end=<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\n</span><span style="color:#ed9d13">&#34;</span>)</code></pre></div>
 </div>
 
+<div class="tab-pane" title="C#">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#"><span style="color:#999;font-style:italic">// Initialize a gRPC connection
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> creds = Grpc.Core.ChannelCredentials.Insecure;
+<span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(url, creds);
+<span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+
+<span style="color:#999;font-style:italic">// List the available models
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> listModelsRequest = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.ListModelsRequest();
+<span style="color:#6ab825;font-weight:bold">var</span> models = client.ListModels(listModelsRequest);
+
+<span style="color:#999;font-style:italic">// Setup the bi-directional gRPC stream.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> call = client.StreamingRecognize();
+<span style="color:#6ab825;font-weight:bold">using</span> (call)
+{
+    <span style="color:#999;font-style:italic">// Setup recieve task
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">var</span> responseReaderTask = Task.Run(<span style="color:#6ab825;font-weight:bold">async</span> () =&gt;
+    {
+        <span style="color:#999;font-style:italic">// Wait for the next response
+</span><span style="color:#999;font-style:italic"></span>        <span style="color:#6ab825;font-weight:bold">while</span> (<span style="color:#6ab825;font-weight:bold">await</span> call.ResponseStream.MoveNext())
+        {
+            <span style="color:#6ab825;font-weight:bold">var</span> response = call.ResponseStream.Current;
+            <span style="color:#6ab825;font-weight:bold">foreach</span> (<span style="color:#6ab825;font-weight:bold">var</span> result <span style="color:#6ab825;font-weight:bold">in</span> response.Results)
+            {
+                Console.WriteLine(result.Alternatives<span style="color:#bbb">[0]</span>.Transcript);
+            }
+        }
+    });
+
+    <span style="color:#999;font-style:italic">// Send config first, followed by the audio
+</span><span style="color:#999;font-style:italic"></span>    {
+        <span style="color:#999;font-style:italic">// Send the configs
+</span><span style="color:#999;font-style:italic"></span>        <span style="color:#6ab825;font-weight:bold">var</span> request = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.StreamingRecognizeRequest();
+        request.Config = cfg;
+        <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.WriteAsync(request);
+
+        <span style="color:#999;font-style:italic">// Setup object for streaming audio
+</span><span style="color:#999;font-style:italic"></span>        request.Config = <span style="color:#6ab825;font-weight:bold">null</span>;
+        request.Audio = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognitionAudio { };
+
+        <span style="color:#999;font-style:italic">// Send the audio, in 8kb chunks
+</span><span style="color:#999;font-style:italic"></span>        <span style="color:#6ab825;font-weight:bold">const</span> <span style="color:#6ab825;font-weight:bold">int</span> chunkSize = <span style="color:#3677a9">8192</span>;
+        <span style="color:#6ab825;font-weight:bold">using</span> (FileStream file = File.OpenRead(<span style="color:#ed9d13">&#34;test.raw&#34;</span>))
+        {
+            <span style="color:#6ab825;font-weight:bold">int</span> bytesRead;
+            <span style="color:#6ab825;font-weight:bold">var</span> buffer = <span style="color:#6ab825;font-weight:bold">new</span> <span style="color:#6ab825;font-weight:bold">byte</span><span style="color:#bbb">[chunkSize]</span>;
+            <span style="color:#6ab825;font-weight:bold">while</span> ((bytesRead = file.Read(buffer, <span style="color:#3677a9">0</span>, buffer.Length)) &gt; <span style="color:#3677a9">0</span>)
+            {
+                <span style="color:#6ab825;font-weight:bold">var</span> bytes = Google.Protobuf.ByteString.CopyFrom(buffer);
+                request.Audio.Data = bytes;
+                <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.WriteAsync(request);
+            }
+
+            <span style="color:#999;font-style:italic">// Close the sending stream
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.CompleteAsync();
+        }
+    }
+
+    <span style="color:#999;font-style:italic">// Wait for all of the responses to come back through the receiving stream
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">await</span> responseReaderTask;
+}
+</code></pre></div>
+</div>
+
 <p></div>
 </div></p>
 
@@ -516,6 +579,12 @@ audio = p.<span style="color:#24909d">open</span>(format=pyaudio.paInt16,       
 
 audio.stop_stream()
 audio.close()</code></pre></div>
+</div>
+
+<div class="tab-pane" title="C#">
+  <p>We do not currently have example C# code for streaming from a microphone.
+Simply pass the bytes from the microphone the same as is done from the file in the <code>Streaming from an audio file</code> example above.</p>
+
 </div>
 
 <p></div>

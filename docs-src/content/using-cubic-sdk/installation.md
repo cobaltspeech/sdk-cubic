@@ -22,3 +22,13 @@ The Python SDK depends on Python >= 3.5. You may use pip to perform a system-wid
 pip install --upgrade pip
 pip install "git+https://github.com/cobaltspeech/sdk-cubic#egg=cobalt-cubic&subdirectory=grpc/py-cubic"
 ```
+
+### C#
+
+The C# SDK utilizes the [NuGet package manager](https://www.nuget.org).  The package is called `Cubic-SDK`, under the owners name of `CobaltSpeech`.
+
+NuGet allows 4 different ways to install.  Further instructions can be found on the [nuget webpage](https://www.nuget.org/packages/Cubic-SDK/).  Installing via the `dotnet` cli through the command:
+
+``` bash
+dotnet add package Cubic-SDK
+```
