@@ -21,7 +21,11 @@ mkdir build-cubic-client && cd build-cubic-client
 # Run CMake to download grpc and generate makefiles.
 # The final path specifies the directory that contains the
 # CMakeLists.txt file for the cubic_client C++ project.
-cmake -DCMAKE_BUILD_TYPE=Release <path/to/cpp-cubic>
+cmake -DCMAKE_BUILD_TYPE=Release <path/to/sdk-cubic/grpc/cpp-cubic>
+make cubic_client
+
+# To make a shared library, add -DBUILD_SHARED_LIBS=TRUE when running cmake
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE <path/to/sdk-cubic/grpc/cpp-cubic>
 make cubic_client
 ```
 

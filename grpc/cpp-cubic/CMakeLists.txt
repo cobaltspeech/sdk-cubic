@@ -5,6 +5,9 @@ project(cubic_client)
 
 include(CobaltGRPC.cmake)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # Generate the grpc files from our proto files.
 run_protoc(RESULT_FILES CUBIC_PROTOFILES
     PROTOS ../cubic.proto
