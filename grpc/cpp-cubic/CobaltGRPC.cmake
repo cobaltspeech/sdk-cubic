@@ -7,9 +7,6 @@
 
 # This allows cross-compiling to work - a native version of protoc is required.
 set(GRPC_NATIVE_DIR "" CACHE PATH "Path to native gRPC installation for cross compiling.")
-if(NOT EXISTS GRPC_NATIVE_DIR)
-    message(STATUS "native dir doesn't exist")
-endif()
 
 # Check if we have already added gRPC to the project. If not, we will
 # add it here.
@@ -49,7 +46,7 @@ if(NOT TARGET grpc)
 
     # If we are cross-compiling, add the native grpc dir to the CMAKE_PREFIX_PATH
     # so that the grpc build can find it using find_program
-    if(GRPC_NATIVE_DIR)
+    if(EXISTS ${GRPC_NATIVE_DIR})
         set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${GRPC_NATIVE_DIR})
     endif()
 
@@ -111,7 +108,7 @@ if(NOT COMMAND run_protoc)
         # cross compiling.
         set(_PROTOC_CMD $<TARGET_FILE:protoc>)
         set(_GRPC_CPP_PLUGIN $<TARGET_FILE:grpc_cpp_plugin>)
-        if(GRPC_NATIVE_DIR)
+        if(EXISTS ${GRPC_NATIVE_DIR})
             get_filename_component(absolute_grpc_native "${GRPC_NATIVE_DIR}" ABSOLUTE)
             set(_PROTOC_CMD "${absolute_grpc_native}/bin/protoc")
             set(_GRPC_CPP_PLUGIN "${absolute_grpc_native}/bin/grpc_cpp_plugin")
