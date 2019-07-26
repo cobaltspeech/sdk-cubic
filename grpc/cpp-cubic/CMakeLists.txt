@@ -1,4 +1,4 @@
-# Copyright (2019) Cobalt Speech and Language, Inc.cmake_minimum_required(VERSION 3.10.0)
+# Copyright (2019) Cobalt Speech and Language, Inc.
 
 cmake_minimum_required(VERSION 3.5.0)
 project(cubic_client)

@@ -7,7 +7,7 @@ cubic.proto file.
 
 ## CMake Build
 To help simplify the build process, this project uses
-of [CMake](www.cmake.org). CMake will automatically download
+[CMake](www.cmake.org). CMake will automatically download
 the grpc source code and include it as a subproject, giving
 access to the grpc libraries and the protoc compiler.
 
