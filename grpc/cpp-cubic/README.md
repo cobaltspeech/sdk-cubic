@@ -8,24 +8,26 @@ cubic.proto file.
 ## CMake Build
 To help simplify the build process, this project uses
 [CMake](www.cmake.org). CMake will automatically download
-the grpc source code and include it as a subproject, giving
-access to the grpc libraries and the protoc compiler.
+the gRPC source code and include it as a subproject, giving
+access to the gRPC libraries and the protoc compiler.
 
-To build as a standalone library execute the following
+To build as a stand-alone library execute the following
 commands:
 ```bash
 # Create a build directory. It can be named anything and
 # can exist outside of the source code directory.
 mkdir build-cubic-client && cd build-cubic-client
 
-# Run CMake to download grpc and generate makefiles.
+# Run CMake to download gRPC and generate makefiles.
 # The final path specifies the directory that contains the
-# CMakeLists.txt file for the cubic_client C++ project.
+# CMakeLists.txt file for the cubic_client C++ project. By
+# default this will create static libraries. To make a shared
+# library instead, add -DBUILD_SHARED_LIBS=TRUE
 cmake -DCMAKE_BUILD_TYPE=Release <path/to/sdk-cubic/grpc/cpp-cubic>
-make cubic_client
-
-# To make a shared library, add -DBUILD_SHARED_LIBS=TRUE when running cmake
+# OR 
 cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=TRUE <path/to/sdk-cubic/grpc/cpp-cubic>
+
+# Build the library.
 make cubic_client
 ```
 
@@ -41,7 +43,7 @@ to your project's CMakeLists.txt.
 ## Build without CMake
 When building without CMake, you must manually build and install 
 gRPC as [described here](https://grpc.io/docs/quickstart/cpp/).
-Once that is done, generate the grpc/protobuf files by running
+Once that is done, generate the gRPC/protobuf files by running
 protoc:
 
 ```bash
@@ -75,4 +77,4 @@ $GRPC_INSTALL_DIR/bin/protoc \
 Once the files are generated, include them with the wrapper code
 from this directory in your project. Then be sure to link your
 binaries with libgrpc, libgrpc++, and libprotobuf (found in
-the grpc installation's `lib` directory).
+the gRPC installation's `lib` directory).
