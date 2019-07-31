@@ -468,7 +468,14 @@
 <td>transcript</td>
 <td>string</td>
 <td></td>
-<td><p>Text representing the transcription of the words that the user spoke.</p></td>
+<td><p>Text representing the transcription of the words that the user spoke.</p><p>The transcript will be formatted according to the servers formatting configuration. If you want the raw transcript, please see the field <code>raw_transcript</code>. If the server is configured to not use any formatting, then this field will contain the raw transcript.</p><p>As an example, if the spoken utterance was &ldquo;four people&rdquo;, and the server was configured to format numbers, this field would be set to &ldquo;4 people&rdquo;.</p></td>
+</tr>
+
+<tr>
+<td>raw_transcript</td>
+<td>string</td>
+<td></td>
+<td><p>Text representing the transcription of the words that the user spoke, without any formatting. This field will be populated only the config <code>RecognitionConfig.enable_raw_transcript</code> is set to true. Otherwise this field will be an empty string. If you want the formatted transcript, please see the field <code>transcript</code>.</p><p>As an example, if the spoken utterance was <code>here are four words</code>, this field would be set to &ldquo;HERE ARE FOUR WORDS&rdquo;.</p></td>
 </tr>
 
 <tr>
@@ -579,7 +586,7 @@
 <td>enable_raw_transcript</td>
 <td>bool</td>
 <td></td>
-<td><p>This is an optional field. If this is set to true, the transcripts will be presented as raw output from the recognizer without any formatting rules applied. They will be in all UPPER CASE, numbers and other special entities would be presented as the spoken words. If set to <code>false</code>, formatting rules will be applied to all results. The default is <code>false</code>.</p><p>As an example, if the spoken utterance was <code>here are four words</code>: with this field set to <code>false</code>: &ldquo;Here are 4 words&rdquo; with this field set to &lsquo;true&rsquo; : &ldquo;HERE ARE FOUR WORDS&rdquo;</p></td>
+<td><p>This is an optional field. If this is set to true, the field <code>RecognitionAlternative.raw_transcript</code> will be populated with the raw transcripts output from the recognizer will be exposed without any formatting rules applied. If this is set to false, that field will not be set in the results. The RecognitionAlternative.transcript will always be populated with text formatted according to the server&rsquo;s settings.</p></td>
 </tr>
 
 <tr>

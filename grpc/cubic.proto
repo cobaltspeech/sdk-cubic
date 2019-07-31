@@ -184,15 +184,12 @@ message RecognitionConfig {
   // word-level confidence information is returned.  The default is `false`.
   bool enable_word_confidence = 5;
 
-  // This is an optional field.  If this is set to true, the transcripts will be
-  // presented as raw output from the recognizer without any formatting rules
-  // applied.  They will be in all UPPER CASE, numbers and other special
-  // entities would be presented as the spoken words.  If set to `false`,
-  // formatting rules will be applied to all results.  The default is `false`.
-  //
-  // As an example, if the spoken utterance was `here are four words`:
-  //   with this field set to `false`: "Here are 4 words"
-  //   with this field set to 'true' : "HERE ARE FOUR WORDS"
+  // This is an optional field.  If this is set to true, the field
+  // `RecognitionAlternative.raw_transcript` will be populated with the raw
+  // transcripts output from the recognizer will be exposed without any
+  // formatting rules applied.  If this is set to false, that field will not
+  // be set in the results.  The RecognitionAlternative.transcript will
+  // always be populated with text formatted according to the server's settings.
   bool enable_raw_transcript = 6;
 
   // This is an optional field.  If this is set to true, the results will
@@ -276,7 +273,26 @@ message RecognitionResult {
 // A recognition hypothesis
 message RecognitionAlternative {
   // Text representing the transcription of the words that the user spoke.
+  //
+  // The transcript will be formatted according to the servers formatting
+  // configuration. If you want the raw transcript, please see the field
+  // `raw_transcript`.  If the server is configured to not use any formatting,
+  // then this field will contain the raw transcript.
+  //
+  // As an example, if the spoken utterance was "four people", and the
+  // server was configured to format numbers, this field would be set to
+  // "4 people".
   string transcript = 1;
+
+  // Text representing the transcription of the words that the user spoke,
+  // without any formatting.  This field will be populated only the config
+  // `RecognitionConfig.enable_raw_transcript` is set to true. Otherwise this
+  // field will be an empty string. If you want the formatted transcript, please
+  // see the field `transcript`.
+  //
+  // As an example, if the spoken utterance was `here are four words`,
+  // this field would be set to "HERE ARE FOUR WORDS".
+  string raw_transcript = 6;
 
   // Confidence estimate between 0 and 1. A higher number represents a higher
   // likelihood of the output being correct.
