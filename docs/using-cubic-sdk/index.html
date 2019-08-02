@@ -5,7 +5,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Quick Start :: Cubic SDK -- Cobalt</title>
+<title>Using Cubic-SDK :: Cubic SDK -- Cobalt</title>
 <link rel="shortcut icon" href="/sdk-cubic/images/favicon.ico" type="image/x-icon" />
 <link href="/sdk-cubic/css/nucleus.css" rel="stylesheet">
 <link href="/sdk-cubic/css/font-awesome.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
 
     
   </head>
-  <body data-url="/sdk-cubic/getting-started/quickstart/">
+  <body data-url="/sdk-cubic/using-cubic-sdk/">
     
       <div id="headermain"></div>
 <nav id="sidebar" class="showVisitedLinks">
@@ -69,52 +69,51 @@
             <li data-nav-id="/sdk-cubic/" class="dd-item">
             <a href="/sdk-cubic/"><i class="fa fa-fw fa-home"></i></a>
             </li>
-    <li data-nav-id="/sdk-cubic/getting-started/" class="dd-item parent alwaysopen haschildren
+    <li data-nav-id="/sdk-cubic/getting-started/" class="dd-item
         ">
       <div>
-      <a href="/sdk-cubic/getting-started/">Getting started</a>
+      <a href="/sdk-cubic/getting-started/">Server Setup</a><i class="fa fa-circle-thin read-icon"></i>
+      </div>
+    </li>
+    <li data-nav-id="/sdk-cubic/using-cubic-sdk/" class="dd-item parent active haschildren
+        ">
+      <div>
+      <a href="/sdk-cubic/using-cubic-sdk/">Using Cubic-SDK</a>
             <i class="fa fa-angle-down fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
       </div>
         <ul>
-      <li data-nav-id="/sdk-cubic/getting-started/quickstart/" class="dd-item active">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/installation/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/quickstart/">
-            Quick Start
-          </a><i class="fa fa-circle-thin read-icon"></i>
-        </div>
-    </li>
-      <li data-nav-id="/sdk-cubic/getting-started/cubic_docker/" class="dd-item">
-        <div>
-          <a href="/sdk-cubic/getting-started/cubic_docker/">
-            Installing the Cubicsvr Image
-          </a><i class="fa fa-circle-thin read-icon"></i>
-        </div>
-    </li>
-      <li data-nav-id="/sdk-cubic/getting-started/installation/" class="dd-item">
-        <div>
-          <a href="/sdk-cubic/getting-started/installation/">
+          <a href="/sdk-cubic/using-cubic-sdk/installation/">
             Installing the SDK
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
-      <li data-nav-id="/sdk-cubic/getting-started/connecting/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/connecting/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/connecting/">
+          <a href="/sdk-cubic/using-cubic-sdk/connecting/">
             Setup Connection
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
-      <li data-nav-id="/sdk-cubic/getting-started/recognize/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/recognize/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/recognize/">
+          <a href="/sdk-cubic/using-cubic-sdk/recognize/">
             Synchronous Recognition
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
-      <li data-nav-id="/sdk-cubic/getting-started/streaming/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/streaming/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/streaming/">
+          <a href="/sdk-cubic/using-cubic-sdk/streaming/">
             Streaming Recognition
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/client-configs/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/client-configs/">
+            Recognition Configurations
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
@@ -174,12 +173,7 @@
 
 
 
-
-
-
- <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > <a href='/sdk-cubic/getting-started/'>Getting started</a> > Quick Start
-
- 
+ <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > Using Cubic-SDK
 
  
 
@@ -200,7 +194,7 @@
 
 <div id="body-inner">
   
-    <h1>Quick Start</h1>
+    <h1>Using Cubic-SDK</h1>
   
 
 
@@ -208,15 +202,17 @@
     
     
     
-    <p>To evaluate Cobalt&rsquo;s speech recognition, you can access the <a href="https://demo-cubic.cobaltspeech.com">Cubic web demo</a> or can download a command-line interface built using our Go SDK to specify an audio file or list of files and get transcripts back from a running instance of cubicsvr. The <a href="https://github.com/cobaltspeech/cubic-cli">source code for cubic-cli</a> is available to use as an example client.</p>
 
-<p>The command-line tool can call a local instance of Cubic (see <a href="/sdk-cubic/getting-started/cubic_docker">Installing the Cubicsvr Image</a>) or the demo server.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#999;font-style:italic"># Local instance</span>
-./bin/cubic-cli --insecure --server localhost:2727 transcribe ./test.wav
+<p>This section discusses the various aspects of using the SDK as a client.</p>
 
-<span style="color:#999;font-style:italic"># Demo server</span>
-./bin/cubic-cli --server demo-cubic.cobaltspeech.com:2727 transcribe ./test.wav</code></pre></div>
-<p>Commercial use of the demo service is not permitted. This server is for testing and demonstration purposes only and is not guaranteed to support high availability or high volume. Data uploaded to the server may be stored for internal purposes.</p>
+<ul>
+<li><a href="./installation">Installing the SDK</a></li>
+<li><a href="./connecting">Setting up a Connection</a></li>
+<li><a href="./recognize">Synchronous Recognition</a></li>
+<li><a href="./streaming">Streaming Recognition</a></li>
+<li><a href="./client-configs">Recognition Configurations</a></li>
+</ul>
+
 
 
     
@@ -228,8 +224,8 @@
 </div>
 
 <div id="navigation">
-<a class="nav nav-prev" href="/sdk-cubic/getting-started/" title="Getting started"> <i class="fa fa-chevron-left"></i><label>Getting started</label></a>
-    <a class="nav nav-next" href="/sdk-cubic/getting-started/cubic_docker/" title="Installing the Cubicsvr Image" style="margin-right: 0px;"><label>Installing the Cubicsvr Image</label><i class="fa fa-chevron-right"></i></a></div>
+<a class="nav nav-prev" href="/sdk-cubic/getting-started/" title="Server Setup"> <i class="fa fa-chevron-left"></i><label>Server Setup</label></a>
+    <a class="nav nav-next" href="/sdk-cubic/using-cubic-sdk/installation/" title="Installing the SDK" style="margin-right: 0px;"><label>Installing the SDK</label><i class="fa fa-chevron-right"></i></a></div>
 
 </section>
 <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">

@@ -1,6 +1,6 @@
 ---
 title: "Cubic Protobuf API Docs"
-weight: 100
+weight: 40
 ---
 
 

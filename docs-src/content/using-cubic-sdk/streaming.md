@@ -1,8 +1,9 @@
 ---
 title: "Streaming Recognition"
-weight: 30
+weight: 24
 ---
-The following example shows how to transcribe an audio file using Cubic’s 
+
+The following example shows how to transcribe an audio file using Cubic’s
 Streaming Recognize Request. The stream can come from a file on disk or be
 directly from a microphone in real time.
 
