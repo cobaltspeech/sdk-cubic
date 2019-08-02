@@ -5,7 +5,7 @@
     <Version>1.2.1</Version>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <Authors>Jacob Holloway</Authors>
-    <Company>Cobalt Speech and Langugage</Company>
+    <Company>Cobalt Speech and Language, Inc.</Company>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>csharp_cubic</RootNamespace>
     <!-- Run dotnet pack during dotnet build  -->
