@@ -1,16 +1,18 @@
 ---
 title: "Synchronous Recognition"
-weight: 20
+weight: 23
 ---
+
+{{% panel theme="info" header="Note" %}}
+Synchronous recognize requests are suitable only for audio clips shorter than 30
+seconds.  In general, it is strongly recommended that you use streaming
+recognition.
+{{% /panel %}}
 
 The following example shows how to transcribe a short audio clip using Cubic's
 Synchoronous Recognize Request. It is assumed that the audio file contains raw
 samples, PCM16SLE like Cubic expects.  We will query the server for available
 models and use the first model to transcribe this speech.
-
-Synchronous recognize requests are suitable only for audio clips shorter than 30
-seconds. In general, it is strongly recommended that you use streaming
-recognition.
 
 <!--more-->
 

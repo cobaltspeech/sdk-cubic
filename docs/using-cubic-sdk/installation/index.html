@@ -5,7 +5,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Cubic Command-line Interface :: Cubic SDK -- Cobalt</title>
+<title>Installing the SDK :: Cubic SDK -- Cobalt</title>
 <link rel="shortcut icon" href="/sdk-cubic/images/favicon.ico" type="image/x-icon" />
 <link href="/sdk-cubic/css/nucleus.css" rel="stylesheet">
 <link href="/sdk-cubic/css/font-awesome.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
 
     
   </head>
-  <body data-url="/sdk-cubic/getting-started/cubic-cli/">
+  <body data-url="/sdk-cubic/using-cubic-sdk/installation/">
     
       <div id="headermain"></div>
 <nav id="sidebar" class="showVisitedLinks">
@@ -69,52 +69,51 @@
             <li data-nav-id="/sdk-cubic/" class="dd-item">
             <a href="/sdk-cubic/"><i class="fa fa-fw fa-home"></i></a>
             </li>
-    <li data-nav-id="/sdk-cubic/getting-started/" class="dd-item parent alwaysopen haschildren
+    <li data-nav-id="/sdk-cubic/getting-started/" class="dd-item
         ">
       <div>
-      <a href="/sdk-cubic/getting-started/">Getting started</a>
+      <a href="/sdk-cubic/getting-started/">Server Setup</a><i class="fa fa-circle-thin read-icon"></i>
+      </div>
+    </li>
+    <li data-nav-id="/sdk-cubic/using-cubic-sdk/" class="dd-item parent haschildren
+        ">
+      <div>
+      <a href="/sdk-cubic/using-cubic-sdk/">Using Cubic-SDK</a>
             <i class="fa fa-angle-down fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
       </div>
         <ul>
-      <li data-nav-id="/sdk-cubic/getting-started/installation/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/installation/" class="dd-item active">
         <div>
-          <a href="/sdk-cubic/getting-started/installation/">
+          <a href="/sdk-cubic/using-cubic-sdk/installation/">
             Installing the SDK
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
-      <li data-nav-id="/sdk-cubic/getting-started/cubic_docker/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/connecting/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/cubic_docker/">
-            Installing the cubicsvr Image
-          </a><i class="fa fa-circle-thin read-icon"></i>
-        </div>
-    </li>
-      <li data-nav-id="/sdk-cubic/getting-started/connecting/" class="dd-item">
-        <div>
-          <a href="/sdk-cubic/getting-started/connecting/">
+          <a href="/sdk-cubic/using-cubic-sdk/connecting/">
             Setup Connection
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
-      <li data-nav-id="/sdk-cubic/getting-started/recognize/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/recognize/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/recognize/">
+          <a href="/sdk-cubic/using-cubic-sdk/recognize/">
             Synchronous Recognition
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
-      <li data-nav-id="/sdk-cubic/getting-started/streaming/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/streaming/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/streaming/">
+          <a href="/sdk-cubic/using-cubic-sdk/streaming/">
             Streaming Recognition
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
-      <li data-nav-id="/sdk-cubic/getting-started/cubic-cli/" class="dd-item active">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/client-configs/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/cubic-cli/">
-            Cubic Command-line Interface
+          <a href="/sdk-cubic/using-cubic-sdk/client-configs/">
+            Recognition Configurations
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
@@ -177,7 +176,7 @@
 
 
 
- <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > <a href='/sdk-cubic/getting-started/'>Getting started</a> > Cubic Command-line Interface
+ <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > <a href='/sdk-cubic/using-cubic-sdk/'>Using Cubic-SDK</a> > Installing the SDK
 
  
 
@@ -190,7 +189,18 @@
     
     <div class="progress">
         <div class="wrapper">
-    
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#go">Go</a></li>
+<li><a href="#python">Python</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
         </div>
     </div>
     
@@ -200,7 +210,7 @@
 
 <div id="body-inner">
   
-    <h1>Cubic Command-line Interface</h1>
+    <h1>Installing the SDK</h1>
   
 
 
@@ -208,8 +218,18 @@
     
     
     
-    <p>Cobalt provides a command-line interface built using our Go SDK to specify an audio file or list of files and get transcripts back from a running instance of cubicsvr. The <a href="https://github.com/cobaltspeech/cubic-cli">source code</a> is available to use as an example client.</p>
+    <p>Instructions for installing the SDK are language specific.</p>
 
+<h3 id="go">Go</h3>
+
+<p>The Go SDK supports Go modules and requires Go 1.12 or later. To use the SDK,
+import this package into your application:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#ed9d13">&#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic&#34;</span></code></pre></div>
+<h3 id="python">Python</h3>
+
+<p>The Python SDK depends on Python &gt;= 3.5. You may use pip to perform a system-wide install, or use virtualenv for a local install.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install --upgrade pip
+pip install <span style="color:#ed9d13">&#34;git+https://github.com/cobaltspeech/sdk-cubic#egg=cobalt-cubic&amp;subdirectory=grpc/py-cubic&#34;</span></code></pre></div>
 
     
     
@@ -220,8 +240,8 @@
 </div>
 
 <div id="navigation">
-<a class="nav nav-prev" href="/sdk-cubic/getting-started/streaming/" title="Streaming Recognition"> <i class="fa fa-chevron-left"></i><label>Streaming Recognition</label></a>
-    <a class="nav nav-next" href="/sdk-cubic/protobuf/" title="Cubic API Reference" style="margin-right: 0px;"><label>Cubic API Reference</label><i class="fa fa-chevron-right"></i></a></div>
+<a class="nav nav-prev" href="/sdk-cubic/using-cubic-sdk/" title="Using Cubic-SDK"> <i class="fa fa-chevron-left"></i><label>Using Cubic-SDK</label></a>
+    <a class="nav nav-next" href="/sdk-cubic/using-cubic-sdk/connecting/" title="Setup Connection" style="margin-right: 0px;"><label>Setup Connection</label><i class="fa fa-chevron-right"></i></a></div>
 
 </section>
 <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">

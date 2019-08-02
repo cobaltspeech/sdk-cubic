@@ -5,7 +5,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Getting started :: Cubic SDK -- Cobalt</title>
+<title>Server Setup :: Cubic SDK -- Cobalt</title>
 <link rel="shortcut icon" href="/sdk-cubic/images/favicon.ico" type="image/x-icon" />
 <link href="/sdk-cubic/css/nucleus.css" rel="stylesheet">
 <link href="/sdk-cubic/css/font-awesome.min.css" rel="stylesheet">
@@ -69,52 +69,50 @@
             <li data-nav-id="/sdk-cubic/" class="dd-item">
             <a href="/sdk-cubic/"><i class="fa fa-fw fa-home"></i></a>
             </li>
-    <li data-nav-id="/sdk-cubic/getting-started/" class="dd-item parent active alwaysopen haschildren
+    <li data-nav-id="/sdk-cubic/getting-started/" class="dd-item parent active
         ">
       <div>
-      <a href="/sdk-cubic/getting-started/">Getting started</a>
-            <i class="fa fa-angle-down fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
+      <a href="/sdk-cubic/getting-started/">Server Setup</a><i class="fa fa-circle-thin read-icon"></i>
+      </div>
+    </li>
+    <li data-nav-id="/sdk-cubic/using-cubic-sdk/" class="dd-item haschildren
+        ">
+      <div>
+      <a href="/sdk-cubic/using-cubic-sdk/">Using Cubic-SDK</a><i class="fa fa-angle-right fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
       </div>
         <ul>
-      <li data-nav-id="/sdk-cubic/getting-started/quickstart/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/installation/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/quickstart/">
-            Quick Start
-          </a><i class="fa fa-circle-thin read-icon"></i>
-        </div>
-    </li>
-      <li data-nav-id="/sdk-cubic/getting-started/cubic_docker/" class="dd-item">
-        <div>
-          <a href="/sdk-cubic/getting-started/cubic_docker/">
-            Installing the Cubicsvr Image
-          </a><i class="fa fa-circle-thin read-icon"></i>
-        </div>
-    </li>
-      <li data-nav-id="/sdk-cubic/getting-started/installation/" class="dd-item">
-        <div>
-          <a href="/sdk-cubic/getting-started/installation/">
+          <a href="/sdk-cubic/using-cubic-sdk/installation/">
             Installing the SDK
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
-      <li data-nav-id="/sdk-cubic/getting-started/connecting/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/connecting/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/connecting/">
+          <a href="/sdk-cubic/using-cubic-sdk/connecting/">
             Setup Connection
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
-      <li data-nav-id="/sdk-cubic/getting-started/recognize/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/recognize/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/recognize/">
+          <a href="/sdk-cubic/using-cubic-sdk/recognize/">
             Synchronous Recognition
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
-      <li data-nav-id="/sdk-cubic/getting-started/streaming/" class="dd-item">
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/streaming/" class="dd-item">
         <div>
-          <a href="/sdk-cubic/getting-started/streaming/">
+          <a href="/sdk-cubic/using-cubic-sdk/streaming/">
             Streaming Recognition
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/client-configs/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/client-configs/">
+            Recognition Configurations
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
@@ -174,7 +172,7 @@
 
 
 
- <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > Getting started
+ <a href='/sdk-cubic/'>Cubic SDK Documentation</a> > Server Setup
 
  
 
@@ -185,7 +183,18 @@
     
     <div class="progress">
         <div class="wrapper">
-    
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#installing-the-cubic-server-image">Installing the Cubic Server Image</a></li>
+<li><a href="#contents-of-the-docker-image">Contents of the docker image</a>
+<ul>
+<li><a href="#cobalt-specific-files">Cobalt-specific files</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
         </div>
     </div>
     
@@ -195,7 +204,7 @@
 
 <div id="body-inner">
   
-    <h1>Getting started</h1>
+    <h1>Server Setup</h1>
   
 
 
@@ -204,142 +213,70 @@
     
     
 
+<p>This section is meant to get you started using Cubic Server via a Docker image.</p>
 
+<p>It is not necessary to go through through these steps to call the demo server for evaluation purposes, only to run Cubic Server on premises.  The demo server can be found at <a href="https://demo-cubic.cobaltspeech.com">https://demo-cubic.cobaltspeech.com</a>.</p>
 
-<div class="extra-pagination inner">
-<nav class="pagination" role="navigation">
-	
-	<span class="page-number">Page 1 of 1</span>
-	
-</nav>
-
+<div class="panel panel-default">
+    <div class="panel-heading">Note</div>
+    <div class="panel-body">
+Commercial use of the demo service is not permitted. This server is for testing and demonstration purposes only and is not guaranteed to support high availability or high volume. Data uploaded to the server may be stored for internal purposes.
 </div>
+    
 
+<p></div></p>
 
-   <article class="post getting-started">
-    <header class="post-header">
-        <h2 class="post-title"><a href="/sdk-cubic/getting-started/quickstart/">Quick Start</a></h2>
-    </header>
-    <section class="post-excerpt">
-        <p>To evaluate Cobalt&rsquo;s speech recognition, you can access the Cubic web demo or can download a command-line interface built using our Go SDK to specify an audio file or list of files and get transcripts back from a running instance of cubicsvr. The source code for cubic-cli is available to use as an example client.
-The command-line tool can call a local instance of Cubic (see Installing the Cubicsvr Image) or the demo server. <a class="read-more" href="/sdk-cubic/getting-started/quickstart/">&raquo;</a></p>
-    </section>
-    <footer class=" footline" >
-         
-        
+<h2 id="installing-the-cubic-server-image">Installing the Cubic Server Image</h2>
 
-        
-        
+<p>The SDK communicates with a Cubic Server instance using <a href="https://grpc.io">gRPC</a>.  Cobalt distributes a docker image that contains the <code>cubicsvr</code> binary and model files.</p>
 
-    </footer>
-</article>
+<ol>
+<li><p>Contact Cobalt to get a link to the image file in AWS S3.  This link will expire in two weeks, so be sure to download the file to your own server.</p></li>
 
-   <article class="post getting-started">
-    <header class="post-header">
-        <h2 class="post-title"><a href="/sdk-cubic/getting-started/cubic_docker/">Installing the Cubicsvr Image</a></h2>
-    </header>
-    <section class="post-excerpt">
-        <p><p>The SDK is used to call an instance of cubicsvr using gRPC.  Cobalt distributes a docker image that contains the cubicsvr binary and model files.
-It is not necessary to go through through these steps to call the demo server for evaluation purposes, only to run cubicsvr on premises.</p> <a class="read-more" href="/sdk-cubic/getting-started/cubic_docker/">&raquo;</a></p>
-    </section>
-    <footer class=" footline" >
-         
-        
+<li><p>Download with the AWS CLI if you have it, or with curl:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#40ffff">URL</span>=<span style="color:#ed9d13">&#34;the url sent by Cobalt&#34;</span>
+<span style="color:#40ffff">IMAGE_NAME</span>=<span style="color:#ed9d13">&#34;name you want to give the file (should end with the same extension as the url, usually bz2)&#34;</span>
+curl <span style="color:#40ffff">$URL</span> -L -o <span style="color:#40ffff">$IMAGE_NAME</span></code></pre></div></li>
 
-        
-        
+<li><p>Load the docker image</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker load &lt; <span style="color:#40ffff">$IMAGE_NAME</span></code></pre></div>
+<p>This will output the name of the image (e.g. cubicsvr-demo-en_us-16).</p></li>
 
-    </footer>
-</article>
+<li><p>Start the cubic service</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -p <span style="color:#3677a9">2727</span>:2727 -p <span style="color:#3677a9">8080</span>:8080 --name cobalt cubicsvr-demo-en_us-16</code></pre></div>
+<p>That will start listening for grpc commands on port 2727 and http requests on 8080, and will stream the debug log to stdout.  (You can replace <code>--name cobalt</code> with whatever name you want.  That just provides a way to refer back to the currently running container.)</p></li>
 
-   <article class="post getting-started">
-    <header class="post-header">
-        <h2 class="post-title"><a href="/sdk-cubic/getting-started/installation/">Installing the SDK</a></h2>
-    </header>
-    <section class="post-excerpt">
-        <p><p>Instructions for installing the SDK are language specific.</p> <a class="read-more" href="/sdk-cubic/getting-started/installation/">&raquo;</a></p>
-    </section>
-    <footer class=" footline" >
-         
-        
+<li><p>Verify the service is running by calling</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl http://localhost:8080/api/version</code></pre></div></li>
 
-        
-        
+<li><p>If you want to explore the package to see the model files etc, call the following to open the bash terminal on the previously run image.  Model files are located in the /model directory.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker <span style="color:#24909d">exec</span> -it cobalt bash</code></pre></div></li>
+</ol>
 
-    </footer>
-</article>
+<h2 id="contents-of-the-docker-image">Contents of the docker image</h2>
 
-   <article class="post getting-started">
-    <header class="post-header">
-        <h2 class="post-title"><a href="/sdk-cubic/getting-started/connecting/">Setup Connection</a></h2>
-    </header>
-    <section class="post-excerpt">
-        <p><p>Once you have your Cubic server up and running, let&rsquo;s see how we can use the SDK
-to connect to it.</p> <a class="read-more" href="/sdk-cubic/getting-started/connecting/">&raquo;</a></p>
-    </section>
-    <footer class=" footline" >
-         
-        
+<ul>
+<li><strong>Base docker image</strong> : debian-stretch-slim</li>
+<li><strong>Additional dependencies</strong>
 
-        
-        
+<ul>
+<li>sox</li>
+</ul></li>
+</ul>
 
-    </footer>
-</article>
+<h3 id="cobalt-specific-files">Cobalt-specific files</h3>
 
-   <article class="post getting-started">
-    <header class="post-header">
-        <h2 class="post-title"><a href="/sdk-cubic/getting-started/recognize/">Synchronous Recognition</a></h2>
-    </header>
-    <section class="post-excerpt">
-        <p><p>The following example shows how to transcribe a short audio clip using Cubic&rsquo;s
-Synchoronous Recognize Request. It is assumed that the audio file contains raw
-samples, PCM16SLE like Cubic expects.  We will query the server for available
-models and use the first model to transcribe this speech.</p>
-
-<p>Synchronous recognize requests are suitable only for audio clips shorter than 30
-seconds. In general, it is strongly recommended that you use streaming
-recognition.</p> <a class="read-more" href="/sdk-cubic/getting-started/recognize/">&raquo;</a></p>
-    </section>
-    <footer class=" footline" >
-         
-        
-
-        
-        
-
-    </footer>
-</article>
-
-   <article class="post getting-started">
-    <header class="post-header">
-        <h2 class="post-title"><a href="/sdk-cubic/getting-started/streaming/">Streaming Recognition</a></h2>
-    </header>
-    <section class="post-excerpt">
-        <p><p>The following example shows how to transcribe an audio file using Cubic’s
-Streaming Recognize Request. The stream can come from a file on disk or be
-directly from a microphone in real time.</p> <a class="read-more" href="/sdk-cubic/getting-started/streaming/">&raquo;</a></p>
-    </section>
-    <footer class=" footline" >
-         
-        
-
-        
-        
-
-    </footer>
-</article>
-
-
-<div style="margin-bottom:2rem"></div>
-
-<nav class="pagination" role="navigation">
-	
-	<span class="page-number">Page 1 of 1</span>
-	
-</nav>
-
-
+<ul>
+<li><strong>cubicsvr</strong> - binary for performing Automatic Speech Recognition</li>
+<li><strong>model.config</strong> - top-level config</li>
+<li><strong>am/nnet3_online/final.mdl</strong> - this is the acoustic model</li>
+<li><strong>am/nnet3_online/conf/online_cmvn.conf</strong> - feature extraction parameters for the features fed into the GMM model used for i-vector statistics accumulation.</li>
+<li><strong>am/nnet3_online/conf/splice.conf</strong> - GMM feature context when accumulating statistics for i-vector accumulation.</li>
+<li><strong>am/nnet3_online/ivector_extractor/</strong>* - Kaldi configuration files related to ivectors<br /></li>
+<li><strong>graph/HCLG.fst</strong> - the decoding graph: the combination of the AMs transition graph, the lexicon, and the language model</li>
+<li><strong>graph/words.txt</strong> - an integer to word mapping, needed because the output of the HCLG graph contains only integer symbol IDs</li>
+<li><strong>graph/phones/word_boundary.int</strong> - this is needed only when confusion network output is requested, it tells the decoder which phones are at word boundaries</li>
+</ul>
 
 
     
@@ -352,7 +289,7 @@ directly from a microphone in real time.</p> <a class="read-more" href="/sdk-cub
 
 <div id="navigation">
 <a class="nav nav-prev" href="/sdk-cubic/" title="Cubic SDK Documentation"> <i class="fa fa-chevron-left"></i><label>Cubic SDK Documentation</label></a>
-    <a class="nav nav-next" href="/sdk-cubic/getting-started/quickstart/" title="Quick Start" style="margin-right: 0px;"><label>Quick Start</label><i class="fa fa-chevron-right"></i></a></div>
+    <a class="nav nav-next" href="/sdk-cubic/using-cubic-sdk/" title="Using Cubic-SDK" style="margin-right: 0px;"><label>Using Cubic-SDK</label><i class="fa fa-chevron-right"></i></a></div>
 
 </section>
 <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">

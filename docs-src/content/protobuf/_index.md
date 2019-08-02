@@ -1,6 +1,6 @@
 ---
 title: "Cubic API Reference"
-weight: 10
+weight: 3
 ---
 
 The Cubic API is specified as a [proto

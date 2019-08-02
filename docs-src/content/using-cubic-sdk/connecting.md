@@ -1,6 +1,6 @@
 ---
 title: "Setup Connection"
-weight: 10
+weight: 22
 ---
 
 Once you have your Cubic server up and running, let's see how we can use the SDK
