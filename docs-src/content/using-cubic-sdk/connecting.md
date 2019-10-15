@@ -80,6 +80,21 @@ Console.WriteLine(String.Format("CubicServer: {0}, Cubic: {1}", resp.Server, res
 ```
 {{% /tab %}}
 
+{{% tab "Java/Android" %}}
+``` java
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+
+import com.cobaltspeech.cubic.CubicGrpc;
+
+String url = "127.0.0.1:2727"
+ManagedChannel mCubicChannel = ManagedChannelBuilder
+		.forTarget(url)
+		.build();
+CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
+```
+{{% /tab %}}
+
 {{%/tabs %}}
 
 
@@ -111,6 +126,22 @@ client = cubic.Client(serverAddress, insecure=True)
 var creds = Grpc.Core.ChannelCredentials.Insecure;
 var channel = new Grpc.Core.Channel(serverAddr, creds);
 var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+```
+{{% /tab %}}
+
+{{% tab "Java/Android" %}}
+``` java
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+
+import com.cobaltspeech.cubic.CubicGrpc;
+
+String url = "127.0.0.1:2727"
+ManagedChannel mCubicChannel = ManagedChannelBuilder
+		.forTarget(url)
+		.usePlainText()
+		.build();
+CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
 ```
 {{% /tab %}}
 
@@ -152,6 +183,12 @@ var creds = new Grpc.Core.SslCredentials(File.ReadAllText("root.pem"));
 var channel = new Grpc.Core.Channel(serverAddr, creds);
 var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
 ```
+{{% /tab %}}
+
+{{% tab "Java/Android" %}}
+
+Please see the Java section of https://grpc.io/docs/guides/auth/ for more details.
+
 {{% /tab %}}
 
 {{%/tabs %}}
