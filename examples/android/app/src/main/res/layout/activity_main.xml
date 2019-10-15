@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Copyright (2019) Cobalt Speech and Language, Inc. All rights reserved.-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/label_URL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:paddingLeft="8dp"
+            android:paddingEnd="8dp"
+            android:paddingRight="8dp"
+            android:layout_gravity="center_vertical"
+            android:text="@string/server_url" />
+
+        <EditText
+            android:id="@+id/editText_URL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="#FFF"
+            android:ems="10"
+            android:inputType="textUri"
+            android:paddingStart="4dp"
+            android:paddingLeft="4dp"
+            android:paddingEnd="4dp"
+            android:paddingRight="4dp"
+            android:text="@string/demo_server_url"
+            android:hint="@string/url_port_hint" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Switch
+            android:id="@+id/switchSecureConnection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="36dp"
+            android:layout_marginLeft="36dp"
+            android:text="@string/secure_connection" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/buttonConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/connect" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/labelModels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/models" />
+
+        <Spinner
+            android:id="@+id/spinnerModels"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:enabled="false"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonPushToTalk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:enabled="false"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/push_to_talk" />
+
+    <TextView
+        android:id="@+id/textViewResults"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#FFF"
+        android:text="@string/transcriptions_will_appear_here" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/labelVersions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/versions" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/labelCopyright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Copyright 2019"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,345 @@
+// Copyright (2019) Cobalt Speech and Language Inc.
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package cobaltspeech.cubic;
+
+import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
+
+option go_package = "cubicpb";
+option java_package = "com.cobaltspeech.cubic";
+
+
+// Service that implements the Cobalt Cubic Speech Recognition API
+service Cubic {
+  // Queries the Version of the Server
+  rpc Version (VersionRequest) returns (VersionResponse) {
+    option (google.api.http) = {
+      get: "/api/version"
+    };
+  }
+
+
+  // Retrieves a list of available speech recognition models
+  rpc ListModels (ListModelsRequest) returns (ListModelsResponse) {
+    option (google.api.http) = {
+      get: "/api/listmodels"
+    };
+  }
+
+  // Performs synchronous speech recognition: receive results after all audio
+  // has been sent and processed.  It is expected that this request be typically
+  // used for short audio content: less than a minute long.  For longer content,
+  // the `StreamingRecognize` method should be preferred.
+  rpc Recognize(RecognizeRequest) returns (RecognitionResponse) {
+    option (google.api.http) = {
+      post: "/api/recognize"
+      body: "*"
+    };
+  }
+
+  // Performs bidirectional streaming speech recognition.  Receive results while
+  // sending audio.  This method is only available via GRPC and not via
+  // HTTP+JSON. However, a web browser may use websockets to use this service.
+  rpc StreamingRecognize (stream StreamingRecognizeRequest) returns (stream RecognitionResponse) {
+    option (google.api.http) = {
+      get: "/api/stream"
+    };
+  }
+
+}
+
+// The top-level message sent by the client for the `ListModels` method.
+message ListModelsRequest {}
+// The top-level message sent by the client for the `Version` method.
+message VersionRequest {}
+
+// The top-level message sent by the client for the `Recognize` method.  Both
+// the `RecognitionConfig` and `RecognitionAudio` fields are required.  The
+// entire audio data must be sent in one request.  If your audio data is larger,
+// please use the `StreamingRecognize` call..
+message RecognizeRequest {
+  // Provides configuration to create the recognizer.
+  RecognitionConfig config = 1;
+
+  // The audio data to be recognized
+  RecognitionAudio audio = 2;
+}
+
+// The top-level message sent by the client for the `StreamingRecognize`
+// request.  Multiple `StreamingRecognizeRequest` messages are sent. The first
+// message must contain a `RecognitionConfig` message only, and all subsequent
+// messages must contain `RecognitionAudio` only.  All `RecognitionAudio`
+// messages must contain non-empty audio.  If audio content is empty, the server
+// may interpret it as end of stream and stop accepting any further messages.
+message StreamingRecognizeRequest {
+  oneof request {
+    RecognitionConfig config = 1;
+    RecognitionAudio audio = 2;
+  }
+
+}
+
+// The message sent by the server for the `Version` method.
+message VersionResponse {
+  // version of the cubic library handling the recognition
+  string cubic = 1;
+
+  // version of the server handling these requests
+  string server = 2;
+}
+
+
+// The message returned to the client by the `ListModels` method.
+message ListModelsResponse {
+  // List of models available for use that match the request.
+  repeated Model models = 1;
+}
+
+// Collection of sequence of recognition results in a portion of audio.  When
+// transcribing a single audio channel (e.g. RAW_LINEAR16 input, or a mono
+// file), results will be ordered chronologically.  When transcribing multiple
+// channels, the results of all channels will be interleaved.  Results of each
+// individual channel will be chronological.  No such promise is made for the
+// ordering of results of different channels, as results are returned for each
+// channel individually as soon as they are ready.
+message RecognitionResponse {
+  repeated RecognitionResult results = 1;
+}
+
+
+// Configuration for setting up a Recognizer
+message RecognitionConfig {
+  // Unique identifier of the model to use, as obtained from a `Model` message.
+  string model_id = 1;
+
+  // The encoding of the audio data to be sent for recognition.
+  //
+  // For best results, the audio source should be captured and transmitted using
+  // the RAW_LINEAR16 encoding.
+  enum Encoding {
+    // Raw (headerless) Uncompressed 16-bit signed little endian samples (linear
+    // PCM), single channel, sampled at the rate expected by the chosen `Model`.
+    RAW_LINEAR16 = 0;
+
+    // WAV (data with RIFF headers), with data sampled at a rate equal to or
+    // higher than the sample rate expected by the chosen Model.
+    WAV = 1;
+
+    // MP3 data, sampled at a rate equal to or higher than the sampling rate
+    // expected by the chosen Model.
+    MP3 = 2;
+
+    // FLAC data, sampled at a rate equal to or higher than the sample rate
+    // expected by the chosen Model.
+    FLAC = 3;
+
+    // VOX data (Dialogic ADPCM), sampled at 8 KHz.
+    VOX8000 = 4;
+
+    // μ-law (8-bit) encoded RAW data, single channel, sampled at 8 KHz.
+    ULAW8000 = 5;
+  }
+
+  // Encoding of audio data sent/streamed through the `RecognitionAudio`
+  // messages.  For encodings like WAV/MP3 that have headers, the headers are
+  // expected to be sent at the beginning of the stream, not in every
+  // `RecognitionAudio` message.
+  //
+  // If not specified, the default encoding is RAW_LINEAR16.
+  //
+  // Depending on how they are configured, server instances of this service may
+  // not support all the encodings enumerated above. They are always required to
+  // accept RAW_LINEAR16.  If any other `Encoding` is specified, and it is not
+  // available on the server being used, the recognition request will result in
+  // an appropriate error message.
+  Encoding audio_encoding = 2;
+
+  // Idle Timeout of the created Recognizer.  If no audio data is received by
+  // the recognizer for this duration, ongoing rpc calls will result in an
+  // error, the recognizer will be destroyed and thus more audio may not be sent
+  // to the same recognizer.  The server may impose a limit on the maximum idle
+  // timeout that can be specified, and if the value in this message exceeds
+  // that serverside value, creating of the recognizer will fail with an error.
+  google.protobuf.Duration idle_timeout = 3;
+
+  // This is an optional field.  If this is set to true, each result will
+  // include a list of words and the start time offset (timestamp) and the
+  // duration for each of those words.  If set to `false`, no word-level
+  // timestamps will be returned.  The default is `false`.
+  bool enable_word_time_offsets = 4;
+
+  // This is an optional field.  If this is set to true, each result will
+  // include a list of words and the confidence for those words.  If `false`, no
+  // word-level confidence information is returned.  The default is `false`.
+  bool enable_word_confidence = 5;
+
+  // This is an optional field.  If this is set to true, the transcripts will be
+  // presented as raw output from the recognizer without any formatting rules
+  // applied.  They will be in all UPPER CASE, numbers and other special
+  // entities would be presented as the spoken words.  If set to `false`,
+  // formatting rules will be applied to all results.  The default is `false`.
+  //
+  // As an example, if the spoken utterance was `here are four words`:
+  //   with this field set to `false`: "Here are 4 words"
+  //   with this field set to 'true' : "HERE ARE FOUR WORDS"
+  bool enable_raw_transcript = 6;
+
+  // This is an optional field.  If this is set to true, the results will
+  // include a confusion network.  If set to `false`, no confusion network will
+  // be returned.  The default is `false`.  If the model being used does not
+  // support a confusion network, results may be returned without a confusion
+  // network available.  If this field is set to `true`, then
+  // `enable_raw_transcript` is also forced to be true.
+  bool enable_confusion_network = 7;
+
+  // This is an optional field.  If the audio has multiple channels, this field
+  // should be configured with the list of channel indices that should be
+  // transcribed.  Channels are 0-indexed.
+  //
+  // Example: `[0]` for a mono file, `[0, 1]` for a stereo file.
+  //
+  // If this field is not set, a mono file will be assumed by default and only
+  // channel-0 will be transcribed even if the file actually has additional
+  // channels.
+  //
+  // Channels that are present in the audio may be omitted, but it is an error
+  // to include a channel index in this field that is not present in the audio.
+  // Channels may be listed in any order but the same index may not be repeated
+  // in this list.
+  //
+  // BAD: `[0, 2]` for a stereo file; BAD: `[0, 0]` for a mono file.
+  repeated uint32 audio_channels = 8;
+}
+
+// Audio to be sent to the recognizer
+message RecognitionAudio {
+  bytes data = 1;
+}
+
+// Description of a Cubic Model
+message Model {
+  // Unique identifier of the model.  This identifier is used to choose the
+  // model that should be used for recognition, and is specified in the
+  // `RecognitionConfig` message.
+  string id = 1;
+
+  // Model name.  This is a concise name describing the model, and maybe
+  // presented to the end-user, for example, to help choose which model to use
+  // for their recognition task.
+  string name = 2;
+
+  // Model attributes
+  ModelAttributes attributes = 3;
+}
+
+// Attributes of a Cubic Model
+message ModelAttributes {
+  // Audio sample rate supported by the model
+  uint32 sample_rate = 1;
+}
+
+// A recognition result corresponding to a portion of audio.
+message RecognitionResult {
+  // An n-best list of recognition hypotheses alternatives
+  repeated RecognitionAlternative alternatives = 1;
+
+  // If this is set to true, it denotes that the result is an interim partial
+  // result, and could change after more audio is processed.  If unset, or set
+  // to false, it denotes that this is a final result and will not change.
+  //
+  // Servers are not required to implement support for returning partial
+  // results, and clients should generally not depend on their availability.
+  bool is_partial = 2;
+
+  // If `enable_confusion_network` was set to true in the `RecognitionConfig`,
+  // and if the model supports it, a confusion network will be available in the
+  // results.
+  RecognitionConfusionNetwork cnet = 3;
+
+  // Channel of the audio file that this result was transcribed from.  For a
+  // mono file, or RAW_LINEAR16 input, this will be set to 0.
+  uint32 audio_channel = 4;
+
+}
+
+// A recognition hypothesis
+message RecognitionAlternative {
+  // Text representing the transcription of the words that the user spoke.
+  string transcript = 1;
+
+  // Confidence estimate between 0 and 1. A higher number represents a higher
+  // likelihood of the output being correct.
+  double confidence = 2;
+
+  // A list of word-specific information for each recognized word.  This is
+  // available only if `enable_word_confidence` or `enable_word_time_offsets`
+  // was set to `true` in the `RecognitionConfig`.
+  repeated WordInfo words = 3;
+
+  // Time offset relative to the beginning of audio received by the recognizer
+  // and corresponding to the start of this utterance.
+  google.protobuf.Duration start_time = 4;
+
+  // Duration of the current utterance in the spoken audio.
+  google.protobuf.Duration duration = 5;
+
+}
+
+// Word-specific information for recognized words
+message WordInfo {
+  // The actual word in the text
+  string word = 1;
+
+  // Confidence estimate between 0 and 1.  A higher number represents a
+  // higher likelihood that the word was correctly recognized.
+  double confidence = 2;
+
+  // Time offset relative to the beginning of audio received by the recognizer
+  // and corresponding to the start of this spoken word.
+  google.protobuf.Duration start_time = 3;
+
+  // Duration of the current word in the spoken audio.
+  google.protobuf.Duration duration = 4;
+}
+
+// Confusion network in recognition output
+message RecognitionConfusionNetwork {
+  repeated ConfusionNetworkLink links = 1;
+}
+
+// A Link inside a confusion network
+message ConfusionNetworkLink {
+  // Time offset relative to the beginning of audio received by the recognizer
+  // and corresponding to the start of this link
+  google.protobuf.Duration start_time = 1;
+
+  // Duration of the current link in the confusion network
+  google.protobuf.Duration duration = 2;
+
+  // Arcs between this link
+  repeated ConfusionNetworkArc arcs = 3;
+}
+
+// An Arc inside a Confusion Network Link
+message ConfusionNetworkArc {
+  // Word in the recognized transcript
+  string word = 1;
+
+  // Confidence estimate between 0 and 1.  A higher number represents a higher
+  // likelihood that the word was correctly recognized.
+  double confidence = 2;
+}
