@@ -11,3 +11,5 @@ This section discusses the various aspects of using the SDK as a client.
 * [Synchronous Recognition](./recognize)
 * [Streaming Recognition](./streaming)
 * [Recognition Configurations](./client-configs)
+
+It also provides an [integration overview for Android applications](./android).
