@@ -117,6 +117,13 @@
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/android/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/android/">
+            Android Integrations
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
         </ul>
     </li>
     <li data-nav-id="/sdk-cubic/protobuf/" class="dd-item haschildren
@@ -290,6 +297,19 @@ Console.WriteLine(String.Format(<span style="color:#ed9d13">&#34;CubicServer: {0
 </code></pre></div>
 </div>
 
+<div class="tab-pane" title="Java/Android">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannel</span>;
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannelBuilder</span>;
+
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">com.cobaltspeech.cubic.CubicGrpc</span>;
+
+String url = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+ManagedChannel mCubicChannel = ManagedChannelBuilder
+    .<span style="color:#bbb">forTarget</span>(url)
+    .<span style="color:#bbb">build</span>();
+CubicGrpc.<span style="color:#bbb">CubicStub</span> mCubicService = CubicGrpc.<span style="color:#bbb">newStub</span>(mCubicChannel);</code></pre></div>
+</div>
+
 <p></div>
 </div></p>
 
@@ -319,6 +339,20 @@ To connect to such an instance of cubic server, you can use:</p>
 <span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(serverAddr, creds);
 <span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
 </code></pre></div>
+</div>
+
+<div class="tab-pane" title="Java/Android">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannel</span>;
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannelBuilder</span>;
+
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">com.cobaltspeech.cubic.CubicGrpc</span>;
+
+String url = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+ManagedChannel mCubicChannel = ManagedChannelBuilder
+    .<span style="color:#bbb">forTarget</span>(url)
+    .<span style="color:#bbb">usePlainText</span>()
+    .<span style="color:#bbb">build</span>();
+CubicGrpc.<span style="color:#bbb">CubicStub</span> mCubicService = CubicGrpc.<span style="color:#bbb">newStub</span>(mCubicChannel);</code></pre></div>
 </div>
 
 <p></div>
@@ -357,6 +391,11 @@ authenticated TLS. This can be done with:</p>
 <span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(serverAddr, creds);
 <span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
 </code></pre></div>
+</div>
+
+<div class="tab-pane" title="Java/Android">
+  <p>Please see the Java section of <a href="https://grpc.io/docs/guides/auth/">https://grpc.io/docs/guides/auth/</a> for more details.</p>
+
 </div>
 
 <p></div>

@@ -75,5 +75,16 @@ Fields Here is a quick overview of the fields.
    Field Required Default Description     model_id Yes  Unique ID of the model to use.   audio_encoding Yes  Encoding format of the audio, such as RAW_LINEAR_16, WAV, MP3, etc.</description>
     </item>
     
+    <item>
+      <title>Android Integrations</title>
+      <link>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/android/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/android/</guid>
+      <description>Adding the protobuf-gradle-plugin to your Android project In your root build.gradle file, you will need to add a new protobuf-gradle-plugin dependancy
+buildscript { // ...  dependencies { // ...  classpath &amp;#34;com.google.protobuf:protobuf-gradle-plugin:0.8.10&amp;#34; // ...  } } This will allow you to have the gradle build script generate the protobuf code.
+Generating code from protobuf files Next, you will have to add the code to actually generate the files.</description>
+    </item>
+    
   </channel>
 </rss>

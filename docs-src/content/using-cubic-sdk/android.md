@@ -1,6 +1,6 @@
 ---
 title: "Android Integrations"
-weight: 25
+weight: 45
 ---
 
 ## Adding the `protobuf-gradle-plugin` to your Android project

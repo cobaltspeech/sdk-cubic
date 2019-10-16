@@ -117,6 +117,76 @@
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/android/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/android/">
+            Android Integrations
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
+        </ul>
+    </li>
+    <li data-nav-id="/sdk-cubic/protobuf/" class="dd-item haschildren
+        ">
+      <div>
+      <a href="/sdk-cubic/protobuf/">Cubic API Reference</a><i class="fa fa-angle-right fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
+      </div>
+        <ul>
+    <li data-nav-id="/sdk-cubic/getting-started/" class="dd-item
+        ">
+      <div>
+      <a href="/sdk-cubic/getting-started/">Server Setup</a><i class="fa fa-circle-thin read-icon"></i>
+      </div>
+    </li>
+    <li data-nav-id="/sdk-cubic/using-cubic-sdk/" class="dd-item parent haschildren
+        ">
+      <div>
+      <a href="/sdk-cubic/using-cubic-sdk/">Using Cubic-SDK</a>
+            <i class="fa fa-angle-down fa-lg category-icon"></i><i class="fa fa-circle-thin read-icon"></i>
+      </div>
+        <ul>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/installation/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/installation/">
+            Installing the SDK
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/connecting/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/connecting/">
+            Setup Connection
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/recognize/" class="dd-item active">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/recognize/">
+            Synchronous Recognition
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/streaming/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/streaming/">
+            Streaming Recognition
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/client-configs/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/client-configs/">
+            Recognition Configurations
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/android/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/android/">
+            Android Integrations
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
         </ul>
     </li>
     <li data-nav-id="/sdk-cubic/protobuf/" class="dd-item haschildren
@@ -131,6 +201,8 @@
             Cubic Protobuf API Docs
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
+    </li>
+        </ul>
     </li>
         </ul>
     </li>
@@ -347,6 +419,63 @@ resp = client.Recognize(cfg, audio)
     }
 }
 </code></pre></div>
+</div>
+
+<div class="tab-pane" title="Java/Android">
+  <p>Please note: this example does not attempt to handle threading and all exceptions.
+It gives a quick overview of what should be done from the gRPC point of view.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannel</span>;
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannelBuilder</span>;
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.stub.StreamObserver</span>;
+
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">com.google.protobuf.ByteString</span>;
+
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">com.cobaltspeech.cubic.CubicGrpc</span>;
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">com.cobaltspeech.cubic.CubicOuterClass.*</span>;
+
+<span style="color:#6ab825;font-weight:bold">public</span> <span style="color:#6ab825;font-weight:bold">static</span> <span style="color:#6ab825;font-weight:bold">int</span> <span style="color:#447fcf">main</span>() {
+    <span style="color:#999;font-style:italic">// Setup connection
+</span><span style="color:#999;font-style:italic"></span>    CubicGrpc.<span style="color:#bbb">CubicStub</span> mCubicService = CubicGrpc.<span style="color:#bbb">newStub</span>(
+        ManagedChannelBuilder.<span style="color:#bbb">forTarget</span>(url).<span style="color:#bbb">build</span>());
+
+    <span style="color:#999;font-style:italic">// Load the file into a ByteString for gRPC.
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">byte</span>[] fileContent = Files.<span style="color:#bbb">readAllBytes</span>(file.<span style="color:#bbb">toPath</span>());
+    ByteString fileContentBS = ByteString.<span style="color:#bbb">copyFrom</span>(fileContents)
+
+    <span style="color:#999;font-style:italic">// Setup config message (Using first model available)
+</span><span style="color:#999;font-style:italic"></span>    RecognitionConfig cfg = RecognitionConfig.<span style="color:#bbb">newBuilder</span>()
+        .<span style="color:#bbb">setModelId</span>(<span style="color:#ed9d13">&#34;ModelID&#34;</span>)
+        .<span style="color:#bbb">build</span>()
+
+    <span style="color:#999;font-style:italic">// Setup audio message
+</span><span style="color:#999;font-style:italic"></span>    RecognitionAudio audio = RecognitionAudio.<span style="color:#bbb">newBuilder</span>().<span style="color:#bbb">setData</span>(fileContentBS).<span style="color:#bbb">build</span>()
+
+    <span style="color:#999;font-style:italic">// Setup callback to handle results
+</span><span style="color:#999;font-style:italic"></span>    StreamObserver&lt;&gt; responseObserver = <span style="color:#6ab825;font-weight:bold">new</span> StreamObserver&lt;RecognitionResponse&gt;() {
+        <span style="color:#ffa500">@Override</span>
+        <span style="color:#6ab825;font-weight:bold">public</span> <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">onNext</span>(RecognitionResponse value) {
+            System.<span style="color:#bbb">out</span>.<span style="color:#bbb">println</span>(<span style="color:#ed9d13">&#34;Result: &#34;</span> + value.<span style="color:#bbb">toString</span>());
+        }
+
+        <span style="color:#ffa500">@Override</span>
+        <span style="color:#6ab825;font-weight:bold">public</span> <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">onError</span>(Throwable t) {
+            System.<span style="color:#bbb">err</span>.<span style="color:#bbb">println</span>(<span style="color:#ed9d13">&#34;Error with recognition:&#34;</span> + t.<span style="color:#bbb">toString</span>());
+        }
+
+        <span style="color:#ffa500">@Override</span>
+        <span style="color:#6ab825;font-weight:bold">public</span> <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">onCompleted</span>() {
+            System.<span style="color:#bbb">out</span>.<span style="color:#bbb">println</span>(<span style="color:#ed9d13">&#34;Server is done sending responses back&#34;</span>);
+        }
+    };
+
+    <span style="color:#999;font-style:italic">// Send it over to the server
+</span><span style="color:#999;font-style:italic"></span>    mCubicService.<span style="color:#bbb">recognize</span>(
+        RecognizeRequest.<span style="color:#bbb">newBuilder</span>()
+            .<span style="color:#bbb">setConfig</span>(cfg)
+            .<span style="color:#bbb">setAudio</span>(audio)
+            .<span style="color:#bbb">build</span>(),
+        responseObserver);
+}</code></pre></div>
 </div>
 
 <p></div>

@@ -196,65 +196,65 @@ import com.cobaltspeech.cubic.CubicGrpc;
 import com.cobaltspeech.cubic.CubicOuterClass.*;
 
 public static void transcribeFile() {
-	// Setup connection
-	CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(
-		ManagedChannelBuilder.forTarget(url).build());
+    // Setup connection
+    CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(
+        ManagedChannelBuilder.forTarget(url).build());
 
-	// Setup callback to handle results
-	StreamObserver<> responseObserver = new StreamObserver<RecognitionResponse>() {
-		@Override
-		public void onNext(RecognitionResponse value) {
-			System.out.println("Result: " + value.toString());
-		}
+    // Setup callback to handle results
+    StreamObserver<> responseObserver = new StreamObserver<RecognitionResponse>() {
+        @Override
+        public void onNext(RecognitionResponse value) {
+            System.out.println("Result: " + value.toString());
+        }
 
-		@Override
-		public void onError(Throwable t) {
-			System.err.println("Error with recognition:" + t.toString());
-		}
+        @Override
+        public void onError(Throwable t) {
+            System.err.println("Error with recognition:" + t.toString());
+        }
 
-		@Override
-		public void onCompleted() {
-			System.out.println("Server is done sending responses back");
-		}
-	};
+        @Override
+        public void onCompleted() {
+            System.out.println("Server is done sending responses back");
+        }
+    };
 
-	// Setup bidirectional stream
-	StreamObserver<StreamingRecognizeRequest> requestObserver; // Outgoing messages are sent on this request object
-	requestObserver = mCubicService.streamingRecognize(mRecognitionResponseObserver);
+    // Setup bidirectional stream
+    StreamObserver<StreamingRecognizeRequest> requestObserver; // Outgoing messages are sent on this request object
+    requestObserver = mCubicService.streamingRecognize(mRecognitionResponseObserver);
 
-	// Send config message
-	StreamingRecognizeRequest configs = StreamingRecognizeRequest.newBuilder()
-		// Note, we do not call setAudio here.
-		.setConfig(RecognitionConfig.newBuilder()
-			.setModelId("ModelID")
-			.build())
-		.build();
-	requestObserver.onNext(configs);
+    // Send config message
+    StreamingRecognizeRequest configs = StreamingRecognizeRequest.newBuilder()
+        // Note, we do not call setAudio here.
+        .setConfig(RecognitionConfig.newBuilder()
+            .setModelId("ModelID")
+            .build())
+        .build();
+    requestObserver.onNext(configs);
 
-	// Read the file in chunks and stream to server.
-	try {
-		FileInputStream is = new FileInputStream(new File("/path/to/file"));
-		byte[] bytes = new byte[1024];
-		int len = 0;
-		
-		// Read the file
-		while ((len = is.read(chunk)) != -1) {
-			// Convert byte[] to ByteString for gRPC
-			ByteString bs = ByteString.copyFrom(chunk);
+    // Read the file in chunks and stream to server.
+    try {
+        FileInputStream is = new FileInputStream(new File("/path/to/file"));
+        byte[] bytes = new byte[1024];
+        int len = 0;
 
-			// Send audio to server
-			requestObserver.onNext(StreamingRecognizeRequest.newBuilder()
-				.setAudio(RecognitionAudio.newBuilder()
-						.setData(audio)
-						.build())
-				.build());
-		}
-	} catch (Exception e) { } // Handle exception
+        // Read the file
+        while ((len = is.read(chunk)) != -1) {
+            // Convert byte[] to ByteString for gRPC
+            ByteString bs = ByteString.copyFrom(chunk);
 
-	// Close the client side stream
-	requestObserver.onComplete();
+            // Send audio to server
+            requestObserver.onNext(StreamingRecognizeRequest.newBuilder()
+                .setAudio(RecognitionAudio.newBuilder()
+                    .setData(audio)
+                    .build())
+                .build());
+        }
+    } catch (Exception e) { } // Handle exception
 
-	// Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
+    // Close the client side stream
+    requestObserver.onComplete();
+
+    // Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
 }
 ```
 {{% /tab %}}
@@ -482,75 +482,75 @@ import com.cobaltspeech.cubic.CubicGrpc;
 import com.cobaltspeech.cubic.CubicOuterClass.*;
 
 public static void transcribeFile() {
-	// Setup connection
-	CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(
-		ManagedChannelBuilder.forTarget(url).build());
+    // Setup connection
+    CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(
+        ManagedChannelBuilder.forTarget(url).build());
 
-	// Setup callback to handle results
-	StreamObserver<> responseObserver = new StreamObserver<RecognitionResponse>() {
-		@Override
-		public void onNext(RecognitionResponse value) {
-			System.out.println("Result: " + value.toString());
-		}
+    // Setup callback to handle results
+    StreamObserver<> responseObserver = new StreamObserver<RecognitionResponse>() {
+        @Override
+        public void onNext(RecognitionResponse value) {
+            System.out.println("Result: " + value.toString());
+        }
 
-		@Override
-		public void onError(Throwable t) {
-			System.err.println("Error with recognition:" + t.toString());
-		}
+        @Override
+        public void onError(Throwable t) {
+            System.err.println("Error with recognition:" + t.toString());
+        }
 
-		@Override
-		public void onCompleted() {
-			System.out.println("Server is done sending responses back");
-		}
-	};
+        @Override
+        public void onCompleted() {
+            System.out.println("Server is done sending responses back");
+        }
+    };
 
-	// Setup bidirectional stream
-	StreamObserver<StreamingRecognizeRequest> requestObserver; // Outgoing messages are sent on this request object
-	requestObserver = mCubicService.streamingRecognize(mRecognitionResponseObserver);
+    // Setup bidirectional stream
+    StreamObserver<StreamingRecognizeRequest> requestObserver; // Outgoing messages are sent on this request object
+    requestObserver = mCubicService.streamingRecognize(mRecognitionResponseObserver);
 
-	// Send config message
-	StreamingRecognizeRequest configs = StreamingRecognizeRequest.newBuilder()
-		// Note, we do not call setAudio here.
-		.setConfig(RecognitionConfig.newBuilder()
-			.setModelId("ModelID")
-			.build())
-		.build();
-	requestObserver.onNext(configs);
+    // Send config message
+    StreamingRecognizeRequest configs = StreamingRecognizeRequest.newBuilder()
+        // Note, we do not call setAudio here.
+        .setConfig(RecognitionConfig.newBuilder()
+            .setModelId("ModelID")
+            .build())
+        .build();
+    requestObserver.onNext(configs);
 
-	// Setup the Android Micorphone Recorder
-	int SAMPLE_RATE = 8000; // Same as the model is expecting
-	int BUFFER_SIZE = 1024;
-	AudioRecord recorder = new AudioRecord(
-			MediaRecorder.AudioSource.MIC,
-			SAMPLE_RATE,
-			AudioFormat.CHANNEL_IN_MONO,
-			AudioFormat.ENCODING_PCM_16BIT,
-			BUFFER_SIZE);
-	byte[] audioBuffer = new byte[BUFFER_SIZE];
-	recorder.startRecording();
+    // Setup the Android Micorphone Recorder
+    int SAMPLE_RATE = 8000; // Same as the model is expecting
+    int BUFFER_SIZE = 1024;
+    AudioRecord recorder = new AudioRecord(
+		MediaRecorder.AudioSource.MIC,
+		SAMPLE_RATE,
+		AudioFormat.CHANNEL_IN_MONO,
+		AudioFormat.ENCODING_PCM_16BIT,
+		BUFFER_SIZE);
+    byte[] audioBuffer = new byte[BUFFER_SIZE];
+    recorder.startRecording();
 
-	// Read the file in chunks and stream to server.
-	while (running) {
-		recorder.read(audioBuffer, 0, BUFFER_SIZE, AudioRecord.READ_BLOCKING);
+    // Read the file in chunks and stream to server.
+    while (running) {
+        recorder.read(audioBuffer, 0, BUFFER_SIZE, AudioRecord.READ_BLOCKING);
 
-		// Convert byte[] to ByteString for gRPC
-		ByteString bs = ByteString.copyFrom(audioBuffer);
+        // Convert byte[] to ByteString for gRPC
+        ByteString bs = ByteString.copyFrom(audioBuffer);
 
-		// Send audio to server
-		requestObserver.onNext(StreamingRecognizeRequest.newBuilder()
-			.setAudio(RecognitionAudio.newBuilder()
-					.setData(audio)
-					.build())
-			.build());
-	}
+        // Send audio to server
+        requestObserver.onNext(StreamingRecognizeRequest.newBuilder()
+            .setAudio(RecognitionAudio.newBuilder()
+				.setData(audio)
+				.build())
+            .build());
+    }
 
-	// Stop the microphone recoding.
-	recorder.stop();
+    // Stop the microphone recoding.
+    recorder.stop();
 
-	// Close the client side stream
-	requestObserver.onComplete();
+    // Close the client side stream
+    requestObserver.onComplete();
 
-	// Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
+    // Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
 }
 ```
 {{% /tab %}}
