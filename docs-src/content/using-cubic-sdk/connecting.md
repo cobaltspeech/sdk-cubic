@@ -89,8 +89,8 @@ import com.cobaltspeech.cubic.CubicGrpc;
 
 String url = "127.0.0.1:2727"
 ManagedChannel mCubicChannel = ManagedChannelBuilder
-		.forTarget(url)
-		.build();
+    .forTarget(url)
+    .build();
 CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
 ```
 {{% /tab %}}
@@ -138,9 +138,9 @@ import com.cobaltspeech.cubic.CubicGrpc;
 
 String url = "127.0.0.1:2727"
 ManagedChannel mCubicChannel = ManagedChannelBuilder
-		.forTarget(url)
-		.usePlainText()
-		.build();
+    .forTarget(url)
+    .usePlainText()
+    .build();
 CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
 ```
 {{% /tab %}}

@@ -164,47 +164,47 @@ import com.cobaltspeech.cubic.CubicGrpc;
 import com.cobaltspeech.cubic.CubicOuterClass.*;
 
 public static int main() {
-	// Setup connection
-	CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(
-		ManagedChannelBuilder.forTarget(url).build());
+    // Setup connection
+    CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(
+        ManagedChannelBuilder.forTarget(url).build());
 
-	// Load the file into a ByteString for gRPC.
-	byte[] fileContent = Files.readAllBytes(file.toPath());
-	ByteString fileContentBS = ByteString.copyFrom(fileContents)
+    // Load the file into a ByteString for gRPC.
+    byte[] fileContent = Files.readAllBytes(file.toPath());
+    ByteString fileContentBS = ByteString.copyFrom(fileContents)
 
-	// Setup config message (Using first model available)
-	RecognitionConfig cfg = RecognitionConfig.newBuilder()
-		.setModelId("ModelID")
-		.build()
+    // Setup config message (Using first model available)
+    RecognitionConfig cfg = RecognitionConfig.newBuilder()
+        .setModelId("ModelID")
+        .build()
 
-	// Setup audio message
-	RecognitionAudio audio = RecognitionAudio.newBuilder().setData(fileContentBS).build()
+    // Setup audio message
+    RecognitionAudio audio = RecognitionAudio.newBuilder().setData(fileContentBS).build()
 
-	// Setup callback to handle results
-	StreamObserver<> responseObserver = new StreamObserver<RecognitionResponse>() {
-		@Override
-		public void onNext(RecognitionResponse value) {
-			System.out.println("Result: " + value.toString());
-		}
+    // Setup callback to handle results
+    StreamObserver<> responseObserver = new StreamObserver<RecognitionResponse>() {
+        @Override
+        public void onNext(RecognitionResponse value) {
+            System.out.println("Result: " + value.toString());
+        }
 
-		@Override
-		public void onError(Throwable t) {
-			System.err.println("Error with recognition:" + t.toString());
-		}
+        @Override
+        public void onError(Throwable t) {
+            System.err.println("Error with recognition:" + t.toString());
+        }
 
-		@Override
-		public void onCompleted() {
-			System.out.println("Server is done sending responses back");
-		}
-	};
+        @Override
+        public void onCompleted() {
+            System.out.println("Server is done sending responses back");
+        }
+    };
 
-	// Send it over to the server
-	mCubicService.recognize(
-		RecognizeRequest.newBuilder()
-			.setConfig(cfg)
-			.setAudio(audio)
-			.build(),
-		responseObserver);
+    // Send it over to the server
+    mCubicService.recognize(
+        RecognizeRequest.newBuilder()
+            .setConfig(cfg)
+            .setAudio(audio)
+            .build(),
+        responseObserver);
 }
 ```
 {{% /tab %}}
