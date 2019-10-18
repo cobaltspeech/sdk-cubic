@@ -41,7 +41,7 @@ class AudioRecorderWrapper {
 
     // Provides a way to call items in the CubicManager without directly linking the two.
     public interface IAudioReadyCallback {
-        // Note: this callback is done on the same thread that recordAndroidAudio is called with.
+        // Note: this callback is executed on the same thread as recordAndroidAudio.
         void audioReady(byte[] audioBytes);
     }
 
@@ -79,7 +79,7 @@ class AudioRecorderWrapper {
         while (isRunning) {
             // Read audio bytes from the microphone
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // User the newer API if we can.
+                // Use the newer API if we can.
                 recorder.read(audio, 0, cfg.getBufferSizeInBytes(), AudioRecord.READ_BLOCKING);
             } else {
                 // Get exactly AUDIO_BUFF_SIZE bytes, in units of shorts

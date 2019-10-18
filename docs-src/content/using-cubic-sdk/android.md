@@ -5,7 +5,7 @@ weight: 45
 
 ## Adding the `protobuf-gradle-plugin` to your Android project
 
-In your root `build.gradle` file, you will need to add a new protobuf-gradle-plugin dependancy
+In your root `build.gradle` file, add a new protobuf-gradle-plugin dependency
 
 ``` groovy
 buildscript {
@@ -18,12 +18,12 @@ buildscript {
 }
 ```
 
-This will allow you to have the gradle build script generate the protobuf code.  
+This will allow the app's gradle build script to generate the protobuf code.  
 
 ## Generating code from protobuf files
 
 Next, you will have to add the code to actually generate the files.
-You will need to modifiy your `app/build.gradle` file with the following.
+To generate the gRPC code, modify your `app/build.gradle` file with the following:
 
 ``` groovy
 apply plugin: 'com.android.application' // Should already exist
@@ -32,7 +32,8 @@ apply plugin: 'com.google.protobuf' // Add this line
 android { /*...*/}
 
 // This section adds a step to generate the gRPC code from `app/src/main/proto` proto files.
-// The generated code should magically be available to your java/kotlin code.
+// This section adds a step to generate the gRPC code from `app/src/main/proto` proto files
+// and make it available to your java/kotlin code.
 protobuf {
     protoc {
         artifact = 'com.google.protobuf:protoc:3.10.0'
@@ -51,21 +52,21 @@ protobuf {
                 javalite {}
                 grpc {
                     // Options added to --grpc_out
-                    option 'lite' //gRPC suggest we use lite in android applications
+                    option 'lite' // the gRPC documentation suggests using lite in android applications
                 }
             }
         }
     }
 }
 
-// Then we need to add a few runtime dependancies
+// Runtime dependencies
 dependencies {
     // Existing dependencies ...
 
-    // Libraries needed for grpc stuff.
+    // gRPC Libraries
     // Note: changing the versions may require different libraries.
     implementation 'io.grpc:grpc-okhttp:1.24.0'
-    implementation 'io.grpc:grpc-protobuf-lite:1.24.0' // gRPC suggests we use lite in android applications
+    implementation 'io.grpc:grpc-protobuf-lite:1.24.0' // the gRPC documentation suggests using lite in android applications
     implementation 'io.grpc:grpc-stub:1.24.0'
     implementation 'io.grpc:grpc-auth:1.24.0'
     implementation 'javax.annotation:javax.annotation-api:1.2'
@@ -73,8 +74,8 @@ dependencies {
 
 ```
 
-Please note that this assumes all protofiles are availabe at `app/src/main/proto`.
-If you want to have the files somewhere else, you can add a line such as this.
+By default,  generateProtoTasks assumes all protofiles are availabe at `app/src/main/proto`.
+To include proto files somewhere else, add lines such as this:
 
 ``` groovy
 
@@ -119,4 +120,4 @@ At this point, you should be able to do a `Build>Clean Build` and `Build>Rebuild
 
 ## Contact us
 
-We know it takes work to get environments setup.  If you have any problems, don't hesitate to contact us.
+We know it takes work to get environments set up.  If you have any problems, don't hesitate to contact us.

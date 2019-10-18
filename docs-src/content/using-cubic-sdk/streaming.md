@@ -183,7 +183,7 @@ using (call)
 {{% tab "Java/Android" %}}
 
 Please note: this example does not attempt to handle threading and all exceptions.
-It gives a quick overview of what should be done from the gRPC point of view.
+It gives a simplified overview of the essential gRPC calls.
 
 ``` java
 import io.grpc.ManagedChannel;
@@ -467,7 +467,7 @@ Simply pass the bytes from the microphone the same as is done from the file in t
 
 This example uses the `android.media.AudioRecord` class and assumes the min API level is higher than Marshmallow.
 Please note: this example does not attempt to handle threading and all exceptions.
-It gives a quick overview of what should be done from the gRPC point of view.
+It gives a simplified overview of the essential gRPC calls.
 
 For a complete android example, see our example directory in [github repository](https://github.com/cobaltspeech/sdk-cubic).
 
