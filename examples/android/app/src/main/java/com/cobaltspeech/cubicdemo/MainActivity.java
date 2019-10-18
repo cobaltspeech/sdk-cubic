@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            // Fetch the Version (this one isn't that important.
+            // Fetch the Version (for information only, so not critical to wait for result)
             CubicOuterClass.VersionRequest versionRequest = CubicOuterClass.VersionRequest.newBuilder().build();
             mCubicService.version(versionRequest, new StreamObserver<VersionResponse>() {
                 @Override
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
         } else {
-            // We want to disconnect
+            // User disconnected
 
             // Close down the session
             if (mCubicChannel != null && !mCubicChannel.isShutdown()) {
@@ -320,8 +320,8 @@ public class MainActivity extends AppCompatActivity {
             mRecognitionRequestObserver = mCubicService.streamingRecognize(mRecognitionResponseObserver);
 
             // Send the config as the first message, with no audio.
-            // Audio is sent in the `mStreamRecognitionRequest` runnable.
-            // Note: don't call setAudio().
+            // Audio is sent in the `mStreamRecognitionRequest` runnable,
+            // so don't call setAudio() here.
             StreamingRecognizeRequest configs = StreamingRecognizeRequest.newBuilder()
                     .setConfig(RecognitionConfig.newBuilder()
                             .setModelId(mSelectedModel.getId())
@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Setup audio
             mAudioRecorder = new AudioRecorderWrapper(
-                    // Configs passed to androids AudioRecord object.
+                    // Configuration passed to android's AudioRecord object.
                     new AudioRecorderWrapper.Configs()
                             .setBytesBufferSize(SAMPLE_BLOCK_SIZE)
                             .setSampleRate(mSelectedModel.getAttributes().getSampleRate()),

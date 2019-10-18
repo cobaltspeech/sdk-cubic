@@ -151,7 +151,7 @@ foreach (var result in resp.Results)
 {{% tab "Java/Android" %}}
 
 Please note: this example does not attempt to handle threading and all exceptions.
-It gives a quick overview of what should be done from the gRPC point of view.
+It gives a simplified overview of the essential gRPC calls.
 
 ``` java
 import io.grpc.ManagedChannel;
