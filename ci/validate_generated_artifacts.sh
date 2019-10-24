@@ -3,11 +3,10 @@
 
 set -e
 
-# install system dependencies (ci assumes golang:1.12 as the base image)
-apt update && apt install -y python3 python-virtualenv unzip
-
-# generate all artifacts again
-make
+# CI assumes our internal sdk-generator as the base image, which already has
+# dependencies installed. Generate all artifacts again using the buildSDK.sh
+# script included in our image.
+bash $SDK_DEPS/bin/buildSDK.sh
 
 # it's an error if we generated something that wasn't checked in.
 git diff --name-only --exit-code || (echo "Not all generated files were checked in" && exit 1)
