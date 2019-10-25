@@ -54,7 +54,7 @@ ${GO_OUTDIR}/gw/cubic.pb.gw.go: cubic.proto
 	sed -i -E "s/Client /, client cubicpb./g" $@
 	sed -i -E "s/[^(]*Client, runtime/cubicpb.&/" $@
 	sed -i -E "s/New[A-Za-z]*Client/cubicpb.&/" $@
-	go fmt $@
+	cd $(dir $@) && go fmt $(notdir $@)
 
 ${PY_OUTDIR}/cubic_pb2.py: cubic.proto
 	mkdir -p ${PY_OUTDIR}
