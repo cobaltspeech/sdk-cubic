@@ -169,7 +169,7 @@ public static int main() {
         ManagedChannelBuilder.forTarget(url).build());
 
     // Load the file into a ByteString for gRPC.
-    byte[] fileContent = Files.readAllBytes(file.toPath());
+    byte[] fileContent = Files.readAllBytes("/path/to/file");
     ByteString fileContentBS = ByteString.copyFrom(fileContents)
 
     // Setup config message (Using first model available)

@@ -398,7 +398,7 @@ audio = <span style="color:#24909d">open</span>(<span style="color:#ed9d13">&#39
 
 <div class="tab-pane" title="Java/Android">
   <p>Please note: this example does not attempt to handle threading and all exceptions.
-It gives a quick overview of what should be done from the gRPC point of view.</p>
+It gives a simplified overview of the essential gRPC calls.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannel</span>;
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannelBuilder</span>;
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.stub.StreamObserver</span>;
@@ -453,19 +453,20 @@ It gives a quick overview of what should be done from the gRPC point of view.</p
         <span style="color:#999;font-style:italic">// Read the file
 </span><span style="color:#999;font-style:italic"></span>        <span style="color:#6ab825;font-weight:bold">while</span> ((len = is.<span style="color:#bbb">read</span>(chunk)) != -1) {
             <span style="color:#999;font-style:italic">// Convert byte[] to ByteString for gRPC
-</span><span style="color:#999;font-style:italic"></span>            ByteString bs = ByteString.<span style="color:#bbb">copyFrom</span>(chunk);
+</span><span style="color:#999;font-style:italic"></span>            ByteString audioBS = ByteString.<span style="color:#bbb">copyFrom</span>(chunk);
 
             <span style="color:#999;font-style:italic">// Send audio to server
-</span><span style="color:#999;font-style:italic"></span>            requestObserver.<span style="color:#bbb">onNext</span>(StreamingRecognizeRequest.<span style="color:#bbb">newBuilder</span>()
-                .<span style="color:#bbb">setAudio</span>(RecognitionAudio.<span style="color:#bbb">newBuilder</span>()
-                    .<span style="color:#bbb">setData</span>(audio)
-                    .<span style="color:#bbb">build</span>())
+</span><span style="color:#999;font-style:italic"></span>            RecognitionAudio audioMsg = RecognitionAudio.<span style="color:#bbb">newBuilder</span>()
+                .<span style="color:#bbb">setData</span>(audioBS)
+                .<span style="color:#bbb">build</span>()
+            requestObserver.<span style="color:#bbb">onNext</span>(StreamingRecognizeRequest.<span style="color:#bbb">newBuilder</span>()
+                .<span style="color:#bbb">setAudio</span>(audioMsg)
                 .<span style="color:#bbb">build</span>());
         }
     } <span style="color:#6ab825;font-weight:bold">catch</span> (Exception e) { } <span style="color:#999;font-style:italic">// Handle exception
 </span><span style="color:#999;font-style:italic"></span>
     <span style="color:#999;font-style:italic">// Close the client side stream
-</span><span style="color:#999;font-style:italic"></span>    requestObserver.<span style="color:#bbb">onComplete</span>();
+</span><span style="color:#999;font-style:italic"></span>    requestObserver.<span style="color:#bbb">onCompleted</span>();
 
     <span style="color:#999;font-style:italic">// Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
 </span><span style="color:#999;font-style:italic"></span>}</code></pre></div>
@@ -672,9 +673,9 @@ Simply pass the bytes from the microphone the same as is done from the file in t
 <div class="tab-pane" title="Java/Android">
   <p>This example uses the <code>android.media.AudioRecord</code> class and assumes the min API level is higher than Marshmallow.
 Please note: this example does not attempt to handle threading and all exceptions.
-It gives a quick overview of what should be done from the gRPC point of view.</p>
+It gives a simplified overview of the essential gRPC calls.</p>
 
-<p>For a complete android example, see our example directory in <a href="https://github.com/cobaltspeech/sdk-cubic">github repository</a>.</p>
+<p>For a complete android example, see the examples directory in <a href="https://github.com/cobaltspeech/sdk-cubic/examples/android">the sdk-cubic github repository</a>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannel</span>;
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannelBuilder</span>;
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.stub.StreamObserver</span>;
@@ -684,7 +685,7 @@ It gives a quick overview of what should be done from the gRPC point of view.</p
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">com.cobaltspeech.cubic.CubicGrpc</span>;
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">com.cobaltspeech.cubic.CubicOuterClass.*</span>;
 
-<span style="color:#6ab825;font-weight:bold">public</span> <span style="color:#6ab825;font-weight:bold">static</span> <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">transcribeFile</span>() {
+<span style="color:#6ab825;font-weight:bold">public</span> <span style="color:#6ab825;font-weight:bold">static</span> <span style="color:#6ab825;font-weight:bold">void</span> <span style="color:#447fcf">streamMicrophoneAudio</span>() {
     <span style="color:#999;font-style:italic">// Setup connection
 </span><span style="color:#999;font-style:italic"></span>    CubicGrpc.<span style="color:#bbb">CubicStub</span> mCubicService = CubicGrpc.<span style="color:#bbb">newStub</span>(
         ManagedChannelBuilder.<span style="color:#bbb">forTarget</span>(url).<span style="color:#bbb">build</span>());
@@ -712,11 +713,12 @@ It gives a quick overview of what should be done from the gRPC point of view.</p
 </span><span style="color:#999;font-style:italic"></span>    requestObserver = mCubicService.<span style="color:#bbb">streamingRecognize</span>(mRecognitionResponseObserver);
 
     <span style="color:#999;font-style:italic">// Send config message
-</span><span style="color:#999;font-style:italic"></span>    StreamingRecognizeRequest configs = StreamingRecognizeRequest.<span style="color:#bbb">newBuilder</span>()
-        <span style="color:#999;font-style:italic">// Note, we do not call setAudio here.
-</span><span style="color:#999;font-style:italic"></span>        .<span style="color:#bbb">setConfig</span>(RecognitionConfig.<span style="color:#bbb">newBuilder</span>()
+</span><span style="color:#999;font-style:italic"></span>    RecognitionConfig cfg = RecognitionConfig.<span style="color:#bbb">newBuilder</span>()
             .<span style="color:#bbb">setModelId</span>(<span style="color:#ed9d13">&#34;ModelID&#34;</span>)
-            .<span style="color:#bbb">build</span>())
+            .<span style="color:#bbb">build</span>();
+    StreamingRecognizeRequest configs = StreamingRecognizeRequest.<span style="color:#bbb">newBuilder</span>()
+        <span style="color:#999;font-style:italic">// Note, we do not call setAudio here.
+</span><span style="color:#999;font-style:italic"></span>        .<span style="color:#bbb">setConfig</span>(cfg)
         .<span style="color:#bbb">build</span>();
     requestObserver.<span style="color:#bbb">onNext</span>(configs);
 
@@ -737,13 +739,14 @@ It gives a quick overview of what should be done from the gRPC point of view.</p
         recorder.<span style="color:#bbb">read</span>(audioBuffer, 0, BUFFER_SIZE, AudioRecord.<span style="color:#bbb">READ_BLOCKING</span>);
 
         <span style="color:#999;font-style:italic">// Convert byte[] to ByteString for gRPC
-</span><span style="color:#999;font-style:italic"></span>        ByteString bs = ByteString.<span style="color:#bbb">copyFrom</span>(audioBuffer);
+</span><span style="color:#999;font-style:italic"></span>        ByteString audioBS = ByteString.<span style="color:#bbb">copyFrom</span>(audioBuffer);
 
         <span style="color:#999;font-style:italic">// Send audio to server
-</span><span style="color:#999;font-style:italic"></span>        requestObserver.<span style="color:#bbb">onNext</span>(StreamingRecognizeRequest.<span style="color:#bbb">newBuilder</span>()
-            .<span style="color:#bbb">setAudio</span>(RecognitionAudio.<span style="color:#bbb">newBuilder</span>()
-                .<span style="color:#bbb">setData</span>(audio)
-                .<span style="color:#bbb">build</span>())
+</span><span style="color:#999;font-style:italic"></span>        RecognitionAudio audioMsg = RecognitionAudio.<span style="color:#bbb">newBuilder</span>()
+            .<span style="color:#bbb">setData</span>(audioBS)
+            .<span style="color:#bbb">build</span>();
+        requestObserver.<span style="color:#bbb">onNext</span>(StreamingRecognizeRequest.<span style="color:#bbb">newBuilder</span>()
+            .<span style="color:#bbb">setAudio</span>(audioMsg)
             .<span style="color:#bbb">build</span>());
     }
 
@@ -751,9 +754,9 @@ It gives a quick overview of what should be done from the gRPC point of view.</p
 </span><span style="color:#999;font-style:italic"></span>    recorder.<span style="color:#bbb">stop</span>();
 
     <span style="color:#999;font-style:italic">// Close the client side stream
-</span><span style="color:#999;font-style:italic"></span>    requestObserver.<span style="color:#bbb">onComplete</span>();
+</span><span style="color:#999;font-style:italic"></span>    requestObserver.<span style="color:#bbb">onCompleted</span>();
 
-    <span style="color:#999;font-style:italic">// Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
+    <span style="color:#999;font-style:italic">// Note: Once the server is done transcribing everything, it will call responseObserver.onCompleted().
 </span><span style="color:#999;font-style:italic"></span>}</code></pre></div>
 </div>
 

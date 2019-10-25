@@ -64,7 +64,6 @@ dependencies {
     // Existing dependencies ...
 
     // gRPC Libraries
-    // Note: changing the versions may require different libraries.
     implementation 'io.grpc:grpc-okhttp:1.24.0'
     implementation 'io.grpc:grpc-protobuf-lite:1.24.0' // the gRPC documentation suggests using lite in android applications
     implementation 'io.grpc:grpc-stub:1.24.0'
@@ -97,10 +96,10 @@ cubic.proto also relies on a few other proto files:
 | Name | URL |
 | ---- | --- |
 | cubic.proto | https://github.com/cobaltspeech/sdk-cubic/blob/master/grpc/cubic.proto |
-| google/api/annotations.proto | https://github.com/googleapis/googleapis/blob/master/google/api/annotations.proto |
-| google/api/http.proto | https://github.com/googleapis/googleapis/blob/master/google/api/http.proto |
-| google/protobuf/descriptor.proto | https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/descriptor.proto |
-| google/protobuf/duration.proto | https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/duration.proto |
+| google/api/annotations.proto | https://github.com/googleapis/googleapis/blob/6ae2d42/google/api/annotations.proto |
+| google/api/http.proto | https://github.com/googleapis/googleapis/blob/6ae2d42/google/api/http.proto |
+| google/protobuf/descriptor.proto | https://github.com/protocolbuffers/protobuf/blob/044c766/src/google/protobuf/descriptor.proto |
+| google/protobuf/duration.proto | https://github.com/protocolbuffers/protobuf/blob/044c766/src/google/protobuf/duration.proto |
 
 Once you have all of these files downloaded, your file structure would look like this:
 
