@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     // gRPC client and stream observers.
-    private ManagedChannel mCubicChannel; // This is the main connection.
+    private ManagedChannel mCubicChannel;
     private CubicGrpc.CubicStub mCubicService; // This is the main connection.
 
     private ArrayList<CubicOuterClass.Model> mAvailableModels;

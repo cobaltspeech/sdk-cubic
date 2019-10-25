@@ -240,19 +240,20 @@ public static void transcribeFile() {
         // Read the file
         while ((len = is.read(chunk)) != -1) {
             // Convert byte[] to ByteString for gRPC
-            ByteString bs = ByteString.copyFrom(chunk);
+            ByteString audioBS = ByteString.copyFrom(chunk);
 
             // Send audio to server
+            RecognitionAudio audioMsg = RecognitionAudio.newBuilder()
+                .setData(audioBS)
+                .build()
             requestObserver.onNext(StreamingRecognizeRequest.newBuilder()
-                .setAudio(RecognitionAudio.newBuilder()
-                    .setData(audio)
-                    .build())
+                .setAudio(audioMsg)
                 .build());
         }
     } catch (Exception e) { } // Handle exception
 
     // Close the client side stream
-    requestObserver.onComplete();
+    requestObserver.onCompleted();
 
     // Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
 }
@@ -469,7 +470,7 @@ This example uses the `android.media.AudioRecord` class and assumes the min API 
 Please note: this example does not attempt to handle threading and all exceptions.
 It gives a simplified overview of the essential gRPC calls.
 
-For a complete android example, see our example directory in [github repository](https://github.com/cobaltspeech/sdk-cubic).
+For a complete android example, see the examples directory in [the sdk-cubic github repository](https://github.com/cobaltspeech/sdk-cubic/examples/android).
 
 ``` java
 import io.grpc.ManagedChannel;
@@ -481,7 +482,7 @@ import com.google.protobuf.ByteString;
 import com.cobaltspeech.cubic.CubicGrpc;
 import com.cobaltspeech.cubic.CubicOuterClass.*;
 
-public static void transcribeFile() {
+public static void streamMicrophoneAudio() {
     // Setup connection
     CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(
         ManagedChannelBuilder.forTarget(url).build());
@@ -509,11 +510,12 @@ public static void transcribeFile() {
     requestObserver = mCubicService.streamingRecognize(mRecognitionResponseObserver);
 
     // Send config message
+    RecognitionConfig cfg = RecognitionConfig.newBuilder()
+            .setModelId("ModelID")
+            .build();
     StreamingRecognizeRequest configs = StreamingRecognizeRequest.newBuilder()
         // Note, we do not call setAudio here.
-        .setConfig(RecognitionConfig.newBuilder()
-            .setModelId("ModelID")
-            .build())
+        .setConfig(cfg)
         .build();
     requestObserver.onNext(configs);
 
@@ -521,11 +523,11 @@ public static void transcribeFile() {
     int SAMPLE_RATE = 8000; // Same as the model is expecting
     int BUFFER_SIZE = 1024;
     AudioRecord recorder = new AudioRecord(
-		MediaRecorder.AudioSource.MIC,
-		SAMPLE_RATE,
-		AudioFormat.CHANNEL_IN_MONO,
-		AudioFormat.ENCODING_PCM_16BIT,
-		BUFFER_SIZE);
+        MediaRecorder.AudioSource.MIC,
+        SAMPLE_RATE,
+        AudioFormat.CHANNEL_IN_MONO,
+        AudioFormat.ENCODING_PCM_16BIT,
+        BUFFER_SIZE);
     byte[] audioBuffer = new byte[BUFFER_SIZE];
     recorder.startRecording();
 
@@ -534,13 +536,14 @@ public static void transcribeFile() {
         recorder.read(audioBuffer, 0, BUFFER_SIZE, AudioRecord.READ_BLOCKING);
 
         // Convert byte[] to ByteString for gRPC
-        ByteString bs = ByteString.copyFrom(audioBuffer);
+        ByteString audioBS = ByteString.copyFrom(audioBuffer);
 
         // Send audio to server
+        RecognitionAudio audioMsg = RecognitionAudio.newBuilder()
+            .setData(audioBS)
+            .build();
         requestObserver.onNext(StreamingRecognizeRequest.newBuilder()
-            .setAudio(RecognitionAudio.newBuilder()
-				.setData(audio)
-				.build())
+            .setAudio(audioMsg)
             .build());
     }
 
@@ -548,9 +551,9 @@ public static void transcribeFile() {
     recorder.stop();
 
     // Close the client side stream
-    requestObserver.onComplete();
+    requestObserver.onCompleted();
 
-    // Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
+    // Note: Once the server is done transcribing everything, it will call responseObserver.onCompleted().
 }
 ```
 {{% /tab %}}
