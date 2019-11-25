@@ -4,7 +4,7 @@ title: "Cubic SDK Documentation"
 
 # Cubic API Overview
 
-Cubic is Cobalt’s automatic speech recognition (ASR) engine. It can be deployed on-prem and accessed over the network or on your local machine via an API. We currently support Go and Python, and are adding support for more languages.
+Cubic is Cobalt’s automatic speech recognition (ASR) engine. It can be deployed on-prem and accessed over the network or on your local machine via an API. We currently support C++, C#, Go, Java and Python, and can support for more languages as required.
 
 Once running, Cubic’s API provides a method to which you can stream audio. This audio can either be from a microphone or a file. We recommend uncompressed WAV as the encoding, but support other formats such as MP3.
 
