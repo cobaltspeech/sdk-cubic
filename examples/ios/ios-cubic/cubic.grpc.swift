@@ -140,7 +140,7 @@ internal extension Cobaltspeech_Cubic_CubicService {
 
 }
 
-  class Cobaltspeech_Cubic_CubicServiceClient: ServiceClientBase, Cobaltspeech_Cubic_CubicService {
+public class Cobaltspeech_Cubic_CubicServiceClient: ServiceClientBase, Cobaltspeech_Cubic_CubicService {
   /// Synchronous. Unary.
   internal func version(_ request: SwiftProtobuf.Google_Protobuf_Empty, metadata customMetadata: Metadata) throws -> Cobaltspeech_Cubic_VersionResponse {
     return try Cobaltspeech_Cubic_CubicVersionCallBase(channel)

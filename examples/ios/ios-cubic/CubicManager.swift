@@ -10,27 +10,29 @@ import Foundation
 import AVFoundation
 import SwiftProtobuf
 import SwiftGRPC
-protocol  CubicManagerDelegate {
+public protocol  CubicManagerDelegate {
     func successRecognize(_ res:Cobaltspeech_Cubic_RecognitionResponse)
     
 }
-class CoboltClient:Cobaltspeech_Cubic_CubicServiceClient{}
-class CubicManager:NSObject,AVAudioRecorderDelegate {
+
+public class CoboltClient:Cobaltspeech_Cubic_CubicServiceClient{}
+
+public class CubicManager:NSObject,AVAudioRecorderDelegate {
     private let client:CoboltClient
     private var whistleRecorder: AVAudioRecorder!
     private var selectedModelId:String = "\(1)"
-    var delegate:CubicManagerDelegate?
-    var selectedModel:Cobaltspeech_Cubic_Model? {
+    public var delegate:CubicManagerDelegate?
+    public var selectedModel:Cobaltspeech_Cubic_Model? {
         didSet{
             if let c = selectedModel {
                 selectedModelId = c.id
             }
         }
     }
-    required init(client:CoboltClient) {
+    public required init(client:CoboltClient) {
         self.client = client
     }
-    init(url:String) {
+    public init(url:String) {
         self.client =  CoboltClient(channel: Channel(address: url))
     }
     func log(_ text:String){
@@ -97,7 +99,7 @@ class CubicManager:NSObject,AVAudioRecorderDelegate {
         whistleRecorder?.stop()
         whistleRecorder = nil
     }
-    func stop() {
+    public func stop() {
         finishRecording(success: true)
         uploadRecord()
     }
@@ -127,10 +129,6 @@ class CubicManager:NSObject,AVAudioRecorderDelegate {
                         }
                       
                   }
-                /*let array:[Cobaltspeech_Cubic_RecognitionConfig.Encoding] = [.,.wav,.mp3,.flac,.vox8000,.ulaw8000]
-                for code in array {
-                  
-                }*/
             } catch let error {
                 
             }
