@@ -22,8 +22,8 @@
 		85F69FAA23C6850500942653 /* cubic.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F69FA723C6850500942653 /* cubic.grpc.swift */; };
 		85F69FAB23C6850500942653 /* cubic.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F69FA823C6850500942653 /* cubic.pb.swift */; };
 		85F69FAC23C6850500942653 /* CubicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F69FA923C6850500942653 /* CubicManager.swift */; };
-		85F69FAE23C6854400942653 /* ios_cubic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 85F69F8A23C684CF00942653 /* ios_cubic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		85F69FB223C686EB00942653 /* ios_cubic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85F69F8A23C684CF00942653 /* ios_cubic.framework */; };
+		85F69FB323C68E3F00942653 /* ios_cubic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 85F69F8A23C684CF00942653 /* ios_cubic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA34C6B571294A7858B7434B /* Pods_ios_cubic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF993F9437B5C1C321F18070 /* Pods_ios_cubic.framework */; };
 /* End PBXBuildFile section */
 
@@ -72,7 +72,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				85F69FAE23C6854400942653 /* ios_cubic.framework in Embed Frameworks */,
+				85F69FB323C68E3F00942653 /* ios_cubic.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;

@@ -172,16 +172,16 @@ struct Cobaltspeech_Cubic_ListModelsResponse {
 /// individual channel will be chronological.  No such promise is made for the
 /// ordering of results of different channels, as results are returned for each
 /// channel individually as soon as they are ready.
-struct Cobaltspeech_Cubic_RecognitionResponse {
+ public struct Cobaltspeech_Cubic_RecognitionResponse {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var results: [Cobaltspeech_Cubic_RecognitionResult] = []
+  public var results: [Cobaltspeech_Cubic_RecognitionResult] = []
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+    public  init() {}
 }
 
 /// Configuration for setting up a Recognizer
@@ -385,7 +385,7 @@ struct Cobaltspeech_Cubic_RecognitionAudio {
 }
 
 /// Description of a Cubic Model
-struct Cobaltspeech_Cubic_Model {
+public struct Cobaltspeech_Cubic_Model {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -393,7 +393,7 @@ struct Cobaltspeech_Cubic_Model {
   /// Unique identifier of the model.  This identifier is used to choose the
   /// model that should be used for recognition, and is specified in the
   /// `RecognitionConfig` message.
-  var id: String {
+  public var id: String {
     get {return _storage._id}
     set {_uniqueStorage()._id = newValue}
   }
@@ -401,7 +401,7 @@ struct Cobaltspeech_Cubic_Model {
   /// Model name.  This is a concise name describing the model, and maybe
   /// presented to the end-user, for example, to help choose which model to use
   /// for their recognition task.
-  var name: String {
+  public var name: String {
     get {return _storage._name}
     set {_uniqueStorage()._name = newValue}
   }
@@ -416,9 +416,9 @@ struct Cobaltspeech_Cubic_Model {
   /// Clears the value of `attributes`. Subsequent reads from it will return its default value.
   mutating func clearAttributes() {_uniqueStorage()._attributes = nil}
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+    public init() {}
 
   fileprivate var _storage = _StorageClass.defaultInstance
 }
@@ -438,13 +438,13 @@ struct Cobaltspeech_Cubic_ModelAttributes {
 }
 
 /// A recognition result corresponding to a portion of audio.
-struct Cobaltspeech_Cubic_RecognitionResult {
+public struct Cobaltspeech_Cubic_RecognitionResult {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
   /// An n-best list of recognition hypotheses alternatives
-  var alternatives: [Cobaltspeech_Cubic_RecognitionAlternative] {
+  public var alternatives: [Cobaltspeech_Cubic_RecognitionAlternative] {
     get {return _storage._alternatives}
     set {_uniqueStorage()._alternatives = newValue}
   }
@@ -455,7 +455,7 @@ struct Cobaltspeech_Cubic_RecognitionResult {
   ///
   /// Servers are not required to implement support for returning partial
   /// results, and clients should generally not depend on their availability.
-  var isPartial: Bool {
+  public var isPartial: Bool {
     get {return _storage._isPartial}
     set {_uniqueStorage()._isPartial = newValue}
   }
@@ -479,15 +479,15 @@ struct Cobaltspeech_Cubic_RecognitionResult {
     set {_uniqueStorage()._audioChannel = newValue}
   }
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+    public init() {}
 
   fileprivate var _storage = _StorageClass.defaultInstance
 }
 
 /// A recognition hypothesis
-struct Cobaltspeech_Cubic_RecognitionAlternative {
+public struct Cobaltspeech_Cubic_RecognitionAlternative {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -502,7 +502,7 @@ struct Cobaltspeech_Cubic_RecognitionAlternative {
   /// As an example, if the spoken utterance was "four people", and the
   /// server was configured to format numbers, this field would be set to
   /// "4 people".
-  var transcript: String {
+  public var transcript: String {
     get {return _storage._transcript}
     set {_uniqueStorage()._transcript = newValue}
   }
@@ -556,9 +556,9 @@ struct Cobaltspeech_Cubic_RecognitionAlternative {
   /// Clears the value of `duration`. Subsequent reads from it will return its default value.
   mutating func clearDuration() {_uniqueStorage()._duration = nil}
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+    public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+    public init() {}
 
   fileprivate var _storage = _StorageClass.defaultInstance
 }
@@ -919,12 +919,12 @@ extension Cobaltspeech_Cubic_ListModelsResponse: SwiftProtobuf.Message, SwiftPro
 }
 
 extension Cobaltspeech_Cubic_RecognitionResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".RecognitionResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+   public static let protoMessageName: String = _protobuf_package + ".RecognitionResponse"
+   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "results"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
       case 1: try decoder.decodeRepeatedMessageField(value: &self.results)
@@ -933,14 +933,14 @@ extension Cobaltspeech_Cubic_RecognitionResponse: SwiftProtobuf.Message, SwiftPr
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.results.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.results, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Cobaltspeech_Cubic_RecognitionResponse, rhs: Cobaltspeech_Cubic_RecognitionResponse) -> Bool {
+  public static func ==(lhs: Cobaltspeech_Cubic_RecognitionResponse, rhs: Cobaltspeech_Cubic_RecognitionResponse) -> Bool {
     if lhs.results != rhs.results {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -1105,8 +1105,8 @@ extension Cobaltspeech_Cubic_RecognitionAudio: SwiftProtobuf.Message, SwiftProto
 }
 
 extension Cobaltspeech_Cubic_Model: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".Model"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    public static let protoMessageName: String = _protobuf_package + ".Model"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "id"),
     2: .same(proto: "name"),
     3: .same(proto: "attributes"),
@@ -1135,7 +1135,7 @@ extension Cobaltspeech_Cubic_Model: SwiftProtobuf.Message, SwiftProtobuf._Messag
     return _storage
   }
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    mutating public func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     _ = _uniqueStorage()
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1149,7 +1149,7 @@ extension Cobaltspeech_Cubic_Model: SwiftProtobuf.Message, SwiftProtobuf._Messag
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       if !_storage._id.isEmpty {
         try visitor.visitSingularStringField(value: _storage._id, fieldNumber: 1)
@@ -1164,7 +1164,7 @@ extension Cobaltspeech_Cubic_Model: SwiftProtobuf.Message, SwiftProtobuf._Messag
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Cobaltspeech_Cubic_Model, rhs: Cobaltspeech_Cubic_Model) -> Bool {
+    public static func ==(lhs: Cobaltspeech_Cubic_Model, rhs: Cobaltspeech_Cubic_Model) -> Bool {
     if lhs._storage !== rhs._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
@@ -1211,8 +1211,8 @@ extension Cobaltspeech_Cubic_ModelAttributes: SwiftProtobuf.Message, SwiftProtob
 }
 
 extension Cobaltspeech_Cubic_RecognitionResult: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".RecognitionResult"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    public  static let protoMessageName: String = _protobuf_package + ".RecognitionResult"
+    public  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "alternatives"),
     2: .standard(proto: "is_partial"),
     3: .same(proto: "cnet"),
@@ -1244,7 +1244,7 @@ extension Cobaltspeech_Cubic_RecognitionResult: SwiftProtobuf.Message, SwiftProt
     return _storage
   }
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     _ = _uniqueStorage()
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1259,7 +1259,7 @@ extension Cobaltspeech_Cubic_RecognitionResult: SwiftProtobuf.Message, SwiftProt
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       if !_storage._alternatives.isEmpty {
         try visitor.visitRepeatedMessageField(value: _storage._alternatives, fieldNumber: 1)
@@ -1277,7 +1277,7 @@ extension Cobaltspeech_Cubic_RecognitionResult: SwiftProtobuf.Message, SwiftProt
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Cobaltspeech_Cubic_RecognitionResult, rhs: Cobaltspeech_Cubic_RecognitionResult) -> Bool {
+   public  static func ==(lhs: Cobaltspeech_Cubic_RecognitionResult, rhs: Cobaltspeech_Cubic_RecognitionResult) -> Bool {
     if lhs._storage !== rhs._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
@@ -1296,8 +1296,8 @@ extension Cobaltspeech_Cubic_RecognitionResult: SwiftProtobuf.Message, SwiftProt
 }
 
 extension Cobaltspeech_Cubic_RecognitionAlternative: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".RecognitionAlternative"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    public static let protoMessageName: String = _protobuf_package + ".RecognitionAlternative"
+    public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "transcript"),
     6: .standard(proto: "raw_transcript"),
     2: .same(proto: "confidence"),
@@ -1335,7 +1335,7 @@ extension Cobaltspeech_Cubic_RecognitionAlternative: SwiftProtobuf.Message, Swif
     return _storage
   }
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    mutating public func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     _ = _uniqueStorage()
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1352,7 +1352,7 @@ extension Cobaltspeech_Cubic_RecognitionAlternative: SwiftProtobuf.Message, Swif
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       if !_storage._transcript.isEmpty {
         try visitor.visitSingularStringField(value: _storage._transcript, fieldNumber: 1)
@@ -1376,7 +1376,7 @@ extension Cobaltspeech_Cubic_RecognitionAlternative: SwiftProtobuf.Message, Swif
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Cobaltspeech_Cubic_RecognitionAlternative, rhs: Cobaltspeech_Cubic_RecognitionAlternative) -> Bool {
+    public static func ==(lhs: Cobaltspeech_Cubic_RecognitionAlternative, rhs: Cobaltspeech_Cubic_RecognitionAlternative) -> Bool {
     if lhs._storage !== rhs._storage {
       let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
