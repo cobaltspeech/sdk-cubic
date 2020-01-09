@@ -78,6 +78,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         return CubicManager.getDocumentsDirectory().appendingPathComponent("whistle\(name).wav")
     }
     
+    @discardableResult
     public func record() -> Bool {
         //kAudioFormatMPEG4AAC default
         if !isAuthorized() {
