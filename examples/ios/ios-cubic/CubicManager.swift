@@ -25,6 +25,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     private var whistleRecorder: AVAudioRecorder!
     private var selectedModelId: String = "\(1)"
     public var delegate: CubicManagerDelegate?
+    var isRecord = false
     public var selectedModel: Cobaltspeech_Cubic_Model? {
         didSet {
             if let c = selectedModel {
@@ -99,7 +100,8 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
             let audioURL = CubicManager.getWavURL()
             whistleRecorder = try AVAudioRecorder(url: audioURL, settings: settings)
             whistleRecorder.delegate = self
-            return whistleRecorder.record()
+            isRecord = whistleRecorder.record()
+            return isRecord
         } catch {
             finishRecording(success: false)
         }
@@ -113,8 +115,10 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     }
     
     public func stop() {
-        finishRecording(success: true)
-        uploadRecord()
+        if (isRecord){
+            finishRecording(success: true)
+            uploadRecord()
+        }
     }
     
     func uploadRecord() {
@@ -143,8 +147,8 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
                }
               
             }
-        } catch _ {
-            
+        } catch let e {
+            print("\(e)")
         }
     }
     
