@@ -2,8 +2,8 @@
 //  iosTests.swift
 //  iosTests
 //
-//  Created by Alex Mankov on 09.01.2020.
-//  Copyright © 2020 Alex Mankov. All rights reserved.
+//  Created by Marat Tukhbatullin on 09.01.2020.
+//  Copyright © 2020 Marat Tukhbatullin. All rights reserved.
 //
 
 import XCTest
