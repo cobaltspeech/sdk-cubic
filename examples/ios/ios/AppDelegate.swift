@@ -2,16 +2,14 @@
 //  AppDelegate.swift
 //  ios
 //
-//  Created by Alex Mankov on 09.01.2020.
-//  Copyright © 2020 Alex Mankov. All rights reserved.
+//  Created by Marat Tukhbatullin on 09.01.2020.
+//  Copyright © 2020 Marat Tukhbatullin. All rights reserved.
 //
 
 import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
