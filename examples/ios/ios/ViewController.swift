@@ -17,7 +17,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet weak var modelTextField: UITextField!
     @IBOutlet weak var resultLabel: UILabel!
     @IBOutlet weak var recordButton: UIButton!
-    
+   
     let pickerView = UIPickerView()
     var models:[Cobaltspeech_Cubic_Model] = []
     var selectedModel:Cobaltspeech_Cubic_Model?
@@ -64,10 +64,20 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         self.modelTextField.resignFirstResponder()
     }
     
+    
+    
+    
     @IBAction func recordClickDown(sender:UIButton)  {
         print("recordClick Down")
-        self.recordButton.tintColor = UIColor.red
-        self.cubicManager.record()
+        if cubicManager.isAuthorized() {
+            self.recordButton.tintColor = UIColor.red
+            self.cubicManager.record()
+            
+        } else {
+            self.cubicManager.requestAccess { (granted) in
+                 print("recordClick \(granted)")
+            }
+        }
     }
     
     @IBAction func recordClickUp(sender:UIButton)  {

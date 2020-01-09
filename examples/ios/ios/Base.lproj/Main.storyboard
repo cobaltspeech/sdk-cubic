@@ -44,7 +44,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F31-HC-k0q" customClass="RoundButton" customModule="RecordAudio" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F31-HC-k0q">
                                 <rect key="frame" x="147" y="692" width="120" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="1i3-IX-uaZ"/>
@@ -55,8 +55,8 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="rounded" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="recordClickDownWithSender:" destination="liH-sh-S4F" eventType="touchDown" id="1nn-XH-lot"/>
-                                    <action selector="recordClickUpWithSender:" destination="liH-sh-S4F" eventType="touchUpInside" id="tTM-9V-syF"/>
+                                    <action selector="recordClickDownWithSender:" destination="liH-sh-S4F" eventType="touchDown" id="GGm-Bl-wWT"/>
+                                    <action selector="recordClickUpWithSender:" destination="liH-sh-S4F" eventType="touchUpInside" id="Z17-0m-aKj"/>
                                 </connections>
                             </button>
                         </subviews>
