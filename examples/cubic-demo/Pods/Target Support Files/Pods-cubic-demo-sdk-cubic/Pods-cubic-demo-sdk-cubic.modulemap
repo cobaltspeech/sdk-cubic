@@ -1,0 +1,6 @@
+framework module Pods_cubic_demo_sdk_cubic {
+  umbrella header "Pods-cubic-demo-sdk-cubic-umbrella.h"
+
+  export *
+  module * { export * }
+}

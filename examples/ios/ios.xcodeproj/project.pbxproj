@@ -176,7 +176,7 @@
 		85B6768F23C67DF800755C40 = {
 			isa = PBXGroup;
 			children = (
-				85B6769A23C67DF800755C40 /* ios */,
+				85B6769A23C67DF800755C40 /* cubic-demo */,
 				85B676B123C67DFA00755C40 /* iosTests */,
 				85B676BC23C67DFA00755C40 /* iosUITests */,
 				85F69F8B23C684CF00942653 /* ios-cubic */,
@@ -199,7 +199,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		85B6769A23C67DF800755C40 /* ios */ = {
+		85B6769A23C67DF800755C40 /* cubic-demo */ = {
 			isa = PBXGroup;
 			children = (
 				85B6769B23C67DF800755C40 /* AppDelegate.swift */,
@@ -210,7 +210,7 @@
 				85B676A623C67DF900755C40 /* LaunchScreen.storyboard */,
 				85B676A923C67DF900755C40 /* Info.plist */,
 			);
-			path = ios;
+			path = "cubic-demo";
 			sourceTree = "<group>";
 		};
 		85B676B123C67DFA00755C40 /* iosTests */ = {
