@@ -53,7 +53,6 @@ public final class AudioRecordController implements IAudioRecordController {
             }
             mAudioRecord.stop();
             mAudioRecord.release();
-            mAudioRecord = null;
         }
     }
 

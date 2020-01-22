@@ -24,9 +24,8 @@ import com.cubic.example.dialog.IDialogManager;
 import com.cubic.example.dialog.model.ConnectionDialog;
 import com.cubic.example.dialog.model.NetworkDialog;
 import com.cubic.example.dialog.model.SettingsDialog;
-import com.cubic.example.toast.IToastManager;
+import com.cubic.example.toast.IMessageManager;
 import com.cubic.example.toast.ToastManager;
-import com.cubic.example.toast.TypeMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mRecognitionButtonView;
     private TextView mResultView;
 
-    private IToastManager mIToastManager;
+    private IMessageManager mIToastManager;
     private IDialogManager mIDialogManager;
     private ICubicManager mICubicManager;
 
@@ -116,12 +115,12 @@ public class MainActivity extends AppCompatActivity {
                         } else if (e instanceof AudioPermissionException) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 if (!shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO)) {
-                                    mIToastManager.showShortToast(TypeMessage.Error, getString(R.string.app_error_permission));
+                                    mIToastManager.showMessage(getString(R.string.app_error_permission));
                                 } else {
                                     requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 1);
                                 }
-                            } else mIToastManager.showShortToast(TypeMessage.Error, getString(R.string.app_error_permission));
-                        } else mIToastManager.showShortToast(TypeMessage.Error, "Some exception " + e.toString());
+                            } else mIToastManager.showMessage(getString(R.string.app_error_permission));
+                        } else mIToastManager.showMessage("Some exception " + e.toString());
                     }
                 });
     }

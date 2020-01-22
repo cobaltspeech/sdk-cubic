@@ -19,7 +19,7 @@ public class SettingsDialog extends BaseDialogFragment {
 
     @Override
     protected int getLayoutRes() {
-        return R.layout.dialog_settings;
+        return 0;
     }
 
     @Override

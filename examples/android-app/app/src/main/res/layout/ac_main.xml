@@ -28,22 +28,6 @@
             android:textStyle="bold" />
     </ScrollView>
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView"
-        android:layout_width="0dp"
-        android:layout_height="96dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/vertical_padding_middle"
-        android:scaleType="centerInside"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/buttonPushToTalk"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_enableMergePathsForKitKatAndAbove="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/recognition" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/settingsButtonView"
         style="@style/AppTheme.OptionsButton"

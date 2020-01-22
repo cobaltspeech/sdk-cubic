@@ -22,7 +22,6 @@ public class NetworkDialog extends BaseDialogFragment {
         setTitleText(getString(R.string.app_network_dialog_title));
         setPositiveText(R.string.app_network_dialog_positive_button);
         AlertDialog.Builder builder = getDialogBuilder();
-        builder.setCancelable(false);
         AlertDialog dialog = builder.create();
         dialog.show();
         return dialog;

@@ -206,6 +206,7 @@ public final class CubicManager implements ICubicManager {
 
     @Override
     public void disconnect() {
+        stopAudioRecordThread();
         if (mCubicChannel != null && !mCubicChannel.isShutdown()) {
             mCubicChannel.shutdownNow();
             mCubicChannel = null;
@@ -284,14 +285,30 @@ public final class CubicManager implements ICubicManager {
         }
 
         @Override
-        public void onCompleted() { }
+        public void onCompleted() {
+        }
     };
+
+    private HandlerThread mAudioRecordThread;
+
+    private void initAudioRecordThread() {
+        if (mAudioRecordThread == null) {
+            mAudioRecordThread = new HandlerThread("AudioRecordThread");
+            mAudioRecordThread.start();
+        }
+    }
+
+    private void stopAudioRecordThread() {
+        if (mAudioRecordThread != null) {
+            mAudioRecordThread.quit();
+            mAudioRecordThread = null;
+        }
+    }
 
     @Override
     public void talk() {
-        HandlerThread audioRecordThread = new HandlerThread("AudioRecordThread");
-        audioRecordThread.start();
-        Handler recognitionHandler = new Handler(audioRecordThread.getLooper());
+        initAudioRecordThread();
+        Handler recognitionHandler = new Handler(mAudioRecordThread.getLooper());
         recognitionHandler.post(mRecognitionRunnable);
     }
 
