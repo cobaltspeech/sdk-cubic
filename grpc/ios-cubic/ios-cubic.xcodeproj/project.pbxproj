@@ -23,7 +23,6 @@
 		85B6768923C67C0200755C40 /* cubic.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cubic.grpc.swift; sourceTree = "<group>"; };
 		85B6768A23C67C0200755C40 /* cubic.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cubic.pb.swift; sourceTree = "<group>"; };
 		CD11BA74C323F2FCD8FEFF7D /* Pods_ios_cubic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ios_cubic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		ED3804E54D7385FFECC4B41C /* Pods_ios_cubic_ios_cubicTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ios_cubic_ios_cubicTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F62A6EF9079F37F674307BB8 /* Pods-ios-cubic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-cubic.release.xcconfig"; path = "Target Support Files/Pods-ios-cubic/Pods-ios-cubic.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -43,7 +42,6 @@
 			isa = PBXGroup;
 			children = (
 				CD11BA74C323F2FCD8FEFF7D /* Pods_ios_cubic.framework */,
-				ED3804E54D7385FFECC4B41C /* Pods_ios_cubic_ios_cubicTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
