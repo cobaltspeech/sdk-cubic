@@ -19,7 +19,6 @@
 		85F3E90823D63EDB00DF7CDB /* sdk_cubic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 85F3E8F223D63EDB00DF7CDB /* sdk_cubic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		85F3E91623D641BB00DF7CDB /* cubic.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E91423D641BB00DF7CDB /* cubic.grpc.swift */; };
 		85F3E91723D641BB00DF7CDB /* cubic.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E91523D641BB00DF7CDB /* cubic.pb.swift */; };
-		941881D3DC094CDA50E4D3CD /* Pods_cubic_demo_sdk_cubic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B76275CA72D8292A75FE3476 /* Pods_cubic_demo_sdk_cubic.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,7 +48,6 @@
 /* Begin PBXFileReference section */
 		0392A99D732473F99BD0E7B8 /* Pods-cubic-demo-cubic-demoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-cubic-demoUITests.debug.xcconfig"; path = "Target Support Files/Pods-cubic-demo-cubic-demoUITests/Pods-cubic-demo-cubic-demoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		125B19D5BF1479C2753D7836 /* Pods-cubic-demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo.release.xcconfig"; path = "Target Support Files/Pods-cubic-demo/Pods-cubic-demo.release.xcconfig"; sourceTree = "<group>"; };
-		1DB91DF5A4A33D13391EA096 /* Pods_cubic_demo_cubic_demoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cubic_demo_cubic_demoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		21D31D22A6D494BE6455B88D /* Pods-cubic-demoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demoTests.release.xcconfig"; path = "Target Support Files/Pods-cubic-demoTests/Pods-cubic-demoTests.release.xcconfig"; sourceTree = "<group>"; };
 		6E5D3863B4DF34F3FCBA5C17 /* Pods_cubic_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cubic_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FEAAE7BECF09E315460A62D /* Pods-cubic-demo-cubic-demoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-cubic-demoUITests.release.xcconfig"; path = "Target Support Files/Pods-cubic-demo-cubic-demoUITests/Pods-cubic-demo-cubic-demoUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -67,8 +65,6 @@
 		85F3E8F523D63EDB00DF7CDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85F3E91423D641BB00DF7CDB /* cubic.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = cubic.grpc.swift; path = "../../../grpc/ios-cubic/ios-cubic/cubic.grpc.swift"; sourceTree = "<group>"; };
 		85F3E91523D641BB00DF7CDB /* cubic.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = cubic.pb.swift; path = "../../../grpc/ios-cubic/ios-cubic/cubic.pb.swift"; sourceTree = "<group>"; };
-		A00707FDDCDD2AC2C072F1AA /* Pods_cubic_demoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cubic_demoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B76275CA72D8292A75FE3476 /* Pods_cubic_demo_sdk_cubic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cubic_demo_sdk_cubic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C67F1CE86F3F5EC187C23C0E /* Pods-cubic-demo-sdk-cubic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-sdk-cubic.debug.xcconfig"; path = "Target Support Files/Pods-cubic-demo-sdk-cubic/Pods-cubic-demo-sdk-cubic.debug.xcconfig"; sourceTree = "<group>"; };
 		DBC2A868EE05DAB45CE7088A /* Pods-cubic-demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo.debug.xcconfig"; path = "Target Support Files/Pods-cubic-demo/Pods-cubic-demo.debug.xcconfig"; sourceTree = "<group>"; };
 		E8464F4C589D0C434142F7EA /* Pods-cubic-demo-sdk-cubic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-sdk-cubic.release.xcconfig"; path = "Target Support Files/Pods-cubic-demo-sdk-cubic/Pods-cubic-demo-sdk-cubic.release.xcconfig"; sourceTree = "<group>"; };
@@ -89,7 +85,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				941881D3DC094CDA50E4D3CD /* Pods_cubic_demo_sdk_cubic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,9 +156,6 @@
 			children = (
 				85F3E8EB23D6332200DF7CDB /* ios_cubic.framework */,
 				6E5D3863B4DF34F3FCBA5C17 /* Pods_cubic_demo.framework */,
-				1DB91DF5A4A33D13391EA096 /* Pods_cubic_demo_cubic_demoUITests.framework */,
-				A00707FDDCDD2AC2C072F1AA /* Pods_cubic_demoTests.framework */,
-				B76275CA72D8292A75FE3476 /* Pods_cubic_demo_sdk_cubic.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
