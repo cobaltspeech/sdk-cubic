@@ -2,16 +2,16 @@
 //  ViewController.swift
 //  ios
 //
-//
 
 import UIKit
 import Foundation
-import ios_cubic
+import sdk_cubic
 
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIGestureRecognizerDelegate, CubicManagerDelegate {
     
     private static let CUBIC_URL = "demo-cubic.cobaltspeech.com:2727"
     
+    @IBOutlet weak var urlTextField: UITextField!
     @IBOutlet weak var modelTextField: UITextField!
     @IBOutlet weak var resultLabel: UILabel!
     @IBOutlet weak var recordButton: UIButton!
@@ -34,12 +34,22 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         toolBar.setItems([spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
     }
-    
+    func isStringLink(string: String) -> Bool {
+        let types: NSTextCheckingResult.CheckingType = [.link]
+        let detector = try? NSDataDetector(types: types.rawValue)
+        guard (detector != nil && string.count > 0) else { return false }
+        if detector!.numberOfMatches(in: string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, string.count)) > 0 {
+            return true
+        }
+        return false
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        urlTextField.text = ViewController.CUBIC_URL
         self.cubicManager.delegate = self
         modelTextField.inputView = pickerView
         pickerView.delegate = self
+        
         addToolbar()
         
         onModelSelect(model: nil)
