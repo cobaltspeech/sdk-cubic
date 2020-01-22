@@ -1,19 +1,18 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
-target 'ios' do
-  use_frameworks!
-  pod 'SwiftProtobuf', '~> 1.0'
-  pod 'SwiftGRPC'
-end
-target 'ios-cubic' do
+
+target 'cubic-demo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
+  
 
-  # Pods for ios-cubic
-  pod 'SwiftProtobuf', '~> 1.0'
-  pod 'SwiftGRPC'
-  target 'ios-cubicTests' do
+  # Pods for cubic-demo
+
+  target 'sdk-cubic' do
+    pod 'SwiftProtobuf', '~> 1.0'
+    pod 'SwiftGRPC'
     # Pods for testing
   end
+
 
 end
