@@ -5,9 +5,16 @@
 
 import UIKit
 import Foundation
+import SwiftGRPC
 import sdk_cubic
 
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIGestureRecognizerDelegate, CubicManagerDelegate {
+   
+    
+   
+    
+    
+    
     
     private static let CUBIC_URL = "demo-cubic.cobaltspeech.com:2727"
     
@@ -93,7 +100,23 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         self.cubicManager.stop()
         self.recordButton.tintColor = self.view.tintColor
     }
-    
+    func streamCompletion(_ result: CallResult?) {
+        
+    }
+    func streamReceive(_ result: ResultOrRPCError<Cobaltspeech_Cubic_RecognitionResponse?>) {
+        if let res = result.result {
+            if let results = res?.results {
+                for result in results {
+                    if let first = result.alternatives.first {
+                        self.resultLabel.text = first.transcript
+                    } else {
+                        self.resultLabel.text = "No result"
+                    }
+                }
+            }
+
+        }
+    }
     func managerDidRecognizeWithResponse(_ res: Cobaltspeech_Cubic_RecognitionResponse) {
         for result in res.results {
             if let first = result.alternatives.first {
