@@ -30,9 +30,7 @@ cs_push:
 		-s https://api.nuget.org/v3/index.json
 swift:
 	protoc -I . -I ${PROTOINC} \
-		--plugin=$$(which protoc-gen-grpc-swift) \
 		--grpc-swift_out=Client=true,Server=false,Visibility=Public:./swift-cubic \
-		--plugin=$$(which protoc-gen-swift) \
 		--swift_opt=Visibility=Public \
 		--swift_out=./swift-cubic \
 		cubic.proto
