@@ -1,4 +1,4 @@
-package com.cubic.example.toast;
+package com.cubic.example.message;
 
 import androidx.annotation.NonNull;
 

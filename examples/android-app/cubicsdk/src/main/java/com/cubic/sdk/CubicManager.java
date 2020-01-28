@@ -17,6 +17,8 @@ import com.cubic.sdk.exception.AudioPermissionException;
 import com.cubic.sdk.exception.ChannelShutdownException;
 import com.cubic.sdk.exception.NetworkException;
 import com.cubic.sdk.model.ConnectionConfiguration;
+import com.cubic.sdk.preference.ConnectionPreferenceManager;
+import com.cubic.sdk.preference.IConnectionPreferenceManager;
 import com.google.protobuf.ByteString;
 
 import com.cubic.sdk.audio.AudioRecordController;
@@ -43,7 +45,6 @@ public final class CubicManager implements ICubicManager {
     private final Lifecycle mLifecycle;
 
     private final Handler mMainThreadHandler;
-    private final ConnectionConfiguration mConnectionConfiguration;
     private final OnCubicChangeListener mOnCubicChangeListener;
 
     private ManagedChannel mCubicChannel;
@@ -53,14 +54,14 @@ public final class CubicManager implements ICubicManager {
     private CubicAudioConfiguration mCubicAudioConfiguration;
 
     private final IAudioRecordController mIAudioRecordController;
+    private final IConnectionPreferenceManager mIConnectionPreferenceManager;
 
-    private CubicManager(@NonNull Context context,
-                         @NonNull ConnectionConfiguration configuration,
+    public CubicManager(@NonNull Context context,
                          Lifecycle lifecycle,
                          @NonNull OnCubicChangeListener listener) {
         mContext = context;
+        mIConnectionPreferenceManager = new ConnectionPreferenceManager(context);
         mMainThreadHandler = new Handler(context.getMainLooper());
-        mConnectionConfiguration = configuration;
         mLifecycle = lifecycle;
         mOnCubicChangeListener = listener;
         mIAudioRecordController = new AudioRecordController(new OnAudioRecordDataChangeListener() {
@@ -86,25 +87,8 @@ public final class CubicManager implements ICubicManager {
     }
 
     public CubicManager(@NonNull Context context,
-                        Lifecycle lifecycle,
                         @NonNull OnCubicChangeListener listener) {
         this(context,
-                new ConnectionConfiguration(
-                        BuildConfig.HOST,
-                        BuildConfig.SECURE_CONNECTION
-                ),
-                lifecycle,
-                listener
-        );
-    }
-
-    public CubicManager(@NonNull Context context,
-                        @NonNull OnCubicChangeListener listener) {
-        this(context,
-                new ConnectionConfiguration(
-                        BuildConfig.HOST,
-                        BuildConfig.SECURE_CONNECTION
-                ),
                 null,
                 listener
         );
@@ -150,10 +134,11 @@ public final class CubicManager implements ICubicManager {
         if (mCubicService == null) {
             mMainThreadHandler.post(mOnCubicChangeListener::onConnecting);
 
+            ConnectionConfiguration configuration = mIConnectionPreferenceManager.getConnectionConfiguration();
             ManagedChannelBuilder<?> builder = ManagedChannelBuilder
-                    .forTarget(mConnectionConfiguration.getHost());
+                    .forTarget(configuration.getHost());
 
-            if (!mConnectionConfiguration.isSecure()) {
+            if (!configuration.isSecure()) {
                 builder.usePlaintext();
             }
             mCubicChannel = builder.build();

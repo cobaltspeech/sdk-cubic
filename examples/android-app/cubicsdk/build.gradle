@@ -9,10 +9,17 @@ buildscript {
     }
 }
 
+plugins {
+    id 'de.undercouch.download' version '4.0.4'
+}
+apply from: 'preBuilderProtoFiles.gradle'
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.google.protobuf'
 
 android {
+    preBuild.dependsOn initProtoFiles, downloadGoogleApi, downloadGoogleProto, downloadCubic
+
     compileSdkVersion 29
 
     defaultConfig {
@@ -20,9 +27,6 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
-        buildConfigField "String", "HOST", '"demo-cubic.cobaltspeech.com:2727"'
-        buildConfigField "Boolean", "SECURE_CONNECTION", 'true'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'

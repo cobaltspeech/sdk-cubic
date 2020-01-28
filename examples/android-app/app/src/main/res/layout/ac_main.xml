@@ -7,17 +7,28 @@
     android:background="@drawable/bg_main"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/modelView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/horizontal_padding_middle"
+        android:layout_marginTop="@dimen/vertical_padding_middle"
+        android:layout_marginRight="@dimen/horizontal_padding_middle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingLeft="@dimen/horizontal_padding_middle"
-        android:paddingTop="@dimen/vertical_padding_middle"
+        android:paddingTop="@dimen/vertical_padding_small"
         android:paddingRight="@dimen/horizontal_padding_middle"
         android:paddingBottom="@dimen/vertical_padding_large"
         app:layout_constraintBottom_toTopOf="@id/buttonPushToTalk"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/modelView">
 
         <TextView
             android:id="@+id/textViewResults"

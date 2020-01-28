@@ -7,8 +7,12 @@
 
     <string name="app_connection_dialog_message">Connecting. Please wait…</string>
 
-    <string name="app_settings_dialog_title">Select audio configuration</string>
+    <string name="app_settings_hint">Select audio configuration</string>
 
     <string name="app_error_permission">App required access to audio</string>
+
+    <string name="app_settings_title">Connection settings</string>
+    <string name="app_settings_host_label">Host:</string>
+    <string name="app_settings_secure_label">Secure connection:</string>
 
 </resources>
