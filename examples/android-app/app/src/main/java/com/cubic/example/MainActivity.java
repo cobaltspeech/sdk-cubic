@@ -177,7 +177,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void disableControlls() {
+        mModels.clear();
+        mModelViewAdapter.notifyDataSetChanged();
         mAppCompatSpinner.setEnabled(false);
+
         mRecognitionButtonView.setEnabled(false);
         mRecognitionButtonView.setImageResource(R.drawable.ic_mic_off);
     }

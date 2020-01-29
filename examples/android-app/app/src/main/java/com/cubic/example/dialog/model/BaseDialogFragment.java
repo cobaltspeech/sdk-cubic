@@ -60,8 +60,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog dialog = getDialogBuilder().create();
-        return dialog;
+        return getDialogBuilder().create();
     }
 
     private SpannableStringBuilder getColoredText(@NonNull String text) {

@@ -168,11 +168,13 @@ public final class CubicManager implements ICubicManager {
                     Logger.exception(e);
                     mMainThreadHandler.post(() -> {
                         if (t instanceof StatusRuntimeException) {
-                            if (TextUtils.equals("UNAVAILABLE", message)
-                                    || message.contains("Failed trying to connect with proxy")) {
-                                mOnCubicChangeListener.onError(new NetworkException());
-                            } else if (message.contains("Channel shutdownNow invoked")) {
-                                mOnCubicChangeListener.onError(new ChannelShutdownException());
+                            if (!TextUtils.isEmpty(message)) {
+                                if (message.contains("UNAVAILABLE")
+                                        || message.contains("Failed trying to connect with proxy")) {
+                                    mOnCubicChangeListener.onError(new NetworkException());
+                                } else if (message.contains("Channel shutdownNow invoked")) {
+                                    mOnCubicChangeListener.onError(new ChannelShutdownException());
+                                }
                             }
                         } else {
                             mOnCubicChangeListener.onError(e);

@@ -39,7 +39,7 @@ public class DialogManager<D extends BaseDialogFragment> implements IDialogManag
 
         assert dialogFragment != null;
         try {
-            dialogFragment.show(mFragmentManager, tag);
+            dialogFragment.showNow(mFragmentManager, tag);
         } catch (Exception e) {
             Logger.exception(e);
         }
