@@ -272,7 +272,8 @@ public final class CubicManager implements ICubicManager {
         if (!TextUtils.isEmpty(message)) {
             if (message.contains("UNAVAILABLE: End of stream or IOException")) {
                 return new SecureConnectionException();
-            } else if (message.contains("UNAVAILABLE: Unable to resolve host")
+            } else if (message.contains("UNAVAILABLE")
+                    || message.contains("UNAVAILABLE: Unable to resolve host")
                     || message.contains("Failed trying to connect with proxy")) {
                 return new NetworkException();
             } else if (message.contains("Channel shutdownNow invoked")) {

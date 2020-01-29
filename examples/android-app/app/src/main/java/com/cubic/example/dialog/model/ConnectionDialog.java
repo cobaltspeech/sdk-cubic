@@ -19,7 +19,6 @@ public class ConnectionDialog extends BaseDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = getDialogBuilder();
-        setCancelable(false);
         return builder.create();
     }
 }
