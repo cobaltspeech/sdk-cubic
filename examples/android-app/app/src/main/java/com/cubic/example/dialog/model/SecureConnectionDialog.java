@@ -9,19 +9,18 @@ import androidx.annotation.NonNull;
 import com.cubic.example.R;
 import com.cubic.example.SettingsActivity;
 
-public class NetworkDialog extends BaseDialogFragment {
+public class SecureConnectionDialog extends BaseDialogFragment {
 
     @Override
     protected int getLayoutRes() {
-        return R.layout.dialog_network;
+        return R.layout.dialog_secure_connection;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        setTitleText(getString(R.string.app_network_dialog_title));
-        setPositiveText(R.string.app_network_dialog_positive_button);
-        setNegativeText(R.string.app_network_dialog_negative_button);
+        setTitleText(getString(R.string.app_secure_connection_title));
+        setPositiveText(R.string.app_secure_connection_positive_button);
         setCancelable(false);
         return getDialogBuilder().create();
     }
@@ -29,12 +28,6 @@ public class NetworkDialog extends BaseDialogFragment {
     @Override
     public void onPositiveClickButton() {
         super.onPositiveClickButton();
-        startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
-    }
-
-    @Override
-    public void onNegativeClickButton() {
-        super.onNegativeClickButton();
         startActivity(new Intent(requireActivity(), SettingsActivity.class));
     }
 }

@@ -16,6 +16,7 @@ import androidx.lifecycle.LifecycleOwner;
 import com.cubic.sdk.exception.AudioPermissionException;
 import com.cubic.sdk.exception.ChannelShutdownException;
 import com.cubic.sdk.exception.NetworkException;
+import com.cubic.sdk.exception.SecureConnectionException;
 import com.cubic.sdk.model.ConnectionConfiguration;
 import com.cubic.sdk.preference.ConnectionPreferenceManager;
 import com.cubic.sdk.preference.IConnectionPreferenceManager;
@@ -57,8 +58,8 @@ public final class CubicManager implements ICubicManager {
     private final IConnectionPreferenceManager mIConnectionPreferenceManager;
 
     public CubicManager(@NonNull Context context,
-                         Lifecycle lifecycle,
-                         @NonNull OnCubicChangeListener listener) {
+                        Lifecycle lifecycle,
+                        @NonNull OnCubicChangeListener listener) {
         mContext = context;
         mIConnectionPreferenceManager = new ConnectionPreferenceManager(context);
         mMainThreadHandler = new Handler(context.getMainLooper());
@@ -163,21 +164,12 @@ public final class CubicManager implements ICubicManager {
 
                 @Override
                 public void onError(Throwable t) {
-                    String message = t.getMessage();
-                    Exception e = new Exception(message);
-                    Logger.exception(e);
+                    Logger.exception(t);
                     mMainThreadHandler.post(() -> {
                         if (t instanceof StatusRuntimeException) {
-                            if (!TextUtils.isEmpty(message)) {
-                                if (message.contains("UNAVAILABLE")
-                                        || message.contains("Failed trying to connect with proxy")) {
-                                    mOnCubicChangeListener.onError(new NetworkException());
-                                } else if (message.contains("Channel shutdownNow invoked")) {
-                                    mOnCubicChangeListener.onError(new ChannelShutdownException());
-                                }
-                            }
+                            mOnCubicChangeListener.onError(parseError(t));
                         } else {
-                            mOnCubicChangeListener.onError(e);
+                            mOnCubicChangeListener.onError(t);
                         }
                         mOnCubicChangeListener.onDisconnect();
                     });
@@ -266,15 +258,29 @@ public final class CubicManager implements ICubicManager {
 
         @Override
         public void onError(Throwable t) {
-            Exception e = new Exception(t.getMessage());
-            Logger.exception(e);
-            mMainThreadHandler.post(() -> mOnCubicChangeListener.onError(e));
+            Logger.exception(t);
+            mMainThreadHandler.post(() -> mOnCubicChangeListener.onError(parseError(t)));
         }
 
         @Override
         public void onCompleted() {
         }
     };
+
+    private Throwable parseError(@NonNull Throwable e) {
+        String message = e.getMessage();
+        if (!TextUtils.isEmpty(message)) {
+            if (message.contains("UNAVAILABLE: End of stream or IOException")) {
+                return new SecureConnectionException();
+            } else if (message.contains("UNAVAILABLE: Unable to resolve host")
+                    || message.contains("Failed trying to connect with proxy")) {
+                return new NetworkException();
+            } else if (message.contains("Channel shutdownNow invoked")) {
+                return new ChannelShutdownException();
+            }
+        }
+        return e;
+    }
 
     private HandlerThread mAudioRecordThread;
 

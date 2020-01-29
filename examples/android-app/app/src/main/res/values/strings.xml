@@ -2,8 +2,13 @@
     <string name="app_name">Cubic</string>
 
     <string name="app_network_dialog_title">Warning!</string>
-    <string name="app_network_dialog_message">Please check internet connection</string>
-    <string name="app_network_dialog_positive_button">OK</string>
+    <string name="app_network_dialog_message">Please check internet connection or host access</string>
+    <string name="app_network_dialog_positive_button">CONNECTION</string>
+    <string name="app_network_dialog_negative_button">SETTINGS</string>
+
+    <string name="app_secure_connection_title">Warning!</string>
+    <string name="app_secure_connection_dialog_message">Failed connection, check secure setting</string>
+    <string name="app_secure_connection_positive_button">SETTINGS</string>
 
     <string name="app_connection_dialog_message">Connecting. Please wait…</string>
 

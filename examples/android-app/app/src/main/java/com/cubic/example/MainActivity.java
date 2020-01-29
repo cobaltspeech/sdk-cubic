@@ -14,12 +14,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.cubic.example.dialog.model.SecureConnectionDialog;
 import com.cubic.sdk.CubicManager;
 import com.cubic.sdk.ICubicManager;
 import com.cubic.sdk.OnCubicChangeListener;
 import com.cubic.sdk.exception.AudioPermissionException;
 import com.cubic.sdk.exception.ChannelShutdownException;
 import com.cubic.sdk.exception.NetworkException;
+import com.cubic.sdk.exception.SecureConnectionException;
 import com.cubic.sdk.model.CubicAudioConfiguration;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -136,7 +138,9 @@ public class MainActivity extends AppCompatActivity {
                         if (e instanceof ChannelShutdownException) {
                             return;
                         }
-                        if (e instanceof NetworkException) {
+                        if (e instanceof SecureConnectionException) {
+                            mIDialogManager.showDialog(SecureConnectionDialog.class);
+                        } else if (e instanceof NetworkException) {
                             mIDialogManager.showDialog(NetworkDialog.class);
                         } else if (e instanceof AudioPermissionException) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

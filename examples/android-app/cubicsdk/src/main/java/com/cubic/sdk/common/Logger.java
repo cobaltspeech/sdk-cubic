@@ -15,8 +15,8 @@ public class Logger {
             Log.d(TAG, String.valueOf(message));
     }
 
-    public static void exception(@NonNull Exception e) {
+    public static void exception(@NonNull Throwable t) {
         if (BuildConfig.DEBUG)
-            Log.e(TAG, String.valueOf(e.getMessage()));
+            Log.e(TAG, String.valueOf(t.getMessage()));
     }
 }
