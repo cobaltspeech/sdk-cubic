@@ -1,6 +1,6 @@
 //
 //  CubicManager.swift
-//  ios-cubic
+//  cubic-demo
 //
 //
 
@@ -9,14 +9,14 @@ import AVFoundation
 import SwiftProtobuf
 import SwiftGRPC
 import sdk_cubic
-public protocol CubicManagerDelegate {
+
+public protocol CubicManagerDelegate: class {
     
     func managerDidRecognizeWithResponse(_ res: Cobaltspeech_Cubic_RecognitionResponse)
-    func streamCompletion(_ result:CallResult?)
-    func streamReceive(_ result:ResultOrRPCError<Cobaltspeech_Cubic_RecognitionResponse?>)
+    func streamCompletion(_ result: CallResult?)
+    func streamReceive(_ result: ResultOrRPCError<Cobaltspeech_Cubic_RecognitionResponse?>)
+    
 }
-
-
 
 public class CubicManager: NSObject, AVAudioRecorderDelegate {
     
@@ -28,8 +28,9 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     private var audioFile : AVAudioFile!
     private var outref: ExtAudioFileRef?
     private var filePath : String? = nil
-    public var delegate: CubicManagerDelegate?
+    public weak var delegate: CubicManagerDelegate?
     var isRecord = false
+    
     public var selectedModel: Cobaltspeech_Cubic_Model? {
         didSet {
             if let c = selectedModel {
@@ -46,30 +47,31 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         self.client = Cobaltspeech_Cubic_CubicServiceClient(channel: Channel(address: url))
     }
     
-    func log(_ text:String){
+    func log(_ text: String){
         print("CF: \(text)")
     }
     
-    public func listModels(callback: @escaping(_ models:[Cobaltspeech_Cubic_Model]?, _ error:Error?) -> ()) {
+    public func listModels(callback: @escaping(_ models: [Cobaltspeech_Cubic_Model]?, _ errorMessage: String?) -> ()) {
         do {
-           let listModels = Cobaltspeech_Cubic_ListModelsRequest()
-           try client.listModels(listModels, completion: { (respose, result) in
-                if let res = respose {
-                    DispatchQueue.main.async {
-                        callback(res.models, nil)
-                    }
+            let listModels = Cobaltspeech_Cubic_ListModelsRequest()
+            try client.listModels(listModels, completion: { (response, result) in
+                if result.statusCode == .ok {
+                    callback(response?.models, nil)
+                } else {
+                    callback(response?.models, result.description)
                 }
-           })
-       } catch let e {
-           print("\(e)")
-       }
+            })
+        } catch let e {
+            print("\(e)")
+            callback(nil, e.localizedDescription)
+        }
     }
     
     public func isAuthorized() -> Bool {
         return AVCaptureDevice.authorizationStatus(for: AVMediaType.audio) == .authorized
     }
     
-    public func requestAccess(completionHandler: @escaping((_ granted:Bool) -> ())) {
+    public func requestAccess(completionHandler: @escaping((_ granted: Bool) -> ())) {
         AVCaptureDevice.requestAccess(for:  AVMediaType.audio, completionHandler: completionHandler)
     }
     
@@ -79,9 +81,10 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
        return documentsDirectory
     }
     
-    private class func getWavURL(_ name:String = "") -> URL {
+    private class func getWavURL(_ name: String = "") -> URL {
         return CubicManager.getDocumentsDirectory().appendingPathComponent("whistle\(name).wav")
     }
+    
     public func startStream() {
          do {
             let call = try self.client.streamingRecognize(completion: { (callResult) in
@@ -103,8 +106,8 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
              self.log("Error \(e)")
         }
     }
+    
     func startAudioEngine() {
-        
         try! AVAudioSession.sharedInstance().setCategory(.playAndRecord)
         try! AVAudioSession.sharedInstance().setActive(true)
 
@@ -113,49 +116,55 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         }
 
         let format = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16,
-                                                     sampleRate: 44100.0,
-                                                     channels: 1,
-                                                     interleaved: true)
-        let settings:[String : Any] = [
+                                   sampleRate: 44100.0,
+                                   channels: 1,
+                                   interleaved: true)
+        
+        let settings: [String: Any] = [
             AVFormatIDKey: Int(kAudioFormatLinearPCM),
             AVSampleRateKey: 16000.0,
             AVNumberOfChannelsKey: 1,
             AVLinearPCMBitDepthKey: 16,
-            AVLinearPCMIsFloatKey:false,
-            AVLinearPCMIsBigEndianKey:false,
+            AVLinearPCMIsFloatKey: false,
+            AVLinearPCMIsBigEndianKey: false,
             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
         ]
+        
         let downFormat = AVAudioFormat(settings: settings)
         audioEngine.connect(audioEngine.inputNode, to: audioEngine.mainMixerNode, format: format)
+        
         /*If you want record to file */
         let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd_HHmmss"
-        let filePath =  dir.appending(String(format: "/%@.wav", formatter.string(from: Date())))
+        let filePath = dir.appending(String(format: "/%@.wav", formatter.string(from: Date())))
         let outurl = URL(fileURLWithPath: filePath)
         self.filePath = filePath
+        
         _ = ExtAudioFileCreateWithURL(outurl as CFURL,
             kAudioFileWAVEType,
             downFormat!.streamDescription,
             nil,
             AudioFileFlags.eraseFile.rawValue,
             &outref)
+        
         /*if you want record to file end */
         audioEngine.inputNode.installTap(onBus: 0,
                                          bufferSize: AVAudioFrameCount(format!.sampleRate * 0.4),
                                          format: format,
                                          block: { (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
-
             let converter = AVAudioConverter(from: format!, to: downFormat!)
             let newbuffer = AVAudioPCMBuffer(pcmFormat: downFormat!,
                 frameCapacity: AVAudioFrameCount(downFormat!.sampleRate * 0.4))
-            let inputBlock : AVAudioConverterInputBlock = { (inNumPackets, outStatus) -> AVAudioBuffer? in
+                                            
+            let inputBlock: AVAudioConverterInputBlock = { (inNumPackets, outStatus) -> AVAudioBuffer? in
                 outStatus.pointee = AVAudioConverterInputStatus.haveData
                 let audioBuffer : AVAudioBuffer = buffer
                 return audioBuffer
             }
+                                            
             if let nb = newbuffer {
-                var error : NSError?
+                var error: NSError?
                 //converter!.convert(to: nb, from: buffer)
                 converter!.convert(to: nb, error: &error, withInputFrom: inputBlock)
                 self.sendStreamPartToServer(nb,time)
@@ -166,7 +175,8 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         try! audioEngine.start()
         self.isRecord = true
     }
-    private func sendStreamPartToServer(_ buffer:AVAudioPCMBuffer,_ time:AVAudioTime){
+    
+    private func sendStreamPartToServer(_ buffer: AVAudioPCMBuffer, _ time: AVAudioTime) {
         do {
             if let oldCall = self.callStream {
                 var req = Cobaltspeech_Cubic_StreamingRecognizeRequest()
@@ -177,36 +187,38 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
                     if let er = error {
                         self.log("Send error: \(er)")
                     }
-                   
                 })
                
                 self.log("sendToServer")
             }
-       } catch let e {
-        self.log("Error \(e)")
-        do {
-            try self.callStream?.closeSend(completion: {
-                 self.log("close")
-             })
         } catch let e {
-            self.log("Close Error \(e)")
+            self.log("Error \(e)")
+            
+            do {
+                try self.callStream?.closeSend(completion: {
+                     self.log("close")
+                 })
+            } catch let e {
+                self.log("Close Error \(e)")
+            }
         }
-       }
     }
-    func stopStream(){
+    
+    func stopStream() {
         stopAudioEngine()
         stopGRPCStream()
     }
-    private func stopAudioEngine(){
+    
+    private func stopAudioEngine() {
         if audioEngine != nil && audioEngine.isRunning {
             audioEngine.stop()
             audioEngine.inputNode.removeTap(onBus: 0)
             ExtAudioFileDispose(self.outref!)
             try! AVAudioSession.sharedInstance().setActive(false)
             self.isRecord = false
-           
         }
     }
+    
     private func stopGRPCStream() {
         if let call = self.callStream {
             do {
@@ -214,10 +226,11 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
                     self.delegate?.streamCompletion(nil)
                 }
             } catch let e {
-                
+                print(e)
             }
         }
     }
+    
     @discardableResult
     public func record() -> Bool {
         //kAudioFormatMPEG4AAC default
@@ -230,8 +243,8 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
             AVSampleRateKey: 16000.0,
             AVNumberOfChannelsKey: 1,
             AVLinearPCMBitDepthKey: 16,
-            AVLinearPCMIsFloatKey:false,
-            AVLinearPCMIsBigEndianKey:false,
+            AVLinearPCMIsFloatKey: false,
+            AVLinearPCMIsBigEndianKey: false,
             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
         ]
         
@@ -254,7 +267,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     }
     
     public func stop() {
-        if (isRecord){
+        if (isRecord) {
             finishRecording(success: true)
             uploadRecord()
         }
@@ -284,15 +297,15 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
                         print("\(e)")
                     }
                }
-              
             }
         } catch let e {
             print("\(e)")
         }
     }
-    
 }
+
 extension Data {
+    
     init(buffer: AVAudioPCMBuffer, time: AVAudioTime) {
         let audioBuffer = buffer.audioBufferList.pointee.mBuffers
         self.init(bytes: audioBuffer.mData!, count: Int(audioBuffer.mDataByteSize))
@@ -301,11 +314,14 @@ extension Data {
     func makePCMBuffer(format: AVAudioFormat) -> AVAudioPCMBuffer? {
         let streamDesc = format.streamDescription.pointee
         let frameCapacity = UInt32(count) / streamDesc.mBytesPerFrame
-        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: frameCapacity) else { return nil }
+        
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: frameCapacity) else {
+            return nil
+            
+        }
 
         buffer.frameLength = buffer.frameCapacity
         let audioBuffer = buffer.audioBufferList.pointee.mBuffers
-        
         
         withUnsafeBytes { addr in
             audioBuffer.mData?.copyMemory(from: addr, byteCount: Int(audioBuffer.mDataByteSize))
