@@ -19,6 +19,9 @@
 		85F3E90823D63EDB00DF7CDB /* sdk_cubic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 85F3E8F223D63EDB00DF7CDB /* sdk_cubic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		85F3E91623D641BB00DF7CDB /* cubic.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E91423D641BB00DF7CDB /* cubic.grpc.swift */; };
 		85F3E91723D641BB00DF7CDB /* cubic.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E91523D641BB00DF7CDB /* cubic.pb.swift */; };
+		8F41516823E646520078EC33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41516723E646520078EC33 /* SceneDelegate.swift */; };
+		8F41516A23E648DC0078EC33 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41516923E648DC0078EC33 /* SettingsViewController.swift */; };
+		8FBFB64523E8490100DED69A /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +68,9 @@
 		85F3E8F523D63EDB00DF7CDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85F3E91423D641BB00DF7CDB /* cubic.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = cubic.grpc.swift; path = "../../../grpc/ios-cubic/ios-cubic/cubic.grpc.swift"; sourceTree = "<group>"; };
 		85F3E91523D641BB00DF7CDB /* cubic.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = cubic.pb.swift; path = "../../../grpc/ios-cubic/ios-cubic/cubic.pb.swift"; sourceTree = "<group>"; };
+		8F41516723E646520078EC33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		8F41516923E648DC0078EC33 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		C67F1CE86F3F5EC187C23C0E /* Pods-cubic-demo-sdk-cubic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-sdk-cubic.debug.xcconfig"; path = "Target Support Files/Pods-cubic-demo-sdk-cubic/Pods-cubic-demo-sdk-cubic.debug.xcconfig"; sourceTree = "<group>"; };
 		DBC2A868EE05DAB45CE7088A /* Pods-cubic-demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo.debug.xcconfig"; path = "Target Support Files/Pods-cubic-demo/Pods-cubic-demo.debug.xcconfig"; sourceTree = "<group>"; };
 		E8464F4C589D0C434142F7EA /* Pods-cubic-demo-sdk-cubic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-sdk-cubic.release.xcconfig"; path = "Target Support Files/Pods-cubic-demo-sdk-cubic/Pods-cubic-demo-sdk-cubic.release.xcconfig"; sourceTree = "<group>"; };
@@ -114,13 +120,16 @@
 		85F3E87C23D46FA300DF7CDB /* cubic-demo */ = {
 			isa = PBXGroup;
 			children = (
+				8FBFB64323E848E500DED69A /* Extensions */,
 				85F3E8E923D631B400DF7CDB /* CubicManager.swift */,
 				85F3E87D23D46FA400DF7CDB /* AppDelegate.swift */,
 				85F3E88123D46FA400DF7CDB /* ViewController.swift */,
+				8F41516923E648DC0078EC33 /* SettingsViewController.swift */,
 				85F3E88323D46FA400DF7CDB /* Main.storyboard */,
 				85F3E88623D46FA500DF7CDB /* Assets.xcassets */,
 				85F3E88823D46FA500DF7CDB /* LaunchScreen.storyboard */,
 				85F3E88B23D46FA500DF7CDB /* Info.plist */,
+				8F41516723E646520078EC33 /* SceneDelegate.swift */,
 			);
 			path = "cubic-demo";
 			sourceTree = "<group>";
@@ -134,6 +143,14 @@
 				85F3E8F523D63EDB00DF7CDB /* Info.plist */,
 			);
 			path = "sdk-cubic";
+			sourceTree = "<group>";
+		};
+		8FBFB64323E848E500DED69A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		DA021AAB7012431C032E815C /* Pods */ = {
@@ -344,6 +361,9 @@
 				85F3E88223D46FA400DF7CDB /* ViewController.swift in Sources */,
 				85F3E87E23D46FA400DF7CDB /* AppDelegate.swift in Sources */,
 				85F3E8EA23D631B400DF7CDB /* CubicManager.swift in Sources */,
+				8F41516A23E648DC0078EC33 /* SettingsViewController.swift in Sources */,
+				8FBFB64523E8490100DED69A /* UIViewControllerExtensions.swift in Sources */,
+				8F41516823E646520078EC33 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
