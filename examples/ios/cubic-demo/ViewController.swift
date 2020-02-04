@@ -8,7 +8,8 @@ import Foundation
 import swift_cubic
 class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManagerDelegate {
    
-    private static var CUBIC_URL = "demo-cubic.cobaltspeech.com:2727"
+    private static var CUBIC_HOST = "demo-cubic.cobaltspeech.com"
+    private static var CUBIC_PORT = 2727
     
     @IBOutlet weak var resultTextView: UITextView!
     @IBOutlet weak var recordButton: UIButton!
@@ -38,13 +39,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
         activityIndicator.hidesWhenStopped = true
         activityBarItem = UIBarButtonItem(customView: activityIndicator)
 
-        createCubicManager(url: ViewController.CUBIC_URL)
+        createCubicManager(host: ViewController.CUBIC_HOST, ip: ViewController.CUBIC_PORT)
     }
     
     // MARK: - Private methods
     
-    private func createCubicManager(url: String) {
-        cubicManager = CubicManager(url: url)
+    private func createCubicManager(host: String,ip:Int) {
+        cubicManager = CubicManager(host: host, ip: ip)
         cubicManager.delegate = self
         navigationItem.rightBarButtonItems?[0] = activityBarItem
         activityIndicator.startAnimating()
@@ -75,13 +76,22 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
         let alertController = UIAlertController(title: "Cubic URL", message: "Enter Cubic channel URL address:", preferredStyle: .alert)
         
         alertController.addTextField { (textField) in
-            textField.text = ViewController.CUBIC_URL
+            textField.text = "\(ViewController.CUBIC_HOST):\(ViewController.CUBIC_PORT)"
         }
         
         let okAction = UIAlertAction(title: "Connect", style: .default) { [weak alertController] (action) in
             if let textField = alertController?.textFields?[0], let url = textField.text {
-                ViewController.CUBIC_URL = url
-                self.createCubicManager(url: url)
+                let items = url.split(separator: ":")
+                if items.count == 2 {
+                    let host = items[0]
+                    let port = Int(items[1])
+                    ViewController.CUBIC_HOST = String(host)
+                    ViewController.CUBIC_PORT = port ?? 2727
+                    self.createCubicManager(host: ViewController.CUBIC_HOST,
+                                            ip: ViewController.CUBIC_PORT)
+                }
+               
+                
             }
         }
         
@@ -109,7 +119,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
         self.cubicManager.stop()
         self.recordButton.tintColor = self.view.tintColor
     }
-    func streamCompletion(_ result: CallResult?) {
+    func streamCompletion(_ result: Cobaltspeech_Cubic_RecognitionResponse?) {
         
     }
     
@@ -139,10 +149,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
         resultTextView.text = resultMessage
     }
     
-    func streamReceive(_ result: ResultOrRPCError<Cobaltspeech_Cubic_RecognitionResponse?>) {
-        if let result = result.result {
-            printResult(response: result)
-        }
+    func streamReceive(_ result: Cobaltspeech_Cubic_RecognitionResponse) {
+         printResult(response: result)
     }
     func managerDidRecognizeWithResponse(_ res: Cobaltspeech_Cubic_RecognitionResponse) {
         printResult(response: res)

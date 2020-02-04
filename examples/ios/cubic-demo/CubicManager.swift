@@ -9,11 +9,13 @@ import AVFoundation
 import SwiftProtobuf
 import swift_cubic
 import GRPC
+import NIO
+
 public protocol CubicManagerDelegate: class {
     
     func managerDidRecognizeWithResponse(_ res: Cobaltspeech_Cubic_RecognitionResponse)
-    func streamCompletion(_ result: CallResult?)
-    func streamReceive(_ result: ResultOrRPCError<Cobaltspeech_Cubic_RecognitionResponse?>)
+    func streamCompletion(_ result: Cobaltspeech_Cubic_RecognitionResponse?)
+    func streamReceive(_ result: Cobaltspeech_Cubic_RecognitionResponse)
     
 }
 
@@ -22,7 +24,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     private let client: Cobaltspeech_Cubic_CubicServiceClient
     private var whistleRecorder: AVAudioRecorder!
     private var selectedModelId: String = "\(1)"
-    private var callStream:Cobaltspeech_Cubic_CubicStreamingRecognizeCall?
+    private var callStream:BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>?
     private var audioEngine : AVAudioEngine!
     private var audioFile : AVAudioFile!
     private var outref: ExtAudioFileRef?
@@ -43,8 +45,10 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     }
     
     public init(host: String,ip:Int) {
-        let connection = ClientConnection(configuration: ClientConnection(configuration: .init(target: ConnectionTarget.hostAndPort(host, ip), eventLoopGroup: EventLoopGroup.)))
-        self.client = Cobaltspeech_Cubic_CubicServiceClient.init(connection: connection)
+        let target = ConnectionTarget.hostAndPort(host, ip)
+        let configuration = ClientConnection.Configuration.init(target: target, eventLoopGroup: MultiThreadedEventLoopGroup.init(numberOfThreads: 1 ))
+        let connection = ClientConnection.init(configuration: configuration)
+        self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
     }
     
     func log(_ text: String){
@@ -92,9 +96,11 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     
     public func startStream() {
          do {
+            
             let call = try self.client.streamingRecognize(handler: { (recres) in
-                 self.delegate?.streamCompletion(recres)
+                self.delegate?.streamCompletion(recres)
             })
+            
             try call.receive { res in
                 DispatchQueue.main.async {
                     self.delegate?.streamReceive(res)
@@ -104,7 +110,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
             conReq.config.modelID = self.selectedModelId
             conReq.config.idleTimeout.seconds = 5
             conReq.config.audioEncoding = .rawLinear16
-            try call.send(conReq)
+            try call.sendMessage(conReq)
             callStream = call
             self.startAudioEngine()
         } catch let e {
@@ -187,22 +193,27 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
                 var req = Cobaltspeech_Cubic_StreamingRecognizeRequest()
                 let data = Data(buffer: buffer, time: time)
                 req.audio.data = data
-                
-                try oldCall.send(req, completion: { (error) in
-                    if let er = error {
-                        self.log("Send error: \(er)")
+                try oldCall.sendMessage(req).always({ (result) in
+                    do {
+                        try result.get()
+                    }catch let e {
+                         self.log("Send error: \(e)")
                     }
                 })
-               
+                
                 self.log("sendToServer")
             }
         } catch let e {
             self.log("Error \(e)")
             
             do {
-                try self.callStream?.closeSend(completion: {
-                     self.log("close")
-                 })
+                try self.callStream?.sendEnd().always({ (result) in
+                    do {
+                        try result.get()
+                    }catch let e {
+                         self.log("Send error: \(e)")
+                    }
+                })
             } catch let e {
                 self.log("Close Error \(e)")
             }
@@ -227,9 +238,8 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     private func stopGRPCStream() {
         if let call = self.callStream {
             do {
-                try call.closeSend {
-                    self.delegate?.streamCompletion(nil)
-                }
+                call.sendEnd()
+                
             } catch let e {
                 print(e)
             }
