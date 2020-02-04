@@ -1,41 +1,47 @@
 PODS:
-  - CNIOAtomics (2.11.0)
-  - CNIODarwin (2.11.0)
-  - CNIOLinux (2.11.0)
-  - CNIOSHA1 (2.11.0)
-  - SwiftNIO (2.11.0):
-    - CNIOAtomics (= 2.11.0)
-    - CNIODarwin (= 2.11.0)
-    - CNIOLinux (= 2.11.0)
-    - CNIOSHA1 (= 2.11.0)
-    - SwiftNIOConcurrencyHelpers (= 2.11.0)
-  - SwiftNIOConcurrencyHelpers (2.11.0):
-    - CNIOAtomics (= 2.11.0)
+  - BoringSSL-GRPC (0.0.3):
+    - BoringSSL-GRPC/Implementation (= 0.0.3)
+    - BoringSSL-GRPC/Interface (= 0.0.3)
+  - BoringSSL-GRPC/Implementation (0.0.3):
+    - BoringSSL-GRPC/Interface (= 0.0.3)
+  - BoringSSL-GRPC/Interface (0.0.3)
+  - gRPC-Core (1.23.1):
+    - gRPC-Core/Implementation (= 1.23.1)
+    - gRPC-Core/Interface (= 1.23.1)
+  - gRPC-Core/Implementation (1.23.1):
+    - BoringSSL-GRPC (= 0.0.3)
+    - gRPC-Core/Interface (= 1.23.1)
+    - nanopb (~> 0.3)
+  - gRPC-Core/Interface (1.23.1)
+  - nanopb (0.3.9011):
+    - nanopb/decode (= 0.3.9011)
+    - nanopb/encode (= 0.3.9011)
+  - nanopb/decode (0.3.9011)
+  - nanopb/encode (0.3.9011)
+  - SwiftGRPC (0.10.0):
+    - gRPC-Core (~> 1.23.0)
+    - SwiftProtobuf (~> 1.7.0)
   - SwiftProtobuf (1.7.0)
 
 DEPENDENCIES:
-  - SwiftNIO
+  - SwiftGRPC
   - SwiftProtobuf (~> 1.0)
 
 SPEC REPOS:
   trunk:
-    - CNIOAtomics
-    - CNIODarwin
-    - CNIOLinux
-    - CNIOSHA1
-    - SwiftNIO
-    - SwiftNIOConcurrencyHelpers
+    - BoringSSL-GRPC
+    - gRPC-Core
+    - nanopb
+    - SwiftGRPC
     - SwiftProtobuf
 
 SPEC CHECKSUMS:
-  CNIOAtomics: e48c24c8f842db0fe9ebef746a189d4b3852cb26
-  CNIODarwin: b7daad3812b7675af5abdfb8fccd50709702aa02
-  CNIOLinux: b5d9acbe86a297e0644c94e7f6866ecfba65108a
-  CNIOSHA1: 2fa7405f7fb463168a3275978018a2c06dd08742
-  SwiftNIO: 40cfda7f8cb61023a1623f9286f570133acdb645
-  SwiftNIOConcurrencyHelpers: 1fe32cc1f89ce73036f1aa71fb6a39d7c876ecdc
+  BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
+  gRPC-Core: 4b1148eb8596225178e5a154e40e35141a3cdf0f
+  nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  SwiftGRPC: f8fcfecb547c96cc6913de619f95fa3cd09838ee
   SwiftProtobuf: 4fd9645e69b72cbae6ec8da5be0cdd20ca6565dd
 
-PODFILE CHECKSUM: 629281d128052128edfa591e83720b06c72298b8
+PODFILE CHECKSUM: 3577eff11104a93468937a9281b196c7cae49311
 
 COCOAPODS: 1.8.4
