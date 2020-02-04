@@ -10,7 +10,7 @@ target 'cubic-demo' do
 
   target 'sdk-cubic' do
     pod 'SwiftProtobuf', '~> 1.0'
-    pod 'SwiftGRPC'
+    pod 'SwiftNIO'
     # Pods for testing
   end
 

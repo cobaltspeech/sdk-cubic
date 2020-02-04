@@ -71,6 +71,7 @@
 		8F41516723E646520078EC33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8F41516923E648DC0078EC33 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+		92FBA92C178849DB18A9CEB9 /* Pods_cubic_demo_sdk_cubic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cubic_demo_sdk_cubic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C67F1CE86F3F5EC187C23C0E /* Pods-cubic-demo-sdk-cubic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-sdk-cubic.debug.xcconfig"; path = "Target Support Files/Pods-cubic-demo-sdk-cubic/Pods-cubic-demo-sdk-cubic.debug.xcconfig"; sourceTree = "<group>"; };
 		DBC2A868EE05DAB45CE7088A /* Pods-cubic-demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo.debug.xcconfig"; path = "Target Support Files/Pods-cubic-demo/Pods-cubic-demo.debug.xcconfig"; sourceTree = "<group>"; };
 		E8464F4C589D0C434142F7EA /* Pods-cubic-demo-sdk-cubic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-sdk-cubic.release.xcconfig"; path = "Target Support Files/Pods-cubic-demo-sdk-cubic/Pods-cubic-demo-sdk-cubic.release.xcconfig"; sourceTree = "<group>"; };
@@ -173,6 +174,7 @@
 			children = (
 				85F3E8EB23D6332200DF7CDB /* ios_cubic.framework */,
 				6E5D3863B4DF34F3FCBA5C17 /* Pods_cubic_demo.framework */,
+				92FBA92C178849DB18A9CEB9 /* Pods_cubic_demo_sdk_cubic.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
