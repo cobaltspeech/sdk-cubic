@@ -54,6 +54,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
             if let error = error {
                 self.models = []
                 self.showError(message: error)
+                
             } else {
                 if let models = models {
                     self.models = models
