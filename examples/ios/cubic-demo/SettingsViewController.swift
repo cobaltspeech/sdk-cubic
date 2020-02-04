@@ -5,8 +5,7 @@
 //
 
 import UIKit
-import sdk_cubic
-
+import swift_cubic
 protocol SettingsViewControllerDelegate: class {
     
     func settingsViewControllerDidChangeModelType(at index: Int)

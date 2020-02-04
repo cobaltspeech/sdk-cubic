@@ -7,9 +7,8 @@
 import Foundation
 import AVFoundation
 import SwiftProtobuf
-import SwiftGRPC
-import sdk_cubic
-
+import swift_cubic
+import GRPC
 public protocol CubicManagerDelegate: class {
     
     func managerDidRecognizeWithResponse(_ res: Cobaltspeech_Cubic_RecognitionResponse)
@@ -43,8 +42,9 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         self.client = client
     }
     
-    public init(url: String) {
-        self.client = Cobaltspeech_Cubic_CubicServiceClient(channel: Channel(address: url))
+    public init(host: String,ip:Int) {
+        let connection = ClientConnection(configuration: ClientConnection(configuration: .init(target: ConnectionTarget.hostAndPort(host, ip), eventLoopGroup: EventLoopGroup.)))
+        self.client = Cobaltspeech_Cubic_CubicServiceClient.init(connection: connection)
     }
     
     func log(_ text: String){
@@ -54,13 +54,18 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     public func listModels(callback: @escaping(_ models: [Cobaltspeech_Cubic_Model]?, _ errorMessage: String?) -> ()) {
         do {
             let listModels = Cobaltspeech_Cubic_ListModelsRequest()
-            try client.listModels(listModels, completion: { (response, result) in
-                if result.statusCode == .ok {
-                    callback(response?.models, nil)
-                } else {
-                    callback(response?.models, result.description)
+            try client.listModels(listModels).response.always({ (result) in
+                do {
+                    let response = try result.get()
+                    callback( response.models, nil)
+                                                   
+                }catch let e {
+                    print("\(e)")
+                    callback(nil, e.localizedDescription)
                 }
+               
             })
+            
         } catch let e {
             print("\(e)")
             callback(nil, e.localizedDescription)
@@ -87,8 +92,8 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     
     public func startStream() {
          do {
-            let call = try self.client.streamingRecognize(completion: { (callResult) in
-                    self.delegate?.streamCompletion(callResult)
+            let call = try self.client.streamingRecognize(handler: { (recres) in
+                 self.delegate?.streamCompletion(recres)
             })
             try call.receive { res in
                 DispatchQueue.main.async {
@@ -285,19 +290,18 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
             req.audio = Cobaltspeech_Cubic_RecognitionAudio()
             let audioUrl = CubicManager.getWavURL()
             req.audio.data = try Data(contentsOf: audioUrl)
-            
-            try client.recognize(req) { (respose, result) in
-               if let res = respose {
-                    do {
-                        self.log("Res from \(String(describing: try res.jsonString()))")
-                        DispatchQueue.main.async {
-                            self.delegate?.managerDidRecognizeWithResponse(res)
-                        }
-                    } catch let e {
-                        print("\(e)")
-                    }
+            try client.recognize(req).response.always({ (respose) in
+               do {
+                let res = try respose.get()
+                   self.log("Res from \(String(describing: try res.jsonString()))")
+                   DispatchQueue.main.async {
+                       self.delegate?.managerDidRecognizeWithResponse(res)
+                   }
+               } catch let e {
+                   print("\(e)")
                }
-            }
+              
+            })
         } catch let e {
             print("\(e)")
         }
