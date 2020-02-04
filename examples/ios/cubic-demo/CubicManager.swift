@@ -59,13 +59,15 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         do {
             let listModels = Cobaltspeech_Cubic_ListModelsRequest()
             try client.listModels(listModels).response.always({ (result) in
-                do {
-                    let response = try result.get()
-                    callback( response.models, nil)
-                                                   
-                }catch let e {
-                    print("\(e)")
-                    callback(nil, e.localizedDescription)
+                DispatchQueue.main.async {
+                    do {
+                        let response = try result.get()
+                        callback( response.models, nil)
+                                                       
+                    }catch let e {
+                        print("\(e)")
+                        callback(nil, e.localizedDescription)
+                    }
                 }
                
             })
@@ -100,12 +102,13 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
             let call = try self.client.streamingRecognize(handler: { (recres) in
                 self.delegate?.streamCompletion(recres)
             })
-            
+                /*
             try call.receive { res in
                 DispatchQueue.main.async {
                     self.delegate?.streamReceive(res)
                 }
             }
+ */
             var conReq = Cobaltspeech_Cubic_StreamingRecognizeRequest()
             conReq.config.modelID = self.selectedModelId
             conReq.config.idleTimeout.seconds = 5
