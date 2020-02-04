@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		290F62F4661C0C0AC9781FA1 /* Pods_cubic_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E5D3863B4DF34F3FCBA5C17 /* Pods_cubic_demo.framework */; };
+		81BB280FB3A6176B76FFAC28 /* Pods_cubic_demo_sdk_cubic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FBA92C178849DB18A9CEB9 /* Pods_cubic_demo_sdk_cubic.framework */; };
+		852B4F3323E9E20E003AFBB7 /* cubic.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852B4F3123E9E20E003AFBB7 /* cubic.grpc.swift */; };
+		852B4F3423E9E20E003AFBB7 /* cubic.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852B4F3223E9E20E003AFBB7 /* cubic.pb.swift */; };
 		85F3E87E23D46FA400DF7CDB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E87D23D46FA400DF7CDB /* AppDelegate.swift */; };
 		85F3E88223D46FA400DF7CDB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E88123D46FA400DF7CDB /* ViewController.swift */; };
 		85F3E88523D46FA400DF7CDB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85F3E88323D46FA400DF7CDB /* Main.storyboard */; };
@@ -17,8 +20,6 @@
 		85F3E90423D63EDB00DF7CDB /* sdk_cubic.h in Headers */ = {isa = PBXBuildFile; fileRef = 85F3E8F423D63EDB00DF7CDB /* sdk_cubic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		85F3E90723D63EDB00DF7CDB /* sdk_cubic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85F3E8F223D63EDB00DF7CDB /* sdk_cubic.framework */; };
 		85F3E90823D63EDB00DF7CDB /* sdk_cubic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 85F3E8F223D63EDB00DF7CDB /* sdk_cubic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		85F3E91623D641BB00DF7CDB /* cubic.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E91423D641BB00DF7CDB /* cubic.grpc.swift */; };
-		85F3E91723D641BB00DF7CDB /* cubic.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E91523D641BB00DF7CDB /* cubic.pb.swift */; };
 		8F41516823E646520078EC33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41516723E646520078EC33 /* SceneDelegate.swift */; };
 		8F41516A23E648DC0078EC33 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41516923E648DC0078EC33 /* SettingsViewController.swift */; };
 		8FBFB64523E8490100DED69A /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */; };
@@ -54,6 +55,8 @@
 		21D31D22A6D494BE6455B88D /* Pods-cubic-demoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demoTests.release.xcconfig"; path = "Target Support Files/Pods-cubic-demoTests/Pods-cubic-demoTests.release.xcconfig"; sourceTree = "<group>"; };
 		6E5D3863B4DF34F3FCBA5C17 /* Pods_cubic_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cubic_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FEAAE7BECF09E315460A62D /* Pods-cubic-demo-cubic-demoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-cubic-demoUITests.release.xcconfig"; path = "Target Support Files/Pods-cubic-demo-cubic-demoUITests/Pods-cubic-demo-cubic-demoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		852B4F3123E9E20E003AFBB7 /* cubic.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = cubic.grpc.swift; path = "../../../grpc/swift-cubic/Sources/swift-cubic/cubic.grpc.swift"; sourceTree = "<group>"; };
+		852B4F3223E9E20E003AFBB7 /* cubic.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = cubic.pb.swift; path = "../../../grpc/swift-cubic/Sources/swift-cubic/cubic.pb.swift"; sourceTree = "<group>"; };
 		85F3E87A23D46FA300DF7CDB /* cubic-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cubic-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		85F3E87D23D46FA400DF7CDB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85F3E88123D46FA400DF7CDB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,8 +69,6 @@
 		85F3E8F223D63EDB00DF7CDB /* sdk_cubic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = sdk_cubic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85F3E8F423D63EDB00DF7CDB /* sdk_cubic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sdk_cubic.h; sourceTree = "<group>"; };
 		85F3E8F523D63EDB00DF7CDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		85F3E91423D641BB00DF7CDB /* cubic.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = cubic.grpc.swift; path = "../../../grpc/ios-cubic/ios-cubic/cubic.grpc.swift"; sourceTree = "<group>"; };
-		85F3E91523D641BB00DF7CDB /* cubic.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = cubic.pb.swift; path = "../../../grpc/ios-cubic/ios-cubic/cubic.pb.swift"; sourceTree = "<group>"; };
 		8F41516723E646520078EC33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8F41516923E648DC0078EC33 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
@@ -92,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81BB280FB3A6176B76FFAC28 /* Pods_cubic_demo_sdk_cubic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +140,8 @@
 		85F3E8F323D63EDB00DF7CDB /* sdk-cubic */ = {
 			isa = PBXGroup;
 			children = (
-				85F3E91423D641BB00DF7CDB /* cubic.grpc.swift */,
-				85F3E91523D641BB00DF7CDB /* cubic.pb.swift */,
+				852B4F3123E9E20E003AFBB7 /* cubic.grpc.swift */,
+				852B4F3223E9E20E003AFBB7 /* cubic.pb.swift */,
 				85F3E8F423D63EDB00DF7CDB /* sdk_cubic.h */,
 				85F3E8F523D63EDB00DF7CDB /* Info.plist */,
 			);
@@ -373,8 +375,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85F3E91623D641BB00DF7CDB /* cubic.grpc.swift in Sources */,
-				85F3E91723D641BB00DF7CDB /* cubic.pb.swift in Sources */,
+				852B4F3323E9E20E003AFBB7 /* cubic.grpc.swift in Sources */,
+				852B4F3423E9E20E003AFBB7 /* cubic.pb.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
