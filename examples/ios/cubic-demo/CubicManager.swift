@@ -58,18 +58,16 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     public func listModels(callback: @escaping(_ models: [Cobaltspeech_Cubic_Model]?, _ errorMessage: String?) -> ()) {
         do {
             let listModels = Cobaltspeech_Cubic_ListModelsRequest()
-            try client.listModels(listModels).response.always({ (result) in
+            try client.listModels(listModels).response.whenComplete({ (result) in
                 DispatchQueue.main.async {
                     do {
                         let response = try result.get()
                         callback( response.models, nil)
-                                                       
-                    }catch let e {
+                    } catch let e {
                         print("\(e)")
                         callback(nil, e.localizedDescription)
                     }
                 }
-               
             })
             
         } catch let e {
@@ -113,7 +111,13 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
             conReq.config.modelID = self.selectedModelId
             conReq.config.idleTimeout.seconds = 5
             conReq.config.audioEncoding = .rawLinear16
-            try call.sendMessage(conReq)
+            try call.sendMessage(conReq).whenComplete({ (result) in
+                do {
+                    let res = try result.get()
+                }catch let e {
+                    self.log("Error \(e)")
+                }
+            })
             callStream = call
             self.startAudioEngine()
         } catch let e {
@@ -196,7 +200,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
                 var req = Cobaltspeech_Cubic_StreamingRecognizeRequest()
                 let data = Data(buffer: buffer, time: time)
                 req.audio.data = data
-                try oldCall.sendMessage(req).always({ (result) in
+                try oldCall.sendMessage(req).whenComplete({ (result) in
                     do {
                         try result.get()
                     }catch let e {
@@ -210,7 +214,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
             self.log("Error \(e)")
             
             do {
-                try self.callStream?.sendEnd().always({ (result) in
+                try self.callStream?.sendEnd().whenComplete({ (result) in
                     do {
                         try result.get()
                     }catch let e {
@@ -241,7 +245,9 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     private func stopGRPCStream() {
         if let call = self.callStream {
             do {
-                call.sendEnd()
+                call.sendEnd().whenFailure { (error) in
+                    print("\(error)")
+                }
                 
             } catch let e {
                 print(e)
@@ -303,7 +309,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
             req.audio = Cobaltspeech_Cubic_RecognitionAudio()
             let audioUrl = CubicManager.getWavURL()
             req.audio.data = try Data(contentsOf: audioUrl)
-            try client.recognize(req).response.always({ (respose) in
+            try client.recognize(req).response.whenComplete({ (respose) in
                do {
                 let res = try respose.get()
                    self.log("Res from \(String(describing: try res.jsonString()))")
