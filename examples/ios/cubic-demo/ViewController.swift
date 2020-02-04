@@ -5,9 +5,7 @@
 
 import UIKit
 import Foundation
-import SwiftGRPC
-import sdk_cubic
-
+import swift_cubic
 class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManagerDelegate {
    
     private static var CUBIC_URL = "demo-cubic.cobaltspeech.com:2727"

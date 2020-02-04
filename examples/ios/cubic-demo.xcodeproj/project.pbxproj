@@ -3,37 +3,21 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		290F62F4661C0C0AC9781FA1 /* Pods_cubic_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E5D3863B4DF34F3FCBA5C17 /* Pods_cubic_demo.framework */; };
-		81BB280FB3A6176B76FFAC28 /* Pods_cubic_demo_sdk_cubic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FBA92C178849DB18A9CEB9 /* Pods_cubic_demo_sdk_cubic.framework */; };
-		852B4F3323E9E20E003AFBB7 /* cubic.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852B4F3123E9E20E003AFBB7 /* cubic.grpc.swift */; };
-		852B4F3423E9E20E003AFBB7 /* cubic.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852B4F3223E9E20E003AFBB7 /* cubic.pb.swift */; };
+		85DAC3EF23E9FA250097AABF /* swift-cubic in Frameworks */ = {isa = PBXBuildFile; productRef = 85DAC3EE23E9FA250097AABF /* swift-cubic */; };
 		85F3E87E23D46FA400DF7CDB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E87D23D46FA400DF7CDB /* AppDelegate.swift */; };
 		85F3E88223D46FA400DF7CDB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E88123D46FA400DF7CDB /* ViewController.swift */; };
 		85F3E88523D46FA400DF7CDB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85F3E88323D46FA400DF7CDB /* Main.storyboard */; };
 		85F3E88723D46FA500DF7CDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85F3E88623D46FA500DF7CDB /* Assets.xcassets */; };
 		85F3E88A23D46FA500DF7CDB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85F3E88823D46FA500DF7CDB /* LaunchScreen.storyboard */; };
 		85F3E8EA23D631B400DF7CDB /* CubicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E8E923D631B400DF7CDB /* CubicManager.swift */; };
-		85F3E90423D63EDB00DF7CDB /* sdk_cubic.h in Headers */ = {isa = PBXBuildFile; fileRef = 85F3E8F423D63EDB00DF7CDB /* sdk_cubic.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		85F3E90723D63EDB00DF7CDB /* sdk_cubic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85F3E8F223D63EDB00DF7CDB /* sdk_cubic.framework */; };
-		85F3E90823D63EDB00DF7CDB /* sdk_cubic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 85F3E8F223D63EDB00DF7CDB /* sdk_cubic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F41516823E646520078EC33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41516723E646520078EC33 /* SceneDelegate.swift */; };
 		8F41516A23E648DC0078EC33 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41516923E648DC0078EC33 /* SettingsViewController.swift */; };
 		8FBFB64523E8490100DED69A /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		85F3E90523D63EDB00DF7CDB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 85F3E87223D46FA300DF7CDB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 85F3E8F123D63EDB00DF7CDB;
-			remoteInfo = "sdk-cubic";
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		85F3E90C23D63EDB00DF7CDB /* Embed Frameworks */ = {
@@ -42,7 +26,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				85F3E90823D63EDB00DF7CDB /* sdk_cubic.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,13 +33,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0392A99D732473F99BD0E7B8 /* Pods-cubic-demo-cubic-demoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-cubic-demoUITests.debug.xcconfig"; path = "Target Support Files/Pods-cubic-demo-cubic-demoUITests/Pods-cubic-demo-cubic-demoUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		125B19D5BF1479C2753D7836 /* Pods-cubic-demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo.release.xcconfig"; path = "Target Support Files/Pods-cubic-demo/Pods-cubic-demo.release.xcconfig"; sourceTree = "<group>"; };
-		21D31D22A6D494BE6455B88D /* Pods-cubic-demoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demoTests.release.xcconfig"; path = "Target Support Files/Pods-cubic-demoTests/Pods-cubic-demoTests.release.xcconfig"; sourceTree = "<group>"; };
-		6E5D3863B4DF34F3FCBA5C17 /* Pods_cubic_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cubic_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7FEAAE7BECF09E315460A62D /* Pods-cubic-demo-cubic-demoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-cubic-demoUITests.release.xcconfig"; path = "Target Support Files/Pods-cubic-demo-cubic-demoUITests/Pods-cubic-demo-cubic-demoUITests.release.xcconfig"; sourceTree = "<group>"; };
-		852B4F3123E9E20E003AFBB7 /* cubic.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = cubic.grpc.swift; path = "../../../grpc/swift-cubic/Sources/swift-cubic/cubic.grpc.swift"; sourceTree = "<group>"; };
-		852B4F3223E9E20E003AFBB7 /* cubic.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = cubic.pb.swift; path = "../../../grpc/swift-cubic/Sources/swift-cubic/cubic.pb.swift"; sourceTree = "<group>"; };
 		85F3E87A23D46FA300DF7CDB /* cubic-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cubic-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		85F3E87D23D46FA400DF7CDB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85F3E88123D46FA400DF7CDB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,17 +42,9 @@
 		85F3E88B23D46FA500DF7CDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85F3E8E923D631B400DF7CDB /* CubicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CubicManager.swift; sourceTree = "<group>"; };
 		85F3E8EB23D6332200DF7CDB /* ios_cubic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ios_cubic.framework; path = "../../grpc/ios-cubic/ios_cubic.framework"; sourceTree = "<group>"; };
-		85F3E8F223D63EDB00DF7CDB /* sdk_cubic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = sdk_cubic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		85F3E8F423D63EDB00DF7CDB /* sdk_cubic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sdk_cubic.h; sourceTree = "<group>"; };
-		85F3E8F523D63EDB00DF7CDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F41516723E646520078EC33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8F41516923E648DC0078EC33 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
-		92FBA92C178849DB18A9CEB9 /* Pods_cubic_demo_sdk_cubic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cubic_demo_sdk_cubic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C67F1CE86F3F5EC187C23C0E /* Pods-cubic-demo-sdk-cubic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-sdk-cubic.debug.xcconfig"; path = "Target Support Files/Pods-cubic-demo-sdk-cubic/Pods-cubic-demo-sdk-cubic.debug.xcconfig"; sourceTree = "<group>"; };
-		DBC2A868EE05DAB45CE7088A /* Pods-cubic-demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo.debug.xcconfig"; path = "Target Support Files/Pods-cubic-demo/Pods-cubic-demo.debug.xcconfig"; sourceTree = "<group>"; };
-		E8464F4C589D0C434142F7EA /* Pods-cubic-demo-sdk-cubic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demo-sdk-cubic.release.xcconfig"; path = "Target Support Files/Pods-cubic-demo-sdk-cubic/Pods-cubic-demo-sdk-cubic.release.xcconfig"; sourceTree = "<group>"; };
-		F7DA675D0AA15D9C6417E5C2 /* Pods-cubic-demoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cubic-demoTests.debug.xcconfig"; path = "Target Support Files/Pods-cubic-demoTests/Pods-cubic-demoTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,16 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85F3E90723D63EDB00DF7CDB /* sdk_cubic.framework in Frameworks */,
-				290F62F4661C0C0AC9781FA1 /* Pods_cubic_demo.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		85F3E8EF23D63EDB00DF7CDB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				81BB280FB3A6176B76FFAC28 /* Pods_cubic_demo_sdk_cubic.framework in Frameworks */,
+				85DAC3EF23E9FA250097AABF /* swift-cubic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,7 +63,6 @@
 			isa = PBXGroup;
 			children = (
 				85F3E87C23D46FA300DF7CDB /* cubic-demo */,
-				85F3E8F323D63EDB00DF7CDB /* sdk-cubic */,
 				85F3E87B23D46FA300DF7CDB /* Products */,
 				DA021AAB7012431C032E815C /* Pods */,
 				E3831B45207D1961052452E3 /* Frameworks */,
@@ -115,7 +73,6 @@
 			isa = PBXGroup;
 			children = (
 				85F3E87A23D46FA300DF7CDB /* cubic-demo.app */,
-				85F3E8F223D63EDB00DF7CDB /* sdk_cubic.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -137,17 +94,6 @@
 			path = "cubic-demo";
 			sourceTree = "<group>";
 		};
-		85F3E8F323D63EDB00DF7CDB /* sdk-cubic */ = {
-			isa = PBXGroup;
-			children = (
-				852B4F3123E9E20E003AFBB7 /* cubic.grpc.swift */,
-				852B4F3223E9E20E003AFBB7 /* cubic.pb.swift */,
-				85F3E8F423D63EDB00DF7CDB /* sdk_cubic.h */,
-				85F3E8F523D63EDB00DF7CDB /* Info.plist */,
-			);
-			path = "sdk-cubic";
-			sourceTree = "<group>";
-		};
 		8FBFB64323E848E500DED69A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -159,14 +105,6 @@
 		DA021AAB7012431C032E815C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DBC2A868EE05DAB45CE7088A /* Pods-cubic-demo.debug.xcconfig */,
-				125B19D5BF1479C2753D7836 /* Pods-cubic-demo.release.xcconfig */,
-				0392A99D732473F99BD0E7B8 /* Pods-cubic-demo-cubic-demoUITests.debug.xcconfig */,
-				7FEAAE7BECF09E315460A62D /* Pods-cubic-demo-cubic-demoUITests.release.xcconfig */,
-				F7DA675D0AA15D9C6417E5C2 /* Pods-cubic-demoTests.debug.xcconfig */,
-				21D31D22A6D494BE6455B88D /* Pods-cubic-demoTests.release.xcconfig */,
-				C67F1CE86F3F5EC187C23C0E /* Pods-cubic-demo-sdk-cubic.debug.xcconfig */,
-				E8464F4C589D0C434142F7EA /* Pods-cubic-demo-sdk-cubic.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -175,65 +113,33 @@
 			isa = PBXGroup;
 			children = (
 				85F3E8EB23D6332200DF7CDB /* ios_cubic.framework */,
-				6E5D3863B4DF34F3FCBA5C17 /* Pods_cubic_demo.framework */,
-				92FBA92C178849DB18A9CEB9 /* Pods_cubic_demo_sdk_cubic.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		85F3E8ED23D63EDB00DF7CDB /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				85F3E90423D63EDB00DF7CDB /* sdk_cubic.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		85F3E87923D46FA300DF7CDB /* cubic-demo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 85F3E8A423D46FA600DF7CDB /* Build configuration list for PBXNativeTarget "cubic-demo" */;
 			buildPhases = (
-				2D6A393F33A28C4498515618 /* [CP] Check Pods Manifest.lock */,
 				85F3E87623D46FA300DF7CDB /* Sources */,
 				85F3E87723D46FA300DF7CDB /* Frameworks */,
 				85F3E87823D46FA300DF7CDB /* Resources */,
 				85F3E90C23D63EDB00DF7CDB /* Embed Frameworks */,
-				CCEFF127DE14E250E3C1CB29 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				85F3E90623D63EDB00DF7CDB /* PBXTargetDependency */,
 			);
 			name = "cubic-demo";
+			packageProductDependencies = (
+				85DAC3EE23E9FA250097AABF /* swift-cubic */,
+			);
 			productName = "cubic-demo";
 			productReference = 85F3E87A23D46FA300DF7CDB /* cubic-demo.app */;
 			productType = "com.apple.product-type.application";
-		};
-		85F3E8F123D63EDB00DF7CDB /* sdk-cubic */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 85F3E90923D63EDB00DF7CDB /* Build configuration list for PBXNativeTarget "sdk-cubic" */;
-			buildPhases = (
-				EAC84910B1CDEE3869584338 /* [CP] Check Pods Manifest.lock */,
-				85F3E8ED23D63EDB00DF7CDB /* Headers */,
-				85F3E8EE23D63EDB00DF7CDB /* Sources */,
-				85F3E8EF23D63EDB00DF7CDB /* Frameworks */,
-				85F3E8F023D63EDB00DF7CDB /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "sdk-cubic";
-			productName = "sdk-cubic";
-			productReference = 85F3E8F223D63EDB00DF7CDB /* sdk_cubic.framework */;
-			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -248,10 +154,6 @@
 					85F3E87923D46FA300DF7CDB = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
-					85F3E8F123D63EDB00DF7CDB = {
-						CreatedOnToolsVersion = 11.3.1;
-						LastSwiftMigration = 1130;
-					};
 				};
 			};
 			buildConfigurationList = 85F3E87523D46FA300DF7CDB /* Build configuration list for PBXProject "cubic-demo" */;
@@ -263,12 +165,14 @@
 				Base,
 			);
 			mainGroup = 85F3E87123D46FA300DF7CDB;
+			packageReferences = (
+				85DAC3ED23E9FA250097AABF /* XCRemoteSwiftPackageReference "cubic-swift-sdk" */,
+			);
 			productRefGroup = 85F3E87B23D46FA300DF7CDB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				85F3E87923D46FA300DF7CDB /* cubic-demo */,
-				85F3E8F123D63EDB00DF7CDB /* sdk-cubic */,
 			);
 		};
 /* End PBXProject section */
@@ -284,78 +188,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		85F3E8F023D63EDB00DF7CDB /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		2D6A393F33A28C4498515618 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-cubic-demo-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CCEFF127DE14E250E3C1CB29 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-cubic-demo/Pods-cubic-demo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-cubic-demo/Pods-cubic-demo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-cubic-demo/Pods-cubic-demo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EAC84910B1CDEE3869584338 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-cubic-demo-sdk-cubic-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		85F3E87623D46FA300DF7CDB /* Sources */ = {
@@ -371,24 +204,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		85F3E8EE23D63EDB00DF7CDB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				852B4F3323E9E20E003AFBB7 /* cubic.grpc.swift in Sources */,
-				852B4F3423E9E20E003AFBB7 /* cubic.pb.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		85F3E90623D63EDB00DF7CDB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 85F3E8F123D63EDB00DF7CDB /* sdk-cubic */;
-			targetProxy = 85F3E90523D63EDB00DF7CDB /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		85F3E88323D46FA400DF7CDB /* Main.storyboard */ = {
@@ -526,9 +342,7 @@
 		};
 		85F3E8A523D46FA600DF7CDB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DBC2A868EE05DAB45CE7088A /* Pods-cubic-demo.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PBJ6A87972;
@@ -546,9 +360,7 @@
 		};
 		85F3E8A623D46FA600DF7CDB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 125B19D5BF1479C2753D7836 /* Pods-cubic-demo.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PBJ6A87972;
@@ -561,65 +373,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		85F3E90A23D63EDB00DF7CDB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C67F1CE86F3F5EC187C23C0E /* Pods-cubic-demo-sdk-cubic.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = PBJ6A87972;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "sdk-cubic/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.cobaltspeech.sdk-cubic";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		85F3E90B23D63EDB00DF7CDB /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8464F4C589D0C434142F7EA /* Pods-cubic-demo-sdk-cubic.release.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = PBJ6A87972;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "sdk-cubic/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.cobaltspeech.sdk-cubic";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -644,16 +397,26 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		85F3E90923D63EDB00DF7CDB /* Build configuration list for PBXNativeTarget "sdk-cubic" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				85F3E90A23D63EDB00DF7CDB /* Debug */,
-				85F3E90B23D63EDB00DF7CDB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		85DAC3ED23E9FA250097AABF /* XCRemoteSwiftPackageReference "cubic-swift-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:tumarsal/cubic-swift-sdk.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		85DAC3EE23E9FA250097AABF /* swift-cubic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85DAC3ED23E9FA250097AABF /* XCRemoteSwiftPackageReference "cubic-swift-sdk" */;
+			productName = "swift-cubic";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 85F3E87223D46FA300DF7CDB /* Project object */;
 }
