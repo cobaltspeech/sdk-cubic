@@ -29,6 +29,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     private var audioFile : AVAudioFile!
     private var outref: ExtAudioFileRef?
     private var filePath : String? = nil
+    private var eventLoopGroup:EventLoopGroup
     public weak var delegate: CubicManagerDelegate?
     var isRecord = false
     
@@ -42,13 +43,19 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     
     public required init(client: Cobaltspeech_Cubic_CubicServiceClient) {
         self.client = client
+        self.eventLoopGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1,
+                                                                 networkPreference: .best)
     }
     
     public init(host: String,ip:Int) {
         let target = ConnectionTarget.hostAndPort(host, ip)
-        let configuration = ClientConnection.Configuration(target: target, eventLoopGroup: MultiThreadedEventLoopGroup.init(numberOfThreads: 1 ))
+        self.eventLoopGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1,
+                                                                     networkPreference: .best)
+        
+        let configuration = ClientConnection.Configuration(target: target, eventLoopGroup: eventLoopGroup)
         let connection = ClientConnection.init(configuration: configuration)
         self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
+        
     }
     
     func log(_ text: String){
