@@ -56,24 +56,21 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     }
     
     public func listModels(callback: @escaping(_ models: [Cobaltspeech_Cubic_Model]?, _ errorMessage: String?) -> ()) {
-        do {
-            let listModels = Cobaltspeech_Cubic_ListModelsRequest()
-            try client.listModels(listModels).response.whenComplete({ (result) in
-                DispatchQueue.main.async {
-                    do {
-                        let response = try result.get()
-                        callback( response.models, nil)
-                    } catch let e {
-                        print("\(e)")
-                        callback(nil, e.localizedDescription)
-                    }
+     
+        let listModels = Cobaltspeech_Cubic_ListModelsRequest()
+        client.listModels(listModels).response.whenComplete({ (result) in
+            DispatchQueue.main.async {
+                do {
+                    let response = try result.get()
+                    callback( response.models, nil)
+                } catch let e {
+                    print("\(e)")
+                    callback(nil, e.localizedDescription)
                 }
-            })
+            }
+        })
             
-        } catch let e {
-            print("\(e)")
-            callback(nil, e.localizedDescription)
-        }
+        
     }
     
     public func isAuthorized() -> Bool {
