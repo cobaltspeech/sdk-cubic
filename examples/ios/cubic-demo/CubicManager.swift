@@ -24,12 +24,12 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     private let client: Cobaltspeech_Cubic_CubicServiceClient
     private var whistleRecorder: AVAudioRecorder!
     private var selectedModelId: String = "\(1)"
-    private var callStream:BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>?
+    private var callStream: BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>?
     private var audioEngine : AVAudioEngine!
     private var audioFile : AVAudioFile!
     private var outref: ExtAudioFileRef?
     private var filePath : String? = nil
-    private var eventLoopGroup:EventLoopGroup
+    private var eventLoopGroup: EventLoopGroup
     public weak var delegate: CubicManagerDelegate?
     var isRecord = false
     
@@ -47,12 +47,14 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
                                                                  networkPreference: .best)
     }
     
-    public init(host: String,ip:Int) {
-        let target = ConnectionTarget.hostAndPort(host, ip)
+    public init(host: String, port: Int, useTLS: Bool) {
+        let target = ConnectionTarget.hostAndPort(host, port)
         self.eventLoopGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1,
-                                                                     networkPreference: .best)
+                                                                 networkPreference: .best)
         
-        let configuration = ClientConnection.Configuration(target: target, eventLoopGroup: eventLoopGroup)
+        let tls = useTLS ? ClientConnection.Configuration.TLS() : nil
+        
+        let configuration = ClientConnection.Configuration(target: target, eventLoopGroup: self.eventLoopGroup, errorDelegate: nil, connectivityStateDelegate: nil, tls: tls, connectionBackoff: nil)
         let connection = ClientConnection.init(configuration: configuration)
         self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
         
@@ -63,8 +65,8 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     }
     
     public func listModels(callback: @escaping(_ models: [Cobaltspeech_Cubic_Model]?, _ errorMessage: String?) -> ()) {
-     
         let listModels = Cobaltspeech_Cubic_ListModelsRequest()
+        
         client.listModels(listModels).response.whenComplete({ (result) in
             DispatchQueue.main.async {
                 do {
@@ -76,8 +78,6 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
                 }
             }
         })
-            
-        
     }
     
     public func isAuthorized() -> Bool {
@@ -99,34 +99,24 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     }
     
     public func startStream() {
-         do {
-            
-            let call = try self.client.streamingRecognize(handler: { (recres) in
-                self.delegate?.streamCompletion(recres)
-            })
-                /*
-            try call.receive { res in
-                DispatchQueue.main.async {
-                    self.delegate?.streamReceive(res)
-                }
+        let call = self.client.streamingRecognize(handler: { (recres) in
+            self.delegate?.streamCompletion(recres)
+        })
+
+        var conReq = Cobaltspeech_Cubic_StreamingRecognizeRequest()
+        conReq.config.modelID = self.selectedModelId
+        conReq.config.idleTimeout.seconds = 5
+        conReq.config.audioEncoding = .rawLinear16
+        call.sendMessage(conReq).whenComplete({ (result) in
+            do {
+                try result.get()
+            } catch let e {
+                self.log("Error \(e)")
             }
- */
-            var conReq = Cobaltspeech_Cubic_StreamingRecognizeRequest()
-            conReq.config.modelID = self.selectedModelId
-            conReq.config.idleTimeout.seconds = 5
-            conReq.config.audioEncoding = .rawLinear16
-            try call.sendMessage(conReq).whenComplete({ (result) in
-                do {
-                    let res = try result.get()
-                }catch let e {
-                    self.log("Error \(e)")
-                }
-            })
-            callStream = call
-            self.startAudioEngine()
-        } catch let e {
-             self.log("Error \(e)")
-        }
+        })
+        
+        callStream = call
+        self.startAudioEngine()
     }
     
     func startAudioEngine() {
@@ -199,35 +189,19 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     }
     
     private func sendStreamPartToServer(_ buffer: AVAudioPCMBuffer, _ time: AVAudioTime) {
-        do {
-            if let oldCall = self.callStream {
-                var req = Cobaltspeech_Cubic_StreamingRecognizeRequest()
-                let data = Data(buffer: buffer, time: time)
-                req.audio.data = data
-                try oldCall.sendMessage(req).whenComplete({ (result) in
-                    do {
-                        try result.get()
-                    }catch let e {
-                         self.log("Send error: \(e)")
-                    }
-                })
-                
-                self.log("sendToServer")
-            }
-        } catch let e {
-            self.log("Error \(e)")
+        if let oldCall = self.callStream {
+            var req = Cobaltspeech_Cubic_StreamingRecognizeRequest()
+            let data = Data(buffer: buffer, time: time)
+            req.audio.data = data
+            oldCall.sendMessage(req).whenComplete({ (result) in
+                do {
+                    try result.get()
+                } catch let e {
+                    self.log("Send error: \(e)")
+                }
+            })
             
-            do {
-                try self.callStream?.sendEnd().whenComplete({ (result) in
-                    do {
-                        try result.get()
-                    }catch let e {
-                         self.log("Send error: \(e)")
-                    }
-                })
-            } catch let e {
-                self.log("Close Error \(e)")
-            }
+            self.log("sendToServer")
         }
     }
     
@@ -248,13 +222,8 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     
     private func stopGRPCStream() {
         if let call = self.callStream {
-            do {
-                call.sendEnd().whenFailure { (error) in
-                    print("\(error)")
-                }
-                
-            } catch let e {
-                print(e)
+            call.sendEnd().whenFailure { (error) in
+                print("\(error)")
             }
         }
     }
@@ -313,16 +282,16 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
             req.audio = Cobaltspeech_Cubic_RecognitionAudio()
             let audioUrl = CubicManager.getWavURL()
             req.audio.data = try Data(contentsOf: audioUrl)
-            try client.recognize(req).response.whenComplete({ (respose) in
-               do {
-                let res = try respose.get()
-                   self.log("Res from \(String(describing: try res.jsonString()))")
-                   DispatchQueue.main.async {
-                       self.delegate?.managerDidRecognizeWithResponse(res)
-                   }
-               } catch let e {
-                   print("\(e)")
-               }
+            client.recognize(req).response.whenComplete({ (respose) in
+                do {
+                    let res = try respose.get()
+                    self.log("Res from \(String(describing: try res.jsonString()))")
+                    DispatchQueue.main.async {
+                        self.delegate?.managerDidRecognizeWithResponse(res)
+                    }
+                } catch let e {
+                    print("\(e)")
+                }
               
             })
         } catch let e {
@@ -338,22 +307,4 @@ extension Data {
         self.init(bytes: audioBuffer.mData!, count: Int(audioBuffer.mDataByteSize))
     }
 
-    func makePCMBuffer(format: AVAudioFormat) -> AVAudioPCMBuffer? {
-        let streamDesc = format.streamDescription.pointee
-        let frameCapacity = UInt32(count) / streamDesc.mBytesPerFrame
-        
-        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: frameCapacity) else {
-            return nil
-            
-        }
-
-        buffer.frameLength = buffer.frameCapacity
-        let audioBuffer = buffer.audioBufferList.pointee.mBuffers
-        
-        withUnsafeBytes { addr in
-            audioBuffer.mData?.copyMemory(from: addr, byteCount: Int(audioBuffer.mDataByteSize))
-        }
-
-        return buffer
-    }
 }

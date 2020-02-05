@@ -47,11 +47,14 @@
                         <viewLayoutGuide key="safeArea" id="4ZG-Kr-2k2"/>
                     </view>
                     <navigationItem key="navigationItem" title="Cubic SDK Demo" id="rvF-Ye-8th">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="globe" catalog="system" id="Nfk-ta-d6C">
-                            <connections>
-                                <action selector="urlButtonTapped:" destination="3ca-zg-WEM" id="dIe-a0-JG3"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem title="Item" image="globe" catalog="system" id="Nfk-ta-d6C">
+                                <connections>
+                                    <action selector="urlButtonTapped:" destination="3ca-zg-WEM" id="dIe-a0-JG3"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem enabled="NO" title="Item" image="lock" catalog="system" id="2sQ-Y1-qlz"/>
+                        </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="gear" catalog="system" id="koz-FX-6FA">
                             <connections>
                                 <segue destination="5PA-st-2gp" kind="show" identifier="" id="Rvw-z5-X4G"/>
@@ -62,6 +65,7 @@
                         <outlet property="recordButton" destination="mat-tK-ICn" id="PLj-bg-joX"/>
                         <outlet property="resultTextView" destination="Knl-ll-qPy" id="GD2-Sn-Aze"/>
                         <outlet property="settingsBarButtonItem" destination="koz-FX-6FA" id="ptH-3G-rxG"/>
+                        <outlet property="tlsBarItem" destination="2sQ-Y1-qlz" id="nfh-e6-ZtQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uGz-vZ-Yzc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -143,6 +147,7 @@
     <resources>
         <image name="gear" catalog="system" width="64" height="58"/>
         <image name="globe" catalog="system" width="64" height="60"/>
+        <image name="lock" catalog="system" width="64" height="64"/>
         <image name="mic.circle.fill" catalog="system" width="64" height="60"/>
     </resources>
 </document>
