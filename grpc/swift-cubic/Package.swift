@@ -21,9 +21,6 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "swift-cubic",
-            dependencies: ["GRPC"]),
-        .testTarget(
-            name: "swift-cubicTests",
-            dependencies: ["swift-cubic"]),
+            dependencies: ["GRPC"])
     ]
 )
