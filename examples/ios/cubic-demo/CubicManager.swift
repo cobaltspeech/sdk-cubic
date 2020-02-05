@@ -46,7 +46,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     
     public init(host: String,ip:Int) {
         let target = ConnectionTarget.hostAndPort(host, ip)
-        let configuration = ClientConnection.Configuration.init(target: target, eventLoopGroup: MultiThreadedEventLoopGroup.init(numberOfThreads: 1 ))
+        let configuration = ClientConnection.Configuration(target: target, eventLoopGroup: MultiThreadedEventLoopGroup.init(numberOfThreads: 1 ))
         let connection = ClientConnection.init(configuration: configuration)
         self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
     }
