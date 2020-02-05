@@ -14,6 +14,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
     @IBOutlet weak var resultTextView: UITextView!
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet var settingsBarButtonItem: UIBarButtonItem!
+    @IBOutlet var tlsBarItem: UIBarButtonItem!
     
     var activityIndicator = UIActivityIndicatorView(style: .medium)
     
@@ -39,13 +40,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
         activityIndicator.hidesWhenStopped = true
         activityBarItem = UIBarButtonItem(customView: activityIndicator)
 
-        createCubicManager(host: ViewController.CUBIC_HOST, ip: ViewController.CUBIC_PORT)
+        createCubicManager(host: ViewController.CUBIC_HOST,
+                           port: ViewController.CUBIC_PORT,
+                           useTLS: true)
     }
     
     // MARK: - Private methods
     
-    private func createCubicManager(host: String,ip:Int) {
-        cubicManager = CubicManager(host: host, ip: ip)
+    private func createCubicManager(host: String, port: Int, useTLS: Bool) {
+        cubicManager = CubicManager(host: host, port: port, useTLS: useTLS)
         cubicManager.delegate = self
         navigationItem.rightBarButtonItems?[0] = activityBarItem
         activityIndicator.startAnimating()
@@ -81,26 +84,39 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
         }
         
         let okAction = UIAlertAction(title: "Connect", style: .default) { [weak alertController] (action) in
-            if let textField = alertController?.textFields?[0], let url = textField.text {
-                let items = url.split(separator: ":")
-                if items.count == 2 {
-                    let host = items[0]
-                    let port = Int(items[1])
-                    ViewController.CUBIC_HOST = String(host)
-                    ViewController.CUBIC_PORT = port ?? 2727
-                    self.createCubicManager(host: ViewController.CUBIC_HOST,
-                                            ip: ViewController.CUBIC_PORT)
-                }
-               
-                
-            }
+            self.tlsBarItem.image = UIImage(systemName: "lock.slash")
+            self.connectAction(alertController: alertController, useTLS: false)
         }
         
         alertController.addAction(okAction)
         
+        let ok1Action = UIAlertAction(title: "Connect using TLS", style: .default) { [weak alertController] (action) in
+            self.tlsBarItem.image = UIImage(systemName: "lock")
+            self.connectAction(alertController: alertController, useTLS: true)
+        }
+        
+        alertController.addAction(ok1Action)
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func connectAction(alertController: UIAlertController?, useTLS: Bool) {
+        if let textField = alertController?.textFields?[0], let url = textField.text {
+            let items = url.split(separator: ":")
+            if items.count == 2 {
+                let host = items[0]
+                let port = Int(items[1])
+                ViewController.CUBIC_HOST = String(host)
+                ViewController.CUBIC_PORT = port ?? 2727
+                self.createCubicManager(host: ViewController.CUBIC_HOST,
+                                        port: ViewController.CUBIC_PORT,
+                                        useTLS: useTLS)
+            }
+           
+            
+        }
     }
     
     @IBAction func recordClickDown(sender:UIButton)  {
