@@ -77,7 +77,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
     // MARK: - Actions
     
     @IBAction func urlButtonTapped(_ sender: Any) {
-        let alertController = UIAlertController(title: "Cubic URL", message: "Enter Cubic channel URL address:", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Cubic URL", message: "Enter Cubic server address (URL:port):", preferredStyle: .alert)
         
         alertController.addTextField { (textField) in
             textField.text = "\(ViewController.CUBIC_HOST):\(ViewController.CUBIC_PORT)"

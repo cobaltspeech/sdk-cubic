@@ -64,7 +64,6 @@
 			children = (
 				85F3E87C23D46FA300DF7CDB /* cubic-demo */,
 				85F3E87B23D46FA300DF7CDB /* Products */,
-				DA021AAB7012431C032E815C /* Pods */,
 				E3831B45207D1961052452E3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -100,13 +99,6 @@
 				8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		DA021AAB7012431C032E815C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		E3831B45207D1961052452E3 /* Frameworks */ = {
