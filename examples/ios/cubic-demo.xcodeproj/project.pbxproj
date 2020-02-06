@@ -17,6 +17,7 @@
 		8F41516823E646520078EC33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41516723E646520078EC33 /* SceneDelegate.swift */; };
 		8F41516A23E648DC0078EC33 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41516923E648DC0078EC33 /* SettingsViewController.swift */; };
 		8FBFB64523E8490100DED69A /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */; };
+		8FDF07D223ECA410006BA05F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FDF07D123ECA410006BA05F /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +46,7 @@
 		8F41516723E646520078EC33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8F41516923E648DC0078EC33 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+		8FDF07D123ECA410006BA05F /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				85F3E87C23D46FA300DF7CDB /* cubic-demo */,
+				8FDF07D023ECA36B006BA05F /* Resources */,
 				85F3E87B23D46FA300DF7CDB /* Products */,
 				E3831B45207D1961052452E3 /* Frameworks */,
 			);
@@ -99,6 +102,14 @@
 				8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8FDF07D023ECA36B006BA05F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8FDF07D123ECA410006BA05F /* Localizable.strings */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		E3831B45207D1961052452E3 /* Frameworks */ = {
@@ -174,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				85F3E88A23D46FA500DF7CDB /* LaunchScreen.storyboard in Resources */,
+				8FDF07D223ECA410006BA05F /* Localizable.strings in Resources */,
 				85F3E88723D46FA500DF7CDB /* Assets.xcassets in Resources */,
 				85F3E88523D46FA400DF7CDB /* Main.storyboard in Resources */,
 			);

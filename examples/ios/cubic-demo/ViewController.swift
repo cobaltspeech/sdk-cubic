@@ -52,19 +52,34 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
         cubicManager.delegate = self
         navigationItem.rightBarButtonItems?[0] = activityBarItem
         activityIndicator.startAnimating()
+        setRecordButtonEnabled(isEnabled: false)
+        resultTextView.text = ""
         
         cubicManager.listModels { (models, error) in
             if let error = error {
                 self.models = []
                 self.showError(message: error)
                 
+                DispatchQueue.main.async {
+                    self.resultTextView.text = NSLocalizedString("no_connection", comment: "")
+                }
+                
+                self.setRecordButtonEnabled(isEnabled: false)
             } else {
+                DispatchQueue.main.async {
+                    self.resultTextView.text = ""
+                }
+                
                 if let models = models {
                     self.models = models
                     
                     if models.count > 0 {
                         self.selectedModelIndex = 0
                     }
+                    
+                    self.setRecordButtonEnabled(isEnabled: true)
+                } else {
+                    self.setRecordButtonEnabled(isEnabled: false)
                 }
             }
             
@@ -74,30 +89,42 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
         }
     }
     
+    private func setRecordButtonEnabled(isEnabled: Bool) {
+        DispatchQueue.main.async {
+            self.recordButton.isEnabled = isEnabled
+        }
+    }
+    
     // MARK: - Actions
     
     @IBAction func urlButtonTapped(_ sender: Any) {
-        let alertController = UIAlertController(title: "Cubic URL", message: "Enter Cubic server address (URL:port):", preferredStyle: .alert)
+        let alertController =
+            UIAlertController(title: NSLocalizedString("alert.cubic_url_title", comment: ""),
+                              message: NSLocalizedString("alert.cubic_url_message", comment: ""),
+                              preferredStyle: .alert)
         
         alertController.addTextField { (textField) in
             textField.text = "\(ViewController.CUBIC_HOST):\(ViewController.CUBIC_PORT)"
         }
         
-        let okAction = UIAlertAction(title: "Connect", style: .default) { [weak alertController] (action) in
+        let connectAction = UIAlertAction(title: NSLocalizedString("button.connect", comment: ""), style: .default) { [weak alertController] (action) in
             self.tlsBarItem.image = UIImage(systemName: "lock.slash")
             self.connectAction(alertController: alertController, useTLS: false)
         }
         
-        alertController.addAction(okAction)
+        alertController.addAction(connectAction)
         
-        let ok1Action = UIAlertAction(title: "Connect using TLS", style: .default) { [weak alertController] (action) in
+        let secureConnectAction = UIAlertAction(title: NSLocalizedString("button.connect.tls", comment: ""), style: .default) { [weak alertController] (action) in
             self.tlsBarItem.image = UIImage(systemName: "lock")
             self.connectAction(alertController: alertController, useTLS: true)
         }
         
-        alertController.addAction(ok1Action)
+        alertController.addAction(secureConnectAction)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("button.cancel", comment: ""),
+                                         style: .cancel,
+                                         handler: nil)
+        
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
     }
@@ -143,8 +170,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
     // MARK: - Response processing
     
     private func printResult(response: Cobaltspeech_Cubic_RecognitionResponse?) {
-        let noResultMessage = "No result"
-        
         var resultMessage = ""
         
         if let response = response {
@@ -160,7 +185,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
         }
         
         if resultMessage.isEmpty {
-            resultMessage = noResultMessage
+            resultMessage = NSLocalizedString("no_result", comment: "")
         }
         
         resultTextView.text = resultMessage
