@@ -29,6 +29,7 @@ import (
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"time"
 )
 
 // Client is an object for interacting with the Cubic GRPC API.
@@ -40,7 +41,10 @@ type Client struct {
 	insecure         bool
 	tlscfg           tls.Config
 	streamingBufSize uint32
+	connectTimeout   time.Duration
 }
+
+const defaultConnectTimeout = 10 * time.Second
 
 // NewClient creates a new Client that connects to a Cubic Server listening on
 // the provided address.  Transport security is enabled by default.  Use Options
@@ -48,6 +52,7 @@ type Client struct {
 func NewClient(addr string, opts ...Option) (*Client, error) {
 	c := Client{}
 	c.streamingBufSize = defaultStreamingBufsize
+	c.connectTimeout = defaultConnectTimeout
 
 	for _, opt := range opts {
 		err := opt(&c)
@@ -64,7 +69,10 @@ func NewClient(addr string, opts ...Option) (*Client, error) {
 		dopt = grpc.WithTransportCredentials(credentials.NewTLS(&c.tlscfg))
 	}
 
-	conn, err := grpc.Dial(addr, dopt)
+	ctx, cancel := context.WithTimeout(context.Background(), c.connectTimeout)
+	defer cancel()
+
+	conn, err := grpc.DialContext(ctx, addr, dopt, grpc.WithBlock())
 	if err != nil {
 		return nil, fmt.Errorf("unable to create a client: %v", err)
 	}
@@ -75,6 +83,13 @@ func NewClient(addr string, opts ...Option) (*Client, error) {
 
 // Option configures how we setup the connection with a server.
 type Option func(*Client) error
+
+func WithConnectTimeout(t time.Duration) Option {
+	return func(c *Client) error {
+		c.connectTimeout = t
+		return nil
+	}
+}
 
 // WithInsecure returns an Option which disables transport security for this
 // Client.  Use this when connecting to a non-TLS enabled cubic server, such as
