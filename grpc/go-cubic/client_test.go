@@ -288,3 +288,48 @@ func setupGRPCServer() (*grpc.Server, int, error) {
 	go func() { _ = s.Serve(lis) }()
 	return s, lis.Addr().(*net.TCPAddr).Port, nil
 }
+
+func TestClientWithValidUrl(t *testing.T) {
+	svr, port, err := setupGRPCServer()
+	defer svr.Stop()
+
+	if err != nil {
+		t.Errorf("could not set up testing server: %v", err)
+	}
+
+	c, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure())
+	if err != nil {
+		t.Errorf("could not create client: %v", err)
+	}
+	defer c.Close()
+}
+
+func TestClientWithInvalidUrl(t *testing.T) {
+	svr, port, err := setupGRPCServer()
+	defer svr.Stop()
+
+	if err != nil {
+		t.Errorf("could not set up testing server: %v", err)
+	}
+
+	c, err := cubic.NewClient(fmt.Sprintf("wrong_localhost:%d", port), cubic.WithInsecure())
+	if c != nil {
+		c.Close()
+		t.Errorf("not possible create client with invalid url")
+	}
+}
+
+func TestClientWithoutInsecure(t *testing.T) {
+	svr, port, err := setupGRPCServer()
+	defer svr.Stop()
+
+	if err != nil {
+		t.Errorf("could not set up testing server: %v", err)
+	}
+
+	c, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port))
+	if c != nil {
+		c.Close()
+		t.Errorf("not allowed create client without insecure connection")
+	}
+}
