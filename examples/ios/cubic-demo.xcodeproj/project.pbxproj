@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,7 +16,6 @@
 		8F41516A23E648DC0078EC33 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41516923E648DC0078EC33 /* SettingsViewController.swift */; };
 		8FBFB64523E8490100DED69A /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */; };
 		8FDF07D223ECA410006BA05F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FDF07D123ECA410006BA05F /* Localizable.strings */; };
-		8FF7031D2418FCF1006D6288 /* swift-cubic in Frameworks */ = {isa = PBXBuildFile; productRef = 8FF7031C2418FCF1006D6288 /* swift-cubic */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -52,7 +51,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FF7031D2418FCF1006D6288 /* swift-cubic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,7 +133,6 @@
 			);
 			name = "cubic-demo";
 			packageProductDependencies = (
-				8FF7031C2418FCF1006D6288 /* swift-cubic */,
 			);
 			productName = "cubic-demo";
 			productReference = 85F3E87A23D46FA300DF7CDB /* cubic-demo.app */;
@@ -166,7 +163,6 @@
 			);
 			mainGroup = 85F3E87123D46FA300DF7CDB;
 			packageReferences = (
-				8FF7031B2418FCF1006D6288 /* XCRemoteSwiftPackageReference "swift-cubic" */,
 			);
 			productRefGroup = 85F3E87B23D46FA300DF7CDB /* Products */;
 			projectDirPath = "";
@@ -398,25 +394,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		8FF7031B2418FCF1006D6288 /* XCRemoteSwiftPackageReference "swift-cubic" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:cobaltspeech/swift-cubic.git";
-			requirement = {
-				branch = "edward-ios";
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		8FF7031C2418FCF1006D6288 /* swift-cubic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8FF7031B2418FCF1006D6288 /* XCRemoteSwiftPackageReference "swift-cubic" */;
-			productName = "swift-cubic";
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 85F3E87223D46FA300DF7CDB /* Project object */;
 }
