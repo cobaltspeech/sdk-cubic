@@ -18,8 +18,8 @@ Cubic server binds to.
 
 ## Default Connection
 
-The following code snippet connects to the server and queries its version.  It uses our recommended 
-default setup, expecting the server to be listening on a TLS encrypted connection,  as the demo 
+The following code snippet connects to the server and queries its version.  It uses our recommended
+default setup, expecting the server to be listening on a TLS encrypted connection,  as the demo
 server does.
 
 {{%tabs %}}
@@ -101,7 +101,7 @@ CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
 ## Insecure Connection
 
 It is sometimes required to connect to Cubic server without TLS enabled, such as
-during debugging. 
+during debugging.
 
 Please note that if the server has TLS enabled, attempting to connect with an
 insecure client will fail.

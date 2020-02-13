@@ -42,7 +42,8 @@
       
 	
   
-    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt&rsquo;s SDK Documentation"></p>
+    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt's SDK Documentation" /></p>
+
 <p>Cubic SDK &ndash; Cobalt</p>
 
   
@@ -196,11 +197,14 @@
     <div class="progress">
         <div class="wrapper">
     <nav id="TableOfContents">
-  <ul>
-    <li><a href="#default-connection">Default Connection</a></li>
-    <li><a href="#insecure-connection">Insecure Connection</a></li>
-    <li><a href="#client-authentication">Client Authentication</a></li>
-  </ul>
+<ul>
+<li>
+<ul>
+<li><a href="#default-connection">Default Connection</a></li>
+<li><a href="#insecure-connection">Insecure Connection</a></li>
+<li><a href="#client-authentication">Client Authentication</a></li>
+</ul></li>
+</ul>
 </nav>
         </div>
     </div>
@@ -221,107 +225,182 @@
     
     <p>Once you have your Cubic server up and running, let&rsquo;s see how we can use the SDK
 to connect to it.</p>
+
 <p>First, you need to know the address (<code>host</code>:<code>port</code>) where the server is running.
 This document will assume the values <code>127.0.0.1:2727</code>, but be sure to change
 those to point to your server instance. For example, to connect to Cobalt&rsquo;s demo server,
-use <code>demo-cubic.cobaltspeech.com:2727</code><!-- raw HTML omitted -->1<!-- raw HTML omitted -->.  Port 2727 is the default GRPC port that
+use <code>demo-cubic.cobaltspeech.com:2727</code><sup>1</sup>.  Port 2727 is the default GRPC port that
 Cubic server binds to.</p>
+
 <blockquote>
-<p><!-- raw HTML omitted -->1<!-- raw HTML omitted -->Commercial use of the demo service is not permitted. This server is for testing and demonstration purposes only and is not guaranteed to support high availability or high volume. Data uploaded to the server may be stored for internal purposes.</p>
+<p><sup>1</sup>Commercial use of the demo service is not permitted. This server is for testing and demonstration purposes only and is not guaranteed to support high availability or high volume. Data uploaded to the server may be stored for internal purposes.</p>
 </blockquote>
+
 <h2 id="default-connection">Default Connection</h2>
+
 <p>The following code snippet connects to the server and queries its version.  It uses our recommended
 default setup, expecting the server to be listening on a TLS encrypted connection,  as the demo
 server does.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->import<!-- raw HTML omitted --> (
-<!-- raw HTML omitted -->&quot;context&quot;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->&quot;fmt&quot;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->&quot;log&quot;<!-- raw HTML omitted --></p>
-<pre><code>&lt;span style=&quot;color:#ed9d13&quot;&gt;&amp;#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic&amp;#34;&lt;/span&gt;
-</code></pre>
-<p>)</p>
-<p><!-- raw HTML omitted -->const<!-- raw HTML omitted --> serverAddr = <!-- raw HTML omitted -->&quot;127.0.0.1:2727&quot;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->func<!-- raw HTML omitted --> <!-- raw HTML omitted -->main<!-- raw HTML omitted -->() {
-client, err := cubic.<!-- raw HTML omitted -->NewClient<!-- raw HTML omitted -->(serverAddr)
-<!-- raw HTML omitted -->if<!-- raw HTML omitted --> err != <!-- raw HTML omitted -->nil<!-- raw HTML omitted --> {
-log.<!-- raw HTML omitted -->Fatal<!-- raw HTML omitted -->(err)
-}</p>
-<pre><code>&lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;defer&lt;/span&gt; client.&lt;span style=&quot;color:#447fcf&quot;&gt;Close&lt;/span&gt;()
 
-version, err := client.&lt;span style=&quot;color:#447fcf&quot;&gt;Version&lt;/span&gt;(context.&lt;span style=&quot;color:#447fcf&quot;&gt;Background&lt;/span&gt;())
-&lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;if&lt;/span&gt; err != &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;nil&lt;/span&gt; {
-    log.&lt;span style=&quot;color:#447fcf&quot;&gt;Fatal&lt;/span&gt;(err)
-}
+<div class='code-tabs'>
+  <ul class="nav-tabs"></ul>
+  <div class="tab-content">
 
-fmt.&lt;span style=&quot;color:#447fcf&quot;&gt;Println&lt;/span&gt;(version)
-</code></pre>
-<p>}
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>serverAddress = <!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted --><!-- raw HTML omitted -->127.0.0.1:2727<!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted --></p>
-<p>client = cubic.Client(serverAddress)</p>
-<p>resp = client.Version()
-<!-- raw HTML omitted -->print<!-- raw HTML omitted -->(resp)
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->var<!-- raw HTML omitted --> resp = client.Version(<!-- raw HTML omitted -->new<!-- raw HTML omitted --> Google.Protobuf.WellKnownTypes.Empty());
-Console.WriteLine(String.Format(<!-- raw HTML omitted -->&quot;CubicServer: {0}, Cubic: {1}&quot;<!-- raw HTML omitted -->, resp.Server, resp.Cubic));
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->import<!-- raw HTML omitted --> <!-- raw HTML omitted -->com.cobaltspeech.cubic.CubicGrpc<!-- raw HTML omitted -->;</p>
-<p>String url = <!-- raw HTML omitted -->&quot;127.0.0.1:2727&quot;<!-- raw HTML omitted -->
-ManagedChannel mCubicChannel = ManagedChannelBuilder
-.<!-- raw HTML omitted -->forTarget<!-- raw HTML omitted -->(url)
-.<!-- raw HTML omitted -->build<!-- raw HTML omitted -->();
-CubicGrpc.<!-- raw HTML omitted -->CubicStub<!-- raw HTML omitted --> mCubicService = CubicGrpc.<!-- raw HTML omitted -->newStub<!-- raw HTML omitted -->(mCubicChannel);
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<div class="tab-pane" title="Go">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6ab825;font-weight:bold">package</span> main
+
+<span style="color:#6ab825;font-weight:bold">import</span> (
+    <span style="color:#ed9d13">&#34;context&#34;</span>
+    <span style="color:#ed9d13">&#34;fmt&#34;</span>
+    <span style="color:#ed9d13">&#34;log&#34;</span>
+
+    <span style="color:#ed9d13">&#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic&#34;</span>
+)
+
+<span style="color:#6ab825;font-weight:bold">const</span> serverAddr = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+
+<span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">main</span>() {
+    client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr)
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        log.<span style="color:#447fcf">Fatal</span>(err)
+    }
+
+    <span style="color:#6ab825;font-weight:bold">defer</span> client.<span style="color:#447fcf">Close</span>()
+
+    version, err := client.<span style="color:#447fcf">Version</span>(context.<span style="color:#447fcf">Background</span>())
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        log.<span style="color:#447fcf">Fatal</span>(err)
+    }
+
+    fmt.<span style="color:#447fcf">Println</span>(version)
+}</code></pre></div>
+</div>
+
+<div class="tab-pane" title="Python">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">cubic</span>
+
+serverAddress = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+
+client = cubic.Client(serverAddress)
+
+resp = client.Version()
+<span style="color:#6ab825;font-weight:bold">print</span>(resp)</code></pre></div>
+</div>
+
+<div class="tab-pane" title="C#">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#"><span style="color:#6ab825;font-weight:bold">var</span> creds = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.SslCredentials();
+<span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(serverAddr, creds);
+<span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+
+<span style="color:#6ab825;font-weight:bold">var</span> resp = client.Version(<span style="color:#6ab825;font-weight:bold">new</span> Google.Protobuf.WellKnownTypes.Empty());
+Console.WriteLine(String.Format(<span style="color:#ed9d13">&#34;CubicServer: {0}, Cubic: {1}&#34;</span>, resp.Server, resp.Cubic));
+</code></pre></div>
+</div>
+
+<div class="tab-pane" title="Java/Android">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">ManagedChannel</span>;
+<span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">ManagedChannelBuilder</span>;
+
+<span style="color:#a61717;background-color:#e3d2d2">import com</span>.<span style="color:#bbb">cobaltspeech</span>.<span style="color:#bbb">cubic</span>.<span style="color:#bbb">CubicGrpc</span>;
+
+<span style="color:#a61717;background-color:#e3d2d2">String url </span>= <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+<span style="color:#a61717;background-color:#e3d2d2">ManagedChannel mCubicChannel </span>= ManagedChannelBuilder
+    .<span style="color:#bbb">forTarget</span>(url)
+    .<span style="color:#bbb">build</span>();
+<span style="color:#a61717;background-color:#e3d2d2">CubicGrpc.CubicStub mCubicService </span>= CubicGrpc.<span style="color:#bbb">newStub</span>(mCubicChannel);</code></pre></div>
+</div>
+
+<p></div>
+</div></p>
+
 <h2 id="insecure-connection">Insecure Connection</h2>
+
 <p>It is sometimes required to connect to Cubic server without TLS enabled, such as
 during debugging.</p>
+
 <p>Please note that if the server has TLS enabled, attempting to connect with an
 insecure client will fail.
 To connect to such an instance of cubic server, you can use:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->import<!-- raw HTML omitted --> <!-- raw HTML omitted -->com.cobaltspeech.cubic.CubicGrpc<!-- raw HTML omitted -->;</p>
-<p>String url = <!-- raw HTML omitted -->&quot;127.0.0.1:2727&quot;<!-- raw HTML omitted -->
-ManagedChannel mCubicChannel = ManagedChannelBuilder
-.<!-- raw HTML omitted -->forTarget<!-- raw HTML omitted -->(url)
-.<!-- raw HTML omitted -->usePlainText<!-- raw HTML omitted -->()
-.<!-- raw HTML omitted -->build<!-- raw HTML omitted -->();
-CubicGrpc.<!-- raw HTML omitted -->CubicStub<!-- raw HTML omitted --> mCubicService = CubicGrpc.<!-- raw HTML omitted -->newStub<!-- raw HTML omitted -->(mCubicChannel);
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+
+<div class='code-tabs'>
+  <ul class="nav-tabs"></ul>
+  <div class="tab-content">
+
+<div class="tab-pane" title="Go">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr, cubic.<span style="color:#447fcf">WithInsecure</span>())</code></pre></div>
+</div>
+
+<div class="tab-pane" title="Python">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">client = cubic.Client(serverAddress, insecure=True)</code></pre></div>
+</div>
+
+<div class="tab-pane" title="C#">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#"><span style="color:#6ab825;font-weight:bold">var</span> creds = Grpc.Core.ChannelCredentials.Insecure;
+<span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(serverAddr, creds);
+<span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+</code></pre></div>
+</div>
+
+<div class="tab-pane" title="Java/Android">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">ManagedChannel</span>;
+<span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">ManagedChannelBuilder</span>;
+
+<span style="color:#a61717;background-color:#e3d2d2">import com</span>.<span style="color:#bbb">cobaltspeech</span>.<span style="color:#bbb">cubic</span>.<span style="color:#bbb">CubicGrpc</span>;
+
+<span style="color:#a61717;background-color:#e3d2d2">String url </span>= <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+<span style="color:#a61717;background-color:#e3d2d2">ManagedChannel mCubicChannel </span>= ManagedChannelBuilder
+    .<span style="color:#bbb">forTarget</span>(url)
+    .<span style="color:#bbb">usePlainText</span>()
+    .<span style="color:#bbb">build</span>();
+<span style="color:#a61717;background-color:#e3d2d2">CubicGrpc.CubicStub mCubicService </span>= CubicGrpc.<span style="color:#bbb">newStub</span>(mCubicChannel);</code></pre></div>
+</div>
+
+<p></div>
+</div></p>
+
 <h2 id="client-authentication">Client Authentication</h2>
+
 <p>In our recommended default setup, TLS is enabled in the gRPC setup, and when
 connecting to the server, clients validate the server&rsquo;s SSL certificate to make
 sure they are talking to the right party.  This is similar to how &ldquo;https&rdquo;
 connections work in web browsers.</p>
+
 <p>In some setups, it may be desired that the server should also validate clients
 connecting to it and only respond to the ones it can verify. If your Cubic
 server is configured to do client authentication, you will need to present the
 appropriate certificate and key when connecting to it.</p>
+
 <p>Please note that in the client-authentication mode, the client will still also
 verify the server&rsquo;s certificate, and therefore this setup uses mutually
 authenticated TLS. This can be done with:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+
+<div class='code-tabs'>
+  <ul class="nav-tabs"></ul>
+  <div class="tab-content">
+
+<div class="tab-pane" title="Go">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr,  cubic.<span style="color:#447fcf">WithClientCert</span>(certPem, keyPem))</code></pre></div>
+</div>
+
+<div class="tab-pane" title="Python">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">client = cubic.Client(serverAddress, clientCertificate=certPem, clientKey=keyPem)</code></pre></div>
+</div>
+
+<div class="tab-pane" title="C#">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#"><span style="color:#6ab825;font-weight:bold">var</span> creds = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.SslCredentials(File.ReadAllText(<span style="color:#ed9d13">&#34;root.pem&#34;</span>));
+<span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(serverAddr, creds);
+<span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+</code></pre></div>
+</div>
+
+<div class="tab-pane" title="Java/Android">
+  <p>Please see the Java section of <a href="https://grpc.io/docs/guides/auth/">https://grpc.io/docs/guides/auth/</a> for more details.</p>
+
+</div>
+
+<p></div>
+</div></p>
+
 <p>where certPem and keyPem are the bytes of the client certificate and key
 provided to you.</p>
 
