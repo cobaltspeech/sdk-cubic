@@ -42,7 +42,8 @@
       
 	
   
-    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt&rsquo;s SDK Documentation"></p>
+    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt's SDK Documentation" /></p>
+
 <p>Cubic SDK &ndash; Cobalt</p>
 
   
@@ -190,14 +191,16 @@
     <div class="progress">
         <div class="wrapper">
     <nav id="TableOfContents">
-  <ul>
-    <li><a href="#installing-the-cubic-server-image">Installing the Cubic Server Image</a></li>
-    <li><a href="#contents-of-the-docker-image">Contents of the docker image</a>
-      <ul>
-        <li><a href="#cobalt-specific-files">Cobalt-specific files</a></li>
-      </ul>
-    </li>
-  </ul>
+<ul>
+<li>
+<ul>
+<li><a href="#installing-the-cubic-server-image">Installing the Cubic Server Image</a></li>
+<li><a href="#contents-of-the-docker-image">Contents of the docker image</a>
+<ul>
+<li><a href="#cobalt-specific-files">Cobalt-specific files</a></li>
+</ul></li>
+</ul></li>
+</ul>
 </nav>
         </div>
     </div>
@@ -218,57 +221,65 @@
     
 
 <p>This section is meant to get you started using Cubic Server via a Docker image.</p>
+
 <p>It is not necessary to go through through these steps to call the demo server for evaluation purposes, only to run Cubic Server on premises.  The demo server can be found at <a href="https://demo-cubic.cobaltspeech.com">https://demo-cubic.cobaltspeech.com</a>.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+
+<div class="panel panel-default">
+    <div class="panel-heading">Note</div>
+    <div class="panel-body">
+Commercial use of the demo service is not permitted. This server is for testing and demonstration purposes only and is not guaranteed to support high availability or high volume. Data uploaded to the server may be stored for internal purposes.
+</div>
+    
+
+<p></div></p>
+
 <h2 id="installing-the-cubic-server-image">Installing the Cubic Server Image</h2>
+
 <p>The SDK communicates with a Cubic Server instance using <a href="https://grpc.io">gRPC</a>.  Cobalt distributes a docker image that contains the <code>cubicsvr</code> binary and model files.</p>
+
 <ol>
-<li>
-<p>Contact Cobalt to get a link to the image file in AWS S3.  This link will expire in two weeks, so be sure to download the file to your own server.</p>
-</li>
-<li>
-<p>Download with the AWS CLI if you have it, or with curl:</p>
+<li><p>Contact Cobalt to get a link to the image file in AWS S3.  This link will expire in two weeks, so be sure to download the file to your own server.</p></li>
+
+<li><p>Download with the AWS CLI if you have it, or with curl:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#40ffff">URL</span>=<span style="color:#ed9d13">&#34;the url sent by Cobalt&#34;</span>
 <span style="color:#40ffff">IMAGE_NAME</span>=<span style="color:#ed9d13">&#34;name you want to give the file (should end with the same extension as the url, usually bz2)&#34;</span>
-curl <span style="color:#40ffff">$URL</span> -L -o <span style="color:#40ffff">$IMAGE_NAME</span>
-</code></pre></div></li>
-<li>
-<p>Load the docker image</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker load &lt; <span style="color:#40ffff">$IMAGE_NAME</span>
-</code></pre></div><p>This will output the name of the image (e.g. cubicsvr-demo-en_us-16).</p>
-</li>
-<li>
-<p>Start the cubic service</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -p 2727:2727 -p 8080:8080 --name cobalt cubicsvr-demo-en_us-16
-</code></pre></div><p>That will start listening for grpc commands on port 2727 and http requests on 8080, and will stream the debug log to stdout.  (You can replace <code>--name cobalt</code> with whatever name you want.  That just provides a way to refer back to the currently running container.)</p>
-</li>
-<li>
-<p>Verify the service is running by calling</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl http://localhost:8080/api/version
-</code></pre></div></li>
-<li>
-<p>If you want to explore the package to see the model files etc, call the following to open the bash terminal on the previously run image.  Model files are located in the /model directory.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker <span style="color:#24909d">exec</span> -it cobalt bash
-</code></pre></div></li>
+curl <span style="color:#40ffff">$URL</span> -L -o <span style="color:#40ffff">$IMAGE_NAME</span></code></pre></div></li>
+
+<li><p>Load the docker image</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker load &lt; <span style="color:#40ffff">$IMAGE_NAME</span></code></pre></div>
+<p>This will output the name of the image (e.g. cubicsvr-demo-en_us-16).</p></li>
+
+<li><p>Start the cubic service</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -p <span style="color:#3677a9">2727</span>:2727 -p <span style="color:#3677a9">8080</span>:8080 --name cobalt cubicsvr-demo-en_us-16</code></pre></div>
+<p>That will start listening for grpc commands on port 2727 and http requests on 8080, and will stream the debug log to stdout.  (You can replace <code>--name cobalt</code> with whatever name you want.  That just provides a way to refer back to the currently running container.)</p></li>
+
+<li><p>Verify the service is running by calling</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl http://localhost:8080/api/version</code></pre></div></li>
+
+<li><p>If you want to explore the package to see the model files etc, call the following to open the bash terminal on the previously run image.  Model files are located in the /model directory.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker <span style="color:#24909d">exec</span> -it cobalt bash</code></pre></div></li>
 </ol>
+
 <h2 id="contents-of-the-docker-image">Contents of the docker image</h2>
+
 <ul>
 <li><strong>Base docker image</strong> : debian-stretch-slim</li>
 <li><strong>Additional dependencies</strong>
+
 <ul>
 <li>sox</li>
+</ul></li>
 </ul>
-</li>
-</ul>
+
 <h3 id="cobalt-specific-files">Cobalt-specific files</h3>
+
 <ul>
 <li><strong>cubicsvr</strong> - binary for performing Automatic Speech Recognition</li>
 <li><strong>model.config</strong> - top-level config</li>
 <li><strong>am/nnet3_online/final.mdl</strong> - this is the acoustic model</li>
 <li><strong>am/nnet3_online/conf/online_cmvn.conf</strong> - feature extraction parameters for the features fed into the GMM model used for i-vector statistics accumulation.</li>
 <li><strong>am/nnet3_online/conf/splice.conf</strong> - GMM feature context when accumulating statistics for i-vector accumulation.</li>
-<li><strong>am/nnet3_online/ivector_extractor/</strong>* - Kaldi configuration files related to ivectors</li>
+<li><strong>am/nnet3_online/ivector_extractor/</strong>* - Kaldi configuration files related to ivectors<br /></li>
 <li><strong>graph/HCLG.fst</strong> - the decoding graph: the combination of the AMs transition graph, the lexicon, and the language model</li>
 <li><strong>graph/words.txt</strong> - an integer to word mapping, needed because the output of the HCLG graph contains only integer symbol IDs</li>
 <li><strong>graph/phones/word_boundary.int</strong> - this is needed only when confusion network output is requested, it tells the decoder which phones are at word boundaries</li>

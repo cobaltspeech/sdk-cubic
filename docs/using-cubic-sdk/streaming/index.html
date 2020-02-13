@@ -42,7 +42,8 @@
       
 	
   
-    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt&rsquo;s SDK Documentation"></p>
+    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt's SDK Documentation" /></p>
+
 <p>Cubic SDK &ndash; Cobalt</p>
 
   
@@ -196,14 +197,16 @@
     <div class="progress">
         <div class="wrapper">
     <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#streaming-from-an-audio-file">Streaming from an audio file</a></li>
-        <li><a href="#streaming-from-microphone">Streaming from microphone</a></li>
-      </ul>
-    </li>
-  </ul>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#streaming-from-an-audio-file">Streaming from an audio file</a></li>
+<li><a href="#streaming-from-microphone">Streaming from microphone</a></li>
+</ul></li>
+</ul></li>
+</ul>
 </nav>
         </div>
     </div>
@@ -225,457 +228,540 @@
     <p>The following example shows how to transcribe an audio file using Cubic’s
 Streaming Recognize Request. The stream can come from a file on disk or be
 directly from a microphone in real time.</p>
+
 <h3 id="streaming-from-an-audio-file">Streaming from an audio file</h3>
+
 <p>We support several file formats including WAV, MP3, FLAC etc. For more details, please
 see the protocol buffer specification file in the SDK repository (<code>grpc/cubic.proto</code>).
 The examples below use a WAV file as input to the streaming recognition. We will query
 the server for available models and use the first model to transcribe the speech.</p>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->import<!-- raw HTML omitted --> (
-<!-- raw HTML omitted -->&quot;context&quot;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->&quot;fmt&quot;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->&quot;log&quot;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->&quot;os&quot;<!-- raw HTML omitted --></p>
-<pre><code>&lt;span style=&quot;color:#ed9d13&quot;&gt;&amp;#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic&amp;#34;&lt;/span&gt;
-&lt;span style=&quot;color:#ed9d13&quot;&gt;&amp;#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb&amp;#34;&lt;/span&gt;
-</code></pre>
-<p>)</p>
-<p><!-- raw HTML omitted -->const<!-- raw HTML omitted --> serverAddr = <!-- raw HTML omitted -->&quot;127.0.0.1:2727&quot;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->func<!-- raw HTML omitted --> <!-- raw HTML omitted -->main<!-- raw HTML omitted -->() {
-client, err := cubic.<!-- raw HTML omitted -->NewClient<!-- raw HTML omitted -->(serverAddr)
-<!-- raw HTML omitted -->if<!-- raw HTML omitted --> err != <!-- raw HTML omitted -->nil<!-- raw HTML omitted --> {
-log.<!-- raw HTML omitted -->Fatal<!-- raw HTML omitted -->(err)
-}
-<!-- raw HTML omitted -->defer<!-- raw HTML omitted --> client.<!-- raw HTML omitted -->Close<!-- raw HTML omitted -->()</p>
-<pre><code>modelResp, err := client.&lt;span style=&quot;color:#447fcf&quot;&gt;ListModels&lt;/span&gt;(context.&lt;span style=&quot;color:#447fcf&quot;&gt;Background&lt;/span&gt;())
-&lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;if&lt;/span&gt; err != &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;nil&lt;/span&gt; {
-    log.&lt;span style=&quot;color:#447fcf&quot;&gt;Fatal&lt;/span&gt;(err)
-}
 
-&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Use the first available model
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->	model := modelResp.Models[<!-- raw HTML omitted -->0<!-- raw HTML omitted -->]</p>
-<pre><code>f, err := os.&lt;span style=&quot;color:#447fcf&quot;&gt;Open&lt;/span&gt;(&lt;span style=&quot;color:#ed9d13&quot;&gt;&amp;#34;test.wav&amp;#34;&lt;/span&gt;)
-&lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;if&lt;/span&gt; err != &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;nil&lt;/span&gt; {
-    log.&lt;span style=&quot;color:#447fcf&quot;&gt;Fatal&lt;/span&gt;(err)
-}
+<div class='code-tabs'>
+  <ul class="nav-tabs"></ul>
+  <div class="tab-content">
+<div class="tab-pane" title="Go">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6ab825;font-weight:bold">package</span> main
 
-&lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;defer&lt;/span&gt; f.&lt;span style=&quot;color:#447fcf&quot;&gt;Close&lt;/span&gt;()
+<span style="color:#6ab825;font-weight:bold">import</span> (
+    <span style="color:#ed9d13">&#34;context&#34;</span>
+    <span style="color:#ed9d13">&#34;fmt&#34;</span>
+    <span style="color:#ed9d13">&#34;log&#34;</span>
+    <span style="color:#ed9d13">&#34;os&#34;</span>
 
-cfg := &amp;amp;cubicpb.RecognitionConfig{
-    ModelId: model.Id,
-}
+    <span style="color:#ed9d13">&#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic&#34;</span>
+    <span style="color:#ed9d13">&#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb&#34;</span>
+)
 
-&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Define a callback function to handle results
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->	resultHandler := <!-- raw HTML omitted -->func<!-- raw HTML omitted -->(resp *cubicpb.RecognitionResponse) {
-<!-- raw HTML omitted -->for<!-- raw HTML omitted --> _, r := <!-- raw HTML omitted -->range<!-- raw HTML omitted --> resp.Results {
-<!-- raw HTML omitted -->if<!-- raw HTML omitted --> !r.IsPartial {
-fmt.<!-- raw HTML omitted -->Println<!-- raw HTML omitted -->(r.Alternatives[<!-- raw HTML omitted -->0<!-- raw HTML omitted -->].Transcript)
-}
-}
-}</p>
-<pre><code>err = client.&lt;span style=&quot;color:#447fcf&quot;&gt;StreamingRecognize&lt;/span&gt;(context.&lt;span style=&quot;color:#447fcf&quot;&gt;Background&lt;/span&gt;(), cfg, f, resultHandler)
-&lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;if&lt;/span&gt; err != &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;nil&lt;/span&gt; {
-    log.&lt;span style=&quot;color:#447fcf&quot;&gt;Fatal&lt;/span&gt;(err)
-}
-</code></pre>
-<p>}
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>serverAddress = <!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->'<!-- raw HTML omitted --><!-- raw HTML omitted -->127.0.0.1:2727<!-- raw HTML omitted --><!-- raw HTML omitted -->'<!-- raw HTML omitted --></p>
-<p>client = cubic.Client(serverAddress)</p>
-<p><!-- raw HTML omitted --># get list of available models<!-- raw HTML omitted -->
+<span style="color:#6ab825;font-weight:bold">const</span> serverAddr = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+
+<span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">main</span>() {
+    client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr)
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        log.<span style="color:#447fcf">Fatal</span>(err)
+    }
+    <span style="color:#6ab825;font-weight:bold">defer</span> client.<span style="color:#447fcf">Close</span>()
+
+    modelResp, err := client.<span style="color:#447fcf">ListModels</span>(context.<span style="color:#447fcf">Background</span>())
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        log.<span style="color:#447fcf">Fatal</span>(err)
+    }
+
+    <span style="color:#999;font-style:italic">// Use the first available model
+</span><span style="color:#999;font-style:italic"></span>   model := modelResp.Models[<span style="color:#3677a9">0</span>]
+
+    f, err := os.<span style="color:#447fcf">Open</span>(<span style="color:#ed9d13">&#34;test.wav&#34;</span>)
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        log.<span style="color:#447fcf">Fatal</span>(err)
+    }
+
+    <span style="color:#6ab825;font-weight:bold">defer</span> f.<span style="color:#447fcf">Close</span>()
+
+    cfg := &amp;cubicpb.RecognitionConfig{
+        ModelId: model.Id,
+    }
+
+    <span style="color:#999;font-style:italic">// Define a callback function to handle results
+</span><span style="color:#999;font-style:italic"></span>   resultHandler := <span style="color:#6ab825;font-weight:bold">func</span>(resp *cubicpb.RecognitionResponse) {
+        <span style="color:#6ab825;font-weight:bold">for</span> _, r := <span style="color:#6ab825;font-weight:bold">range</span> resp.Results {
+            <span style="color:#6ab825;font-weight:bold">if</span> !r.IsPartial {
+                fmt.<span style="color:#447fcf">Println</span>(r.Alternatives[<span style="color:#3677a9">0</span>].Transcript)
+            }
+        }
+    }
+
+    err = client.<span style="color:#447fcf">StreamingRecognize</span>(context.<span style="color:#447fcf">Background</span>(), cfg, f, resultHandler)
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        log.<span style="color:#447fcf">Fatal</span>(err)
+    }
+
+}</code></pre></div>
+</div>
+
+<div class="tab-pane" title="Python">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">cubic</span>
+
+serverAddress = <span style="color:#ed9d13">&#39;127.0.0.1:2727&#39;</span>
+
+client = cubic.Client(serverAddress)
+
+<span style="color:#999;font-style:italic"># get list of available models</span>
 modelResp = client.ListModels()
-<!-- raw HTML omitted -->for<!-- raw HTML omitted --> model <!-- raw HTML omitted -->in<!-- raw HTML omitted --> modelResp.models:
-<!-- raw HTML omitted -->print<!-- raw HTML omitted -->(<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted --><!-- raw HTML omitted -->ID = {}, Name = {}<!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted -->.format(model.id, model.name))</p>
-<p><!-- raw HTML omitted --># use the first available model<!-- raw HTML omitted -->
-model = modelResp.models[<!-- raw HTML omitted -->0<!-- raw HTML omitted -->]</p>
-<p>cfg = cubic.RecognitionConfig(
-model_id = model.id
-)</p>
-<p><!-- raw HTML omitted --># client.StreamingRecognize takes any binary<!-- raw HTML omitted -->
-<!-- raw HTML omitted --># stream object that has a read(nBytes) method.<!-- raw HTML omitted -->
-<!-- raw HTML omitted --># The method should return nBytes from the stream.<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># open audio file stream<!-- raw HTML omitted -->
-audio = <!-- raw HTML omitted -->open<!-- raw HTML omitted -->(<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->'<!-- raw HTML omitted --><!-- raw HTML omitted -->test.wav<!-- raw HTML omitted --><!-- raw HTML omitted -->'<!-- raw HTML omitted -->, <!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->'<!-- raw HTML omitted --><!-- raw HTML omitted -->rb<!-- raw HTML omitted --><!-- raw HTML omitted -->'<!-- raw HTML omitted -->)</p>
-<p><!-- raw HTML omitted --># send streaming request to cubic and <!-- raw HTML omitted -->
-<!-- raw HTML omitted --># print out results as they come in<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->for<!-- raw HTML omitted --> resp <!-- raw HTML omitted -->in<!-- raw HTML omitted --> client.StreamingRecognize(cfg, audio):
-<!-- raw HTML omitted -->for<!-- raw HTML omitted --> result <!-- raw HTML omitted -->in<!-- raw HTML omitted --> resp.results:
-<!-- raw HTML omitted -->if<!-- raw HTML omitted --> result.is_partial:
-<!-- raw HTML omitted -->print<!-- raw HTML omitted -->(<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted --><!-- raw HTML omitted -->\r<!-- raw HTML omitted --><!-- raw HTML omitted -->{0}<!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted -->.format(result.alternatives[<!-- raw HTML omitted -->0<!-- raw HTML omitted -->].transcript), end=<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted -->)
-<!-- raw HTML omitted -->else<!-- raw HTML omitted -->:
-<!-- raw HTML omitted -->print<!-- raw HTML omitted -->(<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted --><!-- raw HTML omitted -->\r<!-- raw HTML omitted --><!-- raw HTML omitted -->{0}<!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted -->.format(result.alternatives[<!-- raw HTML omitted -->0<!-- raw HTML omitted -->].transcript), end=<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted --><!-- raw HTML omitted -->\n<!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted -->)</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->// List the available models
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->var<!-- raw HTML omitted --> listModelsRequest = <!-- raw HTML omitted -->new<!-- raw HTML omitted --> CobaltSpeech.Cubic.ListModelsRequest();
-<!-- raw HTML omitted -->var<!-- raw HTML omitted --> models = client.ListModels(listModelsRequest);</p>
-<p><!-- raw HTML omitted -->// Setup the bi-directional gRPC stream.
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->var<!-- raw HTML omitted --> call = client.StreamingRecognize();
-<!-- raw HTML omitted -->using<!-- raw HTML omitted --> (call)
+<span style="color:#6ab825;font-weight:bold">for</span> model <span style="color:#6ab825;font-weight:bold">in</span> modelResp.models:
+    <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;ID = {}, Name = {}&#34;</span>.format(model.id, model.name))
+
+<span style="color:#999;font-style:italic"># use the first available model</span>
+model = modelResp.models[<span style="color:#3677a9">0</span>]
+
+cfg = cubic.RecognitionConfig(
+    model_id = model.id
+)
+
+<span style="color:#999;font-style:italic"># client.StreamingRecognize takes any binary</span>
+<span style="color:#999;font-style:italic"># stream object that has a read(nBytes) method.</span>
+<span style="color:#999;font-style:italic"># The method should return nBytes from the stream.</span>
+
+<span style="color:#999;font-style:italic"># open audio file stream</span>
+audio = <span style="color:#24909d">open</span>(<span style="color:#ed9d13">&#39;test.wav&#39;</span>, <span style="color:#ed9d13">&#39;rb&#39;</span>)
+
+<span style="color:#999;font-style:italic"># send streaming request to cubic and </span>
+<span style="color:#999;font-style:italic"># print out results as they come in</span>
+<span style="color:#6ab825;font-weight:bold">for</span> resp <span style="color:#6ab825;font-weight:bold">in</span> client.StreamingRecognize(cfg, audio):
+    <span style="color:#6ab825;font-weight:bold">for</span> result <span style="color:#6ab825;font-weight:bold">in</span> resp.results:
+        <span style="color:#6ab825;font-weight:bold">if</span> result.is_partial:
+            <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\r</span><span style="color:#ed9d13">{0}&#34;</span>.format(result.alternatives[<span style="color:#3677a9">0</span>].transcript), end=<span style="color:#ed9d13">&#34;&#34;</span>)
+        <span style="color:#6ab825;font-weight:bold">else</span>:
+            <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\r</span><span style="color:#ed9d13">{0}&#34;</span>.format(result.alternatives[<span style="color:#3677a9">0</span>].transcript), end=<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\n</span><span style="color:#ed9d13">&#34;</span>)</code></pre></div>
+</div>
+
+<div class="tab-pane" title="C#">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#"><span style="color:#999;font-style:italic">// Initialize a gRPC connection
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> creds = Grpc.Core.ChannelCredentials.Insecure;
+<span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(url, creds);
+<span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+
+<span style="color:#999;font-style:italic">// List the available models
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> listModelsRequest = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.ListModelsRequest();
+<span style="color:#6ab825;font-weight:bold">var</span> models = client.ListModels(listModelsRequest);
+
+<span style="color:#999;font-style:italic">// Setup the bi-directional gRPC stream.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> call = client.StreamingRecognize();
+<span style="color:#6ab825;font-weight:bold">using</span> (call)
 {
-<!-- raw HTML omitted -->// Setup recieve task
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    <!-- raw HTML omitted -->var<!-- raw HTML omitted --> responseReaderTask = Task.Run(<!-- raw HTML omitted -->async<!-- raw HTML omitted --> () =&gt;
-{
-<!-- raw HTML omitted -->// Wait for the next response
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->        <!-- raw HTML omitted -->while<!-- raw HTML omitted --> (<!-- raw HTML omitted -->await<!-- raw HTML omitted --> call.ResponseStream.MoveNext())
-{
-<!-- raw HTML omitted -->var<!-- raw HTML omitted --> response = call.ResponseStream.Current;
-<!-- raw HTML omitted -->foreach<!-- raw HTML omitted --> (<!-- raw HTML omitted -->var<!-- raw HTML omitted --> result <!-- raw HTML omitted -->in<!-- raw HTML omitted --> response.Results)
-{
-Console.WriteLine(result.Alternatives[<!-- raw HTML omitted -->0<!-- raw HTML omitted -->].Transcript);
-}
-}
-});</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Send config first, followed by the audio
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    {
-<!-- raw HTML omitted -->// Send the configs
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->        <!-- raw HTML omitted -->var<!-- raw HTML omitted --> request = <!-- raw HTML omitted -->new<!-- raw HTML omitted --> CobaltSpeech.Cubic.StreamingRecognizeRequest();
-request.Config = cfg;
-<!-- raw HTML omitted -->await<!-- raw HTML omitted --> call.RequestStream.WriteAsync(request);</p>
-<pre><code>    &lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Setup object for streaming audio
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->        request.Config = <!-- raw HTML omitted -->null<!-- raw HTML omitted -->;
-request.Audio = <!-- raw HTML omitted -->new<!-- raw HTML omitted --> CobaltSpeech.Cubic.RecognitionAudio { };</p>
-<pre><code>    &lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Send the audio, in 8kb chunks
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->        <!-- raw HTML omitted -->const<!-- raw HTML omitted --> <!-- raw HTML omitted -->int<!-- raw HTML omitted --> chunkSize = <!-- raw HTML omitted -->8<!-- raw HTML omitted --><!-- raw HTML omitted -->1<!-- raw HTML omitted --><!-- raw HTML omitted -->9<!-- raw HTML omitted --><!-- raw HTML omitted -->2<!-- raw HTML omitted -->;
-<!-- raw HTML omitted -->using<!-- raw HTML omitted --> (FileStream file = File.OpenRead(<!-- raw HTML omitted -->&quot;test.raw&quot;<!-- raw HTML omitted -->))
-{
-<!-- raw HTML omitted -->int<!-- raw HTML omitted --> bytesRead;
-<!-- raw HTML omitted -->var<!-- raw HTML omitted --> buffer = <!-- raw HTML omitted -->new<!-- raw HTML omitted --> <!-- raw HTML omitted -->byte<!-- raw HTML omitted -->[chunkSize];
-<!-- raw HTML omitted -->while<!-- raw HTML omitted --> ((bytesRead = file.Read(buffer, <!-- raw HTML omitted -->0<!-- raw HTML omitted -->, buffer.Length)) &gt; <!-- raw HTML omitted -->0<!-- raw HTML omitted -->)
-{
-<!-- raw HTML omitted -->var<!-- raw HTML omitted --> bytes = Google.Protobuf.ByteString.CopyFrom(buffer);
-request.Audio.Data = bytes;
-<!-- raw HTML omitted -->await<!-- raw HTML omitted --> call.RequestStream.WriteAsync(request);
-}</p>
-<pre><code>        &lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Close the sending stream
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->            <!-- raw HTML omitted -->await<!-- raw HTML omitted --> call.RequestStream.CompleteAsync();
-}
-}</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Wait for all of the responses to come back through the receiving stream
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    <!-- raw HTML omitted -->await<!-- raw HTML omitted --> responseReaderTask;
-}
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->import<!-- raw HTML omitted --> <!-- raw HTML omitted -->com.google.protobuf.ByteString<!-- raw HTML omitted -->;</p>
-<p><!-- raw HTML omitted -->import<!-- raw HTML omitted --> <!-- raw HTML omitted -->com.cobaltspeech.cubic.CubicGrpc<!-- raw HTML omitted -->;
-<!-- raw HTML omitted -->import<!-- raw HTML omitted --> <!-- raw HTML omitted -->com.cobaltspeech.cubic.CubicOuterClass.*<!-- raw HTML omitted -->;</p>
-<p><!-- raw HTML omitted -->public<!-- raw HTML omitted --> <!-- raw HTML omitted -->static<!-- raw HTML omitted --> <!-- raw HTML omitted -->void<!-- raw HTML omitted --> <!-- raw HTML omitted -->transcribeFile<!-- raw HTML omitted -->() {
-<!-- raw HTML omitted -->// Setup connection
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    CubicGrpc.<!-- raw HTML omitted -->CubicStub<!-- raw HTML omitted --> mCubicService = CubicGrpc.<!-- raw HTML omitted -->newStub<!-- raw HTML omitted -->(
-ManagedChannelBuilder.<!-- raw HTML omitted -->forTarget<!-- raw HTML omitted -->(url).<!-- raw HTML omitted -->build<!-- raw HTML omitted -->());</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Setup callback to handle results
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    StreamObserver&lt;&gt; responseObserver = <!-- raw HTML omitted -->new<!-- raw HTML omitted --> StreamObserver&lt;RecognitionResponse&gt;() {
-<!-- raw HTML omitted -->@Override<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->public<!-- raw HTML omitted --> <!-- raw HTML omitted -->void<!-- raw HTML omitted --> <!-- raw HTML omitted -->onNext<!-- raw HTML omitted -->(RecognitionResponse value) {
-System.<!-- raw HTML omitted -->out<!-- raw HTML omitted -->.<!-- raw HTML omitted -->println<!-- raw HTML omitted -->(<!-- raw HTML omitted -->&quot;Result: &quot;<!-- raw HTML omitted --> + value.<!-- raw HTML omitted -->toString<!-- raw HTML omitted -->());
-}</p>
-<pre><code>    &lt;span style=&quot;color:#ffa500&quot;&gt;@Override&lt;/span&gt;
-    &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color:#447fcf&quot;&gt;onError&lt;/span&gt;(Throwable t) {
-        System.&lt;span style=&quot;color:#bbb&quot;&gt;err&lt;/span&gt;.&lt;span style=&quot;color:#bbb&quot;&gt;println&lt;/span&gt;(&lt;span style=&quot;color:#ed9d13&quot;&gt;&amp;#34;Error with recognition:&amp;#34;&lt;/span&gt; + t.&lt;span style=&quot;color:#bbb&quot;&gt;toString&lt;/span&gt;());
+    <span style="color:#999;font-style:italic">// Setup recieve task
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">var</span> responseReaderTask = Task.Run(<span style="color:#6ab825;font-weight:bold">async</span> () =&gt;
+    {
+        <span style="color:#999;font-style:italic">// Wait for the next response
+</span><span style="color:#999;font-style:italic"></span>        <span style="color:#6ab825;font-weight:bold">while</span> (<span style="color:#6ab825;font-weight:bold">await</span> call.ResponseStream.MoveNext())
+        {
+            <span style="color:#6ab825;font-weight:bold">var</span> response = call.ResponseStream.Current;
+            <span style="color:#6ab825;font-weight:bold">foreach</span> (<span style="color:#6ab825;font-weight:bold">var</span> result <span style="color:#6ab825;font-weight:bold">in</span> response.Results)
+            {
+                Console.WriteLine(result.Alternatives[<span style="color:#3677a9">0</span>].Transcript);
+            }
+        }
+    });
+
+    <span style="color:#999;font-style:italic">// Send config first, followed by the audio
+</span><span style="color:#999;font-style:italic"></span>    {
+        <span style="color:#999;font-style:italic">// Send the configs
+</span><span style="color:#999;font-style:italic"></span>        <span style="color:#6ab825;font-weight:bold">var</span> request = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.StreamingRecognizeRequest();
+        request.Config = cfg;
+        <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.WriteAsync(request);
+
+        <span style="color:#999;font-style:italic">// Setup object for streaming audio
+</span><span style="color:#999;font-style:italic"></span>        request.Config = <span style="color:#6ab825;font-weight:bold">null</span>;
+        request.Audio = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognitionAudio { };
+
+        <span style="color:#999;font-style:italic">// Send the audio, in 8kb chunks
+</span><span style="color:#999;font-style:italic"></span>        <span style="color:#6ab825;font-weight:bold">const</span> <span style="color:#6ab825;font-weight:bold">int</span> chunkSize = <span style="color:#3677a9">8192</span>;
+        <span style="color:#6ab825;font-weight:bold">using</span> (FileStream file = File.OpenRead(<span style="color:#ed9d13">&#34;test.raw&#34;</span>))
+        {
+            <span style="color:#6ab825;font-weight:bold">int</span> bytesRead;
+            <span style="color:#6ab825;font-weight:bold">var</span> buffer = <span style="color:#6ab825;font-weight:bold">new</span> <span style="color:#6ab825;font-weight:bold">byte</span>[chunkSize];
+            <span style="color:#6ab825;font-weight:bold">while</span> ((bytesRead = file.Read(buffer, <span style="color:#3677a9">0</span>, buffer.Length)) &gt; <span style="color:#3677a9">0</span>)
+            {
+                <span style="color:#6ab825;font-weight:bold">var</span> bytes = Google.Protobuf.ByteString.CopyFrom(buffer);
+                request.Audio.Data = bytes;
+                <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.WriteAsync(request);
+            }
+
+            <span style="color:#999;font-style:italic">// Close the sending stream
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.CompleteAsync();
+        }
     }
 
-    &lt;span style=&quot;color:#ffa500&quot;&gt;@Override&lt;/span&gt;
-    &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color:#447fcf&quot;&gt;onCompleted&lt;/span&gt;() {
-        System.&lt;span style=&quot;color:#bbb&quot;&gt;out&lt;/span&gt;.&lt;span style=&quot;color:#bbb&quot;&gt;println&lt;/span&gt;(&lt;span style=&quot;color:#ed9d13&quot;&gt;&amp;#34;Server is done sending responses back&amp;#34;&lt;/span&gt;);
-    }
-};
-
-&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Setup bidirectional stream
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    StreamObserver&lt;StreamingRecognizeRequest&gt; requestObserver; <!-- raw HTML omitted -->// Outgoing messages are sent on this request object
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    requestObserver = mCubicService.<!-- raw HTML omitted -->streamingRecognize<!-- raw HTML omitted -->(mRecognitionResponseObserver);</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Send config message
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    StreamingRecognizeRequest configs = StreamingRecognizeRequest.<!-- raw HTML omitted -->newBuilder<!-- raw HTML omitted -->()
-<!-- raw HTML omitted -->// Note, we do not call setAudio here.
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->        .<!-- raw HTML omitted -->setConfig<!-- raw HTML omitted -->(RecognitionConfig.<!-- raw HTML omitted -->newBuilder<!-- raw HTML omitted -->()
-.<!-- raw HTML omitted -->setModelId<!-- raw HTML omitted -->(<!-- raw HTML omitted -->&quot;ModelID&quot;<!-- raw HTML omitted -->)
-.<!-- raw HTML omitted -->build<!-- raw HTML omitted -->())
-.<!-- raw HTML omitted -->build<!-- raw HTML omitted -->();
-requestObserver.<!-- raw HTML omitted -->onNext<!-- raw HTML omitted -->(configs);</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Read the file in chunks and stream to server.
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    <!-- raw HTML omitted -->try<!-- raw HTML omitted --> {
-FileInputStream is = <!-- raw HTML omitted -->new<!-- raw HTML omitted --> FileInputStream(<!-- raw HTML omitted -->new<!-- raw HTML omitted --> File(<!-- raw HTML omitted -->&quot;/path/to/file&quot;<!-- raw HTML omitted -->));
-<!-- raw HTML omitted -->byte<!-- raw HTML omitted -->[] bytes = <!-- raw HTML omitted -->new<!-- raw HTML omitted --> <!-- raw HTML omitted -->byte<!-- raw HTML omitted -->[1024];
-<!-- raw HTML omitted -->int<!-- raw HTML omitted --> len = 0;</p>
-<pre><code>    &lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Read the file
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->        <!-- raw HTML omitted -->while<!-- raw HTML omitted --> ((len = is.<!-- raw HTML omitted -->read<!-- raw HTML omitted -->(chunk)) != -1) {
-<!-- raw HTML omitted -->// Convert byte[] to ByteString for gRPC
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->            ByteString audioBS = ByteString.<!-- raw HTML omitted -->copyFrom<!-- raw HTML omitted -->(chunk);</p>
-<pre><code>        &lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Send audio to server
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->            RecognitionAudio audioMsg = RecognitionAudio.<!-- raw HTML omitted -->newBuilder<!-- raw HTML omitted -->()
-.<!-- raw HTML omitted -->setData<!-- raw HTML omitted -->(audioBS)
-.<!-- raw HTML omitted -->build<!-- raw HTML omitted -->()
-requestObserver.<!-- raw HTML omitted -->onNext<!-- raw HTML omitted -->(StreamingRecognizeRequest.<!-- raw HTML omitted -->newBuilder<!-- raw HTML omitted -->()
-.<!-- raw HTML omitted -->setAudio<!-- raw HTML omitted -->(audioMsg)
-.<!-- raw HTML omitted -->build<!-- raw HTML omitted -->());
+    <span style="color:#999;font-style:italic">// Wait for all of the responses to come back through the receiving stream
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">await</span> responseReaderTask;
 }
-} <!-- raw HTML omitted -->catch<!-- raw HTML omitted --> (Exception e) { } <!-- raw HTML omitted -->// Handle exception
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted -->// Close the client side stream
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    requestObserver.<!-- raw HTML omitted -->onCompleted<!-- raw HTML omitted -->();</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->}
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+</code></pre></div>
+</div>
+
+<div class="tab-pane" title="Java/Android">
+  <p>Please note: this example does not attempt to handle threading and all exceptions.
+It gives a simplified overview of the essential gRPC calls.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">ManagedChannel</span>;
+<span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">ManagedChannelBuilder</span>;
+<span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">stub</span>.<span style="color:#bbb">StreamObserver</span>;
+
+<span style="color:#a61717;background-color:#e3d2d2">import com</span>.<span style="color:#bbb">google</span>.<span style="color:#bbb">protobuf</span>.<span style="color:#bbb">ByteString</span>;
+
+<span style="color:#a61717;background-color:#e3d2d2">import com</span>.<span style="color:#bbb">cobaltspeech</span>.<span style="color:#bbb">cubic</span>.<span style="color:#bbb">CubicGrpc</span>;
+<span style="color:#a61717;background-color:#e3d2d2">import com</span>.<span style="color:#bbb">cobaltspeech</span>.<span style="color:#bbb">cubic</span>.<span style="color:#bbb">CubicOuterClass</span>.*;
+
+<span style="color:#a61717;background-color:#e3d2d2">public static void transcribeFile</span>() {
+    <span style="color:#999;font-style:italic">// Setup connection
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#a61717;background-color:#e3d2d2">CubicGrpc.CubicStub mCubicService </span>= CubicGrpc.<span style="color:#bbb">newStub</span>(
+        ManagedChannelBuilder.<span style="color:#bbb">forTarget</span>(url).<span style="color:#bbb">build</span>());
+
+    <span style="color:#999;font-style:italic">// Setup callback to handle results
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#a61717;background-color:#e3d2d2">StreamObserver&lt;&gt; responseObserver </span>= <span style="color:#6ab825;font-weight:bold">new</span> StreamObserver&lt;RecognitionResponse&gt;() {
+        <span style="color:#ffa500">@Override</span>
+        <span style="color:#a61717;background-color:#e3d2d2">public void </span>onNext(<span style="color:#a61717;background-color:#e3d2d2">RecognitionResponse value</span>) {
+            System.<span style="color:#bbb">out</span>.<span style="color:#bbb">println</span>(<span style="color:#ed9d13">&#34;Result: &#34;</span> + value.<span style="color:#bbb">toString</span>());
+        }
+
+        <span style="color:#ffa500">@Override</span>
+        <span style="color:#a61717;background-color:#e3d2d2">public void </span>onError(<span style="color:#a61717;background-color:#e3d2d2">Throwable t</span>) {
+            System.<span style="color:#bbb">err</span>.<span style="color:#bbb">println</span>(<span style="color:#ed9d13">&#34;Error with recognition:&#34;</span> + t.<span style="color:#bbb">toString</span>());
+        }
+
+        <span style="color:#ffa500">@Override</span>
+        <span style="color:#a61717;background-color:#e3d2d2">public void </span>onCompleted() {
+            System.<span style="color:#bbb">out</span>.<span style="color:#bbb">println</span>(<span style="color:#ed9d13">&#34;Server is done sending responses back&#34;</span>);
+        }
+    };
+
+    <span style="color:#999;font-style:italic">// Setup bidirectional stream
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#a61717;background-color:#e3d2d2">StreamObserver&lt;StreamingRecognizeRequest&gt; requestObserver</span>; <span style="color:#999;font-style:italic">// Outgoing messages are sent on this request object
+</span><span style="color:#999;font-style:italic"></span>    requestObserver = mCubicService.<span style="color:#bbb">streamingRecognize</span>(mRecognitionResponseObserver);
+
+    <span style="color:#999;font-style:italic">// Send config message
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#a61717;background-color:#e3d2d2">StreamingRecognizeRequest configs </span>= StreamingRecognizeRequest.<span style="color:#bbb">newBuilder</span>()
+        <span style="color:#999;font-style:italic">// Note, we do not call setAudio here.
+</span><span style="color:#999;font-style:italic"></span>        .<span style="color:#bbb">setConfig</span>(RecognitionConfig.<span style="color:#bbb">newBuilder</span>()
+            .<span style="color:#bbb">setModelId</span>(<span style="color:#ed9d13">&#34;ModelID&#34;</span>)
+            .<span style="color:#bbb">build</span>())
+        .<span style="color:#bbb">build</span>();
+    requestObserver.<span style="color:#bbb">onNext</span>(configs);
+
+    <span style="color:#999;font-style:italic">// Read the file in chunks and stream to server.
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">try</span> {
+        <span style="color:#a61717;background-color:#e3d2d2">FileInputStream is </span>= <span style="color:#6ab825;font-weight:bold">new</span> FileInputStream(<span style="color:#6ab825;font-weight:bold">new</span> File(<span style="color:#ed9d13">&#34;/path/to/file&#34;</span>));
+        <span style="color:#a61717;background-color:#e3d2d2">byte[] bytes </span>= <span style="color:#6ab825;font-weight:bold">new</span> <span style="color:#6ab825;font-weight:bold">byte</span>[1024];
+        <span style="color:#a61717;background-color:#e3d2d2">int len </span>= 0;
+
+        <span style="color:#999;font-style:italic">// Read the file
+</span><span style="color:#999;font-style:italic"></span>        <span style="color:#6ab825;font-weight:bold">while</span> ((len = is.<span style="color:#bbb">read</span>(chunk)) != -1) {
+            <span style="color:#999;font-style:italic">// Convert byte[] to ByteString for gRPC
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#a61717;background-color:#e3d2d2">ByteString audioBS </span>= ByteString.<span style="color:#bbb">copyFrom</span>(chunk);
+
+            <span style="color:#999;font-style:italic">// Send audio to server
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#a61717;background-color:#e3d2d2">RecognitionAudio audioMsg </span>= RecognitionAudio.<span style="color:#bbb">newBuilder</span>()
+                .<span style="color:#bbb">setData</span>(audioBS)
+                .<span style="color:#bbb">build</span>()
+            requestObserver.<span style="color:#bbb">onNext</span>(StreamingRecognizeRequest.<span style="color:#bbb">newBuilder</span>()
+                .<span style="color:#bbb">setAudio</span>(audioMsg)
+                .<span style="color:#bbb">build</span>());
+        }
+    } <span style="color:#6ab825;font-weight:bold">catch</span> (<span style="color:#a61717;background-color:#e3d2d2">Exception e</span>) { } <span style="color:#999;font-style:italic">// Handle exception
+</span><span style="color:#999;font-style:italic"></span>
+    <span style="color:#999;font-style:italic">// Close the client side stream
+</span><span style="color:#999;font-style:italic"></span>    requestObserver.<span style="color:#bbb">onCompleted</span>();
+
+    <span style="color:#999;font-style:italic">// Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
+</span><span style="color:#999;font-style:italic"></span>}</code></pre></div>
+</div>
+
+<p></div>
+</div></p>
+
 <h3 id="streaming-from-microphone">Streaming from microphone</h3>
+
 <p>Streaming audio from microphone input typically needs us to interact with system
 libraries. There are several options available, and although the examples here use
 one, you may choose to use an alternative as long as the recording audio format is
 chosen correctly.</p>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->import<!-- raw HTML omitted --> (
-<!-- raw HTML omitted -->&quot;bytes&quot;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->&quot;context&quot;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->&quot;encoding/binary&quot;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->&quot;fmt&quot;<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->&quot;log&quot;<!-- raw HTML omitted --></p>
-<pre><code>&lt;span style=&quot;color:#ed9d13&quot;&gt;&amp;#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic&amp;#34;&lt;/span&gt;
-&lt;span style=&quot;color:#ed9d13&quot;&gt;&amp;#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb&amp;#34;&lt;/span&gt;
-&lt;span style=&quot;color:#ed9d13&quot;&gt;&amp;#34;github.com/gordonklaus/portaudio&amp;#34;&lt;/span&gt;
-</code></pre>
-<p>)</p>
-<p><!-- raw HTML omitted -->const<!-- raw HTML omitted --> serverAddr = <!-- raw HTML omitted -->&quot;127.0.0.1:2727&quot;<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted -->// Microphone implements the io.ReadCloser interface and provides
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->// a data stream for microphone input.
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->type<!-- raw HTML omitted --> Microphone <!-- raw HTML omitted -->struct<!-- raw HTML omitted --> {
-buffer []<!-- raw HTML omitted -->int16<!-- raw HTML omitted -->
-stream *portaudio.Stream
-}</p>
-<p><!-- raw HTML omitted -->// NewMicrophone instantiates a Microphone object with the desired
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->// sampling rate and buffer size. When streaming to cubic, the sample
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->// rate should be set to the sample rate of the model used.
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->func<!-- raw HTML omitted --> <!-- raw HTML omitted -->NewMicrophone<!-- raw HTML omitted -->(sampleRate, bufferSize <!-- raw HTML omitted -->uint32<!-- raw HTML omitted -->) (*Microphone, <!-- raw HTML omitted -->error<!-- raw HTML omitted -->) {</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// bufferSize is measured in number of bytes. Since we are capturing
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->	<!-- raw HTML omitted -->// 16 bit audio, each sample is 2 bytes. The microphone has a int16
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->	<!-- raw HTML omitted -->// buffer, so we use the number of samples as its size.
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->	numSamples := bufferSize/<!-- raw HTML omitted -->2<!-- raw HTML omitted -->
-mic := Microphone{buffer: <!-- raw HTML omitted -->make<!-- raw HTML omitted -->([]<!-- raw HTML omitted -->int16<!-- raw HTML omitted -->, numSamples)}</p>
-<pre><code>portaudio.&lt;span style=&quot;color:#447fcf&quot;&gt;Initialize&lt;/span&gt;()
-stream, err := portaudio.&lt;span style=&quot;color:#447fcf&quot;&gt;OpenDefaultStream&lt;/span&gt;(&lt;span style=&quot;color:#3677a9&quot;&gt;1&lt;/span&gt;, &lt;span style=&quot;color:#3677a9&quot;&gt;0&lt;/span&gt;, &lt;span style=&quot;color:#24909d&quot;&gt;float64&lt;/span&gt;(sampleRate), &lt;span style=&quot;color:#24909d&quot;&gt;int&lt;/span&gt;(numSamples), mic.buffer)
-&lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;if&lt;/span&gt; err != &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;nil&lt;/span&gt; {
-    &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;nil&lt;/span&gt;, err
-}
-mic.stream = stream
 
-err = mic.stream.&lt;span style=&quot;color:#447fcf&quot;&gt;Start&lt;/span&gt;()
-&lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;if&lt;/span&gt; err != &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;nil&lt;/span&gt; {
-    &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;return&lt;/span&gt; &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;nil&lt;/span&gt;, err
+<div class='code-tabs'>
+  <ul class="nav-tabs"></ul>
+  <div class="tab-content">
+<div class="tab-pane" title="Go">
+  <p>This example utilizes the portaudio <a href="https://github.com/gordonklaus/portaudio">bindings</a> for Go
+to stream audio from a microphone. To use this package, install <a href="http://www.portaudio.com/">PortAudio</a>
+development headers and libraries using an appropriate package manager for your system (e.g. <code>apt-get install portaudio19-dev</code> on Ubuntu, <code>brew install portaudio</code> for OSX, etc.) or build from <a href="http://portaudio.com/docs/v19-doxydocs/tutorial_start.html">source</a>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6ab825;font-weight:bold">package</span> main
+
+<span style="color:#6ab825;font-weight:bold">import</span> (
+    <span style="color:#ed9d13">&#34;bytes&#34;</span>
+    <span style="color:#ed9d13">&#34;context&#34;</span>
+    <span style="color:#ed9d13">&#34;encoding/binary&#34;</span>
+    <span style="color:#ed9d13">&#34;fmt&#34;</span>
+    <span style="color:#ed9d13">&#34;log&#34;</span>
+
+    <span style="color:#ed9d13">&#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic&#34;</span>
+    <span style="color:#ed9d13">&#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb&#34;</span>
+    <span style="color:#ed9d13">&#34;github.com/gordonklaus/portaudio&#34;</span>
+)
+
+<span style="color:#6ab825;font-weight:bold">const</span> serverAddr = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+
+<span style="color:#999;font-style:italic">// Microphone implements the io.ReadCloser interface and provides 
+</span><span style="color:#999;font-style:italic">// a data stream for microphone input.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">type</span> Microphone <span style="color:#6ab825;font-weight:bold">struct</span> {
+    buffer []<span style="color:#6ab825;font-weight:bold">int16</span>
+    stream *portaudio.Stream
 }
 
-&lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;return&lt;/span&gt; &amp;amp;mic, &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;nil&lt;/span&gt;
-</code></pre>
-<p>}</p>
-<p><!-- raw HTML omitted -->// Read copies N bytes into the passed buffer from the microphone audio buffer
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->// where N is the buffer size passed to <code>cubic.NewClient</code>. Also, to be compatible
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->// with the cubic client, it returns two things : an int representing the number of
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->// bytes copied and an error.
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->func<!-- raw HTML omitted --> (mic *Microphone) <!-- raw HTML omitted -->Read<!-- raw HTML omitted -->(buffer []<!-- raw HTML omitted -->byte<!-- raw HTML omitted -->) (<!-- raw HTML omitted -->int<!-- raw HTML omitted -->, <!-- raw HTML omitted -->error<!-- raw HTML omitted -->) {
-err := mic.stream.<!-- raw HTML omitted -->Read<!-- raw HTML omitted -->()
-<!-- raw HTML omitted -->if<!-- raw HTML omitted --> err != <!-- raw HTML omitted -->nil<!-- raw HTML omitted --> {
-<!-- raw HTML omitted -->return<!-- raw HTML omitted --> <!-- raw HTML omitted -->0<!-- raw HTML omitted -->, err
-}
-byteBuffer := <!-- raw HTML omitted -->new<!-- raw HTML omitted -->(bytes.Buffer)
-err = binary.<!-- raw HTML omitted -->Write<!-- raw HTML omitted -->(byteBuffer, binary.LittleEndian, mic.buffer)
-<!-- raw HTML omitted -->if<!-- raw HTML omitted --> err != <!-- raw HTML omitted -->nil<!-- raw HTML omitted --> {
-<!-- raw HTML omitted -->return<!-- raw HTML omitted --> <!-- raw HTML omitted -->0<!-- raw HTML omitted -->, err
-}
-<!-- raw HTML omitted -->copy<!-- raw HTML omitted -->(buffer, byteBuffer.<!-- raw HTML omitted -->Bytes<!-- raw HTML omitted -->())
-<!-- raw HTML omitted -->return<!-- raw HTML omitted --> <!-- raw HTML omitted -->len<!-- raw HTML omitted -->(buffer), <!-- raw HTML omitted -->nil<!-- raw HTML omitted -->
-}</p>
-<p><!-- raw HTML omitted -->// Close shuts the microphone stream down and cleans up
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->func<!-- raw HTML omitted --> (mic *Microphone) <!-- raw HTML omitted -->Close<!-- raw HTML omitted -->() {
-mic.stream.<!-- raw HTML omitted -->Stop<!-- raw HTML omitted -->()
-mic.stream.<!-- raw HTML omitted -->Close<!-- raw HTML omitted -->()
-portaudio.<!-- raw HTML omitted -->Terminate<!-- raw HTML omitted -->()
-}</p>
-<p><!-- raw HTML omitted -->func<!-- raw HTML omitted --> <!-- raw HTML omitted -->main<!-- raw HTML omitted -->() {</p>
-<pre><code>bufferSize := &lt;span style=&quot;color:#24909d&quot;&gt;uint32&lt;/span&gt;(&lt;span style=&quot;color:#3677a9&quot;&gt;8192&lt;/span&gt;)
-client, err := cubic.&lt;span style=&quot;color:#447fcf&quot;&gt;NewClient&lt;/span&gt;(serverAddr, cubic.&lt;span style=&quot;color:#447fcf&quot;&gt;WithInsecure&lt;/span&gt;(), cubic.&lt;span style=&quot;color:#447fcf&quot;&gt;WithStreamingBufferSize&lt;/span&gt;(bufferSize))
-&lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;if&lt;/span&gt; err != &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;nil&lt;/span&gt; {
-    log.&lt;span style=&quot;color:#447fcf&quot;&gt;Fatal&lt;/span&gt;(err)
-}
-&lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;defer&lt;/span&gt; client.&lt;span style=&quot;color:#447fcf&quot;&gt;Close&lt;/span&gt;()
+<span style="color:#999;font-style:italic">// NewMicrophone instantiates a Microphone object with the desired
+</span><span style="color:#999;font-style:italic">// sampling rate and buffer size. When streaming to cubic, the sample
+</span><span style="color:#999;font-style:italic">// rate should be set to the sample rate of the model used.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">NewMicrophone</span>(sampleRate, bufferSize <span style="color:#6ab825;font-weight:bold">uint32</span>) (*Microphone, <span style="color:#6ab825;font-weight:bold">error</span>) {
 
-modelResp, err := client.&lt;span style=&quot;color:#447fcf&quot;&gt;ListModels&lt;/span&gt;(context.&lt;span style=&quot;color:#447fcf&quot;&gt;Background&lt;/span&gt;())
-&lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;if&lt;/span&gt; err != &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;nil&lt;/span&gt; {
-    log.&lt;span style=&quot;color:#447fcf&quot;&gt;Fatal&lt;/span&gt;(err)
+    <span style="color:#999;font-style:italic">// bufferSize is measured in number of bytes. Since we are capturing
+</span><span style="color:#999;font-style:italic"></span>   <span style="color:#999;font-style:italic">// 16 bit audio, each sample is 2 bytes. The microphone has a int16
+</span><span style="color:#999;font-style:italic"></span>   <span style="color:#999;font-style:italic">// buffer, so we use the number of samples as its size.
+</span><span style="color:#999;font-style:italic"></span>   numSamples := bufferSize/<span style="color:#3677a9">2</span>
+    mic := Microphone{buffer: <span style="color:#24909d">make</span>([]<span style="color:#6ab825;font-weight:bold">int16</span>, numSamples)}
+
+    portaudio.<span style="color:#447fcf">Initialize</span>()
+    stream, err := portaudio.<span style="color:#447fcf">OpenDefaultStream</span>(<span style="color:#3677a9">1</span>, <span style="color:#3677a9">0</span>, <span style="color:#24909d">float64</span>(sampleRate), <span style="color:#24909d">int</span>(numSamples), mic.buffer)
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">nil</span>, err
+    }
+    mic.stream = stream
+
+    err = mic.stream.<span style="color:#447fcf">Start</span>()
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#6ab825;font-weight:bold">nil</span>, err
+    }
+
+    <span style="color:#6ab825;font-weight:bold">return</span> &amp;mic, <span style="color:#6ab825;font-weight:bold">nil</span>
 }
 
-&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Use the first available model
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->	model := modelResp.Models[<!-- raw HTML omitted -->0<!-- raw HTML omitted -->]</p>
-<pre><code>cfg := &amp;amp;cubicpb.RecognitionConfig{
-    ModelId: model.Id,
+<span style="color:#999;font-style:italic">// Read copies N bytes into the passed buffer from the microphone audio buffer
+</span><span style="color:#999;font-style:italic">// where N is the buffer size passed to `cubic.NewClient`. Also, to be compatible
+</span><span style="color:#999;font-style:italic">// with the cubic client, it returns two things : an int representing the number of
+</span><span style="color:#999;font-style:italic">// bytes copied and an error.
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> (mic *Microphone) <span style="color:#447fcf">Read</span>(buffer []<span style="color:#6ab825;font-weight:bold">byte</span>) (<span style="color:#6ab825;font-weight:bold">int</span>, <span style="color:#6ab825;font-weight:bold">error</span>) {
+    err := mic.stream.<span style="color:#447fcf">Read</span>()
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#3677a9">0</span>, err
+    }
+    byteBuffer := <span style="color:#24909d">new</span>(bytes.Buffer)
+    err = binary.<span style="color:#447fcf">Write</span>(byteBuffer, binary.LittleEndian, mic.buffer)
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#3677a9">0</span>, err
+    }
+    <span style="color:#24909d">copy</span>(buffer, byteBuffer.<span style="color:#447fcf">Bytes</span>())
+    <span style="color:#6ab825;font-weight:bold">return</span> <span style="color:#24909d">len</span>(buffer), <span style="color:#6ab825;font-weight:bold">nil</span>
 }
 
-&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Define a callback function to handle results
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->	resultHandler := <!-- raw HTML omitted -->func<!-- raw HTML omitted -->(resp *cubicpb.RecognitionResponse) {
-<!-- raw HTML omitted -->for<!-- raw HTML omitted --> _, r := <!-- raw HTML omitted -->range<!-- raw HTML omitted --> resp.Results {
-<!-- raw HTML omitted -->if<!-- raw HTML omitted --> r.IsPartial {
-fmt.<!-- raw HTML omitted -->Print<!-- raw HTML omitted -->(<!-- raw HTML omitted -->&quot;\r&quot;<!-- raw HTML omitted -->, r.Alternatives[<!-- raw HTML omitted -->0<!-- raw HTML omitted -->].Transcript) <!-- raw HTML omitted -->// print on same line
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->			} <!-- raw HTML omitted -->else<!-- raw HTML omitted --> {
-fmt.<!-- raw HTML omitted -->Println<!-- raw HTML omitted -->(<!-- raw HTML omitted -->&quot;\r&quot;<!-- raw HTML omitted -->, r.Alternatives[<!-- raw HTML omitted -->0<!-- raw HTML omitted -->].Transcript) <!-- raw HTML omitted -->// print and move to new line
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->			}
+<span style="color:#999;font-style:italic">// Close shuts the microphone stream down and cleans up
+</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">func</span> (mic *Microphone) <span style="color:#447fcf">Close</span>() {
+    mic.stream.<span style="color:#447fcf">Stop</span>()
+    mic.stream.<span style="color:#447fcf">Close</span>()
+    portaudio.<span style="color:#447fcf">Terminate</span>()
 }
-}</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Create microphone stream
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->	mic, err := <!-- raw HTML omitted -->NewMicrophone<!-- raw HTML omitted -->(model.Attributes.SampleRate, bufferSize)
-<!-- raw HTML omitted -->if<!-- raw HTML omitted --> err != <!-- raw HTML omitted -->nil<!-- raw HTML omitted --> {
-log.<!-- raw HTML omitted -->Fatal<!-- raw HTML omitted -->(err)
-}
-<!-- raw HTML omitted -->defer<!-- raw HTML omitted --> mic.<!-- raw HTML omitted -->Close<!-- raw HTML omitted -->()</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Since Microphone implements the io.ReadCloser interface, we can
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->	<!-- raw HTML omitted -->// pass it directly to the StreamingRecognize function.
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->	err = client.<!-- raw HTML omitted -->StreamingRecognize<!-- raw HTML omitted -->(context.<!-- raw HTML omitted -->Background<!-- raw HTML omitted -->(), cfg, mic, resultHandler)
-<!-- raw HTML omitted -->if<!-- raw HTML omitted --> err != <!-- raw HTML omitted -->nil<!-- raw HTML omitted --> {
-log.<!-- raw HTML omitted -->Fatal<!-- raw HTML omitted -->(err)
-}
-}
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>serverAddress = <!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->'<!-- raw HTML omitted --><!-- raw HTML omitted -->127.0.0.1:2727<!-- raw HTML omitted --><!-- raw HTML omitted -->'<!-- raw HTML omitted --></p>
-<p>client = cubic.Client(serverAddress)</p>
-<p><!-- raw HTML omitted --># get list of available models<!-- raw HTML omitted -->
-modelResp = client.ListModels()</p>
-<p><!-- raw HTML omitted --># use the first available model<!-- raw HTML omitted -->
-model = modelResp.models[<!-- raw HTML omitted -->0<!-- raw HTML omitted -->]</p>
-<p>cfg = cubic.RecognitionConfig(
-model_id = model.id
-)</p>
-<p><!-- raw HTML omitted --># client.StreamingRecognize takes any binary stream object that has a read(nBytes)<!-- raw HTML omitted -->
-<!-- raw HTML omitted --># method. The method should return nBytes from the stream. So pyaudio is a suitable<!-- raw HTML omitted -->
-<!-- raw HTML omitted --># library to use here for streaming audio from the microphone. Other libraries or<!-- raw HTML omitted -->
-<!-- raw HTML omitted --># modules may also be used as long as they have the read method or have been wrapped<!-- raw HTML omitted -->
-<!-- raw HTML omitted --># to do so.<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># open microphone stream<!-- raw HTML omitted -->
+
+<span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">main</span>() {
+
+    bufferSize := <span style="color:#24909d">uint32</span>(<span style="color:#3677a9">8192</span>)
+    client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr, cubic.<span style="color:#447fcf">WithInsecure</span>(), cubic.<span style="color:#447fcf">WithStreamingBufferSize</span>(bufferSize))
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        log.<span style="color:#447fcf">Fatal</span>(err)
+    }
+    <span style="color:#6ab825;font-weight:bold">defer</span> client.<span style="color:#447fcf">Close</span>()
+
+    modelResp, err := client.<span style="color:#447fcf">ListModels</span>(context.<span style="color:#447fcf">Background</span>())
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        log.<span style="color:#447fcf">Fatal</span>(err)
+    }
+
+    <span style="color:#999;font-style:italic">// Use the first available model
+</span><span style="color:#999;font-style:italic"></span>   model := modelResp.Models[<span style="color:#3677a9">0</span>]
+
+    cfg := &amp;cubicpb.RecognitionConfig{
+        ModelId: model.Id,
+    }
+
+    <span style="color:#999;font-style:italic">// Define a callback function to handle results
+</span><span style="color:#999;font-style:italic"></span>   resultHandler := <span style="color:#6ab825;font-weight:bold">func</span>(resp *cubicpb.RecognitionResponse) {
+        <span style="color:#6ab825;font-weight:bold">for</span> _, r := <span style="color:#6ab825;font-weight:bold">range</span> resp.Results {
+            <span style="color:#6ab825;font-weight:bold">if</span> r.IsPartial {
+                fmt.<span style="color:#447fcf">Print</span>(<span style="color:#ed9d13">&#34;\r&#34;</span>, r.Alternatives[<span style="color:#3677a9">0</span>].Transcript) <span style="color:#999;font-style:italic">// print on same line
+</span><span style="color:#999;font-style:italic"></span>           } <span style="color:#6ab825;font-weight:bold">else</span> {
+                fmt.<span style="color:#447fcf">Println</span>(<span style="color:#ed9d13">&#34;\r&#34;</span>, r.Alternatives[<span style="color:#3677a9">0</span>].Transcript) <span style="color:#999;font-style:italic">// print and move to new line
+</span><span style="color:#999;font-style:italic"></span>           }
+        }
+    }
+
+    <span style="color:#999;font-style:italic">// Create microphone stream
+</span><span style="color:#999;font-style:italic"></span>   mic, err := <span style="color:#447fcf">NewMicrophone</span>(model.Attributes.SampleRate, bufferSize)
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        log.<span style="color:#447fcf">Fatal</span>(err)
+    }
+    <span style="color:#6ab825;font-weight:bold">defer</span> mic.<span style="color:#447fcf">Close</span>()
+
+    <span style="color:#999;font-style:italic">// Since Microphone implements the io.ReadCloser interface, we can
+</span><span style="color:#999;font-style:italic"></span>   <span style="color:#999;font-style:italic">// pass it directly to the StreamingRecognize function.
+</span><span style="color:#999;font-style:italic"></span>   err = client.<span style="color:#447fcf">StreamingRecognize</span>(context.<span style="color:#447fcf">Background</span>(), cfg, mic, resultHandler)
+    <span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
+        log.<span style="color:#447fcf">Fatal</span>(err)
+    }
+}</code></pre></div>
+</div>
+
+<div class="tab-pane" title="Python">
+  <p>This example requires the <a href="http://people.csail.mit.edu/hubert/pyaudio/">pyaudio</a>
+module to stream audio from a microphone. Instructions for installing pyaudio for
+different systems are available at the link. On most platforms, this is simply <code>pip install pyaudio</code>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">cubic</span>
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">pyaudio</span>
+
+serverAddress = <span style="color:#ed9d13">&#39;127.0.0.1:2727&#39;</span>
+
+client = cubic.Client(serverAddress)
+
+<span style="color:#999;font-style:italic"># get list of available models</span>
+modelResp = client.ListModels()
+
+<span style="color:#999;font-style:italic"># use the first available model</span>
+model = modelResp.models[<span style="color:#3677a9">0</span>]
+
+cfg = cubic.RecognitionConfig(
+    model_id = model.id
+)
+
+<span style="color:#999;font-style:italic"># client.StreamingRecognize takes any binary stream object that has a read(nBytes)</span>
+<span style="color:#999;font-style:italic"># method. The method should return nBytes from the stream. So pyaudio is a suitable</span>
+<span style="color:#999;font-style:italic"># library to use here for streaming audio from the microphone. Other libraries or</span>
+<span style="color:#999;font-style:italic"># modules may also be used as long as they have the read method or have been wrapped</span>
+<span style="color:#999;font-style:italic"># to do so.</span>
+
+<span style="color:#999;font-style:italic"># open microphone stream</span>
 p = pyaudio.PyAudio()
-audio = p.open(format=pyaudio.paInt16,              <!-- raw HTML omitted --># 16 bit samples<!-- raw HTML omitted -->
-channels=<!-- raw HTML omitted -->1<!-- raw HTML omitted -->,                         <!-- raw HTML omitted --># mono audio<!-- raw HTML omitted -->
-rate=model.attributes.sample_rate,  <!-- raw HTML omitted --># sample rate in hertz<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->input<!-- raw HTML omitted -->=True)                         <!-- raw HTML omitted --># audio input stream<!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --># send streaming request to cubic and <!-- raw HTML omitted -->
-<!-- raw HTML omitted --># print out results as they come in<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->try<!-- raw HTML omitted -->:
-<!-- raw HTML omitted -->for<!-- raw HTML omitted --> resp <!-- raw HTML omitted -->in<!-- raw HTML omitted --> client.StreamingRecognize(cfg, audio):
-<!-- raw HTML omitted -->for<!-- raw HTML omitted --> result <!-- raw HTML omitted -->in<!-- raw HTML omitted --> resp.results:
-<!-- raw HTML omitted -->if<!-- raw HTML omitted --> result.is_partial:
-<!-- raw HTML omitted -->print<!-- raw HTML omitted -->(<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted --><!-- raw HTML omitted -->\r<!-- raw HTML omitted --><!-- raw HTML omitted -->{0}<!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted -->.format(result.alternatives[<!-- raw HTML omitted -->0<!-- raw HTML omitted -->].transcript), end=<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted -->)
-<!-- raw HTML omitted -->else<!-- raw HTML omitted -->:
-<!-- raw HTML omitted -->print<!-- raw HTML omitted -->(<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted --><!-- raw HTML omitted -->\r<!-- raw HTML omitted --><!-- raw HTML omitted -->{0}<!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted -->.format(result.alternatives[<!-- raw HTML omitted -->0<!-- raw HTML omitted -->].transcript), end=<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted --><!-- raw HTML omitted -->\n<!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted -->)
-<!-- raw HTML omitted -->except<!-- raw HTML omitted --> <!-- raw HTML omitted -->KeyboardInterrupt<!-- raw HTML omitted -->:
-<!-- raw HTML omitted --># stop streaming when ctrl+C pressed<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->pass<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->except<!-- raw HTML omitted --> <!-- raw HTML omitted -->Exception<!-- raw HTML omitted --> <!-- raw HTML omitted -->as<!-- raw HTML omitted --> err:
-<!-- raw HTML omitted -->print<!-- raw HTML omitted -->(<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted --><!-- raw HTML omitted -->Error while trying to stream audio : {}<!-- raw HTML omitted --><!-- raw HTML omitted -->&quot;<!-- raw HTML omitted -->.format(err))</p>
-<p>audio.stop_stream()
-audio.close()
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted -->import<!-- raw HTML omitted --> <!-- raw HTML omitted -->com.google.protobuf.ByteString<!-- raw HTML omitted -->;</p>
-<p><!-- raw HTML omitted -->import<!-- raw HTML omitted --> <!-- raw HTML omitted -->com.cobaltspeech.cubic.CubicGrpc<!-- raw HTML omitted -->;
-<!-- raw HTML omitted -->import<!-- raw HTML omitted --> <!-- raw HTML omitted -->com.cobaltspeech.cubic.CubicOuterClass.*<!-- raw HTML omitted -->;</p>
-<p><!-- raw HTML omitted -->public<!-- raw HTML omitted --> <!-- raw HTML omitted -->static<!-- raw HTML omitted --> <!-- raw HTML omitted -->void<!-- raw HTML omitted --> <!-- raw HTML omitted -->streamMicrophoneAudio<!-- raw HTML omitted -->() {
-<!-- raw HTML omitted -->// Setup connection
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    CubicGrpc.<!-- raw HTML omitted -->CubicStub<!-- raw HTML omitted --> mCubicService = CubicGrpc.<!-- raw HTML omitted -->newStub<!-- raw HTML omitted -->(
-ManagedChannelBuilder.<!-- raw HTML omitted -->forTarget<!-- raw HTML omitted -->(url).<!-- raw HTML omitted -->build<!-- raw HTML omitted -->());</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Setup callback to handle results
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    StreamObserver&lt;&gt; responseObserver = <!-- raw HTML omitted -->new<!-- raw HTML omitted --> StreamObserver&lt;RecognitionResponse&gt;() {
-<!-- raw HTML omitted -->@Override<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->public<!-- raw HTML omitted --> <!-- raw HTML omitted -->void<!-- raw HTML omitted --> <!-- raw HTML omitted -->onNext<!-- raw HTML omitted -->(RecognitionResponse value) {
-System.<!-- raw HTML omitted -->out<!-- raw HTML omitted -->.<!-- raw HTML omitted -->println<!-- raw HTML omitted -->(<!-- raw HTML omitted -->&quot;Result: &quot;<!-- raw HTML omitted --> + value.<!-- raw HTML omitted -->toString<!-- raw HTML omitted -->());
-}</p>
-<pre><code>    &lt;span style=&quot;color:#ffa500&quot;&gt;@Override&lt;/span&gt;
-    &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color:#447fcf&quot;&gt;onError&lt;/span&gt;(Throwable t) {
-        System.&lt;span style=&quot;color:#bbb&quot;&gt;err&lt;/span&gt;.&lt;span style=&quot;color:#bbb&quot;&gt;println&lt;/span&gt;(&lt;span style=&quot;color:#ed9d13&quot;&gt;&amp;#34;Error with recognition:&amp;#34;&lt;/span&gt; + t.&lt;span style=&quot;color:#bbb&quot;&gt;toString&lt;/span&gt;());
+audio = p.open(format=pyaudio.paInt16,              <span style="color:#999;font-style:italic"># 16 bit samples</span>
+                channels=<span style="color:#3677a9">1</span>,                         <span style="color:#999;font-style:italic"># mono audio</span>
+                rate=model.attributes.sample_rate,  <span style="color:#999;font-style:italic"># sample rate in hertz</span>
+                <span style="color:#24909d">input</span>=True)                         <span style="color:#999;font-style:italic"># audio input stream</span>
+
+<span style="color:#999;font-style:italic"># send streaming request to cubic and </span>
+<span style="color:#999;font-style:italic"># print out results as they come in</span>
+<span style="color:#6ab825;font-weight:bold">try</span>:
+    <span style="color:#6ab825;font-weight:bold">for</span> resp <span style="color:#6ab825;font-weight:bold">in</span> client.StreamingRecognize(cfg, audio):
+        <span style="color:#6ab825;font-weight:bold">for</span> result <span style="color:#6ab825;font-weight:bold">in</span> resp.results:
+            <span style="color:#6ab825;font-weight:bold">if</span> result.is_partial:
+                <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\r</span><span style="color:#ed9d13">{0}&#34;</span>.format(result.alternatives[<span style="color:#3677a9">0</span>].transcript), end=<span style="color:#ed9d13">&#34;&#34;</span>)
+            <span style="color:#6ab825;font-weight:bold">else</span>:
+                <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\r</span><span style="color:#ed9d13">{0}&#34;</span>.format(result.alternatives[<span style="color:#3677a9">0</span>].transcript), end=<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\n</span><span style="color:#ed9d13">&#34;</span>)
+<span style="color:#6ab825;font-weight:bold">except</span> <span style="color:#bbb">KeyboardInterrupt</span>:
+    <span style="color:#999;font-style:italic"># stop streaming when ctrl+C pressed</span>
+    <span style="color:#6ab825;font-weight:bold">pass</span>
+<span style="color:#6ab825;font-weight:bold">except</span> <span style="color:#bbb">Exception</span> <span style="color:#6ab825;font-weight:bold">as</span> err:
+    <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;Error while trying to stream audio : {}&#34;</span>.format(err))
+
+audio.stop_stream()
+audio.close()</code></pre></div>
+</div>
+
+<div class="tab-pane" title="C#">
+  <p>We do not currently have example C# code for streaming from a microphone.
+Simply pass the bytes from the microphone the same as is done from the file in the <code>Streaming from an audio file</code> example above.</p>
+
+</div>
+
+<div class="tab-pane" title="Java/Android">
+  <p>This example uses the <code>android.media.AudioRecord</code> class and assumes the min API level is higher than Marshmallow.
+Please note: this example does not attempt to handle threading and all exceptions.
+It gives a simplified overview of the essential gRPC calls.</p>
+
+<p>For a complete android example, see the examples directory in <a href="https://github.com/cobaltspeech/sdk-cubic/examples/android">the sdk-cubic github repository</a>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">ManagedChannel</span>;
+<span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">ManagedChannelBuilder</span>;
+<span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">stub</span>.<span style="color:#bbb">StreamObserver</span>;
+
+<span style="color:#a61717;background-color:#e3d2d2">import com</span>.<span style="color:#bbb">google</span>.<span style="color:#bbb">protobuf</span>.<span style="color:#bbb">ByteString</span>;
+
+<span style="color:#a61717;background-color:#e3d2d2">import com</span>.<span style="color:#bbb">cobaltspeech</span>.<span style="color:#bbb">cubic</span>.<span style="color:#bbb">CubicGrpc</span>;
+<span style="color:#a61717;background-color:#e3d2d2">import com</span>.<span style="color:#bbb">cobaltspeech</span>.<span style="color:#bbb">cubic</span>.<span style="color:#bbb">CubicOuterClass</span>.*;
+
+<span style="color:#a61717;background-color:#e3d2d2">public static void streamMicrophoneAudio</span>() {
+    <span style="color:#999;font-style:italic">// Setup connection
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#a61717;background-color:#e3d2d2">CubicGrpc.CubicStub mCubicService </span>= CubicGrpc.<span style="color:#bbb">newStub</span>(
+        ManagedChannelBuilder.<span style="color:#bbb">forTarget</span>(url).<span style="color:#bbb">build</span>());
+
+    <span style="color:#999;font-style:italic">// Setup callback to handle results
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#a61717;background-color:#e3d2d2">StreamObserver&lt;&gt; responseObserver </span>= <span style="color:#6ab825;font-weight:bold">new</span> StreamObserver&lt;RecognitionResponse&gt;() {
+        <span style="color:#ffa500">@Override</span>
+        <span style="color:#a61717;background-color:#e3d2d2">public void </span>onNext(<span style="color:#a61717;background-color:#e3d2d2">RecognitionResponse value</span>) {
+            System.<span style="color:#bbb">out</span>.<span style="color:#bbb">println</span>(<span style="color:#ed9d13">&#34;Result: &#34;</span> + value.<span style="color:#bbb">toString</span>());
+        }
+
+        <span style="color:#ffa500">@Override</span>
+        <span style="color:#a61717;background-color:#e3d2d2">public void </span>onError(<span style="color:#a61717;background-color:#e3d2d2">Throwable t</span>) {
+            System.<span style="color:#bbb">err</span>.<span style="color:#bbb">println</span>(<span style="color:#ed9d13">&#34;Error with recognition:&#34;</span> + t.<span style="color:#bbb">toString</span>());
+        }
+
+        <span style="color:#ffa500">@Override</span>
+        <span style="color:#a61717;background-color:#e3d2d2">public void </span>onCompleted() {
+            System.<span style="color:#bbb">out</span>.<span style="color:#bbb">println</span>(<span style="color:#ed9d13">&#34;Server is done sending responses back&#34;</span>);
+        }
+    };
+
+    <span style="color:#999;font-style:italic">// Setup bidirectional stream
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#a61717;background-color:#e3d2d2">StreamObserver&lt;StreamingRecognizeRequest&gt; requestObserver</span>; <span style="color:#999;font-style:italic">// Outgoing messages are sent on this request object
+</span><span style="color:#999;font-style:italic"></span>    requestObserver = mCubicService.<span style="color:#bbb">streamingRecognize</span>(mRecognitionResponseObserver);
+
+    <span style="color:#999;font-style:italic">// Send config message
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#a61717;background-color:#e3d2d2">RecognitionConfig cfg </span>= RecognitionConfig.<span style="color:#bbb">newBuilder</span>()
+            .<span style="color:#bbb">setModelId</span>(<span style="color:#ed9d13">&#34;ModelID&#34;</span>)
+            .<span style="color:#bbb">build</span>();
+    <span style="color:#a61717;background-color:#e3d2d2">StreamingRecognizeRequest configs </span>= StreamingRecognizeRequest.<span style="color:#bbb">newBuilder</span>()
+        <span style="color:#999;font-style:italic">// Note, we do not call setAudio here.
+</span><span style="color:#999;font-style:italic"></span>        .<span style="color:#bbb">setConfig</span>(cfg)
+        .<span style="color:#bbb">build</span>();
+    requestObserver.<span style="color:#bbb">onNext</span>(configs);
+
+    <span style="color:#999;font-style:italic">// Setup the Android Micorphone Recorder
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#a61717;background-color:#e3d2d2">int SAMPLE_RATE </span>= 8000; <span style="color:#999;font-style:italic">// Same as the model is expecting
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#a61717;background-color:#e3d2d2">int BUFFER_SIZE </span>= 1024;
+    <span style="color:#a61717;background-color:#e3d2d2">AudioRecord recorder </span>= <span style="color:#6ab825;font-weight:bold">new</span> AudioRecord(
+        MediaRecorder.<span style="color:#bbb">AudioSource</span>.<span style="color:#bbb">MIC</span>,
+        SAMPLE_RATE,
+        AudioFormat.<span style="color:#bbb">CHANNEL_IN_MONO</span>,
+        AudioFormat.<span style="color:#bbb">ENCODING_PCM_16BIT</span>,
+        BUFFER_SIZE);
+    <span style="color:#a61717;background-color:#e3d2d2">byte[] audioBuffer </span>= <span style="color:#6ab825;font-weight:bold">new</span> <span style="color:#6ab825;font-weight:bold">byte</span>[BUFFER_SIZE];
+    recorder.<span style="color:#bbb">startRecording</span>();
+
+    <span style="color:#999;font-style:italic">// Read the file in chunks and stream to server.
+</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">while</span> (running) {
+        recorder.<span style="color:#bbb">read</span>(audioBuffer, 0, BUFFER_SIZE, AudioRecord.<span style="color:#bbb">READ_BLOCKING</span>);
+
+        <span style="color:#999;font-style:italic">// Convert byte[] to ByteString for gRPC
+</span><span style="color:#999;font-style:italic"></span>        <span style="color:#a61717;background-color:#e3d2d2">ByteString audioBS </span>= ByteString.<span style="color:#bbb">copyFrom</span>(audioBuffer);
+
+        <span style="color:#999;font-style:italic">// Send audio to server
+</span><span style="color:#999;font-style:italic"></span>        <span style="color:#a61717;background-color:#e3d2d2">RecognitionAudio audioMsg </span>= RecognitionAudio.<span style="color:#bbb">newBuilder</span>()
+            .<span style="color:#bbb">setData</span>(audioBS)
+            .<span style="color:#bbb">build</span>();
+        requestObserver.<span style="color:#bbb">onNext</span>(StreamingRecognizeRequest.<span style="color:#bbb">newBuilder</span>()
+            .<span style="color:#bbb">setAudio</span>(audioMsg)
+            .<span style="color:#bbb">build</span>());
     }
 
-    &lt;span style=&quot;color:#ffa500&quot;&gt;@Override&lt;/span&gt;
-    &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;public&lt;/span&gt; &lt;span style=&quot;color:#6ab825;font-weight:bold&quot;&gt;void&lt;/span&gt; &lt;span style=&quot;color:#447fcf&quot;&gt;onCompleted&lt;/span&gt;() {
-        System.&lt;span style=&quot;color:#bbb&quot;&gt;out&lt;/span&gt;.&lt;span style=&quot;color:#bbb&quot;&gt;println&lt;/span&gt;(&lt;span style=&quot;color:#ed9d13&quot;&gt;&amp;#34;Server is done sending responses back&amp;#34;&lt;/span&gt;);
-    }
-};
+    <span style="color:#999;font-style:italic">// Stop the microphone recoding.
+</span><span style="color:#999;font-style:italic"></span>    recorder.<span style="color:#bbb">stop</span>();
 
-&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Setup bidirectional stream
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    StreamObserver&lt;StreamingRecognizeRequest&gt; requestObserver; <!-- raw HTML omitted -->// Outgoing messages are sent on this request object
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    requestObserver = mCubicService.<!-- raw HTML omitted -->streamingRecognize<!-- raw HTML omitted -->(mRecognitionResponseObserver);</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Send config message
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    RecognitionConfig cfg = RecognitionConfig.<!-- raw HTML omitted -->newBuilder<!-- raw HTML omitted -->()
-.<!-- raw HTML omitted -->setModelId<!-- raw HTML omitted -->(<!-- raw HTML omitted -->&quot;ModelID&quot;<!-- raw HTML omitted -->)
-.<!-- raw HTML omitted -->build<!-- raw HTML omitted -->();
-StreamingRecognizeRequest configs = StreamingRecognizeRequest.<!-- raw HTML omitted -->newBuilder<!-- raw HTML omitted -->()
-<!-- raw HTML omitted -->// Note, we do not call setAudio here.
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->        .<!-- raw HTML omitted -->setConfig<!-- raw HTML omitted -->(cfg)
-.<!-- raw HTML omitted -->build<!-- raw HTML omitted -->();
-requestObserver.<!-- raw HTML omitted -->onNext<!-- raw HTML omitted -->(configs);</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Setup the Android Micorphone Recorder
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    <!-- raw HTML omitted -->int<!-- raw HTML omitted --> SAMPLE_RATE = 8000; <!-- raw HTML omitted -->// Same as the model is expecting
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    <!-- raw HTML omitted -->int<!-- raw HTML omitted --> BUFFER_SIZE = 1024;
-AudioRecord recorder = <!-- raw HTML omitted -->new<!-- raw HTML omitted --> AudioRecord(
-MediaRecorder.<!-- raw HTML omitted -->AudioSource<!-- raw HTML omitted -->.<!-- raw HTML omitted -->MIC<!-- raw HTML omitted -->,
-SAMPLE_RATE,
-AudioFormat.<!-- raw HTML omitted -->CHANNEL_IN_MONO<!-- raw HTML omitted -->,
-AudioFormat.<!-- raw HTML omitted -->ENCODING_PCM_16BIT<!-- raw HTML omitted -->,
-BUFFER_SIZE);
-<!-- raw HTML omitted -->byte<!-- raw HTML omitted -->[] audioBuffer = <!-- raw HTML omitted -->new<!-- raw HTML omitted --> <!-- raw HTML omitted -->byte<!-- raw HTML omitted -->[BUFFER_SIZE];
-recorder.<!-- raw HTML omitted -->startRecording<!-- raw HTML omitted -->();</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Read the file in chunks and stream to server.
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    <!-- raw HTML omitted -->while<!-- raw HTML omitted --> (running) {
-recorder.<!-- raw HTML omitted -->read<!-- raw HTML omitted -->(audioBuffer, 0, BUFFER_SIZE, AudioRecord.<!-- raw HTML omitted -->READ_BLOCKING<!-- raw HTML omitted -->);</p>
-<pre><code>    &lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Convert byte[] to ByteString for gRPC
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->        ByteString audioBS = ByteString.<!-- raw HTML omitted -->copyFrom<!-- raw HTML omitted -->(audioBuffer);</p>
-<pre><code>    &lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Send audio to server
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->        RecognitionAudio audioMsg = RecognitionAudio.<!-- raw HTML omitted -->newBuilder<!-- raw HTML omitted -->()
-.<!-- raw HTML omitted -->setData<!-- raw HTML omitted -->(audioBS)
-.<!-- raw HTML omitted -->build<!-- raw HTML omitted -->();
-requestObserver.<!-- raw HTML omitted -->onNext<!-- raw HTML omitted -->(StreamingRecognizeRequest.<!-- raw HTML omitted -->newBuilder<!-- raw HTML omitted -->()
-.<!-- raw HTML omitted -->setAudio<!-- raw HTML omitted -->(audioMsg)
-.<!-- raw HTML omitted -->build<!-- raw HTML omitted -->());
-}</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Stop the microphone recoding.
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    recorder.<!-- raw HTML omitted -->stop<!-- raw HTML omitted -->();</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Close the client side stream
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->    requestObserver.<!-- raw HTML omitted -->onCompleted<!-- raw HTML omitted -->();</p>
-<pre><code>&lt;span style=&quot;color:#999;font-style:italic&quot;&gt;// Note: Once the server is done transcribing everything, it will call responseObserver.onCompleted().
-</code></pre>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->}
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+    <span style="color:#999;font-style:italic">// Close the client side stream
+</span><span style="color:#999;font-style:italic"></span>    requestObserver.<span style="color:#bbb">onCompleted</span>();
+
+    <span style="color:#999;font-style:italic">// Note: Once the server is done transcribing everything, it will call responseObserver.onCompleted().
+</span><span style="color:#999;font-style:italic"></span>}</code></pre></div>
+</div>
+
+<p></div>
+</div></p>
 
     
     
