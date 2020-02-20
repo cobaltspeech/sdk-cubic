@@ -23,7 +23,7 @@ pip install --upgrade pip
 pip install "git+https://github.com/cobaltspeech/sdk-cubic#egg=cobalt-cubic&subdirectory=grpc/py-cubic"
 ```
 
-### C#
+### C# 
 
 The C# SDK utilizes the [NuGet package manager](https://www.nuget.org).  The package is called `Cubic-SDK`, under the owners name of `CobaltSpeech`.
 
@@ -32,3 +32,6 @@ NuGet allows 4 different ways to install.  Further instructions can be found on 
 ``` bash
 dotnet add package Cubic-SDK
 ```
+
+### Android
+Building for Android requires more steps, so it is described on the [Android Integrations](https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/android/) page.

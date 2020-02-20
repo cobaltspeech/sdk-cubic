@@ -298,16 +298,16 @@ Console.WriteLine(String.Format(<span style="color:#ed9d13">&#34;CubicServer: {0
 </div>
 
 <div class="tab-pane" title="Java/Android">
-  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannel</span>;
-<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannelBuilder</span>;
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">ManagedChannel</span>;
+<span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">ManagedChannelBuilder</span>;
 
-<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">com.cobaltspeech.cubic.CubicGrpc</span>;
+<span style="color:#a61717;background-color:#e3d2d2">import com</span>.<span style="color:#bbb">cobaltspeech</span>.<span style="color:#bbb">cubic</span>.<span style="color:#bbb">CubicGrpc</span>;
 
-String url = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
-ManagedChannel mCubicChannel = ManagedChannelBuilder
+<span style="color:#a61717;background-color:#e3d2d2">String url </span>= <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+<span style="color:#a61717;background-color:#e3d2d2">ManagedChannel mCubicChannel </span>= ManagedChannelBuilder
     .<span style="color:#bbb">forTarget</span>(url)
     .<span style="color:#bbb">build</span>();
-CubicGrpc.<span style="color:#bbb">CubicStub</span> mCubicService = CubicGrpc.<span style="color:#bbb">newStub</span>(mCubicChannel);</code></pre></div>
+<span style="color:#a61717;background-color:#e3d2d2">CubicGrpc.CubicStub mCubicService </span>= CubicGrpc.<span style="color:#bbb">newStub</span>(mCubicChannel);</code></pre></div>
 </div>
 
 <p></div>
@@ -342,17 +342,17 @@ To connect to such an instance of cubic server, you can use:</p>
 </div>
 
 <div class="tab-pane" title="Java/Android">
-  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannel</span>;
-<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannelBuilder</span>;
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">ManagedChannel</span>;
+<span style="color:#a61717;background-color:#e3d2d2">import io</span>.<span style="color:#bbb">grpc</span>.<span style="color:#bbb">ManagedChannelBuilder</span>;
 
-<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">com.cobaltspeech.cubic.CubicGrpc</span>;
+<span style="color:#a61717;background-color:#e3d2d2">import com</span>.<span style="color:#bbb">cobaltspeech</span>.<span style="color:#bbb">cubic</span>.<span style="color:#bbb">CubicGrpc</span>;
 
-String url = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
-ManagedChannel mCubicChannel = ManagedChannelBuilder
+<span style="color:#a61717;background-color:#e3d2d2">String url </span>= <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+<span style="color:#a61717;background-color:#e3d2d2">ManagedChannel mCubicChannel </span>= ManagedChannelBuilder
     .<span style="color:#bbb">forTarget</span>(url)
     .<span style="color:#bbb">usePlainText</span>()
     .<span style="color:#bbb">build</span>();
-CubicGrpc.<span style="color:#bbb">CubicStub</span> mCubicService = CubicGrpc.<span style="color:#bbb">newStub</span>(mCubicChannel);</code></pre></div>
+<span style="color:#a61717;background-color:#e3d2d2">CubicGrpc.CubicStub mCubicService </span>= CubicGrpc.<span style="color:#bbb">newStub</span>(mCubicChannel);</code></pre></div>
 </div>
 
 <p></div>
