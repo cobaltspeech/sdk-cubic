@@ -47,6 +47,7 @@
 		8F41516923E648DC0078EC33 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		8FDF07D123ECA410006BA05F /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		E34F65022404C4BA00A2D361 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +65,7 @@
 		85F3E87123D46FA300DF7CDB = {
 			isa = PBXGroup;
 			children = (
+				E34F65022404C4BA00A2D361 /* README.md */,
 				85F3E87C23D46FA300DF7CDB /* cubic-demo */,
 				8FDF07D023ECA36B006BA05F /* Resources */,
 				85F3E87B23D46FA300DF7CDB /* Products */,
