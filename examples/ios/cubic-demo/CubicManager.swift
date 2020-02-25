@@ -24,6 +24,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
     private let client: Cobaltspeech_Cubic_CubicServiceClient
     private var whistleRecorder: AVAudioRecorder!
     private var selectedModelId: String = "\(1)"
+    private var selectedSampleRate: uint = 16000
     private var callStream: BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>?
     private var audioEngine : AVAudioEngine!
     private var audioFile : AVAudioFile!
@@ -37,6 +38,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         didSet {
             if let c = selectedModel {
                 selectedModelId = c.id
+                selectedSampleRate = c.attributes.sampleRate
             }
         }
     }
@@ -134,7 +136,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         
         let settings: [String: Any] = [
             AVFormatIDKey: Int(kAudioFormatLinearPCM),
-            AVSampleRateKey: 16000.0,
+            AVSampleRateKey: selectedSampleRate,
             AVNumberOfChannelsKey: 1,
             AVLinearPCMBitDepthKey: 16,
             AVLinearPCMIsFloatKey: false,
@@ -237,7 +239,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         
         let settings: [String : Any] = [
             AVFormatIDKey: Int(kAudioFormatLinearPCM),
-            AVSampleRateKey: 16000.0,
+            AVSampleRateKey: selectedSampleRate,
             AVNumberOfChannelsKey: 1,
             AVLinearPCMBitDepthKey: 16,
             AVLinearPCMIsFloatKey: false,
@@ -282,9 +284,9 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
             req.audio = Cobaltspeech_Cubic_RecognitionAudio()
             let audioUrl = CubicManager.getWavURL()
             req.audio.data = try Data(contentsOf: audioUrl)
-            client.recognize(req).response.whenComplete({ (respose) in
+            client.recognize(req).response.whenComplete({ (response) in
                 do {
-                    let res = try respose.get()
+                    let res = try response.get()
                     self.log("Res from \(String(describing: try res.jsonString()))")
                     DispatchQueue.main.async {
                         self.delegate?.managerDidRecognizeWithResponse(res)

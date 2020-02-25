@@ -178,7 +178,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate, CubicManage
                     resultMessage = resultMessage + "\n"
                 }
                 
-                if let firstAlternative = result.alternatives.first {
+                if !result.isPartial, let firstAlternative = result.alternatives.first {
                     resultMessage = resultMessage + "\(firstAlternative.transcript)"
                 }
             }
