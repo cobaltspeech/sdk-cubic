@@ -44,7 +44,7 @@ Building for Android requires more steps, so it is described on the [Android Int
 [CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate swift-cubic into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
-pod 'swift-cubic'
+pod 'swift-cubic', :git => 'git@github.com:cobaltspeech/swift-cubic.git',:tag => '0.0.5'
 ```
 
 ### Carthage
