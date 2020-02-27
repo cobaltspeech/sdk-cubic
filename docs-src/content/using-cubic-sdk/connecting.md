@@ -95,6 +95,37 @@ CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
 ```
 {{% /tab %}}
 
+{{% tab "Swift/iOS" %}}
+``` swift
+import swift_cubic
+import GRPC
+import NIO
+
+class CubicConnection {
+    
+    let serverAddress = "demo-cubic.cobaltspeech.com"
+    let serverPort = 2727
+ 
+    private var eventLoopGroup: EventLoopGroup!
+    private var client: Cobaltspeech_Cubic_CubicServiceClient!
+
+    init() {
+        # Connect to Cubic server
+        
+        let target = ConnectionTarget.hostAndPort(serverAddress, serverPort)
+        self.eventLoopGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1, networkPreference: .best)
+        let configuration = ClientConnection.Configuration(target: target, 
+														   eventLoopGroup: self.eventLoopGroup, 
+														   errorDelegate: nil, 
+														   connectivityStateDelegate: nil, 
+														   tls: nil, 
+														   connectionBackoff: nil)
+        let connection = ClientConnection.init(configuration: configuration)
+        self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
+    }
+```
+{{% /tab %}}
+
 {{%/tabs %}}
 
 
@@ -145,6 +176,17 @@ CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
 ```
 {{% /tab %}}
 
+{{% tab "Swift/iOS" %}}
+``` swift
+let configuration = ClientConnection.Configuration(target: target, 
+												   eventLoopGroup: self.eventLoopGroup, 
+												   errorDelegate: nil, 
+											       connectivityStateDelegate: nil, 
+											       tls: ClientConnection.Configuration.TLS(), 
+												   connectionBackoff: nil)
+```
+{{% /tab %}}
+
 {{%/tabs %}}
 
 ## Client Authentication
@@ -189,6 +231,24 @@ var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
 
 Please see the Java section of https://grpc.io/docs/guides/auth/ for more details.
 
+{{% /tab %}}
+
+{{% tab "Swift/iOS" %}}
+``` swift
+import NIOSSL
+
+if let cert = try? NIOSSLCertificate(file: "root", format: .pem) {
+    let source = NIOSSLCertificateSource.certificate(cert)
+    var tls = ClientConnection.Configuration.TLS()
+    tls.certificateChain.append(source)
+    let configuration = ClientConnection.Configuration(target: target, 
+													   eventLoopGroup: self.eventLoopGroup, 
+													   errorDelegate: nil, 
+													   connectivityStateDelegate: nil, 
+													   tls: tls, 
+													   connectionBackoff: nil)
+
+```
 {{% /tab %}}
 
 {{%/tabs %}}
