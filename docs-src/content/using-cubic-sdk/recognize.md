@@ -209,4 +209,117 @@ public static int main() {
 ```
 {{% /tab %}}
 
+{{% tab "Python" %}}
+``` python
+
+import cubic
+
+serverAddress = '127.0.0.1:2727'
+
+client = cubic.Client(serverAddress)
+
+# get list of available models
+modelResp = client.ListModels()
+for model in modelResp.models:
+	print("ID = {}, Name = {}".format(model.id, model.name))
+
+# use the first available model
+model = modelResp.models[0]
+
+cfg = cubic.RecognitionConfig(
+    model_id = model.id
+)
+
+# open audio file 
+audio = open('test.raw', 'rb')
+
+resp = client.Recognize(cfg, audio)
+
+for result in resp.results:
+	if not result.is_partial:
+		print(result.alternatives[0].transcript)
+
+```
+{{% /tab %}}
+
+{{% tab "Swift/iOS" %}}
+``` swift
+
+import swift_cubic
+import GRPC
+import NIO
+import SwiftProtobuf
+
+class CubicExample {
+    
+    let serverAddress = "demo-cubic.cobaltspeech.com"
+    let serverPort = 2727
+ 
+    private var eventLoopGroup: EventLoopGroup!
+    private var client: Cobaltspeech_Cubic_CubicServiceClient!
+    private var selectedModel: Cobaltspeech_Cubic_Model?
+
+    init(useTLS: Bool) {
+        # connect to Cubic server
+        
+        let target = ConnectionTarget.hostAndPort(serverAddress, serverPort)
+        self.eventLoopGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1, networkPreference: .best)
+        let tls = useTLS ? ClientConnection.Configuration.TLS() : nil
+        let configuration = ClientConnection.Configuration(target: target, 
+                                                           eventLoopGroup: self.eventLoopGroup, 
+                                                           errorDelegate: nil, 
+                                                           connectivityStateDelegate: nil, 
+                                                           tls: tls, 
+                                                           connectionBackoff: nil)
+        let connection = ClientConnection.init(configuration: configuration)
+        self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
+        
+        # list models
+        
+        let listModels = Cobaltspeech_Cubic_ListModelsRequest()
+        
+        client.listModels(listModels).response.whenComplete({ (result) in
+            if let response = try? result.get() {
+                self.selectedModel = response.models.first
+                
+                # open and recognize audio file
+                self.uploadRecord()
+            }
+        })
+    }
+
+    func uploadRecord() {
+        guard let selectedModel = selectedModel else { return }
+        
+        do {
+            var req = Cobaltspeech_Cubic_RecognizeRequest()
+            req.config = Cobaltspeech_Cubic_RecognitionConfig()
+            req.config.modelID = selectedModel.id
+            req.config.idleTimeout = Google_Protobuf_Duration()
+            req.config.idleTimeout.seconds = 5
+            req.config.audioEncoding = .rawLinear16 
+            req.audio = Cobaltspeech_Cubic_RecognitionAudio()
+            let audioUrl = URL(fileURLWithPath: "test.wav")
+            req.audio.data = try Data(contentsOf: audioUrl)
+
+            client.recognize(req).response.whenComplete({ (response) in
+                if let response = try? response.get() {
+                    for result in response.results {
+                        if !result.isPartial, let alternative = result.alternatives.first {
+                            print(alternative.transcript)
+                        }
+                    }
+        
+                }
+            })
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+
+}
+
+```
+{{% /tab %}}
+
 {{%/tabs %}}
