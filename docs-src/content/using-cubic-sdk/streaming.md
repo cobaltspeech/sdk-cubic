@@ -558,4 +558,343 @@ public static void streamMicrophoneAudio() {
 ```
 {{% /tab %}}
 
+{{% tab "Swift/iOS" %}}
+
+This example uses CubicManager class and its CubicManagerDelegate protocol as a set of instruments for establishing connection to Cubic server, listing models, recording audio stream and performing rrecognition requests. You can use this class in your client view controller or any other object. See the CubicClient class example usage below.
+
+``` swift
+
+import AVFoundation
+import SwiftProtobuf
+import swift_cubic
+import GRPC
+import NIO
+
+public protocol CubicManagerDelegate: class {
+    
+    func managerDidRecognizeWithResponse(_ res: Cobaltspeech_Cubic_RecognitionResponse)
+    func streamCompletion(_ result: Cobaltspeech_Cubic_RecognitionResponse?)
+    func streamReceive(_ result: Cobaltspeech_Cubic_RecognitionResponse)
+    
+}
+
+public class CubicManager: NSObject, AVAudioRecorderDelegate {
+    
+    private let client: Cobaltspeech_Cubic_CubicServiceClient
+    private var recorder: AVAudioRecorder!
+    private var selectedModelId: String = "\(1)"
+    private var callStream: BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>?
+    private var audioEngine : AVAudioEngine!
+    private var outref: ExtAudioFileRef?
+    private var eventLoopGroup: EventLoopGroup
+    public weak var delegate: CubicManagerDelegate?
+    var isRecording = false
+    
+    let settings: [String : Any] = [
+        AVFormatIDKey: Int(kAudioFormatLinearPCM),
+        AVSampleRateKey: 16000.0,
+        AVNumberOfChannelsKey: 1,
+        AVLinearPCMBitDepthKey: 16,
+        AVLinearPCMIsFloatKey: false,
+        AVLinearPCMIsBigEndianKey: false,
+        AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+    ]
+    
+    public var selectedModel: Cobaltspeech_Cubic_Model? {
+        didSet {
+            if let c = selectedModel {
+                selectedModelId = c.id
+            }
+        }
+    }
+    
+    public required init(client: Cobaltspeech_Cubic_CubicServiceClient) {
+        self.client = client
+        self.eventLoopGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1,
+                                                                 networkPreference: .best)
+    }
+    
+    public init(host: String, port: Int, useTLS: Bool) {
+        let target = ConnectionTarget.hostAndPort(host, port)
+        self.eventLoopGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1,
+                                                                 networkPreference: .best)
+        
+        let tls = useTLS ? ClientConnection.Configuration.TLS() : nil
+        
+        let configuration = ClientConnection.Configuration(target: target, eventLoopGroup: self.eventLoopGroup, errorDelegate: nil, connectivityStateDelegate: nil, tls: tls, connectionBackoff: nil)
+        let connection = ClientConnection.init(configuration: configuration)
+        self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
+        
+    }
+    
+    public func listModels(callback: @escaping(_ models: [Cobaltspeech_Cubic_Model]?, _ errorMessage: String?) -> ()) {
+        let listModels = Cobaltspeech_Cubic_ListModelsRequest()
+        
+        client.listModels(listModels).response.whenComplete({ (result) in
+            DispatchQueue.main.async {
+                do {
+                    let response = try result.get()
+                    callback(response.models, nil)
+                } catch let error {
+                    print(error.localizedDescription)
+                    callback(nil, error.localizedDescription)
+                }
+            }
+        })
+    }
+    
+    public func isAuthorized() -> Bool {
+        return AVCaptureDevice.authorizationStatus(for: AVMediaType.audio) == .authorized
+    }
+    
+    public func requestAccess(completionHandler: @escaping((_ granted: Bool) -> ())) {
+        AVCaptureDevice.requestAccess(for:  AVMediaType.audio, completionHandler: completionHandler)
+    }
+    
+    private class func getDocumentsDirectory() -> URL {
+       let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+       let documentsDirectory = paths[0]
+       return documentsDirectory
+    }
+    
+    private class func getWavURL(_ name: String = "") -> URL {
+        return CubicManager.getDocumentsDirectory().appendingPathComponent("records\(name).wav")
+    }
+    
+    public func startStream() {
+        let call = self.client.streamingRecognize(handler: { (response) in
+            self.delegate?.streamCompletion(response)
+        })
+
+        var request = Cobaltspeech_Cubic_StreamingRecognizeRequest()
+        request.config.modelID = self.selectedModelId
+        request.config.idleTimeout.seconds = 5
+        request.config.audioEncoding = .rawLinear16
+        call.sendMessage(request).whenComplete({ (result) in
+            do {
+                try result.get()
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        })
+        
+        callStream = call
+        self.startAudioEngine()
+    }
+    
+    func startAudioEngine() {
+        try! AVAudioSession.sharedInstance().setCategory(.playAndRecord)
+        try! AVAudioSession.sharedInstance().setActive(true)
+
+        if audioEngine == nil {
+            audioEngine = AVAudioEngine()
+        }
+
+        let format = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16,
+                                   sampleRate: 44100.0,
+                                   channels: 1,
+                                   interleaved: true)
+        
+        let downFormat = AVAudioFormat(settings: settings)
+        audioEngine.connect(audioEngine.inputNode, to: audioEngine.mainMixerNode, format: format)
+
+        audioEngine.inputNode.installTap(onBus: 0,
+                                         bufferSize: AVAudioFrameCount(format!.sampleRate * 0.4),
+                                         format: format,
+                                         block: { (buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
+            let converter = AVAudioConverter(from: format!, to: downFormat!)
+            let newBuffer = AVAudioPCMBuffer(pcmFormat: downFormat!,
+                frameCapacity: AVAudioFrameCount(downFormat!.sampleRate * 0.4))
+                                            
+            let inputBlock: AVAudioConverterInputBlock = { (inNumPackets, outStatus) -> AVAudioBuffer? in
+                outStatus.pointee = AVAudioConverterInputStatus.haveData
+                let audioBuffer : AVAudioBuffer = buffer
+                return audioBuffer
+            }
+                                            
+            if let newBuffer = newBuffer {
+                var error: NSError?
+                converter!.convert(to: newBuffer, error: &error, withInputFrom: inputBlock)
+                self.sendStreamPartToServer(newBuffer,time)
+                _ = ExtAudioFileWrite(self.outref!, newBuffer.frameLength, newBuffer.audioBufferList)
+            }
+        })
+
+        try! audioEngine.start()
+        self.isRecording = true
+    }
+    
+    private func sendStreamPartToServer(_ buffer: AVAudioPCMBuffer, _ time: AVAudioTime) {
+        if let oldCall = self.callStream {
+            var req = Cobaltspeech_Cubic_StreamingRecognizeRequest()
+            let data = Data(buffer: buffer, time: time)
+            req.audio.data = data
+            oldCall.sendMessage(req).whenComplete({ (result) in
+                do {
+                    try result.get()
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+            })
+        }
+    }
+    
+    func stopStream() {
+        stopAudioEngine()
+        stopGRPCStream()
+    }
+    
+    private func stopAudioEngine() {
+        if audioEngine != nil && audioEngine.isRunning {
+            audioEngine.stop()
+            audioEngine.inputNode.removeTap(onBus: 0)
+            if let outref = outref {
+                ExtAudioFileDispose(outref)
+            }
+            try? AVAudioSession.sharedInstance().setActive(false)
+            self.isRecording = false
+        }
+    }
+    
+    private func stopGRPCStream() {
+        if let call = self.callStream {
+            call.sendEnd().whenFailure { (error) in
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    @discardableResult
+    public func record() -> Bool {
+        if !isAuthorized() {
+            return false
+        }
+        
+        do {
+            let audioURL = CubicManager.getWavURL()
+            recorder = try AVAudioRecorder(url: audioURL, settings: settings)
+            recorder.delegate = self
+            isRecording = recorder.record()
+            return isRecording
+        } catch {
+            finishRecording(success: false)
+        }
+        
+        return false
+    }
+    
+    func finishRecording(success: Bool) {
+        recorder?.stop()
+        recorder = nil
+    }
+    
+    public func stop() {
+        if (isRecording) {
+            finishRecording(success: true)
+            uploadRecord()
+        }
+    }
+    
+    func uploadRecord() {
+        do {
+            var request = Cobaltspeech_Cubic_RecognizeRequest()
+            request.config = Cobaltspeech_Cubic_RecognitionConfig()
+            request.config.modelID = selectedModelId
+            request.config.idleTimeout = Google_Protobuf_Duration()
+            request.config.idleTimeout.seconds = 5
+            request.config.audioEncoding = .rawLinear16
+            
+            request.audio = Cobaltspeech_Cubic_RecognitionAudio()
+            let audioUrl = CubicManager.getWavURL()
+            request.audio.data = try Data(contentsOf: audioUrl)
+            client.recognize(request).response.whenComplete({ (response) in
+                if let result = try? response.get() {
+                    DispatchQueue.main.async {
+                        self.delegate?.managerDidRecognizeWithResponse(result)
+                    }
+                }
+            })
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+}
+
+extension Data {
+    
+    init(buffer: AVAudioPCMBuffer, time: AVAudioTime) {
+        let audioBuffer = buffer.audioBufferList.pointee.mBuffers
+        self.init(bytes: audioBuffer.mData!, count: Int(audioBuffer.mDataByteSize))
+    }
+
+}
+
+class CubicClient: NSObject, CubicManagerDelegate {
+    
+    let serverAddress = "demo-cubic.cobaltspeech.com"
+    let serverPort = 2727
+    
+    var cubicManager: CubicManager!
+    
+    override init() {
+        super.init()
+        cubicManager = CubicManager(host: serverAddress, port: serverPort, useTLS: false)
+        cubicManager.delegate = self
+        cubicManager.listModels { (models, errorDescription) in
+            if let model = models?.first {
+                self.cubicManager.selectedModel = model
+            }
+        }
+    }
+    
+    func startRecording() {
+        if cubicManager.isAuthorized() {
+            self.cubicManager.record()
+        } else {
+            self.cubicManager.requestAccess { (granted) in
+                if granted {
+                    print("audio recording access granted")
+                }
+            }
+        }
+    }
+    
+    func endRecording() {
+        cubicManager.stop()
+    }
+    
+    func printResult(response: Cobaltspeech_Cubic_RecognitionResponse?) {
+        var resultMessage = ""
+        
+        if let response = response {
+            for result in response.results {
+                if !resultMessage.isEmpty {
+                    resultMessage = resultMessage + "\n"
+                }
+                
+                if let firstAlternative = result.alternatives.first {
+                    resultMessage = resultMessage + "\(firstAlternative.transcript)"
+                }
+            }
+        }
+        
+        print(resultMessage)
+    }
+    
+    func managerDidRecognizeWithResponse(_ res: Cobaltspeech_Cubic_RecognitionResponse) {
+        printResult(response: res)
+    }
+    
+    func streamCompletion(_ result: Cobaltspeech_Cubic_RecognitionResponse?) {
+
+    }
+    
+    func streamReceive(_ result: Cobaltspeech_Cubic_RecognitionResponse) {
+    }
+    
+}
+
+```
+{{% /tab %}}
+
 {{%/tabs %}}

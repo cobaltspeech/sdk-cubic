@@ -39,22 +39,6 @@ Building for Android requires more steps, so it is described on the [Android Int
 
 ### iOS
 
-### CocoaPods
-
-[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate swift-cubic into your Xcode project using CocoaPods, specify it in your `Podfile`:
-
-```ruby
-pod 'swift-cubic', :git => 'git@github.com:cobaltspeech/swift-cubic.git',:tag => '0.0.5'
-```
-
-### Carthage
-
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate swift-cubic into your Xcode project using Carthage, specify it in your `Cartfile`:
-
-```ogdl
-github "cobaltspeech/swift-cubic"
-```
-
 ### Swift Package Manager
 
 The [Swift Package Manager](https://swift.org/package-manager/) is a tool for automating the distribution of Swift code and is integrated into the `swift` compiler.
