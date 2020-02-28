@@ -621,10 +621,14 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         
         let tls = useTLS ? ClientConnection.Configuration.TLS() : nil
         
-        let configuration = ClientConnection.Configuration(target: target, eventLoopGroup: self.eventLoopGroup, errorDelegate: nil, connectivityStateDelegate: nil, tls: tls, connectionBackoff: nil)
+        let configuration = ClientConnection.Configuration(target: target, 
+                                                           eventLoopGroup: self.eventLoopGroup, 
+                                                           errorDelegate: nil,
+                                                           connectivityStateDelegate: nil, 
+                                                           tls: tls, 
+                                                           connectionBackoff: nil)
         let connection = ClientConnection.init(configuration: configuration)
-        self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
-        
+        self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)   
     }
     
     public func listModels(callback: @escaping(_ models: [Cobaltspeech_Cubic_Model]?, _ errorMessage: String?) -> ()) {

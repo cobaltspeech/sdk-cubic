@@ -115,11 +115,11 @@ class CubicConnection {
         let target = ConnectionTarget.hostAndPort(serverAddress, serverPort)
         self.eventLoopGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1, networkPreference: .best)
         let configuration = ClientConnection.Configuration(target: target, 
-														   eventLoopGroup: self.eventLoopGroup, 
-														   errorDelegate: nil, 
-														   connectivityStateDelegate: nil, 
-														   tls: nil, 
-														   connectionBackoff: nil)
+                                                           eventLoopGroup: self.eventLoopGroup, 
+                                                           errorDelegate: nil, 
+                                                           connectivityStateDelegate: nil, 
+                                                           tls: nil, 
+                                                           connectionBackoff: nil)
         let connection = ClientConnection.init(configuration: configuration)
         self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
     }
@@ -179,11 +179,11 @@ CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
 {{% tab "Swift/iOS" %}}
 ``` swift
 let configuration = ClientConnection.Configuration(target: target, 
-												   eventLoopGroup: self.eventLoopGroup, 
-												   errorDelegate: nil, 
-											       connectivityStateDelegate: nil, 
-											       tls: ClientConnection.Configuration.TLS(), 
-												   connectionBackoff: nil)
+                                                   eventLoopGroup: self.eventLoopGroup, 
+                                                   errorDelegate: nil, 
+                                                   connectivityStateDelegate: nil, 
+                                                   tls: ClientConnection.Configuration.TLS(), 
+                                                   connectionBackoff: nil)
 ```
 {{% /tab %}}
 
@@ -242,11 +242,11 @@ if let cert = try? NIOSSLCertificate(file: "root", format: .pem) {
     var tls = ClientConnection.Configuration.TLS()
     tls.certificateChain.append(source)
     let configuration = ClientConnection.Configuration(target: target, 
-													   eventLoopGroup: self.eventLoopGroup, 
-													   errorDelegate: nil, 
-													   connectivityStateDelegate: nil, 
-													   tls: tls, 
-													   connectionBackoff: nil)
+                                                       eventLoopGroup: self.eventLoopGroup, 
+                                                       errorDelegate: nil, 
+                                                       connectivityStateDelegate: nil, 
+                                                       tls: tls, 
+                                                       connectionBackoff: nil)
 
 ```
 {{% /tab %}}
