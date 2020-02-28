@@ -1,1 +1,1 @@
-include ':app', ':cubicsdk'
+include ':app', ':cubicsdk', ':cubicsvr'

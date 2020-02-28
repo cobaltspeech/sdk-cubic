@@ -7,7 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.cubic.example.R;
-import com.cubic.example.SettingsActivity;
+import com.cubic.example.ui.remote.RemoteSettingsActivity;
 
 public class NetworkDialog extends BaseDialogFragment {
 
@@ -35,6 +35,6 @@ public class NetworkDialog extends BaseDialogFragment {
     @Override
     public void onNegativeClickButton() {
         super.onNegativeClickButton();
-        startActivity(new Intent(requireActivity(), SettingsActivity.class));
+        startActivity(new Intent(requireActivity(), RemoteSettingsActivity.class));
     }
 }

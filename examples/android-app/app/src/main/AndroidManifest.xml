@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cubic.example">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".AppDelegate"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,7 +15,11 @@
         android:theme="@style/AppTheme.MainActivity"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <activity android:name="com.cubic.example.MainActivity">
+        <activity
+            android:name="com.cubic.example.ui.SplashActivity"
+            android:launchMode="singleTop"
+            android:noHistory="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,11 +28,35 @@
         </activity>
 
         <activity
-            android:name="com.cubic.example.SettingsActivity"
+            android:name="com.cubic.example.ui.local.LocalCubicActivity"
             android:launchMode="singleTask"
             android:noHistory="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-    </application>
 
+        <activity
+            android:name="com.cubic.example.ui.local.LocalSettingsActivity"
+            android:launchMode="singleTask"
+            android:noHistory="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name="com.cubic.example.ui.remote.RemoteCubicActivity"
+            android:launchMode="singleTask"
+            android:noHistory="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name="com.cubic.example.ui.remote.RemoteSettingsActivity"
+            android:launchMode="singleTask"
+            android:noHistory="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="25bb55262021d43075a1ccdb3c927ccef15bbb24" />
+    </application>
 </manifest>

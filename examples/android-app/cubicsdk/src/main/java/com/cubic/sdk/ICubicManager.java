@@ -4,15 +4,15 @@ import com.cubic.sdk.model.CubicAudioConfiguration;
 
 import java.util.List;
 
-public interface ICubicManager {
+public interface ICubicManager<T extends CubicAudioConfiguration> {
 
     void connect();
 
     void disconnect();
 
-    void setAudioConfiguration(CubicAudioConfiguration configuration);
+    void setAudioConfiguration(T configuration);
 
-    List<CubicAudioConfiguration> getAudioConfigurations();
+    List<T> getAudioConfigurations();
 
     void talk();
 

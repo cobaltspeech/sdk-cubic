@@ -28,7 +28,7 @@ public class DialogManager<D extends BaseDialogFragment> implements IDialogManag
         String tag = clazz.getSimpleName();
         Fragment f = mFragmentManager.findFragmentByTag(tag);
         if (f instanceof BaseDialogFragment) {
-            ((BaseDialogFragment) f).dismiss();
+            ((BaseDialogFragment) f).dismissAllowingStateLoss();
         }
 
         D dialogFragment = getInstanceDialogFragment(clazz);
@@ -50,7 +50,7 @@ public class DialogManager<D extends BaseDialogFragment> implements IDialogManag
         String tag = clazz.getSimpleName();
         Fragment f = mFragmentManager.findFragmentByTag(tag);
         if (f instanceof BaseDialogFragment) {
-            ((BaseDialogFragment) f).dismiss();
+            ((BaseDialogFragment) f).dismissAllowingStateLoss();
         }
     }
 
@@ -60,7 +60,7 @@ public class DialogManager<D extends BaseDialogFragment> implements IDialogManag
         if (!fragments.isEmpty()) {
             for (Fragment f : fragments) {
                 if (f instanceof BaseDialogFragment)
-                    ((BaseDialogFragment) f).dismiss();
+                    ((BaseDialogFragment) f).dismissAllowingStateLoss();
             }
         }
     }

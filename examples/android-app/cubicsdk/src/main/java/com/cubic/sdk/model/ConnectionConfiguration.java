@@ -7,10 +7,12 @@ import androidx.annotation.NonNull;
 public final class ConnectionConfiguration {
 
     private final String mHost;
+    private final String mPort;
     private final boolean isSecure;
 
     public ConnectionConfiguration(@NonNull String host, boolean isSecure) {
         mHost = host;
+        mPort = host.replaceAll("^.*:","");
         this.isSecure = isSecure;
     }
 
@@ -34,5 +36,9 @@ public final class ConnectionConfiguration {
     @Override
     public int hashCode() {
         return mHost.hashCode() + Boolean.valueOf(isSecure).hashCode();
+    }
+
+    public String getPort() {
+        return mPort;
     }
 }

@@ -6,7 +6,7 @@ import com.cubic.sdk.model.CubicAudioConfiguration;
 
 import java.util.List;
 
-public interface OnCubicChangeListener {
+public interface OnCubicChangeListener<T extends CubicAudioConfiguration> {
 
     void onConnect();
 
@@ -14,7 +14,7 @@ public interface OnCubicChangeListener {
 
     void onDisconnect();
 
-    void onGetAudioConfigurations(@NonNull List<CubicAudioConfiguration> configurations);
+    void onGetAudioConfigurations(@NonNull List<T> configurations);
 
     void onText(@NonNull String text);
 

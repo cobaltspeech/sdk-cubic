@@ -4,21 +4,21 @@ import androidx.annotation.NonNull;
 
 import cobaltspeech.cubic.CubicOuterClass;
 
-public class CubicAudioConfiguration {
+public abstract class CubicAudioConfiguration<T> {
 
-    private final CubicOuterClass.Model mConfiguration;
+    private final T mConfiguration;
 
-    public CubicAudioConfiguration(@NonNull CubicOuterClass.Model configuration) {
+    CubicAudioConfiguration(@NonNull T configuration) {
         mConfiguration = configuration;
     }
 
-    public String getName() {
-        return mConfiguration.getName();
-    }
+    public abstract String getName();
 
-    public CubicOuterClass.Model getConfiguration() {
+    public T getConfiguration() {
         return mConfiguration;
     }
+
+    public abstract CubicOuterClass.Model getCubicOuterModel();
 
     @Override
     public boolean equals(Object o) {
@@ -32,11 +32,5 @@ public class CubicAudioConfiguration {
     @Override
     public int hashCode() {
         return mConfiguration.hashCode();
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return mConfiguration.getName();
     }
 }

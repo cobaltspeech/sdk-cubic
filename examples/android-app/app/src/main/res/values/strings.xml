@@ -3,6 +3,7 @@
 
     <string name="app_network_dialog_title">Warning!</string>
     <string name="app_network_dialog_message">Please check internet connection or host access</string>
+    <string name="app_network_dialog_message2">Please check host cubicsvr</string>
     <string name="app_network_dialog_positive_button">CONNECTION</string>
     <string name="app_network_dialog_negative_button">SETTINGS</string>
 
@@ -11,6 +12,8 @@
     <string name="app_secure_connection_positive_button">SETTINGS</string>
 
     <string name="app_connection_dialog_message">Connecting. Please wait…</string>
+
+    <string name="app_loading_dialog_message">Loading model. Please wait…</string>
 
     <string name="app_settings_hint">Select audio configuration</string>
 
