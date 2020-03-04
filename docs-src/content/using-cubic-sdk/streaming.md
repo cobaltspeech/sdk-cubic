@@ -629,9 +629,6 @@ class CubicClient: NSObject, CubicManagerDelegate {
         // Add any business logic to execute when Cubic has finished processing the stream
     }
     
-    func streamReceive(_ result: Cobaltspeech_Cubic_RecognitionResponse) {
-    }
-    
 }
 
 ```
