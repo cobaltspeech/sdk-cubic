@@ -241,7 +241,7 @@ class CubicExample {
         let connection = ClientConnection.init(configuration: configuration)
         self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
         
-        # list models
+        # get the available models from the server and use the first one
         
         let listModels = Cobaltspeech_Cubic_ListModelsRequest()
         

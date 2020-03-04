@@ -118,7 +118,7 @@ class CubicConnection {
                                                            eventLoopGroup: self.eventLoopGroup, 
                                                            errorDelegate: nil, 
                                                            connectivityStateDelegate: nil, 
-                                                           tls: nil, 
+                                                           tls: ClientConnection.Configuration.TLS(), 
                                                            connectionBackoff: nil)
         let connection = ClientConnection.init(configuration: configuration)
         self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
@@ -182,7 +182,7 @@ let configuration = ClientConnection.Configuration(target: target,
                                                    eventLoopGroup: self.eventLoopGroup, 
                                                    errorDelegate: nil, 
                                                    connectivityStateDelegate: nil, 
-                                                   tls: ClientConnection.Configuration.TLS(), 
+                                                   tls: nil, 
                                                    connectionBackoff: nil)
 ```
 {{% /tab %}}
