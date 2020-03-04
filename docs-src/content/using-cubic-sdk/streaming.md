@@ -560,8 +560,10 @@ public static void streamMicrophoneAudio() {
 
 {{% tab "Swift/iOS" %}}
 
-This example uses CubicManager class and its CubicManagerDelegate protocol as a set of instruments for establishing connection to Cubic server, listing models, recording audio stream and performing rrecognition requests. You can use this class in your client view controller or any other object. See the CubicClient class example usage below.
-For a complete iOS example, as well as for the implementation of CubicManager, see the examples directory in [the sdk-cubic github repository](https://github.com/cobaltspeech/sdk-cubic/tree/master/examples/ios).
+This example uses methods of the CubicManager class and its CubicManagerDelegate protocol 
+to establish connection to Cubic server, list models, stream audio and receive the transcription results. 
+You can call CubicManager from your client view controller or any other class. 
+For a complete iOS example, as well as the implementation of CubicManager, see the examples directory in [the sdk-cubic github repository](https://github.com/cobaltspeech/sdk-cubic/tree/master/examples/ios).
 
 ``` swift
 
@@ -610,7 +612,7 @@ class CubicClient: NSObject, CubicManagerDelegate {
                     resultMessage = resultMessage + "\n"
                 }
                 
-                if let firstAlternative = result.alternatives.first {
+                if !result.isPartial, let firstAlternative = result.alternatives.first {
                     resultMessage = resultMessage + "\(firstAlternative.transcript)"
                 }
             }
@@ -624,6 +626,7 @@ class CubicClient: NSObject, CubicManagerDelegate {
     }
     
     func streamCompletion(_ result: Cobaltspeech_Cubic_RecognitionResponse?) {
+        // Add any business logic to execute when Cubic has finished processing the stream
     }
     
     func streamReceive(_ result: Cobaltspeech_Cubic_RecognitionResponse) {
