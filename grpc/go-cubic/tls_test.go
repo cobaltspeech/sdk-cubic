@@ -15,13 +15,12 @@
 package cubic_test
 
 import (
-	"context"
 	"crypto/tls"
 	"crypto/x509"
-	"errors"
 	"fmt"
 	"net"
 	"testing"
+	"time"
 
 	"github.com/cobaltspeech/sdk-cubic/grpc/go-cubic"
 	"github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb"
@@ -117,49 +116,6 @@ func setupGRPCServerWithTLS(mutual bool) (*grpc.Server, int, error) {
 	return s, lis.Addr().(*net.TCPAddr).Port, nil
 }
 
-var errConstructorFailed = errors.New("client creation failed")
-
-// we define a few convenience functions to easily test client connections.
-//
-// testClientConnection takes in the return value of a NewClient() call,
-// verifies that the client was created correctly and then returns the error
-// returned by the Version method.  The client creation should always succeed.
-// The TLS credentials are verified in the actual RPC call, and hence we call
-// Version and return the error that ocurred in the call.
-//
-// shouldFail and shouldSucceed take the error returned from the
-// testClientConnection function, verify if there should or should not have been
-// an error, and call t.Errorf as necessary.
-
-func testClientConnection(client *cubic.Client, clientErr error) error {
-	if clientErr != nil {
-		return errConstructorFailed
-	}
-	defer client.Close()
-	_, err := client.Version(context.Background())
-	return err
-}
-
-func shouldFail(t *testing.T, errorPrefix string, testErr error) {
-	if testErr == errConstructorFailed {
-		t.Errorf("%s failed: %v", errorPrefix, testErr)
-	}
-
-	if testErr == nil {
-		t.Errorf("%s should fail, but succeeded", errorPrefix)
-	}
-}
-
-func shouldSucceed(t *testing.T, errorPrefix string, testErr error) {
-	if testErr == errConstructorFailed {
-		t.Errorf("%s failed: %v", errorPrefix, testErr)
-	}
-
-	if testErr != nil {
-		t.Errorf("%s should not fail, but failed: %v", errorPrefix, testErr)
-	}
-}
-
 // TestServerTLS starts a server with TLS (not mutual) and makes sure only the
 // appropriate clients can connect to it.
 func TestServerTLS(t *testing.T) {
@@ -175,19 +131,27 @@ func TestServerTLS(t *testing.T) {
 	// since the server uses a self-signed certificate, a default client
 	// should not be able to call methods, as the certificate can not be
 	// validated.
-	shouldFail(t, "default client with self-signed server cert",
-		testClientConnection(cubic.NewClient(addr)))
+
+	if _, err := cubic.NewClient(addr, cubic.WithConnectTimeout(200*time.Millisecond)); err == nil {
+		t.Errorf("default client with self-signed server cert: want error, got nil")
+	}
 
 	// by adding the appropriate CA to the client config, we should be now able to call methods.
-	shouldSucceed(t, "default client with root CA of server",
-		testClientConnection(cubic.NewClient(addr, cubic.WithServerCert(certPem))))
+	if _, err := cubic.NewClient(addr, cubic.WithServerCert(certPem),
+		cubic.WithConnectTimeout(200*time.Millisecond)); err != nil {
+		t.Errorf("client with root-CA of server cert: got error, want nil")
+	}
 
-	shouldFail(t, "insecure client with tls server",
-		testClientConnection(cubic.NewClient(addr, cubic.WithInsecure())))
+	// invalid client CA should also fail
+	if _, err = cubic.NewClient(addr, cubic.WithServerCert(certPem[:3])); err == nil {
+		t.Errorf("client with invalid root-CA: want error, got nil")
+	}
 
-	_, err = cubic.NewClient(addr, cubic.WithServerCert(certPem[:3]))
-	if err == nil {
-		t.Errorf("tls with bad server cert, want failure, got success")
+	// insecure connection should also fail
+	if _, err := cubic.NewClient(addr, cubic.WithInsecure(),
+		cubic.WithConnectTimeout(200*time.Millisecond)); err == nil {
+		t.Errorf("insecure client with tls server: want error, got nil")
+
 	}
 
 }
@@ -230,20 +194,26 @@ B6KD9XmVFWXX
 -----END PRIVATE KEY-----`)
 
 	// mutual tls should work with appropriate certificates
-	shouldSucceed(t, "mutual tls with correct keys",
-		testClientConnection(cubic.NewClient(addr, cubic.WithClientCert(certPem, keyPem), cubic.WithServerCert(certPem))))
+	if _, err := cubic.NewClient(addr, cubic.WithClientCert(certPem, keyPem),
+		cubic.WithServerCert(certPem), cubic.WithConnectTimeout(200*time.Millisecond)); err != nil {
+		t.Errorf("mutual tls with correct certs: got error, want nil")
+	}
 
 	// mutual tls with correct cert but wrong CA should fail (client can not validate the server)
-	shouldFail(t, "mutual tls with wrong CA cert",
-		testClientConnection(cubic.NewClient(addr, cubic.WithClientCert(certPem, keyPem), cubic.WithServerCert(fakeCertPem))))
+	if _, err := cubic.NewClient(addr, cubic.WithClientCert(certPem, keyPem),
+		cubic.WithServerCert(fakeCertPem), cubic.WithConnectTimeout(200*time.Millisecond)); err == nil {
+		t.Errorf("mutual tls with wrong CA cert: want error, got nil")
+	}
 
 	// mutual tls with wrong cert but correct CA should fail (server can not validate the client)
-	shouldFail(t, "mutual tls with wrong client cert",
-		testClientConnection(cubic.NewClient(addr, cubic.WithClientCert(fakeCertPem, fakeKeyPem), cubic.WithServerCert(certPem))))
+	if _, err := cubic.NewClient(addr, cubic.WithClientCert(fakeCertPem, fakeKeyPem),
+		cubic.WithServerCert(certPem), cubic.WithConnectTimeout(200*time.Millisecond)); err == nil {
+		t.Errorf("mutual tls with wrong client cert: want error, got nil")
 
-	// client creation should fail when presented with a bad client cert/key.
-	_, err = cubic.NewClient(addr, cubic.WithClientCert(fakeCertPem[:3], fakeKeyPem))
-	if err == nil {
-		t.Errorf("client creation with invalid client cert, want failure, got success")
+		// client creation should fail when presented with a bad client cert/key.
+		if _, err = cubic.NewClient(addr, cubic.WithClientCert(fakeCertPem[:3], fakeKeyPem),
+			cubic.WithConnectTimeout(200*time.Millisecond)); err == nil {
+			t.Errorf("mutual tls with invalid client cert: want error, got nil")
+		}
 	}
 }
