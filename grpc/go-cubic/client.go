@@ -25,11 +25,12 @@ import (
 	"io/ioutil"
 	"sync"
 
+	"time"
+
 	"github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-	"time"
 )
 
 // Client is an object for interacting with the Cubic GRPC API.
@@ -43,8 +44,6 @@ type Client struct {
 	streamingBufSize uint32
 	connectTimeout   time.Duration
 }
-
-const defaultConnectTimeout = 10 * time.Second
 
 // NewClient creates a new Client that connects to a Cubic Server listening on
 // the provided address.  Transport security is enabled by default.  Use Options
@@ -83,13 +82,6 @@ func NewClient(addr string, opts ...Option) (*Client, error) {
 
 // Option configures how we setup the connection with a server.
 type Option func(*Client) error
-
-func WithConnectTimeout(t time.Duration) Option {
-	return func(c *Client) error {
-		c.connectTimeout = t
-		return nil
-	}
-}
 
 // WithInsecure returns an Option which disables transport security for this
 // Client.  Use this when connecting to a non-TLS enabled cubic server, such as
@@ -145,6 +137,16 @@ func WithStreamingBufferSize(n uint32) Option {
 	}
 }
 
+// WithConnectTimeout returns an Option that configures the timeout for
+// establishing grpc connection with the server.  Use this only when you are on
+// a slow network and when Cobalt recommends you to do so.
+func WithConnectTimeout(t time.Duration) Option {
+	return func(c *Client) error {
+		c.connectTimeout = t
+		return nil
+	}
+}
+
 // Close closes the connection to the API service.  The user should only invoke
 // this when the client is no longer needed.  Pending or in-progress calls to
 // other methods may fail with an error if Close is called, and any subsequent
@@ -183,6 +185,7 @@ func (c *Client) Recognize(
 }
 
 const defaultStreamingBufsize uint32 = 8192
+const defaultConnectTimeout = 2 * time.Second
 
 // RecognitionResponseHandler is a type of callback function that will be called
 // when the `StreamingRecognize` method is running.  For each response received
