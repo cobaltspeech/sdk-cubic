@@ -7,17 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		85D1523123EA0B8300BC7510 /* swift-cubic in Frameworks */ = {isa = PBXBuildFile; productRef = 85D1523023EA0B8300BC7510 /* swift-cubic */; };
 		85F3E87E23D46FA400DF7CDB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E87D23D46FA400DF7CDB /* AppDelegate.swift */; };
 		85F3E88223D46FA400DF7CDB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E88123D46FA400DF7CDB /* ViewController.swift */; };
 		85F3E88523D46FA400DF7CDB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85F3E88323D46FA400DF7CDB /* Main.storyboard */; };
 		85F3E88723D46FA500DF7CDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85F3E88623D46FA500DF7CDB /* Assets.xcassets */; };
 		85F3E88A23D46FA500DF7CDB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85F3E88823D46FA500DF7CDB /* LaunchScreen.storyboard */; };
-		85F3E8EA23D631B400DF7CDB /* CubicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F3E8E923D631B400DF7CDB /* CubicManager.swift */; };
 		8F41516823E646520078EC33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41516723E646520078EC33 /* SceneDelegate.swift */; };
 		8F41516A23E648DC0078EC33 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41516923E648DC0078EC33 /* SettingsViewController.swift */; };
 		8FBFB64523E8490100DED69A /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */; };
 		8FDF07D223ECA410006BA05F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FDF07D123ECA410006BA05F /* Localizable.strings */; };
+		8FF7031D2418FCF1006D6288 /* swift-cubic in Frameworks */ = {isa = PBXBuildFile; productRef = 8FF7031C2418FCF1006D6288 /* swift-cubic */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,7 +33,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		85594C1B23EA06A70090FD35 /* swift-cubic */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "swift-cubic"; path = "../../grpc/swift-cubic"; sourceTree = "<group>"; };
 		85F3E87A23D46FA300DF7CDB /* cubic-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cubic-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		85F3E87D23D46FA400DF7CDB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85F3E88123D46FA400DF7CDB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -42,7 +40,6 @@
 		85F3E88623D46FA500DF7CDB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85F3E88923D46FA500DF7CDB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		85F3E88B23D46FA500DF7CDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		85F3E8E923D631B400DF7CDB /* CubicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CubicManager.swift; sourceTree = "<group>"; };
 		8F41516723E646520078EC33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8F41516923E648DC0078EC33 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8FBFB64423E8490100DED69A /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
@@ -55,7 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85D1523123EA0B8300BC7510 /* swift-cubic in Frameworks */,
+				8FF7031D2418FCF1006D6288 /* swift-cubic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +82,6 @@
 			isa = PBXGroup;
 			children = (
 				8FBFB64323E848E500DED69A /* Extensions */,
-				85F3E8E923D631B400DF7CDB /* CubicManager.swift */,
 				85F3E87D23D46FA400DF7CDB /* AppDelegate.swift */,
 				85F3E88123D46FA400DF7CDB /* ViewController.swift */,
 				8F41516923E648DC0078EC33 /* SettingsViewController.swift */,
@@ -117,7 +113,6 @@
 		E3831B45207D1961052452E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				85594C1B23EA06A70090FD35 /* swift-cubic */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -140,7 +135,7 @@
 			);
 			name = "cubic-demo";
 			packageProductDependencies = (
-				85D1523023EA0B8300BC7510 /* swift-cubic */,
+				8FF7031C2418FCF1006D6288 /* swift-cubic */,
 			);
 			productName = "cubic-demo";
 			productReference = 85F3E87A23D46FA300DF7CDB /* cubic-demo.app */;
@@ -171,6 +166,7 @@
 			);
 			mainGroup = 85F3E87123D46FA300DF7CDB;
 			packageReferences = (
+				8FF7031B2418FCF1006D6288 /* XCRemoteSwiftPackageReference "swift-cubic" */,
 			);
 			productRefGroup = 85F3E87B23D46FA300DF7CDB /* Products */;
 			projectDirPath = "";
@@ -202,7 +198,6 @@
 			files = (
 				85F3E88223D46FA400DF7CDB /* ViewController.swift in Sources */,
 				85F3E87E23D46FA400DF7CDB /* AppDelegate.swift in Sources */,
-				85F3E8EA23D631B400DF7CDB /* CubicManager.swift in Sources */,
 				8F41516A23E648DC0078EC33 /* SettingsViewController.swift in Sources */,
 				8FBFB64523E8490100DED69A /* UIViewControllerExtensions.swift in Sources */,
 				8F41516823E646520078EC33 /* SceneDelegate.swift in Sources */,
@@ -404,9 +399,21 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		8FF7031B2418FCF1006D6288 /* XCRemoteSwiftPackageReference "swift-cubic" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:cobaltspeech/swift-cubic.git";
+			requirement = {
+				branch = "edward-ios";
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
-		85D1523023EA0B8300BC7510 /* swift-cubic */ = {
+		8FF7031C2418FCF1006D6288 /* swift-cubic */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 8FF7031B2418FCF1006D6288 /* XCRemoteSwiftPackageReference "swift-cubic" */;
 			productName = "swift-cubic";
 		};
 /* End XCSwiftPackageProductDependency section */
