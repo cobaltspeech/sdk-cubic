@@ -558,4 +558,50 @@ public static void streamMicrophoneAudio() {
 ```
 {{% /tab %}}
 
+{{% tab "Swift/iOS" %}}
+
+This example uses methods of the Client class to establish connection to Cubic server, list models, stream audio file and receive the transcription results. 
+You can call Client from your client view controller or any other class.
+
+``` swift
+import Cubic
+import GRPC
+
+class CubicExample {
+
+    let client = Client(host: "demo-cubic.cobaltspeech.com", port: 2727, useTLS: true)
+    var confg = Cobaltspeech_Cubic_RecognitionConfig()
+    let fileName = "test.wav"
+    let chunkSize = 8192
+    
+    public init() {
+        let fileUrl = URL(fileURLWithPath: fileName)
+        
+        guard let audioData = try? Data(contentsOf: fileUrl) else { return }
+        
+        config.audioEncoding = .wav
+        
+        client.listModels(success: { (models) in
+            if let model = models?.first {
+                self.config.modelID = model.id
+                
+                self.client.streamRecognize(audioData: audioData, chunkSize: self.chunkSize, config: self.config, success: { (response) in
+                    for result in response.results {
+                        if !result.isPartial, let alternative = result.alternatives.first {
+                            print(alternative.transcript)
+                        }
+                    }
+                }) { (error) in
+                    print(error.localizedDescription)
+                }
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+
+}
+```
+{{% /tab %}}
+
 {{%/tabs %}}

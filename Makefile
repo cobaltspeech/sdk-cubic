@@ -7,10 +7,11 @@ SHELL := /bin/bash
 
 TOP := $(shell pwd)
 
+DEPSSWIFT := ${TOP}/deps/swift
 DEPSBIN := ${TOP}/deps/bin
 DEPSGO := ${TOP}/deps/go
 DEPSTMP := ${TOP}/deps/tmp
-$(shell mkdir -p $(DEPSBIN) $(DEPSGO) $(DEPSTMP))
+$(shell mkdir -p $(DEPSBIN) $(DEPSGO) $(DEPSTMP) $(DEPSSWIFT))
 
 DEPSVENV := ${TOP}/deps/venv
 
@@ -48,7 +49,9 @@ ${DEPSVENV}/.done:
 	virtualenv -p python3 ${DEPSVENV}
 	source ${DEPSVENV}/bin/activate && pip install grpcio-tools==1.20.0 googleapis-common-protos==1.5.9 && deactivate
 	touch $@
-
+deps-swift:
+	cd ${DEPSSWIFT} && git clone -b nio git@github.com:grpc/grpc-swift.git bin
+	cd ${DEPSSWIFT}/bin && make plugins 
 gen: deps
 	@ source ${DEPSVENV}/bin/activate && \
 		PROTOINC=${DEPSGO}/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.9.0/third_party/googleapis \

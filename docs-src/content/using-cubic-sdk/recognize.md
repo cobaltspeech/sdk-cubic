@@ -209,4 +209,41 @@ public static int main() {
 ```
 {{% /tab %}}
 
+{{% tab "Swift/iOS" %}}
+``` swift
+import Cubic
+import GRPC
+
+class CubicExample {
+
+    let client = Client(host: "demo-cubic.cobaltspeech.com", port: 2727, useTLS: true)
+    var confg = Cobaltspeech_Cubic_RecognitionConfig()
+    let fileName = "text.wav"
+    
+    public init() {
+        config.audioEncoding = .wav
+        
+        client.listModels(success: { (models) in
+            if let model = models?.first {
+                self.config.modelID = model.id
+                
+                self.client.recognize(audioURL: URL(fileURLWithPath: fileName), config: self.config, success: { (response) in
+                    for result in response.results {
+                        if !result.isPartial, let alternative = result.alternatives.first {
+                            print(alternative.transcript)
+                        }
+                    }
+                }) { (error) in
+                    print(error.localizedDescription)
+                }
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+
+}
+```
+{{% /tab %}}
+
 {{%/tabs %}}
