@@ -95,8 +95,22 @@ CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
 ```
 {{% /tab %}}
 
-{{%/tabs %}}
+{{% tab "Swift/iOS" %}}
+``` swift
+import Cubic
 
+class CubicConnection {
+    
+    let serverAddress = "demo-cubic.cobaltspeech.com"
+    let serverPort = 2727
+
+    let client = Client(host: serverAddress, port: serverPort, useTLS: true)
+
+}
+```
+{{% /tab %}}
+
+{{%/tabs %}}
 
 ## Insecure Connection
 
@@ -145,6 +159,12 @@ CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
 ```
 {{% /tab %}}
 
+{{% tab "Swift/iOS" %}}
+``` swift
+let client = Client(host: serverAddress, port: serverPort, useTLS: false)
+```
+{{% /tab %}}
+
 {{%/tabs %}}
 
 ## Client Authentication
@@ -189,6 +209,23 @@ var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
 
 Please see the Java section of https://grpc.io/docs/guides/auth/ for more details.
 
+{{% /tab %}}
+
+{{% tab "Swift/iOS" %}}
+``` swift
+import Cubic
+import NIOSSL
+
+class CubicConnection {
+    
+    let serverAddress = "demo-cubic.cobaltspeech.com"
+    let serverPort = 2727
+
+    let client = Client(host: serverAddress, port: serverPort, tlsCertificateFileName: "root", tlsCertificateFormat: .pem)
+
+}
+
+```
 {{% /tab %}}
 
 {{%/tabs %}}

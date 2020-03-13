@@ -84,7 +84,8 @@ git checkout -b version-update-v$NEW_VERSION
 
 sed -i 's|grpc/go-cubic v[0-9.]*|grpc/go-cubic v'$NEW_VERSION'|g' grpc/go-cubic/cubicpb/gw/go.mod
 sed -i 's|version='\''[0-9.]*'\''|version='\'$NEW_VERSION\''|g' grpc/py-cubic/setup.py
-
+sed -i 's|CubicVersion = "[0-9.]*"|CubicVersion = "'$NEW_VERSION'"|g' grpc/swift-cubic/Cubic.swift
+sed -i 's|.upToNextMajor(from: "[0-9.]*")|.upToNextMajor(from: "'$NEW_VERSION'")|g' docs-src/content/using-cubic-sdk/installation.md
 sed -i 's|<Version>[0-9.]*</Version>|<Version>'$NEW_VERSION'</Version>|g' grpc/csharp-cubic/cubic.csproj
 sed -i 's|CSHARP_RELEASE_VERSION="[0-9.]*"|CSHARP_RELEASE_VERSION="'$NEW_VERSION'"|g' grpc/Makefile
 
