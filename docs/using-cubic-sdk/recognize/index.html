@@ -413,6 +413,41 @@ It gives a simplified overview of the essential gRPC calls.</p>
 }</code></pre></div>
 </div>
 
+<div class="tab-pane" title="Swift/iOS">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">Cubic</span>
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">GRPC</span>
+
+<span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">CubicExample</span> {
+
+    <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">client</span> = Client(host: <span style="color:#ed9d13">&#34;demo-cubic.cobaltspeech.com&#34;</span>, port: <span style="color:#3677a9">2727</span>, useTLS: <span style="color:#6ab825;font-weight:bold">true</span>)
+    <span style="color:#6ab825;font-weight:bold">var</span> <span style="color:#40ffff">confg</span> = Cobaltspeech_Cubic_RecognitionConfig()
+    <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">fileName</span> = <span style="color:#ed9d13">&#34;text.wav&#34;</span>
+    
+    <span style="color:#6ab825;font-weight:bold">public</span> <span style="color:#6ab825;font-weight:bold">init</span>() {
+        config.audioEncoding = .wav
+        
+        client.listModels(success: { (models) <span style="color:#6ab825;font-weight:bold">in</span>
+            <span style="color:#6ab825;font-weight:bold">if</span> <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">model</span> = models?.first {
+                <span style="color:#6ab825;font-weight:bold">self</span>.config.modelID = model.id
+                
+                <span style="color:#6ab825;font-weight:bold">self</span>.client.recognize(audioURL: URL(fileURLWithPath: fileName), config: <span style="color:#6ab825;font-weight:bold">self</span>.config, success: { (response) <span style="color:#6ab825;font-weight:bold">in</span>
+                    <span style="color:#6ab825;font-weight:bold">for</span> result <span style="color:#6ab825;font-weight:bold">in</span> response.results {
+                        <span style="color:#6ab825;font-weight:bold">if</span> !result.isPartial, <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">alternative</span> = result.alternatives.first {
+                            print(alternative.transcript)
+                        }
+                    }
+                }) { (error) <span style="color:#6ab825;font-weight:bold">in</span>
+                    print(error.localizedDescription)
+                }
+            }
+        }) { (error) <span style="color:#6ab825;font-weight:bold">in</span>
+            print(error.localizedDescription)
+        }
+    }
+
+}</code></pre></div>
+</div>
+
 <p></div>
 </div></p>
 
