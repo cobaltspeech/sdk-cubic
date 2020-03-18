@@ -7,15 +7,6 @@ properties([
         artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10'))
 ])
 
-// setBuildStatus tells github the status of our build for a given "context"
-def setBuildStatus(String context, String state, String message) {
-    step([$class: "GitHubCommitStatusSetter",
-          reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/cobaltspeech/sdk-cubic"],
-          contextSource: [$class: "ManuallyEnteredCommitContextSource", context: context],
-          errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-          statusResultSource: [$class: "ConditionalStatusResultSource", results: [[$class: 'AnyBuildResult', message: message, state: state]]]])
-}
-
 if (env.CHANGE_ID) {
     // Building a pull request
     node {
@@ -28,7 +19,7 @@ if (env.CHANGE_ID) {
 			    try {
 				stage("validate") {
 				    checkout scm
-				    setBuildStatus("validate-built-artifacts", "PENDING", "Validating generated artifacts.")
+				    commit.setBuildStatus("validate-built-artifacts", "PENDING", "Validating generated artifacts.")
 				    sh './ci/validate_generated_artifacts.sh'
 				}
 			    } finally {
@@ -38,10 +29,10 @@ if (env.CHANGE_ID) {
 			}
 		    }
 		}
-		setBuildStatus("validate-built-artifacts", "SUCCESS", "Successfully validated.")
+		commit.setBuildStatus("validate-built-artifacts", "SUCCESS", "Successfully validated.")
 	    }
 	} catch(err) {
-	    setBuildStatus("validate-built-artifacts", "ERROR", "Validation failed.")
+	    commit.setBuildStatus("validate-built-artifacts", "ERROR", "Validation failed.")
 	    throw err
 	} finally {
 	    deleteDir()

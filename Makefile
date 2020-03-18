@@ -26,7 +26,7 @@ ${DEPSBIN}/protoc:
 deps-hugo: ${DEPSBIN}/hugo
 ${DEPSBIN}/hugo:
 	cd ${DEPSBIN} && wget \
-		"https://github.com/gohugoio/hugo/releases/download/v0.55.4/hugo_0.55.4_Linux-64bit.tar.gz" -O - | tar xz hugo
+		"https://github.com/gohugoio/hugo/releases/download/v0.59.1/hugo_0.59.1_Linux-64bit.tar.gz" -O - | tar xz hugo
 
 deps-gendoc: ${DEPSBIN}/protoc-gen-doc
 ${DEPSBIN}/protoc-gen-doc:

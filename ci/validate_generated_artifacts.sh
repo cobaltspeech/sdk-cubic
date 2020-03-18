@@ -8,5 +8,7 @@ set -e
 # script included in our image.
 bash $SDK_DEPS/bin/buildSDK.sh
 
+git diff
+
 # it's an error if we generated something that wasn't checked in.
 git diff --name-only --exit-code || (echo "Not all generated files were checked in" && exit 1)

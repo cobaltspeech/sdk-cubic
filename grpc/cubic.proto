@@ -218,6 +218,21 @@ message RecognitionConfig {
   //
   // BAD: `[0, 2]` for a stereo file; BAD: `[0, 0]` for a mono file.
   repeated uint32 audio_channels = 8;
+
+  // This is an optional field.  If there is any metadata associated with the
+  // audio being sent, use this field to provide it to cubic.  The server may
+  // record this metadata when processing the request.  The server does not use
+  // this field for any other purpose.
+  RecognitionMetadata metadata = 9;
+}
+
+// Metadata associated with the audio to be recognized
+message RecognitionMetadata {
+
+  // Any custom metadata that the client wants to associate with the recording.
+  // This could be a simple string (e.g. a tracing ID) or structured data
+  // (e.g. JSON)
+  string custom_metadata = 1;
 }
 
 // Audio to be sent to the recognizer
