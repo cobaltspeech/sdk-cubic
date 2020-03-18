@@ -19,14 +19,14 @@ py: $(PY_OUTDIR)/cubic_pb2.py ${PY_OUTDIR}/cubic_pb2_grpc.py py-test
 ## C#
 ## https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-the-dotnet-cli
 ## You need to copy the PROTOINC files over to the ~/.nuget/packages/grpc.tools/1.22.0/build/native/include directory.
-VERSION="1.2.2"
+CSHARP_RELEASE_VERSION="1.3.0"
 NUGET_API_KEY="" # Must be set to push the nuget package.
 cs:
 	cd csharp-cubic/ && dotnet build ./cubic.csproj \
-		-p:PackageVersion=${VERSION}
+		-p:PackageVersion=${CSHARP_RELEASE_VERSION}
 cs_push:
 	dotnet nuget push \
-		./csharp-cubic/bin/Debug/Cubic-SDK.${VERSION}.nupkg \
+		./csharp-cubic/bin/Debug/Cubic-SDK.${CSHARP_RELEASE_VERSION}.nupkg \
 		-k ${NUGET_API_KEY} \
 		-s https://api.nuget.org/v3/index.json
 
