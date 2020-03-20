@@ -46,6 +46,6 @@ Once you have your Swift package set up, adding swift-cubic as a dependency is a
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/cobaltspeech/sdk-cubic.git", .upToNextMajor(from: "1.3.0"))
+    .package(url: "https://github.com/cobaltspeech/sdk-cubic.git", .upToNextMajor(from: "1.4.0"))
 ]
 ```
