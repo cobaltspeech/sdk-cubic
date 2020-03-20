@@ -51,7 +51,7 @@ ${DEPSVENV}/.done:
 	touch $@
 deps-swift:
 	cd ${DEPSSWIFT} && wget \
-		"https://github.com/grpc/grpc-swift/archive/nio.tar.gz" && \
+		"https://github.com/grpc/grpc-swift/archive/1.0.0-alpha.9.tar.gz" && \
 		tar xzf nio.tar.gz && \
 		mv grpc-swift-nio bin && \
 		rm -f nio.tar.gz
