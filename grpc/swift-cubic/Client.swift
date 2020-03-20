@@ -13,21 +13,18 @@
 // limitations under the License.
 
 import Foundation
-import SwiftProtobuf
 import GRPC
-import NIO
 import NIOSSL
 
 public typealias CubicFailureCallback = (_ error: Error) -> ()
 
-open class Client {
+public typealias Client = Cobaltspeech_Cubic_CubicServiceClient
 
-    private let client: Cobaltspeech_Cubic_CubicServiceClient
-    private var callStream: BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>?
-    
-    public init(host: String,
-                port: Int,
-                useTLS: Bool = false) {
+extension Cobaltspeech_Cubic_CubicServiceClient {
+
+    public convenience init(host: String,
+                            port: Int,
+                            useTLS: Bool = false) {
         let target = ConnectionTarget.hostAndPort(host, port)
         let eventLoopGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1,
                                                                 networkPreference: .best)
@@ -41,13 +38,13 @@ open class Client {
                                                            tls: tls,
                                                            connectionBackoff: nil)
         let connection = ClientConnection.init(configuration: configuration)
-        self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
+        self.init(connection: connection)
     }
     
-    public init(host: String,
-                port: Int,
-                tlsCertificateFileName: String,
-                tlsCertificateFormat: NIOSSLSerializationFormats) {
+    public convenience init(host: String,
+                            port: Int,
+                            tlsCertificateFileName: String,
+                            tlsCertificateFormat: NIOSSLSerializationFormats) {
         let target = ConnectionTarget.hostAndPort(host, port)
         let eventLoopGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1,
                                                                 networkPreference: .best)
@@ -62,13 +59,13 @@ open class Client {
         }
         
         let connection = ClientConnection.init(configuration: configuration)
-        self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
+        self.init(connection: connection)
     }
     
     public func listModels(success: @escaping (_ models: [Cobaltspeech_Cubic_Model]?) -> (), failure: CubicFailureCallback?) {
         let request = Cobaltspeech_Cubic_ListModelsRequest()
         
-        client.listModels(request).response.whenComplete({ (result) in
+        listModels(request).response.whenComplete({ (result) in
             do {
                 let response = try result.get()
                 success(response.models)
@@ -85,7 +82,7 @@ open class Client {
                                 failure: CubicFailureCallback?) {
         let dispatchGroup = DispatchGroup()
         
-        let call = client.streamingRecognize(handler: { (result) in
+        let call = streamingRecognize(handler: { (result) in
             success(result)
         })
         
@@ -167,7 +164,7 @@ open class Client {
             audio.data = try Data(contentsOf: audioURL)
             request.audio = audio
             
-            client.recognize(request).response.whenComplete({ (result) in
+            recognize(request).response.whenComplete({ (result) in
                 switch result {
                 case .success(let recognitionResponse):
                     success(recognitionResponse)
