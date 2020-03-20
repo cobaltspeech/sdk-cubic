@@ -2,7 +2,7 @@
 
 .PHONY: all go py cs cs_push go-test py-test docs
 
-all: go py docs
+all: go py swift docs
 
 ifeq ($(PROTOINC),)
  $(error "env variable PROTOINC must be defined to the location of googleapis proto files")
