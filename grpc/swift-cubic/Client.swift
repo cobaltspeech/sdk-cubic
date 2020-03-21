@@ -18,9 +18,9 @@ import NIOSSL
 
 public typealias CubicFailureCallback = (_ error: Error) -> ()
 
-public typealias Client = Cobaltspeech_Cubic_CubicServiceClient
+public typealias Client = Cobaltspeech_Cubic_CubicClient
 
-extension Cobaltspeech_Cubic_CubicServiceClient {
+extension Cobaltspeech_Cubic_CubicClient {
 
     public convenience init(host: String,
                             port: Int,
@@ -37,8 +37,9 @@ extension Cobaltspeech_Cubic_CubicServiceClient {
                                                            connectivityStateDelegate: nil,
                                                            tls: tls,
                                                            connectionBackoff: nil)
-        let connection = ClientConnection.init(configuration: configuration)
-        self.init(connection: connection)
+        let connection = ClientConnection(configuration: configuration)
+        
+        self.init(channel: connection)
     }
     
     public convenience init(host: String,
@@ -58,8 +59,8 @@ extension Cobaltspeech_Cubic_CubicServiceClient {
             configuration.tls = tls
         }
         
-        let connection = ClientConnection.init(configuration: configuration)
-        self.init(connection: connection)
+        let connection = ClientConnection(configuration: configuration)
+        self.init(channel: connection)
     }
     
     public func listModels(success: @escaping (_ models: [Cobaltspeech_Cubic_Model]?) -> (), failure: CubicFailureCallback?) {

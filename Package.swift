@@ -29,7 +29,7 @@ let package = Package(
             targets: ["Cubic"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/grpc/grpc-swift.git", .exact("1.0.0-alpha.9"))
+        .package(url: "https://github.com/grpc/grpc-swift.git", .exact("1.0.0-alpha.10"))
     ],
     targets: [
         .target(
