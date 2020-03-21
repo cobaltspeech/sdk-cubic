@@ -27,29 +27,29 @@ import NIOHTTP1
 import SwiftProtobuf
 
 
-/// Usage: instantiate Cobaltspeech_Cubic_CubicServiceClient, then call methods of this protocol to make API calls.
-public protocol Cobaltspeech_Cubic_CubicService {
+/// Usage: instantiate Cobaltspeech_Cubic_CubicClient, then call methods of this protocol to make API calls.
+public protocol Cobaltspeech_Cubic_CubicClientProtocol {
   func version(_ request: SwiftProtobuf.Google_Protobuf_Empty, callOptions: CallOptions?) -> UnaryCall<SwiftProtobuf.Google_Protobuf_Empty, Cobaltspeech_Cubic_VersionResponse>
   func listModels(_ request: Cobaltspeech_Cubic_ListModelsRequest, callOptions: CallOptions?) -> UnaryCall<Cobaltspeech_Cubic_ListModelsRequest, Cobaltspeech_Cubic_ListModelsResponse>
   func recognize(_ request: Cobaltspeech_Cubic_RecognizeRequest, callOptions: CallOptions?) -> UnaryCall<Cobaltspeech_Cubic_RecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>
   func streamingRecognize(callOptions: CallOptions?, handler: @escaping (Cobaltspeech_Cubic_RecognitionResponse) -> Void) -> BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>
 }
 
-public final class Cobaltspeech_Cubic_CubicServiceClient: GRPCClient, Cobaltspeech_Cubic_CubicService {
-  public let connection: ClientConnection
+public final class Cobaltspeech_Cubic_CubicClient: GRPCClient, Cobaltspeech_Cubic_CubicClientProtocol {
+  public let channel: GRPCChannel
   public var defaultCallOptions: CallOptions
 
   /// Creates a client for the cobaltspeech.cubic.Cubic service.
   ///
   /// - Parameters:
-  ///   - connection: `ClientConnection` to the service host.
+  ///   - channel: `GRPCChannel` to the service host.
   ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
-  public init(connection: ClientConnection, defaultCallOptions: CallOptions = CallOptions()) {
-    self.connection = connection
+  public init(channel: GRPCChannel, defaultCallOptions: CallOptions = CallOptions()) {
+    self.channel = channel
     self.defaultCallOptions = defaultCallOptions
   }
 
-  /// Asynchronous unary call to Version.
+  /// Queries the Version of the Server
   ///
   /// - Parameters:
   ///   - request: Request to send to Version.
@@ -61,7 +61,7 @@ public final class Cobaltspeech_Cubic_CubicServiceClient: GRPCClient, Cobaltspee
                               callOptions: callOptions ?? self.defaultCallOptions)
   }
 
-  /// Asynchronous unary call to ListModels.
+  /// Retrieves a list of available speech recognition models
   ///
   /// - Parameters:
   ///   - request: Request to send to ListModels.
@@ -73,7 +73,10 @@ public final class Cobaltspeech_Cubic_CubicServiceClient: GRPCClient, Cobaltspee
                               callOptions: callOptions ?? self.defaultCallOptions)
   }
 
-  /// Asynchronous unary call to Recognize.
+  /// Performs synchronous speech recognition: receive results after all audio
+  /// has been sent and processed.  It is expected that this request be typically
+  /// used for short audio content: less than a minute long.  For longer content,
+  /// the `StreamingRecognize` method should be preferred.
   ///
   /// - Parameters:
   ///   - request: Request to send to Recognize.
@@ -85,7 +88,9 @@ public final class Cobaltspeech_Cubic_CubicServiceClient: GRPCClient, Cobaltspee
                               callOptions: callOptions ?? self.defaultCallOptions)
   }
 
-  /// Asynchronous bidirectional-streaming call to StreamingRecognize.
+  /// Performs bidirectional streaming speech recognition.  Receive results while
+  /// sending audio.  This method is only available via GRPC and not via
+  /// HTTP+JSON. However, a web browser may use websockets to use this service.
   ///
   /// Callers should use the `send` method on the returned object to send messages
   /// to the server. The caller should send an `.end` after the final message has been sent.
@@ -101,4 +106,14 @@ public final class Cobaltspeech_Cubic_CubicServiceClient: GRPCClient, Cobaltspee
   }
 
 }
+
+
+// Provides conformance to `GRPCPayload` for request and response messages
+extension SwiftProtobuf.Google_Protobuf_Empty: GRPCProtobufPayload {}
+extension Cobaltspeech_Cubic_VersionResponse: GRPCProtobufPayload {}
+extension Cobaltspeech_Cubic_ListModelsRequest: GRPCProtobufPayload {}
+extension Cobaltspeech_Cubic_ListModelsResponse: GRPCProtobufPayload {}
+extension Cobaltspeech_Cubic_RecognizeRequest: GRPCProtobufPayload {}
+extension Cobaltspeech_Cubic_RecognitionResponse: GRPCProtobufPayload {}
+extension Cobaltspeech_Cubic_StreamingRecognizeRequest: GRPCProtobufPayload {}
 
