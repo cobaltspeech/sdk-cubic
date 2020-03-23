@@ -11,6 +11,7 @@ DEPSSWIFT := ${TOP}/deps/swift
 DEPSBIN := ${TOP}/deps/bin
 DEPSGO := ${TOP}/deps/go
 DEPSTMP := ${TOP}/deps/tmp
+SWIFT_GRPC_VERSION := 1.0.0-alpha.9
 $(shell mkdir -p $(DEPSBIN) $(DEPSGO) $(DEPSTMP) $(DEPSSWIFT))
 
 DEPSVENV := ${TOP}/deps/venv
@@ -51,12 +52,13 @@ ${DEPSVENV}/.done:
 	touch $@
 deps-swift:
 	cd ${DEPSSWIFT} && wget \
-		"https://github.com/grpc/grpc-swift/archive/1.0.0-alpha.9.tar.gz" && \
-		tar xzf nio.tar.gz && \
-		mv grpc-swift-nio bin && \
-		rm -f nio.tar.gz
-
-	cd ${DEPSSWIFT}/bin && make plugins 
+		"https://github.com/grpc/grpc-swift/archive/${SWIFT_GRPC_VERSION}.tar.gz" && \
+		tar xzf ${SWIFT_GRPC_VERSION}.tar.gz && \
+		mv grpc-swift-${SWIFT_GRPC_VERSION} bin && \
+		rm -f ${SWIFT_GRPC_VERSION}.tar.gz
+		cd ${DEPSSWIFT}/bin && make plugins
+		cp protoc-gen-grpc-swift ${BINPATH}
+		cp protoc-gen-swift ${BINPATH}
 gen: deps
 	@ source ${DEPSVENV}/bin/activate && \
 		PROTOINC=${DEPSGO}/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.9.0/third_party/googleapis \
