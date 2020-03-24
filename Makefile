@@ -7,15 +7,17 @@ SHELL := /bin/bash
 
 TOP := $(shell pwd)
 
+DEPSSWIFT := ${TOP}/deps/swift
 DEPSBIN := ${TOP}/deps/bin
 DEPSGO := ${TOP}/deps/go
 DEPSTMP := ${TOP}/deps/tmp
-$(shell mkdir -p $(DEPSBIN) $(DEPSGO) $(DEPSTMP))
+SWIFT_GRPC_VERSION := 1.0.0-alpha.10
+$(shell mkdir -p $(DEPSBIN) $(DEPSGO) $(DEPSTMP) $(DEPSSWIFT))
 
 DEPSVENV := ${TOP}/deps/venv
 
 export PATH := ${DEPSBIN}:${DEPSGO}/bin:$(PATH)
-deps: deps-protoc deps-hugo deps-gendoc deps-gengo deps-gengateway deps-py
+deps: deps-protoc deps-hugo deps-gendoc deps-gengo deps-gengateway deps-py deps-swift
 
 deps-protoc: ${DEPSBIN}/protoc
 ${DEPSBIN}/protoc:
@@ -26,7 +28,7 @@ ${DEPSBIN}/protoc:
 deps-hugo: ${DEPSBIN}/hugo
 ${DEPSBIN}/hugo:
 	cd ${DEPSBIN} && wget \
-		"https://github.com/gohugoio/hugo/releases/download/v0.55.4/hugo_0.55.4_Linux-64bit.tar.gz" -O - | tar xz hugo
+		"https://github.com/gohugoio/hugo/releases/download/v0.59.1/hugo_0.59.1_Linux-64bit.tar.gz" -O - | tar xz hugo
 
 deps-gendoc: ${DEPSBIN}/protoc-gen-doc
 ${DEPSBIN}/protoc-gen-doc:
@@ -48,7 +50,17 @@ ${DEPSVENV}/.done:
 	virtualenv -p python3 ${DEPSVENV}
 	source ${DEPSVENV}/bin/activate && pip install grpcio-tools==1.20.0 googleapis-common-protos==1.5.9 && deactivate
 	touch $@
-
+	
+deps-swift:
+	cd ${DEPSSWIFT} && wget \
+		"https://github.com/grpc/grpc-swift/archive/${SWIFT_GRPC_VERSION}.tar.gz" && \
+ 		tar xzf ${SWIFT_GRPC_VERSION}.tar.gz && \
+ 		mv grpc-swift-${SWIFT_GRPC_VERSION} bin && \
+ 		rm -f ${SWIFT_GRPC_VERSION}.tar.gz && \
+ 		cd ${DEPSSWIFT}/bin && make plugins && \
+ 		cp protoc-gen-grpc-swift ${DEPSBIN} && \
+ 		cp protoc-gen-swift ${DEPSBIN}
+ 
 gen: deps
 	@ source ${DEPSVENV}/bin/activate && \
 		PROTOINC=${DEPSGO}/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.9.0/third_party/googleapis \

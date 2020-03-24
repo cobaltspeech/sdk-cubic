@@ -21,6 +21,7 @@ import (
 	"io"
 	"net"
 	"testing"
+	"time"
 
 	"github.com/cobaltspeech/sdk-cubic/grpc/go-cubic"
 	"github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb"
@@ -47,7 +48,7 @@ func TestVersion(t *testing.T) {
 	defer svr.Stop()
 
 	if err != nil {
-		t.Errorf("could not set up testing server: %v", err)
+		t.Fatalf("could not set up testing server: %v", err)
 	}
 
 	c, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure())
@@ -83,7 +84,7 @@ func TestListModels(t *testing.T) {
 	defer svr.Stop()
 
 	if err != nil {
-		t.Errorf("could not set up testing server: %v", err)
+		t.Fatalf("could not set up testing server: %v", err)
 	}
 
 	c, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure())
@@ -129,7 +130,7 @@ func TestRecognize(t *testing.T) {
 	defer svr.Stop()
 
 	if err != nil {
-		t.Errorf("could not set up testing server: %v", err)
+		t.Fatalf("could not set up testing server: %v", err)
 	}
 
 	c, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure())
@@ -221,7 +222,7 @@ func TestStreamingRecognize(t *testing.T) {
 	defer svr.Stop()
 
 	if err != nil {
-		t.Errorf("could not set up testing server: %v", err)
+		t.Fatalf("could not set up testing server: %v", err)
 	}
 
 	c, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure())
@@ -261,7 +262,7 @@ func TestStreamingBufSize(t *testing.T) {
 	defer svr.Stop()
 
 	if err != nil {
-		t.Errorf("could not set up testing server: %v", err)
+		t.Fatalf("could not set up testing server: %v", err)
 	}
 
 	_, err = cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure(), cubic.WithStreamingBufferSize(0))
@@ -275,6 +276,28 @@ func TestStreamingBufSize(t *testing.T) {
 	}
 	defer c.Close()
 
+}
+
+func TestClient_InvalidURL(t *testing.T) {
+	if _, err := cubic.NewClient(fmt.Sprintf("wrong_localhost:2727"), cubic.WithInsecure(),
+		cubic.WithConnectTimeout(200*time.Millisecond)); err == nil {
+		t.Errorf("connecting to invalid server: want error, got nil")
+	}
+}
+
+func TestClient_Insecure(t *testing.T) {
+	svr, port, err := setupGRPCServer() // server without TLS
+	defer svr.Stop()
+
+	if err != nil {
+		t.Fatalf("could not set up testing server: %v", err)
+	}
+
+	// connection with TLS
+	if _, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port),
+		cubic.WithConnectTimeout(200*time.Millisecond)); err == nil {
+		t.Errorf("tls connection to non-tls server: want error, got nil")
+	}
 }
 
 func setupGRPCServer() (*grpc.Server, int, error) {

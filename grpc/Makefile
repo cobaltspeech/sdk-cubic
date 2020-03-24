@@ -2,33 +2,40 @@
 
 .PHONY: all go py cs cs_push go-test py-test docs
 
-all: go py docs
+all: go py swift docs
 
 ifeq ($(PROTOINC),)
-$(error "env variable PROTOINC must be defined to the location of googleapis proto files")
+ $(error "env variable PROTOINC must be defined to the location of googleapis proto files")
 endif
 
 GO_OUTDIR=go-cubic/cubicpb
 PY_OUTDIR=py-cubic/cubic
 CSHARP_OUTDIR=csharp-cubic/cubic
 DOCS_OUTDIR=../docs-src/content/protobuf
-
+SWIFTDIR=../deps/swift/bin
 go: ${GO_OUTDIR}/cubic.pb.go ${GO_OUTDIR}/gw/cubic.pb.gw.go go-test
 py: $(PY_OUTDIR)/cubic_pb2.py ${PY_OUTDIR}/cubic_pb2_grpc.py py-test
-
 ## C#
 ## https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-the-dotnet-cli
 ## You need to copy the PROTOINC files over to the ~/.nuget/packages/grpc.tools/1.22.0/build/native/include directory.
-VERSION="1.2.2"
+CSHARP_RELEASE_VERSION="1.4.0"
 NUGET_API_KEY="" # Must be set to push the nuget package.
 cs:
 	cd csharp-cubic/ && dotnet build ./cubic.csproj \
-		-p:PackageVersion=${VERSION}
+		-p:PackageVersion=${CSHARP_RELEASE_VERSION}
 cs_push:
 	dotnet nuget push \
-		./csharp-cubic/bin/Debug/Cubic-SDK.${VERSION}.nupkg \
+		./csharp-cubic/bin/Debug/Cubic-SDK.${CSHARP_RELEASE_VERSION}.nupkg \
 		-k ${NUGET_API_KEY} \
 		-s https://api.nuget.org/v3/index.json
+swift:
+	protoc -I . -I ${PROTOINC} \
+		--plugin=$$(which protoc-gen-grpc-swift) \
+		--grpc-swift_out=Client=true,Server=false,Visibility=Public:./swift-cubic \
+		--plugin=$$(which protoc-gen-swift) \
+		--swift_opt=Visibility=Public \
+		--swift_out=./swift-cubic \
+		cubic.proto
 
 docs: ${DOCS_OUTDIR}/autogen-doc-cubic-proto.md
 

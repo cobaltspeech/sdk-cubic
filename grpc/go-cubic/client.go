@@ -25,6 +25,8 @@ import (
 	"io/ioutil"
 	"sync"
 
+	"time"
+
 	"github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
@@ -40,6 +42,7 @@ type Client struct {
 	insecure         bool
 	tlscfg           tls.Config
 	streamingBufSize uint32
+	connectTimeout   time.Duration
 }
 
 // NewClient creates a new Client that connects to a Cubic Server listening on
@@ -48,6 +51,7 @@ type Client struct {
 func NewClient(addr string, opts ...Option) (*Client, error) {
 	c := Client{}
 	c.streamingBufSize = defaultStreamingBufsize
+	c.connectTimeout = defaultConnectTimeout
 
 	for _, opt := range opts {
 		err := opt(&c)
@@ -64,7 +68,10 @@ func NewClient(addr string, opts ...Option) (*Client, error) {
 		dopt = grpc.WithTransportCredentials(credentials.NewTLS(&c.tlscfg))
 	}
 
-	conn, err := grpc.Dial(addr, dopt)
+	ctx, cancel := context.WithTimeout(context.Background(), c.connectTimeout)
+	defer cancel()
+
+	conn, err := grpc.DialContext(ctx, addr, dopt, grpc.WithBlock())
 	if err != nil {
 		return nil, fmt.Errorf("unable to create a client: %v", err)
 	}
@@ -130,6 +137,16 @@ func WithStreamingBufferSize(n uint32) Option {
 	}
 }
 
+// WithConnectTimeout returns an Option that configures the timeout for
+// establishing grpc connection with the server.  Use this only when you are on
+// a slow network and when Cobalt recommends you to do so.
+func WithConnectTimeout(t time.Duration) Option {
+	return func(c *Client) error {
+		c.connectTimeout = t
+		return nil
+	}
+}
+
 // Close closes the connection to the API service.  The user should only invoke
 // this when the client is no longer needed.  Pending or in-progress calls to
 // other methods may fail with an error if Close is called, and any subsequent
@@ -168,6 +185,7 @@ func (c *Client) Recognize(
 }
 
 const defaultStreamingBufsize uint32 = 8192
+const defaultConnectTimeout = 2 * time.Second
 
 // RecognitionResponseHandler is a type of callback function that will be called
 // when the `StreamingRecognize` method is running.  For each response received

@@ -39,10 +39,12 @@ The SDK communicates with a Cubic Server instance using [gRPC](https://grpc.io).
 4. Start the cubic service
 
     ```bash
-    docker run -p 2727:2727 -p 8080:8080 --name cobalt cubicsvr-demo-en_us-16
+    docker run -p 2727:2727 -p 8080:8080 --name cobalt -v /path/on/host/usage-log:/usage cubicsvr-demo-en_us-16
     ```
 
-    That will start listening for grpc commands on port 2727 and http requests on 8080, and will stream the debug log to stdout.  (You can replace `--name cobalt` with whatever name you want.  That just provides a way to refer back to the currently running container.)
+    That will start listening for grpc commands on port 2727 and http requests on 8080, and will stream the debug log to stdout.  (You can replace `--name cobalt` with whatever name you want.  That just provides a way to refer back to the currently running container.) 
+
+    The command also specifies the [bind-mount](https://docs.docker.com/storage/bind-mounts/) to which usage data is being written so you can track the amount of audio Cubic Server has processed, and submit the usage log to Cobalt if you have a volume-based license. If you have a volume-based license, you MUST provide this bind-mount so the usage data will persist even when the container is restarted; Cubic Server will not start if that location cannot be written to.
 
 5. Verify the service is running by calling
 

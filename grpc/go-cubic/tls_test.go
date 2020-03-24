@@ -15,13 +15,12 @@
 package cubic_test
 
 import (
-	"context"
 	"crypto/tls"
 	"crypto/x509"
-	"errors"
 	"fmt"
 	"net"
 	"testing"
+	"time"
 
 	"github.com/cobaltspeech/sdk-cubic/grpc/go-cubic"
 	"github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb"
@@ -31,33 +30,60 @@ import (
 
 // The TLS certificates below were generated using:
 //
-// openssl req -new -x509 -newkey rsa:512 -days 36500 -keyout key.pem -out cert.pem -nodes
+// openssl req -new -x509 -newkey rsa:2048 -days 36500 -keyout key.pem -out cert.pem -nodes
 //
 // and are used for testing only. Do not use in production.
 
 var certPem = []byte(`-----BEGIN CERTIFICATE-----
-MIICADCCAaqgAwIBAgIJANt3rsozAyPsMA0GCSqGSIb3DQEBCwUAMFkxCzAJBgNV
-BAYTAlVTMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBX
-aWRnaXRzIFB0eSBMdGQxEjAQBgNVBAMMCWxvY2FsaG9zdDAgFw0xOTA0MTExNjU1
-MTlaGA8yMTE5MDMxODE2NTUxOVowWTELMAkGA1UEBhMCVVMxEzARBgNVBAgMClNv
-bWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDESMBAG
-A1UEAwwJbG9jYWxob3N0MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALE0oXoXFm8X
-nIGziJ/ZAT6CCYEkq2mr+maMX0GWx1q4FW8BaqgN65CcM5weQYiVoMKSigqQX/Ni
-RXTVr3TpvlUCAwEAAaNTMFEwHQYDVR0OBBYEFFrEW7mW9llN8jxEpumUQ963Zq+h
-MB8GA1UdIwQYMBaAFFrEW7mW9llN8jxEpumUQ963Zq+hMA8GA1UdEwEB/wQFMAMB
-Af8wDQYJKoZIhvcNAQELBQADQQBbwHWAG6ibqVXfJguWz5LrrfGQ46/wi3KdavTl
-ySEkLFaMK7tfwJg5tnZbjxuDB2J17CRQs6gL4b/yJpD+amVz
+MIIDlTCCAn2gAwIBAgIUISO9AdBzEIxv366ruyRniPVrA8AwDQYJKoZIhvcNAQEL
+BQAwWTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoM
+GEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDESMBAGA1UEAwwJbG9jYWxob3N0MCAX
+DTIwMDExNDE4NTY0OVoYDzIxMTkxMjIxMTg1NjQ5WjBZMQswCQYDVQQGEwJBVTET
+MBEGA1UECAwKU29tZS1TdGF0ZTEhMB8GA1UECgwYSW50ZXJuZXQgV2lkZ2l0cyBQ
+dHkgTHRkMRIwEAYDVQQDDAlsb2NhbGhvc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQDdF183r5B4ZeM677SYQrf7JWc26eBN60mqOSC18aeRxkeQsgO4
+X3Y7wpQRcVdsm/i291otNIOWm4mJLLJFVE87Yq65gH4O4MHxQNlhZ0Bf1J8WsbsF
+RHk3LF2rhUBll6cG+Z1OX7mCtmM33znXDFxTf3/DZ5XgeleNG98umeUMg8rHgj2y
+UB4nwoMbeJIjk7e5tBQKCCNOYM1Mda1wzrvxo3blXsIFzpxLqQ+tVnYuql9CYjX1
+69Nwq+Dsgv6zNWzWMlPTPAKdbOVVvXV2hfQ3LmnuzCv9t/TUdwkdyUMDUkbF+T8v
+eD5bMP3k8lYuaNu0YQmbgbKvklK7voaEFte9AgMBAAGjUzBRMB0GA1UdDgQWBBTO
+3ItCZrqn4cPtvGiVT1BQ+gzZhDAfBgNVHSMEGDAWgBTO3ItCZrqn4cPtvGiVT1BQ
++gzZhDAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQCGSvX5vN2F
+siW23KnlurUtNiSoPzwSOwRGzaPcQYc1rdTXfN0F3Hj4qRnVJ+9jl3z6/xQnrgzg
+iQ+4bZcnJeebmPI0jMZZXDXdDnp/Ze4klELpG53DzVzGZ7FvENmfNFIEIx6hrT2K
+TDrWfZomjYu4Tn5rGAA4TflA9u8AWHYcZDLtjiwuHNFJLY6PdZSJU+OaPJXztRDV
+jg/KVCsPH5LLxZy1U175YbWN7nIDvG2/H7o2vQdBs9A8lJ8CEGr2/jXTl8GDyOYN
+6uHPipr8Y2rvh/jY8HalYo3x5gXM7AJk4OBh6x/Fcw6L0BmUHrUYvaU8UbwjraKF
+PISX1spqbI8a
 -----END CERTIFICATE-----`)
 
 var keyPem = []byte(`-----BEGIN PRIVATE KEY-----
-MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAsTShehcWbxecgbOI
-n9kBPoIJgSSraav6ZoxfQZbHWrgVbwFqqA3rkJwznB5BiJWgwpKKCpBf82JFdNWv
-dOm+VQIDAQABAkAiS9lk08sXvS4hPCoZJdrDyk8km4BBd3ODHW/iNdhnih6Mpgtb
-Ib+Dkux53ryY+2cu7/ceayWBTUhQUUsQ1F+RAiEA5diJ1yvCSLC6nFgYebT9sLda
-3aWmjN6VXL4a2IlquJcCIQDFXqtn3eCxs9VRlAsjyRkviEm3Pq59AyUJDgyNaUmR
-8wIgWEnDOOnQKUfphqC4VhfV0wm7V6SHw1jEmulTOpYebmUCIQC3JWgM0/lDLMsQ
-Dj5gEKXMU72DyyiDXL2rL1w6hK7+PQIhAJQF17cocDL8mK11fjdf6dg1UHyizTIn
-qLSSUOdYRzk/
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDdF183r5B4ZeM6
+77SYQrf7JWc26eBN60mqOSC18aeRxkeQsgO4X3Y7wpQRcVdsm/i291otNIOWm4mJ
+LLJFVE87Yq65gH4O4MHxQNlhZ0Bf1J8WsbsFRHk3LF2rhUBll6cG+Z1OX7mCtmM3
+3znXDFxTf3/DZ5XgeleNG98umeUMg8rHgj2yUB4nwoMbeJIjk7e5tBQKCCNOYM1M
+da1wzrvxo3blXsIFzpxLqQ+tVnYuql9CYjX169Nwq+Dsgv6zNWzWMlPTPAKdbOVV
+vXV2hfQ3LmnuzCv9t/TUdwkdyUMDUkbF+T8veD5bMP3k8lYuaNu0YQmbgbKvklK7
+voaEFte9AgMBAAECggEBAK18w4jMyQ7Q1KfQpOO9puT6Cq36g7pg4OMkBNkAkT9A
+WbPfHDA3KG3oV4wAZluhYF8iZa6HQKKT1i6/1fu1Fp9A5l5Fx6UhFM6c1ncqMEeC
+bnu+Z0TQ4FU9CRuoaknN4JEGmjt/vfAl8mFLVvW6i1AyAi1xQRhup/jgYBcPR76y
+zcmgdyaDNX/Z4rPAIzPTJbEjPhV8L3J8SjM6CML9k03QA6GALyVIJwUOUy/qJtYL
+9UrUFwE+jjbifWjIpNjdKPFi6ltgSk9cOQZXcKWw+0CBJ5q3cZ6m6faqnWyDMHqP
+garQd8bHzxG5yrVqrYiP8Mv2vD+cham8Nl2frJsK4cECgYEA/yR5rTpaFkZ9fV12
+/r/KLapClg9R6COwBWk5nPvGde7rLMPVg2sQgyzfj7fRvZiQDx9zjmn96LJX+uwr
+do88rWFUCmq5S/G0p1UD3DEW1b/YcN5D/nnG0QjeP0PSmG4Aj/SxDUD8AX1zwCpn
+/G7dJame4A45tW3oxlGDMUPIwHkCgYEA3dWZV2VIHk5Aa4PJ92iTCtIPQnVb7140
+WL2cCmsvIWe/UkHvHJZYcgB78OOuNET3ijI83rx/Ry2iBapKnuHxbl8npOw+8btZ
+GakR0Htbns/sOqfb1jruen6kw+HTZaYYYEckHw8DiARLc4PlC6WSsYhL8W2Jl+SD
+mwBb4NJQKGUCgYBGcR2e9BNXPxL6f8mQwAbj4LQNliE5BFFezRR5ARJkERig/Vh/
+thmS/dqjZU7lF6/+XOKcmSrfCg48WuQNEbLg85QuZBTQoOUNpe0w5+S0EwmA7/y5
+z4lSwS4LLYCBUS2akSYo0J5DEw3YKl0XVsx7z37rwUGxk6zGxE6CVYKhkQKBgGGh
+PyJqjcngsJNg5gM//+70MgkSs4pukGU51bH0KELwcRBXuk9/j59kvSdwXNveOn+U
+yptQpEeEOtl5b+vrDqF/uWfpHW6wAG+9q/xwPgtwAMxz0dnAB/LbR9J50drbtcCx
+rqEIr4ouMbK+KpDsptoBXUL87WBvDsip6MXSabrNAoGBAKKjpwZXPBUfjRMEWSrv
+AQLrBifzWHi6NbC+yFxdbaidzOzOLfxMXUKW8MRWK9Wsqza1r/bubbVTakzzFuZa
+sxjcfOmE0/ArjIxeMLVvaXbY1hCgwdplJf0JyksidT7njIkXL+vFwq6VD5R+JCC8
+MqcOXU7V6srirJOObsIHyC/i
 -----END PRIVATE KEY-----`)
 
 func setupGRPCServerWithTLS(mutual bool) (*grpc.Server, int, error) {
@@ -90,49 +116,6 @@ func setupGRPCServerWithTLS(mutual bool) (*grpc.Server, int, error) {
 	return s, lis.Addr().(*net.TCPAddr).Port, nil
 }
 
-var errConstructorFailed = errors.New("client creation failed")
-
-// we define a few convenience functions to easily test client connections.
-//
-// testClientConnection takes in the return value of a NewClient() call,
-// verifies that the client was created correctly and then returns the error
-// returned by the Version method.  The client creation should always succeed.
-// The TLS credentials are verified in the actual RPC call, and hence we call
-// Version and return the error that ocurred in the call.
-//
-// shouldFail and shouldSucceed take the error returned from the
-// testClientConnection function, verify if there should or should not have been
-// an error, and call t.Errorf as necessary.
-
-func testClientConnection(client *cubic.Client, clientErr error) error {
-	if clientErr != nil {
-		return errConstructorFailed
-	}
-	defer client.Close()
-	_, err := client.Version(context.Background())
-	return err
-}
-
-func shouldFail(t *testing.T, errorPrefix string, testErr error) {
-	if testErr == errConstructorFailed {
-		t.Errorf("%s failed: %v", errorPrefix, testErr)
-	}
-
-	if testErr == nil {
-		t.Errorf("%s should fail, but succeeded", errorPrefix)
-	}
-}
-
-func shouldSucceed(t *testing.T, errorPrefix string, testErr error) {
-	if testErr == errConstructorFailed {
-		t.Errorf("%s failed: %v", errorPrefix, testErr)
-	}
-
-	if testErr != nil {
-		t.Errorf("%s should not fail, but failed: %v", errorPrefix, testErr)
-	}
-}
-
 // TestServerTLS starts a server with TLS (not mutual) and makes sure only the
 // appropriate clients can connect to it.
 func TestServerTLS(t *testing.T) {
@@ -148,19 +131,27 @@ func TestServerTLS(t *testing.T) {
 	// since the server uses a self-signed certificate, a default client
 	// should not be able to call methods, as the certificate can not be
 	// validated.
-	shouldFail(t, "default client with self-signed server cert",
-		testClientConnection(cubic.NewClient(addr)))
+
+	if _, err := cubic.NewClient(addr, cubic.WithConnectTimeout(200*time.Millisecond)); err == nil {
+		t.Errorf("default client with self-signed server cert: want error, got nil")
+	}
 
 	// by adding the appropriate CA to the client config, we should be now able to call methods.
-	shouldSucceed(t, "default client with root CA of server",
-		testClientConnection(cubic.NewClient(addr, cubic.WithServerCert(certPem))))
+	if _, err := cubic.NewClient(addr, cubic.WithServerCert(certPem),
+		cubic.WithConnectTimeout(200*time.Millisecond)); err != nil {
+		t.Errorf("client with root-CA of server cert: got error, want nil")
+	}
 
-	shouldFail(t, "insecure client with tls server",
-		testClientConnection(cubic.NewClient(addr, cubic.WithInsecure())))
+	// invalid client CA should also fail
+	if _, err = cubic.NewClient(addr, cubic.WithServerCert(certPem[:3])); err == nil {
+		t.Errorf("client with invalid root-CA: want error, got nil")
+	}
 
-	_, err = cubic.NewClient(addr, cubic.WithServerCert(certPem[:3]))
-	if err == nil {
-		t.Errorf("tls with bad server cert, want failure, got success")
+	// insecure connection should also fail
+	if _, err := cubic.NewClient(addr, cubic.WithInsecure(),
+		cubic.WithConnectTimeout(200*time.Millisecond)); err == nil {
+		t.Errorf("insecure client with tls server: want error, got nil")
+
 	}
 
 }
@@ -203,20 +194,26 @@ B6KD9XmVFWXX
 -----END PRIVATE KEY-----`)
 
 	// mutual tls should work with appropriate certificates
-	shouldSucceed(t, "mutual tls with correct keys",
-		testClientConnection(cubic.NewClient(addr, cubic.WithClientCert(certPem, keyPem), cubic.WithServerCert(certPem))))
+	if _, err := cubic.NewClient(addr, cubic.WithClientCert(certPem, keyPem),
+		cubic.WithServerCert(certPem), cubic.WithConnectTimeout(200*time.Millisecond)); err != nil {
+		t.Errorf("mutual tls with correct certs: got error, want nil")
+	}
 
 	// mutual tls with correct cert but wrong CA should fail (client can not validate the server)
-	shouldFail(t, "mutual tls with wrong CA cert",
-		testClientConnection(cubic.NewClient(addr, cubic.WithClientCert(certPem, keyPem), cubic.WithServerCert(fakeCertPem))))
+	if _, err := cubic.NewClient(addr, cubic.WithClientCert(certPem, keyPem),
+		cubic.WithServerCert(fakeCertPem), cubic.WithConnectTimeout(200*time.Millisecond)); err == nil {
+		t.Errorf("mutual tls with wrong CA cert: want error, got nil")
+	}
 
 	// mutual tls with wrong cert but correct CA should fail (server can not validate the client)
-	shouldFail(t, "mutual tls with wrong client cert",
-		testClientConnection(cubic.NewClient(addr, cubic.WithClientCert(fakeCertPem, fakeKeyPem), cubic.WithServerCert(certPem))))
+	if _, err := cubic.NewClient(addr, cubic.WithClientCert(fakeCertPem, fakeKeyPem),
+		cubic.WithServerCert(certPem), cubic.WithConnectTimeout(200*time.Millisecond)); err == nil {
+		t.Errorf("mutual tls with wrong client cert: want error, got nil")
 
-	// client creation should fail when presented with a bad client cert/key.
-	_, err = cubic.NewClient(addr, cubic.WithClientCert(fakeCertPem[:3], fakeKeyPem))
-	if err == nil {
-		t.Errorf("client creation with invalid client cert, want failure, got success")
+		// client creation should fail when presented with a bad client cert/key.
+		if _, err = cubic.NewClient(addr, cubic.WithClientCert(fakeCertPem[:3], fakeKeyPem),
+			cubic.WithConnectTimeout(200*time.Millisecond)); err == nil {
+			t.Errorf("mutual tls with invalid client cert: want error, got nil")
+		}
 	}
 }

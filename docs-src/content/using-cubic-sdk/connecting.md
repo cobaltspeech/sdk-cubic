@@ -18,8 +18,8 @@ Cubic server binds to.
 
 ## Default Connection
 
-The following code snippet connects to the server and queries its version.  It uses our recommended 
-default setup, expecting the server to be listening on a TLS encrypted connection,  as the demo 
+The following code snippet connects to the server and queries its version.  It uses our recommended
+default setup, expecting the server to be listening on a TLS encrypted connection,  as the demo
 server does.
 
 {{%tabs %}}
@@ -95,13 +95,27 @@ CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
 ```
 {{% /tab %}}
 
-{{%/tabs %}}
+{{% tab "Swift/iOS" %}}
+``` swift
+import Cubic
 
+class CubicConnection {
+    
+    let serverAddress = "demo-cubic.cobaltspeech.com"
+    let serverPort = 2727
+
+    let client = Client(host: serverAddress, port: serverPort, useTLS: true)
+
+}
+```
+{{% /tab %}}
+
+{{%/tabs %}}
 
 ## Insecure Connection
 
 It is sometimes required to connect to Cubic server without TLS enabled, such as
-during debugging. 
+during debugging.
 
 Please note that if the server has TLS enabled, attempting to connect with an
 insecure client will fail.
@@ -142,6 +156,12 @@ ManagedChannel mCubicChannel = ManagedChannelBuilder
     .usePlainText()
     .build();
 CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
+```
+{{% /tab %}}
+
+{{% tab "Swift/iOS" %}}
+``` swift
+let client = Client(host: serverAddress, port: serverPort, useTLS: false)
 ```
 {{% /tab %}}
 
@@ -189,6 +209,23 @@ var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
 
 Please see the Java section of https://grpc.io/docs/guides/auth/ for more details.
 
+{{% /tab %}}
+
+{{% tab "Swift/iOS" %}}
+``` swift
+import Cubic
+import NIOSSL
+
+class CubicConnection {
+    
+    let serverAddress = "demo-cubic.cobaltspeech.com"
+    let serverPort = 2727
+
+    let client = Client(host: serverAddress, port: serverPort, tlsCertificateFileName: "root", tlsCertificateFormat: .pem)
+
+}
+
+```
 {{% /tab %}}
 
 {{%/tabs %}}

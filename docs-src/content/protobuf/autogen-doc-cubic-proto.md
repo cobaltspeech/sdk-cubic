@@ -159,6 +159,7 @@ Configuration for setting up a Recognizer
 | enable_raw_transcript | bool |  | <p>This is an optional field. If this is set to true, the field `RecognitionAlternative.raw_transcript` will be populated with the raw transcripts output from the recognizer will be exposed without any formatting rules applied. If this is set to false, that field will not be set in the results. The RecognitionAlternative.transcript will always be populated with text formatted according to the server's settings.</p> |
 | enable_confusion_network | bool |  | <p>This is an optional field. If this is set to true, the results will include a confusion network. If set to `false`, no confusion network will be returned. The default is `false`. If the model being used does not support a confusion network, results may be returned without a confusion network available. If this field is set to `true`, then `enable_raw_transcript` is also forced to be true.</p> |
 | audio_channels | uint32 | repeated | <p>This is an optional field. If the audio has multiple channels, this field should be configured with the list of channel indices that should be transcribed. Channels are 0-indexed.</p><p>Example: `[0]` for a mono file, `[0, 1]` for a stereo file.</p><p>If this field is not set, a mono file will be assumed by default and only channel-0 will be transcribed even if the file actually has additional channels.</p><p>Channels that are present in the audio may be omitted, but it is an error to include a channel index in this field that is not present in the audio. Channels may be listed in any order but the same index may not be repeated in this list.</p><p>BAD: `[0, 2]` for a stereo file; BAD: `[0, 0]` for a mono file.</p> |
+| metadata | RecognitionMetadata |  | <p>This is an optional field. If there is any metadata associated with the audio being sent, use this field to provide it to cubic. The server may record this metadata when processing the request. The server does not use this field for any other purpose.</p> |
 
 
 
@@ -173,6 +174,20 @@ Confusion network in recognition output
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | links | ConfusionNetworkLink | repeated | <p></p> |
+
+
+
+
+
+
+
+### Message: RecognitionMetadata
+Metadata associated with the audio to be recognized
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| custom_metadata | string |  | <p>Any custom metadata that the client wants to associate with the recording. This could be a simple string (e.g. a tracing ID) or structured data (e.g. JSON)</p> |
 
 
 
