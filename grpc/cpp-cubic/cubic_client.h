@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <map>
 
 #include "cubic.grpc.pb.h"
 #include "cubic.pb.h"
@@ -36,6 +37,13 @@ public:
     //! Returns a list of Cubic ASR models that the server is currently
     //! configured to use.
     std::vector<CubicModel> listModels();
+
+    // Compiles the given list of phrases or words into a compact, fast to
+    // access form for Cubic, which may later be provided in a `recognize` or
+    // `streamingRecognize` call to aid speech recognition.
+    cobaltspeech::cubic::CompiledContext
+        compileContext(const std::string &modelID, const std::string &token, 
+                       std::map<std::string, float> &phrases);
 
     //! Do batch ASR recognition. Submit the recognizer config and audio to
     //! the server and wait for the final results.

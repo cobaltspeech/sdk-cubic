@@ -85,6 +85,31 @@ std::vector<CubicModel> CubicClient::listModels()
     return mModels;
 }
 
+cobaltspeech::cubic::CompiledContext
+    CubicClient::compileContext(const std::string &modelID, const std::string &token, std::map<std::string, float> &phrases){
+
+    // Setup the request
+    cobaltspeech::cubic::CompileContextRequest request;
+    request.set_model_id(modelID);
+    request.set_token(token);
+    for(auto& phraseBoostPair : phrases) {
+        cobaltspeech::cubic::ContextPhrase *ptr = request.add_phrases();
+        ptr->set_text(phraseBoostPair.first);
+        ptr->set_boost(phraseBoostPair.second);
+    }
+
+    // Setup the context and make the request
+    cobaltspeech::cubic::CompileContextResponse response;
+    grpc::ClientContext ctx;
+    this->setContextDeadline(ctx);
+    grpc::Status status = mStub->CompileContext(&ctx, request, &response);
+    if (!status.ok()){
+      throw CubicException(status);
+    }
+
+    return response.context();
+}
+
 cobaltspeech::cubic::RecognitionResponse
   CubicClient::recognize(const cobaltspeech::cubic::RecognitionConfig &config,
                          const char* audioData, size_t sizeInBytes)
