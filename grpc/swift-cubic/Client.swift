@@ -76,6 +76,32 @@ extension Cobaltspeech_Cubic_CubicClient {
         })
     }
 
+    public func compileContext(modelID: String,
+                               token: String,
+                               phrases: [String: Float],
+                               success: @escaping (_ compiledCtx: Cobaltspeech_Cubic_CompiledContext?) -> (),
+                               failure: CubicFailureCallback?) {
+
+        var request = Cobaltspeech_Cubic_CompileContextRequest()
+        request.modelID = modelID
+        request.token = token
+        for (phrase, boost) in phrases {
+            var ctxPhrase = Cobalt_Cubic_ContextPhrase()
+            ctxPhrase.text = phrase
+            ctxPhrase.boost = boost
+            request.phrases.append(ctxPhrase)
+        }
+
+        compileContext(request).response.whenComplete({ (result) in
+            do {
+                let response = try result.get()
+                success(response.context)
+            } catch let error {
+                failure?(error)
+            }
+        })
+    }
+
     public func streamingRecognize(audioData: Data,
                                    chunkSize: Int,
                                    config: Cobaltspeech_Cubic_RecognitionConfig,
