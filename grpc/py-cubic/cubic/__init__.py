@@ -14,5 +14,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .client import Client, RecognitionConfig
+from .client import Client, RecognitionConfig, RecognitionContext, CompiledContext
 from .cubic_types import DurationMilliseconds
