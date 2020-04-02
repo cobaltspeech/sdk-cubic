@@ -19,13 +19,16 @@ import io
 import grpc
 from concurrent import futures
 
-from client import Client, RecognitionAudio, RecognitionConfig
+from client import Client, RecognitionAudio, RecognitionConfig, CompiledContext
 import cubic_pb2
 import cubic_pb2_grpc
 
 expectedResponses = {}
 expectedResponses['Version'] = cubic_pb2.VersionResponse(cubic='2727', server='v.27.0')
 expectedResponses['ListModels'] = cubic_pb2.ListModelsResponse(models=[cubic_pb2.Model(id="1"), cubic_pb2.Model(id="2")])
+
+expectedResponses['CompileContext'] = cubic_pb2.CompileContextResponse(
+    context=CompiledContext(data=b'\x00\x01\x02\x03'))
 
 expectedResponses['Recognize'] = cubic_pb2.RecognitionResponse(results=[cubic_pb2.RecognitionResult(
     alternatives=[cubic_pb2.RecognitionAlternative(transcript="This is a test")])])
@@ -50,7 +53,10 @@ class CubicServicer(cubic_pb2_grpc.CubicServicer):
 
     def ListModels(self, request, context):
         return expectedResponses['ListModels']
-        
+    
+    def CompileContext(self, request, context):
+        return expectedResponses['CompileContext']
+
     def Recognize(self, request, context):
         if request.config.audio_encoding != cubic_pb2.RecognitionConfig.RAW_LINEAR16:
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
@@ -102,6 +108,23 @@ class TestClient(unittest.TestCase):
         client = Client(self.serverAddress, insecure=True)
         response = client.ListModels()
         self.assertEqual(response, expectedResponses['ListModels'])
+
+    def test_CompileContext(self):
+        client = Client(self.serverAddress, insecure=True)
+        phrases = ["COVID", "COVFEFE", "NAMBIA"]
+        boostValues = [0.0, 1.0, 2.0]
+        # with boost values
+        response = client.CompileContext("1", "oov", phrases, boostValues)
+        self.assertEqual(response, expectedResponses['CompileContext'])
+        # without boost values
+        response = client.CompileContext("1", "oov", phrases)
+        self.assertEqual(response, expectedResponses['CompileContext'])
+        # with inadqueate list of boostValues
+        boostValues = [1.0]
+        try:
+            response = client.CompileContext("1", "oov", phrases)
+        except Exception as ex:
+            self.assertIsInstance(ex, ValueError)
 
     def test_Recognize(self):
         client = Client(self.serverAddress, insecure=True)

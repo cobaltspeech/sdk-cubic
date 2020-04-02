@@ -18,6 +18,10 @@ import NIOSSL
 
 public typealias CubicFailureCallback = (_ error: Error) -> ()
 
+public enum CubicError: Error {
+    case countError(String)
+}
+
 public typealias Client = Cobaltspeech_Cubic_CubicClient
 
 extension Cobaltspeech_Cubic_CubicClient {
@@ -71,6 +75,47 @@ extension Cobaltspeech_Cubic_CubicClient {
                 let response = try result.get()
                 success(response.models)
             } catch let error {
+                failure?(error)
+            }
+        })
+    }
+
+    public func compileContext(modelID: String,
+                               token: String,
+                               phrases: [String],
+                               boostValues: [Float],
+                               success: @escaping (_ compiledCtx: Cobaltspeech_Cubic_CompiledContext?) -> (),
+                               failure: CubicFailureCallback?) {
+        var request = Cobaltspeech_Cubic_CompileContextRequest()
+        request.modelID = modelID
+        request.token = token
+        
+        if (boostValues.count > 0) {
+            if boostValues.count != phrases.count {
+                failure?(CubicError.countError("number of boost values not the same as number of phrases"))
+                return
+            }
+            
+            for (phrase, boost) in zip(phrases, boostValues) {
+                var ctxPhrase = Cobaltspeech_Cubic_ContextPhrase()
+                ctxPhrase.text = phrase
+                ctxPhrase.boost = boost
+                request.phrases.append(ctxPhrase)
+            }
+        } else {
+            for phrase in phrases {
+                var ctxPhrase = Cobaltspeech_Cubic_ContextPhrase()
+                ctxPhrase.text = phrase
+                ctxPhrase.boost = 0
+                request.phrases.append(ctxPhrase)
+            }
+        }
+
+        compileContext(request).response.whenComplete({ (result) in
+            switch result {
+            case .success(let response):
+                success(response.context)
+            case .failure(let error):
                 failure?(error)
             }
         })

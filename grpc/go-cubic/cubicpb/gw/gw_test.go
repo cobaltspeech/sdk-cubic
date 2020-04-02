@@ -70,6 +70,9 @@ func (s *stubServer) Version(ctx context.Context, e *empty.Empty) (*cubicpb.Vers
 func (s *stubServer) ListModels(ctx context.Context, r *cubicpb.ListModelsRequest) (*cubicpb.ListModelsResponse, error) {
 	return nil, fmt.Errorf("not implemented")
 }
+func (s *stubServer) CompileContext(ctx context.Context, r *cubicpb.CompileContextRequest) (*cubicpb.CompileContextResponse, error) {
+	return nil, fmt.Errorf("not implemented")
+}
 func (s *stubServer) Recognize(ctx context.Context, r *cubicpb.RecognizeRequest) (*cubicpb.RecognitionResponse, error) {
 	return nil, fmt.Errorf("not implemented")
 }
