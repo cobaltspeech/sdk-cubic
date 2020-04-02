@@ -32,6 +32,11 @@ $(shell mkdir -p $(DEPSBIN) $(DEPSGO) $(DEPSTMP) $(DEPSSWIFT))
 
 DEPSVENV := ${TOP}/deps/venv
 
+SWIFT_BIN := $(shell which swift)
+ifeq ($(SWIFT_BIN),)
+ $(error "`swift` was not found in your PATH, please download and install swift from https://swift.org/download to continue")
+endif
+
 export PATH := ${DEPSBIN}:${DEPSGO}/bin:$(PATH)
 deps: deps-protoc deps-hugo deps-gendoc deps-gengo deps-gengateway deps-py deps-swift
 
@@ -67,16 +72,18 @@ ${DEPSVENV}/.done:
 	source ${DEPSVENV}/bin/activate && pip install grpcio-tools==$(PY_GRPC_VERSION) googleapis-common-protos==$(PY_GOOGLEAPIS_VERSION) && deactivate
 	touch $@
 
-deps-swift:
+deps-swift: ${DEPSSWIFT}/.done
+${DEPSSWIFT}/.done:
 	cd ${DEPSSWIFT} && wget \
 		"https://github.com/grpc/grpc-swift/archive/${SWIFT_GRPC_VERSION}.tar.gz" && \
-		tar xzf ${SWIFT_GRPC_VERSION}.tar.gz && \
-		mv grpc-swift-${SWIFT_GRPC_VERSION} bin && \
-		rm -f ${SWIFT_GRPC_VERSION}.tar.gz && \
-		cd ${DEPSSWIFT}/bin && make plugins && \
-		cp protoc-gen-grpc-swift ${DEPSBIN} && \
-		cp protoc-gen-swift ${DEPSBIN}
-
+ 		tar xzf ${SWIFT_GRPC_VERSION}.tar.gz && \
+ 		mv grpc-swift-${SWIFT_GRPC_VERSION} bin && \
+ 		rm -f ${SWIFT_GRPC_VERSION}.tar.gz && \
+ 		cd ${DEPSSWIFT}/bin && make plugins && \
+ 		cp protoc-gen-grpc-swift ${DEPSBIN} && \
+ 		cp protoc-gen-swift ${DEPSBIN}
+		touch $@
+ 
 gendoc: deps-hugo
 	@ pushd docs-src && ${DEPSBIN}/hugo -d ../docs && popd
 
