@@ -85,6 +85,52 @@ std::vector<CubicModel> CubicClient::listModels()
     return mModels;
 }
 
+cobaltspeech::cubic::CompiledContext
+    CubicClient::compileContext(const std::string &modelID, const std::string &token, 
+                                const std::vector<std::string> &phrases,
+                                const std::vector<float> &boostValues)
+{
+
+    // Setup the request
+    cobaltspeech::cubic::CompileContextRequest request;
+    request.set_model_id(modelID);
+    request.set_token(token);
+    if (boostValues.size() > 0) 
+    {
+        if (boostValues.size() != phrases.size())
+        {
+          throw CubicException("number of boost values not the same as number of phrases");
+        }
+        
+        for(int i=0; i < phrases.size(); i++) 
+        {
+            cobaltspeech::cubic::ContextPhrase *ptr = request.add_phrases();
+            ptr->set_text(phrases[i]);
+            ptr->set_boost(boostValues[i]);
+        }
+    }
+    else // no boost values
+    {
+        for(int i=0; i < phrases.size(); i++) 
+        {
+            cobaltspeech::cubic::ContextPhrase *ptr = request.add_phrases();
+            ptr->set_text(phrases[i]);
+            ptr->set_boost(0);
+        }
+    }
+
+    // Setup the context and make the request
+    cobaltspeech::cubic::CompileContextResponse response;
+    grpc::ClientContext ctx;
+    this->setContextDeadline(ctx);
+    grpc::Status status = mStub->CompileContext(&ctx, request, &response);
+    if (!status.ok()){
+      throw CubicException(status);
+    }
+
+    return response.context();
+}
+
 cobaltspeech::cubic::RecognitionResponse
   CubicClient::recognize(const cobaltspeech::cubic::RecognitionConfig &config,
                          const char* audioData, size_t sizeInBytes)

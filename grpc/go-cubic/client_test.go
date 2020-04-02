@@ -103,6 +103,57 @@ func TestListModels(t *testing.T) {
 	}
 }
 
+// Test CompileContext
+
+var ExpectedCompileContextResponse = &cubicpb.CompileContextResponse{
+	Context: &cubicpb.CompiledContext{
+		Data: []byte{0x00, 0x01, 0x02, 0x03}},
+}
+
+func (s *MockCubicServer) CompileContext(ctx context.Context, r *cubicpb.CompileContextRequest) (*cubicpb.CompileContextResponse, error) {
+	return ExpectedCompileContextResponse, nil
+}
+
+func TestCompileContext(t *testing.T) {
+	svr, port, err := setupGRPCServer()
+	defer svr.Stop()
+
+	if err != nil {
+		t.Fatalf("could not set up testing server: %v", err)
+	}
+
+	c, err := cubic.NewClient(fmt.Sprintf("localhost:%d", port), cubic.WithInsecure())
+	if err != nil {
+		t.Errorf("could not create client: %v", err)
+	}
+	defer c.Close()
+
+	// with boost values
+	phrases := []string{"COVID", "COVFEFE", "NAMBIA"}
+	boostValues := []float32{0.0, 1.0, 2.0}
+	m, err := c.CompileContext(context.Background(), "1", "oov", phrases, boostValues)
+	if err != nil {
+		t.Errorf("did not expect error in compilecontext; got %v", err)
+	}
+	if !proto.Equal(m, ExpectedCompileContextResponse) {
+		t.Errorf("compilecontext failed; got %v, want %v", m, ExpectedCompileContextResponse)
+	}
+	// without boost values
+	m, err = c.CompileContext(context.Background(), "1", "oov", phrases, nil)
+	if err != nil {
+		t.Errorf("did not expect error in compilecontext; got %v", err)
+	}
+	if !proto.Equal(m, ExpectedCompileContextResponse) {
+		t.Errorf("compilecontext failed; got %v, want %v", m, ExpectedCompileContextResponse)
+	}
+	// with inadqueate list of boostValues
+	boostValues = []float32{1.0}
+	m, err = c.CompileContext(context.Background(), "1", "oov", phrases, boostValues)
+	if err == nil {
+		t.Errorf("expected error when not provided enough boost values in compilecontext")
+	}
+}
+
 // Test Recognize
 
 var ExpectedRecognizeResponse = &cubicpb.RecognitionResponse{

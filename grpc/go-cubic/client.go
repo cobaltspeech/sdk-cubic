@@ -165,6 +165,68 @@ func (c *Client) ListModels(ctx context.Context) (*cubicpb.ListModelsResponse, e
 	return c.cubic.ListModels(ctx, &cubicpb.ListModelsRequest{})
 }
 
+// CompileContext compiles the given list of phrases or words into a compact,
+// fast to access form for Cubic, which may later be provided in a `Recognize`
+// or `StreamingRecognize` call to aid speech recognition.
+//
+// The modelID is the unique identifier of the model to compile the context
+// information for. The model chosen needs to support context which can be
+// verified by checking its ModelAttributes.ContextInfo obtained via
+// `ListModels`.
+//
+// The token is a string allowed by the model being used, such as "name" or
+// "airport", that is used to determine the place in the recognition output
+// where the provided list of phrases or words may appear. The allowed tokens
+// for a given model can be found in its ModelAttributes.ContextInfo obtained
+// via the `ListModels` method.
+//
+// The phrases (or words) are given as a slice of strings.
+//
+// Optionally, a slice of positive floating numbers, boostValues, may also be
+// provided, one for each phrase or word in the phrase list. These values can be
+// used to increase the likelihood of the corresponding entry in the phrases by
+// setting a higher value for it. The boostValues slice can be set to nil if
+// boosting is not required.
+//
+// If given boostValues, the new probability of the corresponding phrase entry
+// becomes (boost + 1.0) * old probability. By default, all provded phrases or
+// words are given an equal probability of 1/N, where N = total number of
+// phrases or words.The new probabilities are normalized after boosting so that
+// they sum to one. This means that if all phrases are given the same boost
+// value, they will still have the same default likelihood. This also means that
+// the boost value can be any positive value, but for most cases, values between
+// 0 to 10 work well. Negative values may be provided but they will be treated
+// as 0 (no boost).
+func (c *Client) CompileContext(
+	ctx context.Context, modelID, token string, phrases []string, boostValues []float32,
+) (*cubicpb.CompileContextResponse, error) {
+
+	phraseList := make([]*cubicpb.ContextPhrase, len(phrases))
+	if boostValues != nil {
+		if len(boostValues) != len(phrases) {
+			return nil, fmt.Errorf("len(boostValues) is not the same as len(phrases)")
+		}
+		for i, phrase := range phrases {
+			phraseList[i] = &cubicpb.ContextPhrase{
+				Text:  phrase,
+				Boost: boostValues[i],
+			}
+		}
+	} else {
+		for i, phrase := range phrases {
+			phraseList[i] = &cubicpb.ContextPhrase{
+				Text:  phrase,
+				Boost: 0,
+			}
+		}
+	}
+	return c.cubic.CompileContext(ctx, &cubicpb.CompileContextRequest{
+		ModelId: modelID,
+		Token:   token,
+		Phrases: phraseList,
+	})
+}
+
 // Recognize performs synchronous speech recognition and returns after all audio
 // has been processed.  It is expected that this request be used for short audio
 // segments (less than a minute long).  For longer content, the

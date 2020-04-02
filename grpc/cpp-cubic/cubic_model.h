@@ -4,6 +4,7 @@
 #define CUBIC_MODEL_H
 
 #include <string>
+#include <vector>
 
 #include "cubic.pb.h"
 
@@ -29,10 +30,19 @@ public:
     //! Return the sample rate for the model in Hz.
     unsigned int sampleRate() const;
 
-private:
+    // Returns true if the model supports taking context information 
+    // into account to aid speech recognition.
+    bool supportsContext() const;
+
+    // Returns list of context tokens that the model supports if any.
+    std::vector<std::string> allowedContextTokens() const;
+
+  private:
     std::string mId;
     std::string mName;
     unsigned int mSampleRate;
+    bool mSupportsContext;
+    std::vector<std::string> mAllowedContextTokens;
 };
 
 #endif // CUBIC_MODEL_H
