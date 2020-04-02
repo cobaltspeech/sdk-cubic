@@ -165,6 +165,42 @@ func (c *Client) ListModels(ctx context.Context) (*cubicpb.ListModelsResponse, e
 	return c.cubic.ListModels(ctx, &cubicpb.ListModelsRequest{})
 }
 
+// CompileContext compiles the given list of phrases or words into a compact,
+// fast to access form for Cubic, which may later be provided in a `Recognize`
+// or `StreamingRecognize` call to aid speech recognition.
+//
+// The modelID is the unique identifier of the model to compile the context
+// information for.
+//
+// The token is a string allowed by the model being used, such as "names" or
+// "airports", that is used to determine the position  in the recognition output
+// where the provided list of phrases or words may appear. The allowed tokens
+// for a given model can be found in its ModelAttributes obtained via the
+// `ListModels` method.
+//
+// The phrase or words are given in the form of a map where the key is the
+// phrase or word itself, and the value is a boost parameter that can be used to
+// give a phrase or word greater likelihood to appear in the recognition output.
+// Higher the boost, higher the likelihood. A value of 0.0 implies that the
+// phrase or word is not to be given any extra higher priority over others.
+func (c *Client) CompileContext(ctx context.Context, modelID, token string, phrases map[string]float32) (*cubicpb.CompileContextResponse, error) {
+
+	phraseList := make([]*cubicpb.ContextPhrase, len(phrases))
+	i := 0
+	for phrase, boost := range phrases {
+		phraseList[i] = &cubicpb.ContextPhrase{
+			Text:  phrase,
+			Boost: boost,
+		}
+		i++
+	}
+	return c.cubic.CompileContext(ctx, &cubicpb.CompileContextRequest{
+		ModelId: modelID,
+		Token:   token,
+		Phrases: phraseList,
+	})
+}
+
 // Recognize performs synchronous speech recognition and returns after all audio
 // has been processed.  It is expected that this request be used for short audio
 // segments (less than a minute long).  For longer content, the
