@@ -130,6 +130,34 @@ public struct Cobaltspeech_Cubic_StreamingRecognizeRequest {
   public init() {}
 }
 
+/// The top-level message sent by the client for the `CompileContext` request. It
+/// contains a list of phrases or words, paired with a context token allowed by
+/// the model being used. The token specifies a category such as "names",
+/// "airports", "contacts", "product_name" etc. The context token is used to
+/// determine the position in the recognition output where the provided list of
+/// phrases or words may appear. The allowed context tokens for a given model can
+/// be found in its ModelAttributes obtained via the `ListModels` method.
+public struct Cobaltspeech_Cubic_CompileContextRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  /// Unique identifier of the model to compile the context information for.
+  public var modelID: String = String()
+
+  /// The token that is associated with the provided list of phrases or words
+  /// (e.g "names", "airports" etc.). Must be from one of the allowed tokens in
+  /// the model being used.
+  public var token: String = String()
+
+  /// List of phrases and/or words to be compiled.
+  public var phrases: [Cobaltspeech_Cubic_ContextPhrase] = []
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
 /// The message sent by the server for the `Version` method.
 public struct Cobaltspeech_Cubic_VersionResponse {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
@@ -178,6 +206,30 @@ public struct Cobaltspeech_Cubic_RecognitionResponse {
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
   public init() {}
+}
+
+/// The message returned to the client by the `CompileContext` method.
+public struct Cobaltspeech_Cubic_CompileContextResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  /// Context information stored in a compact form that is fast to access for
+  /// a Cubic model.
+  public var context: Cobaltspeech_Cubic_CompiledContext {
+    get {return _context ?? Cobaltspeech_Cubic_CompiledContext()}
+    set {_context = newValue}
+  }
+  /// Returns true if `context` has been explicitly set.
+  public var hasContext: Bool {return self._context != nil}
+  /// Clears the value of `context`. Subsequent reads from it will return its default value.
+  public mutating func clearContext() {self._context = nil}
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+
+  fileprivate var _context: Cobaltspeech_Cubic_CompiledContext? = nil
 }
 
 /// Configuration for setting up a Recognizer
@@ -276,6 +328,22 @@ public struct Cobaltspeech_Cubic_RecognitionConfig {
   /// Clears the value of `metadata`. Subsequent reads from it will return its default value.
   public mutating func clearMetadata() {self._metadata = nil}
 
+  /// This is an optional field. If there is any context information that can aid
+  /// speech recognition, it may be provided through this field. This can be used
+  /// to improve the transcription of particular phrases or words such as proper
+  /// names or commands for example. This can also be used to add out of
+  /// vocabulary words to the model. Currently, all context information must be
+  /// pre-compiled via the `CompileContext()` method before sending it with a 
+  /// `Recognizer()` or `StreamingRecognize()` request.
+  public var context: Cobaltspeech_Cubic_RecognitionContext {
+    get {return _context ?? Cobaltspeech_Cubic_RecognitionContext()}
+    set {_context = newValue}
+  }
+  /// Returns true if `context` has been explicitly set.
+  public var hasContext: Bool {return self._context != nil}
+  /// Clears the value of `context`. Subsequent reads from it will return its default value.
+  public mutating func clearContext() {self._context = nil}
+
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
   /// The encoding of the audio data to be sent for recognition.
@@ -342,6 +410,7 @@ public struct Cobaltspeech_Cubic_RecognitionConfig {
 
   fileprivate var _idleTimeout: SwiftProtobuf.Google_Protobuf_Duration? = nil
   fileprivate var _metadata: Cobaltspeech_Cubic_RecognitionMetadata? = nil
+  fileprivate var _context: Cobaltspeech_Cubic_RecognitionContext? = nil
 }
 
 #if swift(>=4.2)
@@ -360,7 +429,7 @@ extension Cobaltspeech_Cubic_RecognitionConfig.Encoding: CaseIterable {
 
 #endif  // swift(>=4.2)
 
-/// Metadata associated with the audio to be recognized
+/// Metadata associated with the audio to be recognized.
 public struct Cobaltspeech_Cubic_RecognitionMetadata {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -370,6 +439,67 @@ public struct Cobaltspeech_Cubic_RecognitionMetadata {
   /// This could be a simple string (e.g. a tracing ID) or structured data
   /// (e.g. JSON)
   public var customMetadata: String = String()
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+/// Data that may provide useful context to assist the speech recognition. This
+/// can be used to improve the transcription of particular phrases or words such
+/// as proper names or commands for example. This can also be used to add out of
+/// vocabulary words to the model. We currently support pre-compiled context
+/// information  via the `CompileContext` method, generated from lists of words
+/// or phrases expected to appear in the recognition output.
+public struct Cobaltspeech_Cubic_RecognitionContext {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  /// List of compiled context information, with each entry being generated from
+  /// a list of words or phrases expected to appear in the recognition output by
+  /// the `CompileContext` method.
+  public var contexts: [Cobaltspeech_Cubic_CompiledContext] = []
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+/// Context information stored in a compact form that is fast to access for
+/// a Cubic model.
+public struct Cobaltspeech_Cubic_CompiledContext {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  /// The context information compiled by the `CompileContext` method. 
+  public var data: Data = SwiftProtobuf.Internal.emptyData
+
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  public init() {}
+}
+
+/// A phrase or word that is to be compiled into context information that can be
+/// later used to improve speech recognition during a `Recognize` or
+/// `StreamingRecognize` call. Along with the phrase or word itself, there is an
+/// optional boost parameter that can be used to boost the likelihood of the
+/// phrase or word in the recognition output.
+public struct Cobaltspeech_Cubic_ContextPhrase {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  /// The actual phrase or word.
+  public var text: String = String()
+
+  /// This is an optional field. Higher the number, higher the chances of this
+  /// phrase or word appearing in the recognition output. The default setting is
+  /// 0.0, which makes Cubic treat all context phrases or words equally. This
+  /// setting can be used to differentiate between similar sounding words, with
+  /// the desired word given a bigger boost value.
+  public var boost: Float = 0
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -430,6 +560,16 @@ public struct Cobaltspeech_Cubic_ModelAttributes {
 
   /// Audio sample rate supported by the model
   public var sampleRate: UInt32 = 0
+
+  /// If this is set to true, the model supports taking context information into
+  /// account to aid speech recognition. The information may be sent with with
+  /// recognition requests via RecognitionContext inside RecognitionConfig.
+  public var supportsContext: Bool = false
+
+  /// A list of tokens (e.g "names", "airports" etc.) that serve has placeholders
+  /// in the model where a client provided list of phrases or tokens may be used
+  /// to aid speech recognition and produce the exact desired recognition output.
+  public var allowedContextTokens: [String] = []
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -760,6 +900,47 @@ extension Cobaltspeech_Cubic_StreamingRecognizeRequest: SwiftProtobuf.Message, S
   }
 }
 
+extension Cobaltspeech_Cubic_CompileContextRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".CompileContextRequest"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .standard(proto: "model_id"),
+    2: .same(proto: "token"),
+    3: .same(proto: "phrases"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularStringField(value: &self.modelID)
+      case 2: try decoder.decodeSingularStringField(value: &self.token)
+      case 3: try decoder.decodeRepeatedMessageField(value: &self.phrases)
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.modelID.isEmpty {
+      try visitor.visitSingularStringField(value: self.modelID, fieldNumber: 1)
+    }
+    if !self.token.isEmpty {
+      try visitor.visitSingularStringField(value: self.token, fieldNumber: 2)
+    }
+    if !self.phrases.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.phrases, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Cobaltspeech_Cubic_CompileContextRequest, rhs: Cobaltspeech_Cubic_CompileContextRequest) -> Bool {
+    if lhs.modelID != rhs.modelID {return false}
+    if lhs.token != rhs.token {return false}
+    if lhs.phrases != rhs.phrases {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
 extension Cobaltspeech_Cubic_VersionResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".VersionResponse"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
@@ -853,6 +1034,35 @@ extension Cobaltspeech_Cubic_RecognitionResponse: SwiftProtobuf.Message, SwiftPr
   }
 }
 
+extension Cobaltspeech_Cubic_CompileContextResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".CompileContextResponse"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "context"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularMessageField(value: &self._context)
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if let v = self._context {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Cobaltspeech_Cubic_CompileContextResponse, rhs: Cobaltspeech_Cubic_CompileContextResponse) -> Bool {
+    if lhs._context != rhs._context {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
 extension Cobaltspeech_Cubic_RecognitionConfig: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".RecognitionConfig"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
@@ -865,6 +1075,7 @@ extension Cobaltspeech_Cubic_RecognitionConfig: SwiftProtobuf.Message, SwiftProt
     7: .standard(proto: "enable_confusion_network"),
     8: .standard(proto: "audio_channels"),
     9: .same(proto: "metadata"),
+    10: .same(proto: "context"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -879,6 +1090,7 @@ extension Cobaltspeech_Cubic_RecognitionConfig: SwiftProtobuf.Message, SwiftProt
       case 7: try decoder.decodeSingularBoolField(value: &self.enableConfusionNetwork)
       case 8: try decoder.decodeRepeatedUInt32Field(value: &self.audioChannels)
       case 9: try decoder.decodeSingularMessageField(value: &self._metadata)
+      case 10: try decoder.decodeSingularMessageField(value: &self._context)
       default: break
       }
     }
@@ -912,6 +1124,9 @@ extension Cobaltspeech_Cubic_RecognitionConfig: SwiftProtobuf.Message, SwiftProt
     if let v = self._metadata {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 9)
     }
+    if let v = self._context {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 10)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -925,6 +1140,7 @@ extension Cobaltspeech_Cubic_RecognitionConfig: SwiftProtobuf.Message, SwiftProt
     if lhs.enableConfusionNetwork != rhs.enableConfusionNetwork {return false}
     if lhs.audioChannels != rhs.audioChannels {return false}
     if lhs._metadata != rhs._metadata {return false}
+    if lhs._context != rhs._context {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -965,6 +1181,99 @@ extension Cobaltspeech_Cubic_RecognitionMetadata: SwiftProtobuf.Message, SwiftPr
 
   public static func ==(lhs: Cobaltspeech_Cubic_RecognitionMetadata, rhs: Cobaltspeech_Cubic_RecognitionMetadata) -> Bool {
     if lhs.customMetadata != rhs.customMetadata {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Cobaltspeech_Cubic_RecognitionContext: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".RecognitionContext"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "contexts"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeRepeatedMessageField(value: &self.contexts)
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.contexts.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.contexts, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Cobaltspeech_Cubic_RecognitionContext, rhs: Cobaltspeech_Cubic_RecognitionContext) -> Bool {
+    if lhs.contexts != rhs.contexts {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Cobaltspeech_Cubic_CompiledContext: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".CompiledContext"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    2: .same(proto: "data"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 2: try decoder.decodeSingularBytesField(value: &self.data)
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.data.isEmpty {
+      try visitor.visitSingularBytesField(value: self.data, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Cobaltspeech_Cubic_CompiledContext, rhs: Cobaltspeech_Cubic_CompiledContext) -> Bool {
+    if lhs.data != rhs.data {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Cobaltspeech_Cubic_ContextPhrase: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  public static let protoMessageName: String = _protobuf_package + ".ContextPhrase"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "text"),
+    2: .same(proto: "boost"),
+  ]
+
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularStringField(value: &self.text)
+      case 2: try decoder.decodeSingularFloatField(value: &self.boost)
+      default: break
+      }
+    }
+  }
+
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.text.isEmpty {
+      try visitor.visitSingularStringField(value: self.text, fieldNumber: 1)
+    }
+    if self.boost != 0 {
+      try visitor.visitSingularFloatField(value: self.boost, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  public static func ==(lhs: Cobaltspeech_Cubic_ContextPhrase, rhs: Cobaltspeech_Cubic_ContextPhrase) -> Bool {
+    if lhs.text != rhs.text {return false}
+    if lhs.boost != rhs.boost {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -1044,12 +1353,16 @@ extension Cobaltspeech_Cubic_ModelAttributes: SwiftProtobuf.Message, SwiftProtob
   public static let protoMessageName: String = _protobuf_package + ".ModelAttributes"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "sample_rate"),
+    2: .standard(proto: "supports_context"),
+    3: .standard(proto: "allowed_context_tokens"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
       case 1: try decoder.decodeSingularUInt32Field(value: &self.sampleRate)
+      case 2: try decoder.decodeSingularBoolField(value: &self.supportsContext)
+      case 3: try decoder.decodeRepeatedStringField(value: &self.allowedContextTokens)
       default: break
       }
     }
@@ -1059,11 +1372,19 @@ extension Cobaltspeech_Cubic_ModelAttributes: SwiftProtobuf.Message, SwiftProtob
     if self.sampleRate != 0 {
       try visitor.visitSingularUInt32Field(value: self.sampleRate, fieldNumber: 1)
     }
+    if self.supportsContext != false {
+      try visitor.visitSingularBoolField(value: self.supportsContext, fieldNumber: 2)
+    }
+    if !self.allowedContextTokens.isEmpty {
+      try visitor.visitRepeatedStringField(value: self.allowedContextTokens, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Cobaltspeech_Cubic_ModelAttributes, rhs: Cobaltspeech_Cubic_ModelAttributes) -> Bool {
     if lhs.sampleRate != rhs.sampleRate {return false}
+    if lhs.supportsContext != rhs.supportsContext {return false}
+    if lhs.allowedContextTokens != rhs.allowedContextTokens {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

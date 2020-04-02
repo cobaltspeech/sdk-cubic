@@ -35,6 +35,11 @@ class CubicStub(object):
         request_serializer=cubic__pb2.StreamingRecognizeRequest.SerializeToString,
         response_deserializer=cubic__pb2.RecognitionResponse.FromString,
         )
+    self.CompileContext = channel.unary_unary(
+        '/cobaltspeech.cubic.Cubic/CompileContext',
+        request_serializer=cubic__pb2.CompileContextRequest.SerializeToString,
+        response_deserializer=cubic__pb2.CompileContextResponse.FromString,
+        )
 
 
 class CubicServicer(object):
@@ -74,6 +79,19 @@ class CubicServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def CompileContext(self, request, context):
+    """Compiles recognition context information, such as list of words or phrases
+    that may appear in the recognition output, into a compact, fast to access
+    form for a Cubic model. The compiled object may be sent with subsequent
+    `Recognize` or `StreamingRecognize` requests to aid speech recognition.
+    This is useful when the context information is constant for multiple
+    recognize requests. Precompiling context information like this ensures that
+    there is no added latency to recognition.
+    """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_CubicServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -96,6 +114,11 @@ def add_CubicServicer_to_server(servicer, server):
           servicer.StreamingRecognize,
           request_deserializer=cubic__pb2.StreamingRecognizeRequest.FromString,
           response_serializer=cubic__pb2.RecognitionResponse.SerializeToString,
+      ),
+      'CompileContext': grpc.unary_unary_rpc_method_handler(
+          servicer.CompileContext,
+          request_deserializer=cubic__pb2.CompileContextRequest.FromString,
+          response_serializer=cubic__pb2.CompileContextResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

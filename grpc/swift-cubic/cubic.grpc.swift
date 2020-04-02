@@ -33,6 +33,7 @@ public protocol Cobaltspeech_Cubic_CubicClientProtocol {
   func listModels(_ request: Cobaltspeech_Cubic_ListModelsRequest, callOptions: CallOptions?) -> UnaryCall<Cobaltspeech_Cubic_ListModelsRequest, Cobaltspeech_Cubic_ListModelsResponse>
   func recognize(_ request: Cobaltspeech_Cubic_RecognizeRequest, callOptions: CallOptions?) -> UnaryCall<Cobaltspeech_Cubic_RecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>
   func streamingRecognize(callOptions: CallOptions?, handler: @escaping (Cobaltspeech_Cubic_RecognitionResponse) -> Void) -> BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>
+  func compileContext(_ request: Cobaltspeech_Cubic_CompileContextRequest, callOptions: CallOptions?) -> UnaryCall<Cobaltspeech_Cubic_CompileContextRequest, Cobaltspeech_Cubic_CompileContextResponse>
 }
 
 public final class Cobaltspeech_Cubic_CubicClient: GRPCClient, Cobaltspeech_Cubic_CubicClientProtocol {
@@ -105,6 +106,24 @@ public final class Cobaltspeech_Cubic_CubicClient: GRPCClient, Cobaltspeech_Cubi
                                                handler: handler)
   }
 
+  /// Compiles recognition context information, such as list of words or phrases
+  /// that may appear in the recognition output, into a compact, fast to access
+  /// form for a Cubic model. The compiled object may be sent with subsequent
+  /// `Recognize` or `StreamingRecognize` requests to aid speech recognition.
+  /// This is useful when the context information is constant for multiple
+  /// recognize requests. Precompiling context information like this ensures that
+  /// there is no added latency to recognition.
+  ///
+  /// - Parameters:
+  ///   - request: Request to send to CompileContext.
+  ///   - callOptions: Call options; `self.defaultCallOptions` is used if `nil`.
+  /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
+  public func compileContext(_ request: Cobaltspeech_Cubic_CompileContextRequest, callOptions: CallOptions? = nil) -> UnaryCall<Cobaltspeech_Cubic_CompileContextRequest, Cobaltspeech_Cubic_CompileContextResponse> {
+    return self.makeUnaryCall(path: "/cobaltspeech.cubic.Cubic/CompileContext",
+                              request: request,
+                              callOptions: callOptions ?? self.defaultCallOptions)
+  }
+
 }
 
 
@@ -116,4 +135,6 @@ extension Cobaltspeech_Cubic_ListModelsResponse: GRPCProtobufPayload {}
 extension Cobaltspeech_Cubic_RecognizeRequest: GRPCProtobufPayload {}
 extension Cobaltspeech_Cubic_RecognitionResponse: GRPCProtobufPayload {}
 extension Cobaltspeech_Cubic_StreamingRecognizeRequest: GRPCProtobufPayload {}
+extension Cobaltspeech_Cubic_CompileContextRequest: GRPCProtobufPayload {}
+extension Cobaltspeech_Cubic_CompileContextResponse: GRPCProtobufPayload {}
 
