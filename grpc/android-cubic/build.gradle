@@ -1,0 +1,83 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.10'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.google.protobuf'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 29
+
+        versionCode 1
+        versionName "1.0"
+
+        sourceSets {
+            main {
+                proto {
+                    srcDir 'src/main/protobuf'
+                    srcDir 'src/main/protocolbuffers'
+
+                    include '**/*.protodevel'
+                }
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.10.0'
+    }
+    plugins {
+        javalite {
+            artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0"
+        }
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.24.0'
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.plugins {
+                javalite {}
+                grpc {
+                    option 'lite'
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation 'javax.annotation:javax.annotation-api:1.2'
+
+    implementation 'io.grpc:grpc-protobuf-lite:1.25.0'
+    implementation 'io.grpc:grpc-okhttp:1.24.0'
+    implementation 'io.grpc:grpc-stub:1.24.0'
+    implementation 'io.grpc:grpc-auth:1.24.0'
+}
