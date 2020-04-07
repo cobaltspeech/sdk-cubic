@@ -1,6 +1,6 @@
 # Copyright (2019) Cobalt Speech and Language Inc.
 
-.PHONY: all go py cs swift cs_push go-test py-test docs
+.PHONY: all go py cs swift cs_push android go-test py-test docs
 
 all: docs go py swift
 
@@ -81,6 +81,9 @@ swift:
 		--swift_opt=Visibility=Public \
 		--swift_out=./swift-cubic \
 		cubic.proto
+android:
+	cp cubic.proto android-cubic/src/main/proto/cubic.proto
+	cd android-cubic && gradle wrapper && ./gradlew build
 
 docs:
 	protoc -I . -I ${PROTOINC} --doc_out=${DOCS_OUTDIR} --doc_opt=doc.md.tmpl,autogen-doc-cubic-proto.md cubic.proto
