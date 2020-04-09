@@ -2,7 +2,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-
+//        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.1'
@@ -10,18 +10,25 @@ buildscript {
     }
 }
 
+plugins {
+    id 'de.undercouch.download' version '4.0.4'
+}
+
 allprojects {
     repositories {
         google()
         jcenter()
-
     }
 }
+
+apply from: 'preBuilderProtoFiles.gradle'
 
 apply plugin: 'com.android.library'
 apply plugin: 'com.google.protobuf'
 
 android {
+    preBuild.dependsOn initProtoFiles, downloadGoogleApi, downloadGoogleProto, downloadCubic
+
     compileSdkVersion 29
 
     defaultConfig {
@@ -64,8 +71,11 @@ protobuf {
     generateProtoTasks {
         all().each { task ->
             task.plugins {
-                javalite {}
+                javalite {
+                    outputSubDir = '../../../../../src/main/java'
+                }
                 grpc {
+                    outputSubDir = '../../../../../src/main/java'
                     option 'lite'
                 }
             }

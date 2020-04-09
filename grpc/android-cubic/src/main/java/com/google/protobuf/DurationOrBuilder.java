@@ -5,7 +5,7 @@ package com.google.protobuf;
 
 public interface DurationOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.protobuf.Duration)
-    MessageLiteOrBuilder {
+    com.google.protobuf.MessageLiteOrBuilder {
 
   /**
    * <pre>

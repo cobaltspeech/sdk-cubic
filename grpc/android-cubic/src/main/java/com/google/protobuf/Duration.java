@@ -55,7 +55,7 @@ package com.google.protobuf;
  * Protobuf type {@code google.protobuf.Duration}
  */
 public  final class Duration extends
-    GeneratedMessageLite<
+    com.google.protobuf.GeneratedMessageLite<
         Duration, Duration.Builder> implements
     // @@protoc_insertion_point(message_implements:google.protobuf.Duration)
     DurationOrBuilder {
@@ -152,7 +152,7 @@ public  final class Duration extends
     nanos_ = 0;
   }
 
-  public void writeTo(CodedOutputStream output)
+  public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (seconds_ != 0L) {
       output.writeInt64(1, seconds_);
@@ -168,82 +168,82 @@ public  final class Duration extends
 
     size = 0;
     if (seconds_ != 0L) {
-      size += CodedOutputStream
+      size += com.google.protobuf.CodedOutputStream
         .computeInt64Size(1, seconds_);
     }
     if (nanos_ != 0) {
-      size += CodedOutputStream
+      size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(2, nanos_);
     }
     memoizedSerializedSize = size;
     return size;
   }
 
-  public static Duration parseFrom(
-      ByteString data)
-      throws InvalidProtocolBufferException {
-    return GeneratedMessageLite.parseFrom(
+  public static com.google.protobuf.Duration parseFrom(
+      com.google.protobuf.ByteString data)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data);
   }
-  public static Duration parseFrom(
-      ByteString data,
-      ExtensionRegistryLite extensionRegistry)
-      throws InvalidProtocolBufferException {
-    return GeneratedMessageLite.parseFrom(
+  public static com.google.protobuf.Duration parseFrom(
+      com.google.protobuf.ByteString data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data, extensionRegistry);
   }
-  public static Duration parseFrom(byte[] data)
-      throws InvalidProtocolBufferException {
-    return GeneratedMessageLite.parseFrom(
+  public static com.google.protobuf.Duration parseFrom(byte[] data)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data);
   }
-  public static Duration parseFrom(
+  public static com.google.protobuf.Duration parseFrom(
       byte[] data,
-      ExtensionRegistryLite extensionRegistry)
-      throws InvalidProtocolBufferException {
-    return GeneratedMessageLite.parseFrom(
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data, extensionRegistry);
   }
-  public static Duration parseFrom(java.io.InputStream input)
+  public static com.google.protobuf.Duration parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return GeneratedMessageLite.parseFrom(
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input);
   }
-  public static Duration parseFrom(
+  public static com.google.protobuf.Duration parseFrom(
       java.io.InputStream input,
-      ExtensionRegistryLite extensionRegistry)
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return GeneratedMessageLite.parseFrom(
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input, extensionRegistry);
   }
-  public static Duration parseDelimitedFrom(java.io.InputStream input)
+  public static com.google.protobuf.Duration parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return parseDelimitedFrom(DEFAULT_INSTANCE, input);
   }
-  public static Duration parseDelimitedFrom(
+  public static com.google.protobuf.Duration parseDelimitedFrom(
       java.io.InputStream input,
-      ExtensionRegistryLite extensionRegistry)
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
   }
-  public static Duration parseFrom(
-      CodedInputStream input)
+  public static com.google.protobuf.Duration parseFrom(
+      com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return GeneratedMessageLite.parseFrom(
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input);
   }
-  public static Duration parseFrom(
-      CodedInputStream input,
-      ExtensionRegistryLite extensionRegistry)
+  public static com.google.protobuf.Duration parseFrom(
+      com.google.protobuf.CodedInputStream input,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return GeneratedMessageLite.parseFrom(
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input, extensionRegistry);
   }
 
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(Duration prototype) {
+  public static Builder newBuilder(com.google.protobuf.Duration prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
 
@@ -299,8 +299,8 @@ public  final class Duration extends
    * Protobuf type {@code google.protobuf.Duration}
    */
   public static final class Builder extends
-      GeneratedMessageLite.Builder<
-        Duration, Builder> implements
+      com.google.protobuf.GeneratedMessageLite.Builder<
+        com.google.protobuf.Duration, Builder> implements
       // @@protoc_insertion_point(builder_implements:google.protobuf.Duration)
       com.google.protobuf.DurationOrBuilder {
     // Construct using com.google.protobuf.Duration.newBuilder()
@@ -403,11 +403,11 @@ public  final class Duration extends
     // @@protoc_insertion_point(builder_scope:google.protobuf.Duration)
   }
   protected final Object dynamicMethod(
-      MethodToInvoke method,
+      com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
       Object arg0, Object arg1) {
     switch (method) {
       case NEW_MUTABLE_INSTANCE: {
-        return new Duration();
+        return new com.google.protobuf.Duration();
       }
       case IS_INITIALIZED: {
         return DEFAULT_INSTANCE;
@@ -420,21 +420,21 @@ public  final class Duration extends
       }
       case VISIT: {
         Visitor visitor = (Visitor) arg0;
-        Duration other = (Duration) arg1;
+        com.google.protobuf.Duration other = (com.google.protobuf.Duration) arg1;
         seconds_ = visitor.visitLong(seconds_ != 0L, seconds_,
             other.seconds_ != 0L, other.seconds_);
         nanos_ = visitor.visitInt(nanos_ != 0, nanos_,
             other.nanos_ != 0, other.nanos_);
-        if (visitor == MergeFromVisitor
+        if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
             .INSTANCE) {
         }
         return this;
       }
       case MERGE_FROM_STREAM: {
-        CodedInputStream input =
-            (CodedInputStream) arg0;
-        ExtensionRegistryLite extensionRegistry =
-            (ExtensionRegistryLite) arg1;
+        com.google.protobuf.CodedInputStream input =
+            (com.google.protobuf.CodedInputStream) arg0;
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry =
+            (com.google.protobuf.ExtensionRegistryLite) arg1;
         try {
           boolean done = false;
           while (!done) {
@@ -461,11 +461,11 @@ public  final class Duration extends
               }
             }
           }
-        } catch (InvalidProtocolBufferException e) {
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           throw new RuntimeException(e.setUnfinishedMessage(this));
         } catch (java.io.IOException e) {
           throw new RuntimeException(
-              new InvalidProtocolBufferException(
+              new com.google.protobuf.InvalidProtocolBufferException(
                   e.getMessage()).setUnfinishedMessage(this));
         } finally {
         }
@@ -474,7 +474,7 @@ public  final class Duration extends
         return DEFAULT_INSTANCE;
       }
       case GET_PARSER: {
-        if (PARSER == null) {    synchronized (Duration.class) {
+        if (PARSER == null) {    synchronized (com.google.protobuf.Duration.class) {
             if (PARSER == null) {
               PARSER = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
             }
@@ -488,19 +488,19 @@ public  final class Duration extends
 
 
   // @@protoc_insertion_point(class_scope:google.protobuf.Duration)
-  private static final Duration DEFAULT_INSTANCE;
+  private static final com.google.protobuf.Duration DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new Duration();
     DEFAULT_INSTANCE.makeImmutable();
   }
 
-  public static Duration getDefaultInstance() {
+  public static com.google.protobuf.Duration getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static volatile Parser<Duration> PARSER;
+  private static volatile com.google.protobuf.Parser<Duration> PARSER;
 
-  public static Parser<Duration> parser() {
+  public static com.google.protobuf.Parser<Duration> parser() {
     return DEFAULT_INSTANCE.getParserForType();
   }
 }

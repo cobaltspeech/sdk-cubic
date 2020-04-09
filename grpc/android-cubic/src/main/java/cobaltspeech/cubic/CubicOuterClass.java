@@ -42,38 +42,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsRequest parseDelimitedFrom(java.io.InputStream input)
@@ -89,14 +89,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -128,7 +128,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.ListModelsRequest)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -146,7 +146,7 @@ public final class CubicOuterClass {
         case VISIT: {
           Visitor visitor = (Visitor) arg0;
           cobaltspeech.cubic.CubicOuterClass.ListModelsRequest other = (cobaltspeech.cubic.CubicOuterClass.ListModelsRequest) arg1;
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
           }
           return this;
@@ -453,38 +453,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognizeRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognizeRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognizeRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognizeRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognizeRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognizeRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognizeRequest parseDelimitedFrom(java.io.InputStream input)
@@ -500,14 +500,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognizeRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognizeRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -680,7 +680,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.RecognizeRequest)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -700,7 +700,7 @@ public final class CubicOuterClass {
           cobaltspeech.cubic.CubicOuterClass.RecognizeRequest other = (cobaltspeech.cubic.CubicOuterClass.RecognizeRequest) arg1;
           config_ = visitor.visitMessage(config_, other.config_);
           audio_ = visitor.visitMessage(audio_, other.audio_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
           }
           return this;
@@ -832,7 +832,7 @@ public final class CubicOuterClass {
     private StreamingRecognizeRequest() {
     }
     private int requestCase_ = 0;
-    private Object request_;
+    private java.lang.Object request_;
     public enum RequestCase
         implements com.google.protobuf.Internal.EnumLite {
       CONFIG(1),
@@ -845,7 +845,7 @@ public final class CubicOuterClass {
       /**
        * @deprecated Use {@link #forNumber(int)} instead.
        */
-      @Deprecated
+      @java.lang.Deprecated
       public static RequestCase valueOf(int value) {
         return forNumber(value);
       }
@@ -1006,38 +1006,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.StreamingRecognizeRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.StreamingRecognizeRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.StreamingRecognizeRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.StreamingRecognizeRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.StreamingRecognizeRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.StreamingRecognizeRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.StreamingRecognizeRequest parseDelimitedFrom(java.io.InputStream input)
@@ -1053,14 +1053,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.StreamingRecognizeRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.StreamingRecognizeRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -1188,7 +1188,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.StreamingRecognizeRequest)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -1226,7 +1226,7 @@ public final class CubicOuterClass {
               break;
             }
           }
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
             if (other.requestCase_ != 0) {
               requestCase_ = other.requestCase_;
@@ -1338,7 +1338,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string cubic = 1;</code>
      */
-    String getCubic();
+    java.lang.String getCubic();
     /**
      * <pre>
      * version of the cubic library handling the recognition
@@ -1356,7 +1356,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string server = 2;</code>
      */
-    String getServer();
+    java.lang.String getServer();
     /**
      * <pre>
      * version of the server handling these requests
@@ -1384,7 +1384,7 @@ public final class CubicOuterClass {
       server_ = "";
     }
     public static final int CUBIC_FIELD_NUMBER = 1;
-    private String cubic_;
+    private java.lang.String cubic_;
     /**
      * <pre>
      * version of the cubic library handling the recognition
@@ -1392,7 +1392,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string cubic = 1;</code>
      */
-    public String getCubic() {
+    public java.lang.String getCubic() {
       return cubic_;
     }
     /**
@@ -1414,7 +1414,7 @@ public final class CubicOuterClass {
      * <code>optional string cubic = 1;</code>
      */
     private void setCubic(
-        String value) {
+        java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -1450,7 +1450,7 @@ public final class CubicOuterClass {
     }
 
     public static final int SERVER_FIELD_NUMBER = 2;
-    private String server_;
+    private java.lang.String server_;
     /**
      * <pre>
      * version of the server handling these requests
@@ -1458,7 +1458,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string server = 2;</code>
      */
-    public String getServer() {
+    public java.lang.String getServer() {
       return server_;
     }
     /**
@@ -1480,7 +1480,7 @@ public final class CubicOuterClass {
      * <code>optional string server = 2;</code>
      */
     private void setServer(
-        String value) {
+        java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -1545,38 +1545,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.VersionResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.VersionResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.VersionResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.VersionResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.VersionResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.VersionResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.VersionResponse parseDelimitedFrom(java.io.InputStream input)
@@ -1592,14 +1592,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.VersionResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.VersionResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -1635,7 +1635,7 @@ public final class CubicOuterClass {
        *
        * <code>optional string cubic = 1;</code>
        */
-      public String getCubic() {
+      public java.lang.String getCubic() {
         return instance.getCubic();
       }
       /**
@@ -1657,7 +1657,7 @@ public final class CubicOuterClass {
        * <code>optional string cubic = 1;</code>
        */
       public Builder setCubic(
-          String value) {
+          java.lang.String value) {
         copyOnWrite();
         instance.setCubic(value);
         return this;
@@ -1695,7 +1695,7 @@ public final class CubicOuterClass {
        *
        * <code>optional string server = 2;</code>
        */
-      public String getServer() {
+      public java.lang.String getServer() {
         return instance.getServer();
       }
       /**
@@ -1717,7 +1717,7 @@ public final class CubicOuterClass {
        * <code>optional string server = 2;</code>
        */
       public Builder setServer(
-          String value) {
+          java.lang.String value) {
         copyOnWrite();
         instance.setServer(value);
         return this;
@@ -1751,7 +1751,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.VersionResponse)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -1773,7 +1773,7 @@ public final class CubicOuterClass {
               !other.cubic_.isEmpty(), other.cubic_);
           server_ = visitor.visitString(!server_.isEmpty(), server_,
               !other.server_.isEmpty(), other.server_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
           }
           return this;
@@ -2049,7 +2049,7 @@ public final class CubicOuterClass {
      * <code>repeated .cobaltspeech.cubic.Model models = 1;</code>
      */
     private void addAllModels(
-        Iterable<? extends cobaltspeech.cubic.CubicOuterClass.Model> values) {
+        java.lang.Iterable<? extends cobaltspeech.cubic.CubicOuterClass.Model> values) {
       ensureModelsIsMutable();
       com.google.protobuf.AbstractMessageLite.addAll(
           values, models_);
@@ -2099,38 +2099,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsResponse parseDelimitedFrom(java.io.InputStream input)
@@ -2146,14 +2146,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ListModelsResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -2297,7 +2297,7 @@ public final class CubicOuterClass {
        * <code>repeated .cobaltspeech.cubic.Model models = 1;</code>
        */
       public Builder addAllModels(
-          Iterable<? extends cobaltspeech.cubic.CubicOuterClass.Model> values) {
+          java.lang.Iterable<? extends cobaltspeech.cubic.CubicOuterClass.Model> values) {
         copyOnWrite();
         instance.addAllModels(values);
         return this;
@@ -2330,7 +2330,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.ListModelsResponse)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -2350,7 +2350,7 @@ public final class CubicOuterClass {
           Visitor visitor = (Visitor) arg0;
           cobaltspeech.cubic.CubicOuterClass.ListModelsResponse other = (cobaltspeech.cubic.CubicOuterClass.ListModelsResponse) arg1;
           models_= visitor.visitList(models_, other.models_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
           }
           return this;
@@ -2569,7 +2569,7 @@ public final class CubicOuterClass {
      * <code>repeated .cobaltspeech.cubic.RecognitionResult results = 1;</code>
      */
     private void addAllResults(
-        Iterable<? extends cobaltspeech.cubic.CubicOuterClass.RecognitionResult> values) {
+        java.lang.Iterable<? extends cobaltspeech.cubic.CubicOuterClass.RecognitionResult> values) {
       ensureResultsIsMutable();
       com.google.protobuf.AbstractMessageLite.addAll(
           values, results_);
@@ -2611,38 +2611,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResponse parseDelimitedFrom(java.io.InputStream input)
@@ -2658,14 +2658,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -2775,7 +2775,7 @@ public final class CubicOuterClass {
        * <code>repeated .cobaltspeech.cubic.RecognitionResult results = 1;</code>
        */
       public Builder addAllResults(
-          Iterable<? extends cobaltspeech.cubic.CubicOuterClass.RecognitionResult> values) {
+          java.lang.Iterable<? extends cobaltspeech.cubic.CubicOuterClass.RecognitionResult> values) {
         copyOnWrite();
         instance.addAllResults(values);
         return this;
@@ -2800,7 +2800,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.RecognitionResponse)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -2820,7 +2820,7 @@ public final class CubicOuterClass {
           Visitor visitor = (Visitor) arg0;
           cobaltspeech.cubic.CubicOuterClass.RecognitionResponse other = (cobaltspeech.cubic.CubicOuterClass.RecognitionResponse) arg1;
           results_= visitor.visitList(results_, other.results_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
           }
           return this;
@@ -2910,7 +2910,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string model_id = 1;</code>
      */
-    String getModelId();
+    java.lang.String getModelId();
     /**
      * <pre>
      * Unique identifier of the model to use, as obtained from a `Model` message.
@@ -3052,7 +3052,7 @@ public final class CubicOuterClass {
      *
      * <code>repeated uint32 audio_channels = 8;</code>
      */
-    java.util.List<Integer> getAudioChannelsList();
+    java.util.List<java.lang.Integer> getAudioChannelsList();
     /**
      * <pre>
      * This is an optional field.  If the audio has multiple channels, this field
@@ -3258,7 +3258,7 @@ public final class CubicOuterClass {
       /**
        * @deprecated Use {@link #forNumber(int)} instead.
        */
-      @Deprecated
+      @java.lang.Deprecated
       public static Encoding valueOf(int value) {
         return forNumber(value);
       }
@@ -3298,7 +3298,7 @@ public final class CubicOuterClass {
 
     private int bitField0_;
     public static final int MODEL_ID_FIELD_NUMBER = 1;
-    private String modelId_;
+    private java.lang.String modelId_;
     /**
      * <pre>
      * Unique identifier of the model to use, as obtained from a `Model` message.
@@ -3306,7 +3306,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string model_id = 1;</code>
      */
-    public String getModelId() {
+    public java.lang.String getModelId() {
       return modelId_;
     }
     /**
@@ -3328,7 +3328,7 @@ public final class CubicOuterClass {
      * <code>optional string model_id = 1;</code>
      */
     private void setModelId(
-        String value) {
+        java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -3778,7 +3778,7 @@ public final class CubicOuterClass {
      *
      * <code>repeated uint32 audio_channels = 8;</code>
      */
-    public java.util.List<Integer>
+    public java.util.List<java.lang.Integer>
         getAudioChannelsList() {
       return audioChannels_;
     }
@@ -3894,7 +3894,7 @@ public final class CubicOuterClass {
      * <code>repeated uint32 audio_channels = 8;</code>
      */
     private void addAllAudioChannels(
-        Iterable<? extends Integer> values) {
+        java.lang.Iterable<? extends java.lang.Integer> values) {
       ensureAudioChannelsIsMutable();
       com.google.protobuf.AbstractMessageLite.addAll(
           values, audioChannels_);
@@ -4100,38 +4100,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfig parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfig parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfig parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfig parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfig parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfig parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfig parseDelimitedFrom(java.io.InputStream input)
@@ -4147,14 +4147,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfig parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfig parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -4190,7 +4190,7 @@ public final class CubicOuterClass {
        *
        * <code>optional string model_id = 1;</code>
        */
-      public String getModelId() {
+      public java.lang.String getModelId() {
         return instance.getModelId();
       }
       /**
@@ -4212,7 +4212,7 @@ public final class CubicOuterClass {
        * <code>optional string model_id = 1;</code>
        */
       public Builder setModelId(
-          String value) {
+          java.lang.String value) {
         copyOnWrite();
         instance.setModelId(value);
         return this;
@@ -4647,7 +4647,7 @@ public final class CubicOuterClass {
        *
        * <code>repeated uint32 audio_channels = 8;</code>
        */
-      public java.util.List<Integer>
+      public java.util.List<java.lang.Integer>
           getAudioChannelsList() {
         return java.util.Collections.unmodifiableList(
             instance.getAudioChannelsList());
@@ -4760,7 +4760,7 @@ public final class CubicOuterClass {
        * <code>repeated uint32 audio_channels = 8;</code>
        */
       public Builder addAllAudioChannels(
-          Iterable<? extends Integer> values) {
+          java.lang.Iterable<? extends java.lang.Integer> values) {
         copyOnWrite();
         instance.addAllAudioChannels(values);
         return this;
@@ -4879,7 +4879,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.RecognitionConfig)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -4912,7 +4912,7 @@ public final class CubicOuterClass {
               other.enableConfusionNetwork_ != false, other.enableConfusionNetwork_);
           audioChannels_= visitor.visitIntList(audioChannels_, other.audioChannels_);
           metadata_ = visitor.visitMessage(metadata_, other.metadata_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
             bitField0_ |= other.bitField0_;
           }
@@ -5075,7 +5075,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string custom_metadata = 1;</code>
      */
-    String getCustomMetadata();
+    java.lang.String getCustomMetadata();
     /**
      * <pre>
      * Any custom metadata that the client wants to associate with the recording.
@@ -5104,7 +5104,7 @@ public final class CubicOuterClass {
       customMetadata_ = "";
     }
     public static final int CUSTOM_METADATA_FIELD_NUMBER = 1;
-    private String customMetadata_;
+    private java.lang.String customMetadata_;
     /**
      * <pre>
      * Any custom metadata that the client wants to associate with the recording.
@@ -5114,7 +5114,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string custom_metadata = 1;</code>
      */
-    public String getCustomMetadata() {
+    public java.lang.String getCustomMetadata() {
       return customMetadata_;
     }
     /**
@@ -5140,7 +5140,7 @@ public final class CubicOuterClass {
      * <code>optional string custom_metadata = 1;</code>
      */
     private void setCustomMetadata(
-        String value) {
+        java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -5202,38 +5202,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionMetadata parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionMetadata parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionMetadata parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionMetadata parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionMetadata parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionMetadata parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionMetadata parseDelimitedFrom(java.io.InputStream input)
@@ -5249,14 +5249,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionMetadata parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionMetadata parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -5294,7 +5294,7 @@ public final class CubicOuterClass {
        *
        * <code>optional string custom_metadata = 1;</code>
        */
-      public String getCustomMetadata() {
+      public java.lang.String getCustomMetadata() {
         return instance.getCustomMetadata();
       }
       /**
@@ -5320,7 +5320,7 @@ public final class CubicOuterClass {
        * <code>optional string custom_metadata = 1;</code>
        */
       public Builder setCustomMetadata(
-          String value) {
+          java.lang.String value) {
         copyOnWrite();
         instance.setCustomMetadata(value);
         return this;
@@ -5358,7 +5358,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.RecognitionMetadata)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -5378,7 +5378,7 @@ public final class CubicOuterClass {
           cobaltspeech.cubic.CubicOuterClass.RecognitionMetadata other = (cobaltspeech.cubic.CubicOuterClass.RecognitionMetadata) arg1;
           customMetadata_ = visitor.visitString(!customMetadata_.isEmpty(), customMetadata_,
               !other.customMetadata_.isEmpty(), other.customMetadata_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
           }
           return this;
@@ -5527,38 +5527,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAudio parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAudio parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAudio parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAudio parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAudio parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAudio parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAudio parseDelimitedFrom(java.io.InputStream input)
@@ -5574,14 +5574,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAudio parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAudio parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -5636,7 +5636,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.RecognitionAudio)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -5656,7 +5656,7 @@ public final class CubicOuterClass {
           cobaltspeech.cubic.CubicOuterClass.RecognitionAudio other = (cobaltspeech.cubic.CubicOuterClass.RecognitionAudio) arg1;
           data_ = visitor.visitByteString(data_ != com.google.protobuf.ByteString.EMPTY, data_,
               other.data_ != com.google.protobuf.ByteString.EMPTY, other.data_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
           }
           return this;
@@ -5744,7 +5744,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string id = 1;</code>
      */
-    String getId();
+    java.lang.String getId();
     /**
      * <pre>
      * Unique identifier of the model.  This identifier is used to choose the
@@ -5766,7 +5766,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string name = 2;</code>
      */
-    String getName();
+    java.lang.String getName();
     /**
      * <pre>
      * Model name.  This is a concise name describing the model, and maybe
@@ -5813,7 +5813,7 @@ public final class CubicOuterClass {
       name_ = "";
     }
     public static final int ID_FIELD_NUMBER = 1;
-    private String id_;
+    private java.lang.String id_;
     /**
      * <pre>
      * Unique identifier of the model.  This identifier is used to choose the
@@ -5823,7 +5823,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string id = 1;</code>
      */
-    public String getId() {
+    public java.lang.String getId() {
       return id_;
     }
     /**
@@ -5849,7 +5849,7 @@ public final class CubicOuterClass {
      * <code>optional string id = 1;</code>
      */
     private void setId(
-        String value) {
+        java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -5889,7 +5889,7 @@ public final class CubicOuterClass {
     }
 
     public static final int NAME_FIELD_NUMBER = 2;
-    private String name_;
+    private java.lang.String name_;
     /**
      * <pre>
      * Model name.  This is a concise name describing the model, and maybe
@@ -5899,7 +5899,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string name = 2;</code>
      */
-    public String getName() {
+    public java.lang.String getName() {
       return name_;
     }
     /**
@@ -5925,7 +5925,7 @@ public final class CubicOuterClass {
      * <code>optional string name = 2;</code>
      */
     private void setName(
-        String value) {
+        java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -6077,38 +6077,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.Model parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.Model parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.Model parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.Model parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.Model parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.Model parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.Model parseDelimitedFrom(java.io.InputStream input)
@@ -6124,14 +6124,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.Model parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.Model parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -6169,7 +6169,7 @@ public final class CubicOuterClass {
        *
        * <code>optional string id = 1;</code>
        */
-      public String getId() {
+      public java.lang.String getId() {
         return instance.getId();
       }
       /**
@@ -6195,7 +6195,7 @@ public final class CubicOuterClass {
        * <code>optional string id = 1;</code>
        */
       public Builder setId(
-          String value) {
+          java.lang.String value) {
         copyOnWrite();
         instance.setId(value);
         return this;
@@ -6239,7 +6239,7 @@ public final class CubicOuterClass {
        *
        * <code>optional string name = 2;</code>
        */
-      public String getName() {
+      public java.lang.String getName() {
         return instance.getName();
       }
       /**
@@ -6265,7 +6265,7 @@ public final class CubicOuterClass {
        * <code>optional string name = 2;</code>
        */
       public Builder setName(
-          String value) {
+          java.lang.String value) {
         copyOnWrite();
         instance.setName(value);
         return this;
@@ -6372,7 +6372,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.Model)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -6395,7 +6395,7 @@ public final class CubicOuterClass {
           name_ = visitor.visitString(!name_.isEmpty(), name_,
               !other.name_.isEmpty(), other.name_);
           attributes_ = visitor.visitMessage(attributes_, other.attributes_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
           }
           return this;
@@ -6575,38 +6575,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.ModelAttributes parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ModelAttributes parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ModelAttributes parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ModelAttributes parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ModelAttributes parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ModelAttributes parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ModelAttributes parseDelimitedFrom(java.io.InputStream input)
@@ -6622,14 +6622,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.ModelAttributes parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ModelAttributes parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -6696,7 +6696,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.ModelAttributes)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -6716,7 +6716,7 @@ public final class CubicOuterClass {
           cobaltspeech.cubic.CubicOuterClass.ModelAttributes other = (cobaltspeech.cubic.CubicOuterClass.ModelAttributes) arg1;
           sampleRate_ = visitor.visitInt(sampleRate_ != 0, sampleRate_,
               other.sampleRate_ != 0, other.sampleRate_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
           }
           return this;
@@ -7030,7 +7030,7 @@ public final class CubicOuterClass {
      * <code>repeated .cobaltspeech.cubic.RecognitionAlternative alternatives = 1;</code>
      */
     private void addAllAlternatives(
-        Iterable<? extends cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative> values) {
+        java.lang.Iterable<? extends cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative> values) {
       ensureAlternativesIsMutable();
       com.google.protobuf.AbstractMessageLite.addAll(
           values, alternatives_);
@@ -7274,38 +7274,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResult parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResult parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResult parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResult parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResult parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResult parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResult parseDelimitedFrom(java.io.InputStream input)
@@ -7321,14 +7321,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResult parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionResult parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -7472,7 +7472,7 @@ public final class CubicOuterClass {
        * <code>repeated .cobaltspeech.cubic.RecognitionAlternative alternatives = 1;</code>
        */
       public Builder addAllAlternatives(
-          Iterable<? extends cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative> values) {
+          java.lang.Iterable<? extends cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative> values) {
         copyOnWrite();
         instance.addAllAlternatives(values);
         return this;
@@ -7671,7 +7671,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.RecognitionResult)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -7696,7 +7696,7 @@ public final class CubicOuterClass {
           cnet_ = visitor.visitMessage(cnet_, other.cnet_);
           audioChannel_ = visitor.visitInt(audioChannel_ != 0, audioChannel_,
               other.audioChannel_ != 0, other.audioChannel_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
             bitField0_ |= other.bitField0_;
           }
@@ -7817,7 +7817,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string transcript = 1;</code>
      */
-    String getTranscript();
+    java.lang.String getTranscript();
     /**
      * <pre>
      * Text representing the transcription of the words that the user spoke.
@@ -7848,7 +7848,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string raw_transcript = 6;</code>
      */
-    String getRawTranscript();
+    java.lang.String getRawTranscript();
     /**
      * <pre>
      * Text representing the transcription of the words that the user spoke,
@@ -7962,7 +7962,7 @@ public final class CubicOuterClass {
     }
     private int bitField0_;
     public static final int TRANSCRIPT_FIELD_NUMBER = 1;
-    private String transcript_;
+    private java.lang.String transcript_;
     /**
      * <pre>
      * Text representing the transcription of the words that the user spoke.
@@ -7977,7 +7977,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string transcript = 1;</code>
      */
-    public String getTranscript() {
+    public java.lang.String getTranscript() {
       return transcript_;
     }
     /**
@@ -8013,7 +8013,7 @@ public final class CubicOuterClass {
      * <code>optional string transcript = 1;</code>
      */
     private void setTranscript(
-        String value) {
+        java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -8063,7 +8063,7 @@ public final class CubicOuterClass {
     }
 
     public static final int RAW_TRANSCRIPT_FIELD_NUMBER = 6;
-    private String rawTranscript_;
+    private java.lang.String rawTranscript_;
     /**
      * <pre>
      * Text representing the transcription of the words that the user spoke,
@@ -8077,7 +8077,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string raw_transcript = 6;</code>
      */
-    public String getRawTranscript() {
+    public java.lang.String getRawTranscript() {
       return rawTranscript_;
     }
     /**
@@ -8111,7 +8111,7 @@ public final class CubicOuterClass {
      * <code>optional string raw_transcript = 6;</code>
      */
     private void setRawTranscript(
-        String value) {
+        java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -8369,7 +8369,7 @@ public final class CubicOuterClass {
      * <code>repeated .cobaltspeech.cubic.WordInfo words = 3;</code>
      */
     private void addAllWords(
-        Iterable<? extends cobaltspeech.cubic.CubicOuterClass.WordInfo> values) {
+        java.lang.Iterable<? extends cobaltspeech.cubic.CubicOuterClass.WordInfo> values) {
       ensureWordsIsMutable();
       com.google.protobuf.AbstractMessageLite.addAll(
           values, words_);
@@ -8616,38 +8616,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative parseDelimitedFrom(java.io.InputStream input)
@@ -8663,14 +8663,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionAlternative parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -8713,7 +8713,7 @@ public final class CubicOuterClass {
        *
        * <code>optional string transcript = 1;</code>
        */
-      public String getTranscript() {
+      public java.lang.String getTranscript() {
         return instance.getTranscript();
       }
       /**
@@ -8749,7 +8749,7 @@ public final class CubicOuterClass {
        * <code>optional string transcript = 1;</code>
        */
       public Builder setTranscript(
-          String value) {
+          java.lang.String value) {
         copyOnWrite();
         instance.setTranscript(value);
         return this;
@@ -8807,7 +8807,7 @@ public final class CubicOuterClass {
        *
        * <code>optional string raw_transcript = 6;</code>
        */
-      public String getRawTranscript() {
+      public java.lang.String getRawTranscript() {
         return instance.getRawTranscript();
       }
       /**
@@ -8841,7 +8841,7 @@ public final class CubicOuterClass {
        * <code>optional string raw_transcript = 6;</code>
        */
       public Builder setRawTranscript(
-          String value) {
+          java.lang.String value) {
         copyOnWrite();
         instance.setRawTranscript(value);
         return this;
@@ -9057,7 +9057,7 @@ public final class CubicOuterClass {
        * <code>repeated .cobaltspeech.cubic.WordInfo words = 3;</code>
        */
       public Builder addAllWords(
-          Iterable<? extends cobaltspeech.cubic.CubicOuterClass.WordInfo> values) {
+          java.lang.Iterable<? extends cobaltspeech.cubic.CubicOuterClass.WordInfo> values) {
         copyOnWrite();
         instance.addAllWords(values);
         return this;
@@ -9238,7 +9238,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.RecognitionAlternative)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -9266,7 +9266,7 @@ public final class CubicOuterClass {
           words_= visitor.visitList(words_, other.words_);
           startTime_ = visitor.visitMessage(startTime_, other.startTime_);
           duration_ = visitor.visitMessage(duration_, other.duration_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
             bitField0_ |= other.bitField0_;
           }
@@ -9400,7 +9400,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string word = 1;</code>
      */
-    String getWord();
+    java.lang.String getWord();
     /**
      * <pre>
      * The actual word in the text
@@ -9473,7 +9473,7 @@ public final class CubicOuterClass {
       word_ = "";
     }
     public static final int WORD_FIELD_NUMBER = 1;
-    private String word_;
+    private java.lang.String word_;
     /**
      * <pre>
      * The actual word in the text
@@ -9481,7 +9481,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string word = 1;</code>
      */
-    public String getWord() {
+    public java.lang.String getWord() {
       return word_;
     }
     /**
@@ -9503,7 +9503,7 @@ public final class CubicOuterClass {
      * <code>optional string word = 1;</code>
      */
     private void setWord(
-        String value) {
+        java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -9778,38 +9778,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.WordInfo parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.WordInfo parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.WordInfo parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.WordInfo parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.WordInfo parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.WordInfo parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.WordInfo parseDelimitedFrom(java.io.InputStream input)
@@ -9825,14 +9825,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.WordInfo parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.WordInfo parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -9868,7 +9868,7 @@ public final class CubicOuterClass {
        *
        * <code>optional string word = 1;</code>
        */
-      public String getWord() {
+      public java.lang.String getWord() {
         return instance.getWord();
       }
       /**
@@ -9890,7 +9890,7 @@ public final class CubicOuterClass {
        * <code>optional string word = 1;</code>
        */
       public Builder setWord(
-          String value) {
+          java.lang.String value) {
         copyOnWrite();
         instance.setWord(value);
         return this;
@@ -10106,7 +10106,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.WordInfo)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -10130,7 +10130,7 @@ public final class CubicOuterClass {
               other.confidence_ != 0D, other.confidence_);
           startTime_ = visitor.visitMessage(startTime_, other.startTime_);
           duration_ = visitor.visitMessage(duration_, other.duration_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
           }
           return this;
@@ -10371,7 +10371,7 @@ public final class CubicOuterClass {
      * <code>repeated .cobaltspeech.cubic.ConfusionNetworkLink links = 1;</code>
      */
     private void addAllLinks(
-        Iterable<? extends cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink> values) {
+        java.lang.Iterable<? extends cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink> values) {
       ensureLinksIsMutable();
       com.google.protobuf.AbstractMessageLite.addAll(
           values, links_);
@@ -10413,38 +10413,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfusionNetwork parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfusionNetwork parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfusionNetwork parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfusionNetwork parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfusionNetwork parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfusionNetwork parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfusionNetwork parseDelimitedFrom(java.io.InputStream input)
@@ -10460,14 +10460,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfusionNetwork parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.RecognitionConfusionNetwork parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -10571,7 +10571,7 @@ public final class CubicOuterClass {
        * <code>repeated .cobaltspeech.cubic.ConfusionNetworkLink links = 1;</code>
        */
       public Builder addAllLinks(
-          Iterable<? extends cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink> values) {
+          java.lang.Iterable<? extends cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink> values) {
         copyOnWrite();
         instance.addAllLinks(values);
         return this;
@@ -10596,7 +10596,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.RecognitionConfusionNetwork)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -10616,7 +10616,7 @@ public final class CubicOuterClass {
           Visitor visitor = (Visitor) arg0;
           cobaltspeech.cubic.CubicOuterClass.RecognitionConfusionNetwork other = (cobaltspeech.cubic.CubicOuterClass.RecognitionConfusionNetwork) arg1;
           links_= visitor.visitList(links_, other.links_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
           }
           return this;
@@ -11084,7 +11084,7 @@ public final class CubicOuterClass {
      * <code>repeated .cobaltspeech.cubic.ConfusionNetworkArc arcs = 3;</code>
      */
     private void addAllArcs(
-        Iterable<? extends cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc> values) {
+        java.lang.Iterable<? extends cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc> values) {
       ensureArcsIsMutable();
       com.google.protobuf.AbstractMessageLite.addAll(
           values, arcs_);
@@ -11148,38 +11148,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink parseDelimitedFrom(java.io.InputStream input)
@@ -11195,14 +11195,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkLink parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -11490,7 +11490,7 @@ public final class CubicOuterClass {
        * <code>repeated .cobaltspeech.cubic.ConfusionNetworkArc arcs = 3;</code>
        */
       public Builder addAllArcs(
-          Iterable<? extends cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc> values) {
+          java.lang.Iterable<? extends cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc> values) {
         copyOnWrite();
         instance.addAllArcs(values);
         return this;
@@ -11523,7 +11523,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.ConfusionNetworkLink)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -11545,7 +11545,7 @@ public final class CubicOuterClass {
           startTime_ = visitor.visitMessage(startTime_, other.startTime_);
           duration_ = visitor.visitMessage(duration_, other.duration_);
           arcs_= visitor.visitList(arcs_, other.arcs_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
             bitField0_ |= other.bitField0_;
           }
@@ -11662,7 +11662,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string word = 1;</code>
      */
-    String getWord();
+    java.lang.String getWord();
     /**
      * <pre>
      * Word in the recognized transcript
@@ -11699,7 +11699,7 @@ public final class CubicOuterClass {
       word_ = "";
     }
     public static final int WORD_FIELD_NUMBER = 1;
-    private String word_;
+    private java.lang.String word_;
     /**
      * <pre>
      * Word in the recognized transcript
@@ -11707,7 +11707,7 @@ public final class CubicOuterClass {
      *
      * <code>optional string word = 1;</code>
      */
-    public String getWord() {
+    public java.lang.String getWord() {
       return word_;
     }
     /**
@@ -11729,7 +11729,7 @@ public final class CubicOuterClass {
      * <code>optional string word = 1;</code>
      */
     private void setWord(
-        String value) {
+        java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
@@ -11832,38 +11832,38 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, data, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc parseDelimitedFrom(java.io.InputStream input)
@@ -11879,14 +11879,14 @@ public final class CubicOuterClass {
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input);
     }
     public static cobaltspeech.cubic.CubicOuterClass.ConfusionNetworkArc parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return parseFrom(
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
           DEFAULT_INSTANCE, input, extensionRegistry);
     }
 
@@ -11922,7 +11922,7 @@ public final class CubicOuterClass {
        *
        * <code>optional string word = 1;</code>
        */
-      public String getWord() {
+      public java.lang.String getWord() {
         return instance.getWord();
       }
       /**
@@ -11944,7 +11944,7 @@ public final class CubicOuterClass {
        * <code>optional string word = 1;</code>
        */
       public Builder setWord(
-          String value) {
+          java.lang.String value) {
         copyOnWrite();
         instance.setWord(value);
         return this;
@@ -12016,7 +12016,7 @@ public final class CubicOuterClass {
       // @@protoc_insertion_point(builder_scope:cobaltspeech.cubic.ConfusionNetworkArc)
     }
     protected final Object dynamicMethod(
-        MethodToInvoke method,
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
         Object arg0, Object arg1) {
       switch (method) {
         case NEW_MUTABLE_INSTANCE: {
@@ -12038,7 +12038,7 @@ public final class CubicOuterClass {
               !other.word_.isEmpty(), other.word_);
           confidence_ = visitor.visitDouble(confidence_ != 0D, confidence_,
               other.confidence_ != 0D, other.confidence_);
-          if (visitor == MergeFromVisitor
+          if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
               .INSTANCE) {
           }
           return this;

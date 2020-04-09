@@ -15,7 +15,7 @@ public interface HttpRuleOrBuilder extends
    *
    * <code>optional string selector = 1;</code>
    */
-  String getSelector();
+  java.lang.String getSelector();
   /**
    * <pre>
    * Selects a method to which this rule applies.
@@ -35,7 +35,7 @@ public interface HttpRuleOrBuilder extends
    *
    * <code>optional string get = 2;</code>
    */
-  String getGet();
+  java.lang.String getGet();
   /**
    * <pre>
    * Maps to HTTP GET. Used for listing and getting information about
@@ -54,7 +54,7 @@ public interface HttpRuleOrBuilder extends
    *
    * <code>optional string put = 3;</code>
    */
-  String getPut();
+  java.lang.String getPut();
   /**
    * <pre>
    * Maps to HTTP PUT. Used for replacing a resource.
@@ -72,7 +72,7 @@ public interface HttpRuleOrBuilder extends
    *
    * <code>optional string post = 4;</code>
    */
-  String getPost();
+  java.lang.String getPost();
   /**
    * <pre>
    * Maps to HTTP POST. Used for creating a resource or performing an action.
@@ -90,7 +90,7 @@ public interface HttpRuleOrBuilder extends
    *
    * <code>optional string delete = 5;</code>
    */
-  String getDelete();
+  java.lang.String getDelete();
   /**
    * <pre>
    * Maps to HTTP DELETE. Used for deleting a resource.
@@ -108,7 +108,7 @@ public interface HttpRuleOrBuilder extends
    *
    * <code>optional string patch = 6;</code>
    */
-  String getPatch();
+  java.lang.String getPatch();
   /**
    * <pre>
    * Maps to HTTP PATCH. Used for updating a resource.
@@ -129,7 +129,7 @@ public interface HttpRuleOrBuilder extends
    *
    * <code>optional .google.api.CustomHttpPattern custom = 8;</code>
    */
-  CustomHttpPattern getCustom();
+  com.google.api.CustomHttpPattern getCustom();
 
   /**
    * <pre>
@@ -142,7 +142,7 @@ public interface HttpRuleOrBuilder extends
    *
    * <code>optional string body = 7;</code>
    */
-  String getBody();
+  java.lang.String getBody();
   /**
    * <pre>
    * The name of the request field whose value is mapped to the HTTP request
@@ -168,7 +168,7 @@ public interface HttpRuleOrBuilder extends
    *
    * <code>optional string response_body = 12;</code>
    */
-  String getResponseBody();
+  java.lang.String getResponseBody();
   /**
    * <pre>
    * Optional. The name of the response field whose value is mapped to the HTTP
@@ -192,7 +192,7 @@ public interface HttpRuleOrBuilder extends
    *
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
-  java.util.List<HttpRule>
+  java.util.List<com.google.api.HttpRule> 
       getAdditionalBindingsList();
   /**
    * <pre>
@@ -203,7 +203,7 @@ public interface HttpRuleOrBuilder extends
    *
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
-  HttpRule getAdditionalBindings(int index);
+  com.google.api.HttpRule getAdditionalBindings(int index);
   /**
    * <pre>
    * Additional HTTP bindings for the selector. Nested bindings must
@@ -215,5 +215,5 @@ public interface HttpRuleOrBuilder extends
    */
   int getAdditionalBindingsCount();
 
-  public HttpRule.PatternCase getPatternCase();
+  public com.google.api.HttpRule.PatternCase getPatternCase();
 }

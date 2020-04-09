@@ -7,7 +7,7 @@ public final class AnnotationsProto {
   private AnnotationsProto() {}
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistryLite registry) {
-    registry.add(AnnotationsProto.http);
+    registry.add(com.google.api.AnnotationsProto.http);
   }
   public static final int HTTP_FIELD_NUMBER = 72295728;
   /**
@@ -20,15 +20,15 @@ public final class AnnotationsProto {
   public static final
     com.google.protobuf.GeneratedMessageLite.GeneratedExtension<
       com.google.protobuf.DescriptorProtos.MethodOptions,
-      HttpRule> http = com.google.protobuf.GeneratedMessageLite
+      com.google.api.HttpRule> http = com.google.protobuf.GeneratedMessageLite
           .newSingularGeneratedExtension(
         com.google.protobuf.DescriptorProtos.MethodOptions.getDefaultInstance(),
-        HttpRule.getDefaultInstance(),
-        HttpRule.getDefaultInstance(),
+        com.google.api.HttpRule.getDefaultInstance(),
+        com.google.api.HttpRule.getDefaultInstance(),
         null,
         72295728,
         com.google.protobuf.WireFormat.FieldType.MESSAGE,
-        HttpRule.class);
+        com.google.api.HttpRule.class);
 
   static {
   }

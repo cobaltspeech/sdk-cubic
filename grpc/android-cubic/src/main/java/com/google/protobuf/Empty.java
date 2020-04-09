@@ -17,13 +17,13 @@ package com.google.protobuf;
  * Protobuf type {@code google.protobuf.Empty}
  */
 public  final class Empty extends
-    GeneratedMessageLite<
+    com.google.protobuf.GeneratedMessageLite<
         Empty, Empty.Builder> implements
     // @@protoc_insertion_point(message_implements:google.protobuf.Empty)
     EmptyOrBuilder {
   private Empty() {
   }
-  public void writeTo(CodedOutputStream output)
+  public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
   }
 
@@ -36,71 +36,71 @@ public  final class Empty extends
     return size;
   }
 
-  public static Empty parseFrom(
-      ByteString data)
-      throws InvalidProtocolBufferException {
-    return GeneratedMessageLite.parseFrom(
+  public static com.google.protobuf.Empty parseFrom(
+      com.google.protobuf.ByteString data)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data);
   }
-  public static Empty parseFrom(
-      ByteString data,
-      ExtensionRegistryLite extensionRegistry)
-      throws InvalidProtocolBufferException {
-    return GeneratedMessageLite.parseFrom(
+  public static com.google.protobuf.Empty parseFrom(
+      com.google.protobuf.ByteString data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data, extensionRegistry);
   }
-  public static Empty parseFrom(byte[] data)
-      throws InvalidProtocolBufferException {
-    return GeneratedMessageLite.parseFrom(
+  public static com.google.protobuf.Empty parseFrom(byte[] data)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data);
   }
-  public static Empty parseFrom(
+  public static com.google.protobuf.Empty parseFrom(
       byte[] data,
-      ExtensionRegistryLite extensionRegistry)
-      throws InvalidProtocolBufferException {
-    return GeneratedMessageLite.parseFrom(
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data, extensionRegistry);
   }
-  public static Empty parseFrom(java.io.InputStream input)
+  public static com.google.protobuf.Empty parseFrom(java.io.InputStream input)
       throws java.io.IOException {
-    return GeneratedMessageLite.parseFrom(
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input);
   }
-  public static Empty parseFrom(
+  public static com.google.protobuf.Empty parseFrom(
       java.io.InputStream input,
-      ExtensionRegistryLite extensionRegistry)
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return GeneratedMessageLite.parseFrom(
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input, extensionRegistry);
   }
-  public static Empty parseDelimitedFrom(java.io.InputStream input)
+  public static com.google.protobuf.Empty parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return parseDelimitedFrom(DEFAULT_INSTANCE, input);
   }
-  public static Empty parseDelimitedFrom(
+  public static com.google.protobuf.Empty parseDelimitedFrom(
       java.io.InputStream input,
-      ExtensionRegistryLite extensionRegistry)
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
   }
-  public static Empty parseFrom(
-      CodedInputStream input)
+  public static com.google.protobuf.Empty parseFrom(
+      com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
-    return GeneratedMessageLite.parseFrom(
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input);
   }
-  public static Empty parseFrom(
-      CodedInputStream input,
-      ExtensionRegistryLite extensionRegistry)
+  public static com.google.protobuf.Empty parseFrom(
+      com.google.protobuf.CodedInputStream input,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
-    return GeneratedMessageLite.parseFrom(
+    return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input, extensionRegistry);
   }
 
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(Empty prototype) {
+  public static Builder newBuilder(com.google.protobuf.Empty prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
 
@@ -118,8 +118,8 @@ public  final class Empty extends
    * Protobuf type {@code google.protobuf.Empty}
    */
   public static final class Builder extends
-      GeneratedMessageLite.Builder<
-        Empty, Builder> implements
+      com.google.protobuf.GeneratedMessageLite.Builder<
+        com.google.protobuf.Empty, Builder> implements
       // @@protoc_insertion_point(builder_implements:google.protobuf.Empty)
       com.google.protobuf.EmptyOrBuilder {
     // Construct using com.google.protobuf.Empty.newBuilder()
@@ -131,11 +131,11 @@ public  final class Empty extends
     // @@protoc_insertion_point(builder_scope:google.protobuf.Empty)
   }
   protected final Object dynamicMethod(
-      MethodToInvoke method,
+      com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
       Object arg0, Object arg1) {
     switch (method) {
       case NEW_MUTABLE_INSTANCE: {
-        return new Empty();
+        return new com.google.protobuf.Empty();
       }
       case IS_INITIALIZED: {
         return DEFAULT_INSTANCE;
@@ -148,17 +148,17 @@ public  final class Empty extends
       }
       case VISIT: {
         Visitor visitor = (Visitor) arg0;
-        Empty other = (Empty) arg1;
-        if (visitor == MergeFromVisitor
+        com.google.protobuf.Empty other = (com.google.protobuf.Empty) arg1;
+        if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
             .INSTANCE) {
         }
         return this;
       }
       case MERGE_FROM_STREAM: {
-        CodedInputStream input =
-            (CodedInputStream) arg0;
-        ExtensionRegistryLite extensionRegistry =
-            (ExtensionRegistryLite) arg1;
+        com.google.protobuf.CodedInputStream input =
+            (com.google.protobuf.CodedInputStream) arg0;
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry =
+            (com.google.protobuf.ExtensionRegistryLite) arg1;
         try {
           boolean done = false;
           while (!done) {
@@ -175,11 +175,11 @@ public  final class Empty extends
               }
             }
           }
-        } catch (InvalidProtocolBufferException e) {
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           throw new RuntimeException(e.setUnfinishedMessage(this));
         } catch (java.io.IOException e) {
           throw new RuntimeException(
-              new InvalidProtocolBufferException(
+              new com.google.protobuf.InvalidProtocolBufferException(
                   e.getMessage()).setUnfinishedMessage(this));
         } finally {
         }
@@ -188,7 +188,7 @@ public  final class Empty extends
         return DEFAULT_INSTANCE;
       }
       case GET_PARSER: {
-        if (PARSER == null) {    synchronized (Empty.class) {
+        if (PARSER == null) {    synchronized (com.google.protobuf.Empty.class) {
             if (PARSER == null) {
               PARSER = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
             }
@@ -202,19 +202,19 @@ public  final class Empty extends
 
 
   // @@protoc_insertion_point(class_scope:google.protobuf.Empty)
-  private static final Empty DEFAULT_INSTANCE;
+  private static final com.google.protobuf.Empty DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new Empty();
     DEFAULT_INSTANCE.makeImmutable();
   }
 
-  public static Empty getDefaultInstance() {
+  public static com.google.protobuf.Empty getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static volatile Parser<Empty> PARSER;
+  private static volatile com.google.protobuf.Parser<Empty> PARSER;
 
-  public static Parser<Empty> parser() {
+  public static com.google.protobuf.Parser<Empty> parser() {
     return DEFAULT_INSTANCE.getParserForType();
   }
 }

@@ -14,7 +14,7 @@ public interface CustomHttpPatternOrBuilder extends
    *
    * <code>optional string kind = 1;</code>
    */
-  String getKind();
+  java.lang.String getKind();
   /**
    * <pre>
    * The name of this custom HTTP verb.
@@ -32,7 +32,7 @@ public interface CustomHttpPatternOrBuilder extends
    *
    * <code>optional string path = 2;</code>
    */
-  String getPath();
+  java.lang.String getPath();
   /**
    * <pre>
    * The path matched by this custom verb.

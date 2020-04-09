@@ -6,7 +6,7 @@ package com.google.protobuf;
 public final class DurationProto {
   private DurationProto() {}
   public static void registerAllExtensions(
-      ExtensionRegistryLite registry) {
+      com.google.protobuf.ExtensionRegistryLite registry) {
   }
 
   static {

@@ -5,5 +5,5 @@ package com.google.protobuf;
 
 public interface EmptyOrBuilder extends
     // @@protoc_insertion_point(interface_extends:google.protobuf.Empty)
-    MessageLiteOrBuilder {
+    com.google.protobuf.MessageLiteOrBuilder {
 }

@@ -22,7 +22,7 @@ public  final class Http extends
   }
   private int bitField0_;
   public static final int RULES_FIELD_NUMBER = 1;
-  private com.google.protobuf.Internal.ProtobufList<HttpRule> rules_;
+  private com.google.protobuf.Internal.ProtobufList<com.google.api.HttpRule> rules_;
   /**
    * <pre>
    * A list of HTTP configuration rules that apply to individual API methods.
@@ -31,7 +31,7 @@ public  final class Http extends
    *
    * <code>repeated .google.api.HttpRule rules = 1;</code>
    */
-  public java.util.List<HttpRule> getRulesList() {
+  public java.util.List<com.google.api.HttpRule> getRulesList() {
     return rules_;
   }
   /**
@@ -42,7 +42,7 @@ public  final class Http extends
    *
    * <code>repeated .google.api.HttpRule rules = 1;</code>
    */
-  public java.util.List<? extends HttpRuleOrBuilder>
+  public java.util.List<? extends com.google.api.HttpRuleOrBuilder> 
       getRulesOrBuilderList() {
     return rules_;
   }
@@ -65,7 +65,7 @@ public  final class Http extends
    *
    * <code>repeated .google.api.HttpRule rules = 1;</code>
    */
-  public HttpRule getRules(int index) {
+  public com.google.api.HttpRule getRules(int index) {
     return rules_.get(index);
   }
   /**
@@ -76,7 +76,7 @@ public  final class Http extends
    *
    * <code>repeated .google.api.HttpRule rules = 1;</code>
    */
-  public HttpRuleOrBuilder getRulesOrBuilder(
+  public com.google.api.HttpRuleOrBuilder getRulesOrBuilder(
       int index) {
     return rules_.get(index);
   }
@@ -96,7 +96,7 @@ public  final class Http extends
    * <code>repeated .google.api.HttpRule rules = 1;</code>
    */
   private void setRules(
-      int index, HttpRule value) {
+      int index, com.google.api.HttpRule value) {
     if (value == null) {
       throw new NullPointerException();
     }
@@ -112,7 +112,7 @@ public  final class Http extends
    * <code>repeated .google.api.HttpRule rules = 1;</code>
    */
   private void setRules(
-      int index, HttpRule.Builder builderForValue) {
+      int index, com.google.api.HttpRule.Builder builderForValue) {
     ensureRulesIsMutable();
     rules_.set(index, builderForValue.build());
   }
@@ -124,7 +124,7 @@ public  final class Http extends
    *
    * <code>repeated .google.api.HttpRule rules = 1;</code>
    */
-  private void addRules(HttpRule value) {
+  private void addRules(com.google.api.HttpRule value) {
     if (value == null) {
       throw new NullPointerException();
     }
@@ -140,7 +140,7 @@ public  final class Http extends
    * <code>repeated .google.api.HttpRule rules = 1;</code>
    */
   private void addRules(
-      int index, HttpRule value) {
+      int index, com.google.api.HttpRule value) {
     if (value == null) {
       throw new NullPointerException();
     }
@@ -156,7 +156,7 @@ public  final class Http extends
    * <code>repeated .google.api.HttpRule rules = 1;</code>
    */
   private void addRules(
-      HttpRule.Builder builderForValue) {
+      com.google.api.HttpRule.Builder builderForValue) {
     ensureRulesIsMutable();
     rules_.add(builderForValue.build());
   }
@@ -169,7 +169,7 @@ public  final class Http extends
    * <code>repeated .google.api.HttpRule rules = 1;</code>
    */
   private void addRules(
-      int index, HttpRule.Builder builderForValue) {
+      int index, com.google.api.HttpRule.Builder builderForValue) {
     ensureRulesIsMutable();
     rules_.add(index, builderForValue.build());
   }
@@ -182,7 +182,7 @@ public  final class Http extends
    * <code>repeated .google.api.HttpRule rules = 1;</code>
    */
   private void addAllRules(
-      Iterable<? extends HttpRule> values) {
+      java.lang.Iterable<? extends com.google.api.HttpRule> values) {
     ensureRulesIsMutable();
     com.google.protobuf.AbstractMessageLite.addAll(
         values, rules_);
@@ -285,60 +285,60 @@ public  final class Http extends
     return size;
   }
 
-  public static Http parseFrom(
+  public static com.google.api.Http parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data);
   }
-  public static Http parseFrom(
+  public static com.google.api.Http parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data, extensionRegistry);
   }
-  public static Http parseFrom(byte[] data)
+  public static com.google.api.Http parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data);
   }
-  public static Http parseFrom(
+  public static com.google.api.Http parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data, extensionRegistry);
   }
-  public static Http parseFrom(java.io.InputStream input)
+  public static com.google.api.Http parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input);
   }
-  public static Http parseFrom(
+  public static com.google.api.Http parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input, extensionRegistry);
   }
-  public static Http parseDelimitedFrom(java.io.InputStream input)
+  public static com.google.api.Http parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return parseDelimitedFrom(DEFAULT_INSTANCE, input);
   }
-  public static Http parseDelimitedFrom(
+  public static com.google.api.Http parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
   }
-  public static Http parseFrom(
+  public static com.google.api.Http parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input);
   }
-  public static Http parseFrom(
+  public static com.google.api.Http parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -349,7 +349,7 @@ public  final class Http extends
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(Http prototype) {
+  public static Builder newBuilder(com.google.api.Http prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
 
@@ -364,9 +364,9 @@ public  final class Http extends
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageLite.Builder<
-        Http, Builder> implements
+        com.google.api.Http, Builder> implements
       // @@protoc_insertion_point(builder_implements:google.api.Http)
-      HttpOrBuilder {
+      com.google.api.HttpOrBuilder {
     // Construct using com.google.api.Http.newBuilder()
     private Builder() {
       super(DEFAULT_INSTANCE);
@@ -381,7 +381,7 @@ public  final class Http extends
      *
      * <code>repeated .google.api.HttpRule rules = 1;</code>
      */
-    public java.util.List<HttpRule> getRulesList() {
+    public java.util.List<com.google.api.HttpRule> getRulesList() {
       return java.util.Collections.unmodifiableList(
           instance.getRulesList());
     }
@@ -403,7 +403,7 @@ public  final class Http extends
      *
      * <code>repeated .google.api.HttpRule rules = 1;</code>
      */
-    public HttpRule getRules(int index) {
+    public com.google.api.HttpRule getRules(int index) {
       return instance.getRules(index);
     }
     /**
@@ -415,7 +415,7 @@ public  final class Http extends
      * <code>repeated .google.api.HttpRule rules = 1;</code>
      */
     public Builder setRules(
-        int index, HttpRule value) {
+        int index, com.google.api.HttpRule value) {
       copyOnWrite();
       instance.setRules(index, value);
       return this;
@@ -429,7 +429,7 @@ public  final class Http extends
      * <code>repeated .google.api.HttpRule rules = 1;</code>
      */
     public Builder setRules(
-        int index, HttpRule.Builder builderForValue) {
+        int index, com.google.api.HttpRule.Builder builderForValue) {
       copyOnWrite();
       instance.setRules(index, builderForValue);
       return this;
@@ -442,7 +442,7 @@ public  final class Http extends
      *
      * <code>repeated .google.api.HttpRule rules = 1;</code>
      */
-    public Builder addRules(HttpRule value) {
+    public Builder addRules(com.google.api.HttpRule value) {
       copyOnWrite();
       instance.addRules(value);
       return this;
@@ -456,7 +456,7 @@ public  final class Http extends
      * <code>repeated .google.api.HttpRule rules = 1;</code>
      */
     public Builder addRules(
-        int index, HttpRule value) {
+        int index, com.google.api.HttpRule value) {
       copyOnWrite();
       instance.addRules(index, value);
       return this;
@@ -470,7 +470,7 @@ public  final class Http extends
      * <code>repeated .google.api.HttpRule rules = 1;</code>
      */
     public Builder addRules(
-        HttpRule.Builder builderForValue) {
+        com.google.api.HttpRule.Builder builderForValue) {
       copyOnWrite();
       instance.addRules(builderForValue);
       return this;
@@ -484,7 +484,7 @@ public  final class Http extends
      * <code>repeated .google.api.HttpRule rules = 1;</code>
      */
     public Builder addRules(
-        int index, HttpRule.Builder builderForValue) {
+        int index, com.google.api.HttpRule.Builder builderForValue) {
       copyOnWrite();
       instance.addRules(index, builderForValue);
       return this;
@@ -498,7 +498,7 @@ public  final class Http extends
      * <code>repeated .google.api.HttpRule rules = 1;</code>
      */
     public Builder addAllRules(
-        Iterable<? extends HttpRule> values) {
+        java.lang.Iterable<? extends com.google.api.HttpRule> values) {
       copyOnWrite();
       instance.addAllRules(values);
       return this;
@@ -580,11 +580,11 @@ public  final class Http extends
     // @@protoc_insertion_point(builder_scope:google.api.Http)
   }
   protected final Object dynamicMethod(
-      MethodToInvoke method,
+      com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
       Object arg0, Object arg1) {
     switch (method) {
       case NEW_MUTABLE_INSTANCE: {
-        return new Http();
+        return new com.google.api.Http();
       }
       case IS_INITIALIZED: {
         return DEFAULT_INSTANCE;
@@ -598,11 +598,11 @@ public  final class Http extends
       }
       case VISIT: {
         Visitor visitor = (Visitor) arg0;
-        Http other = (Http) arg1;
+        com.google.api.Http other = (com.google.api.Http) arg1;
         rules_= visitor.visitList(rules_, other.rules_);
         fullyDecodeReservedExpansion_ = visitor.visitBoolean(fullyDecodeReservedExpansion_ != false, fullyDecodeReservedExpansion_,
             other.fullyDecodeReservedExpansion_ != false, other.fullyDecodeReservedExpansion_);
-        if (visitor == MergeFromVisitor
+        if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
             .INSTANCE) {
           bitField0_ |= other.bitField0_;
         }
@@ -633,7 +633,7 @@ public  final class Http extends
                       com.google.protobuf.GeneratedMessageLite.mutableCopy(rules_);
                 }
                 rules_.add(
-                    input.readMessage(HttpRule.parser(), extensionRegistry));
+                    input.readMessage(com.google.api.HttpRule.parser(), extensionRegistry));
                 break;
               }
               case 16: {
@@ -656,7 +656,7 @@ public  final class Http extends
         return DEFAULT_INSTANCE;
       }
       case GET_PARSER: {
-        if (PARSER == null) {    synchronized (Http.class) {
+        if (PARSER == null) {    synchronized (com.google.api.Http.class) {
             if (PARSER == null) {
               PARSER = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
             }
@@ -670,13 +670,13 @@ public  final class Http extends
 
 
   // @@protoc_insertion_point(class_scope:google.api.Http)
-  private static final Http DEFAULT_INSTANCE;
+  private static final com.google.api.Http DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new Http();
     DEFAULT_INSTANCE.makeImmutable();
   }
 
-  public static Http getDefaultInstance() {
+  public static com.google.api.Http getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 

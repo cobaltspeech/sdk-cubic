@@ -244,7 +244,7 @@ public  final class HttpRule extends
   }
   private int bitField0_;
   private int patternCase_ = 0;
-  private Object pattern_;
+  private java.lang.Object pattern_;
   public enum PatternCase
       implements com.google.protobuf.Internal.EnumLite {
     GET(2),
@@ -261,7 +261,7 @@ public  final class HttpRule extends
     /**
      * @deprecated Use {@link #forNumber(int)} instead.
      */
-    @Deprecated
+    @java.lang.Deprecated
     public static PatternCase valueOf(int value) {
       return forNumber(value);
     }
@@ -295,7 +295,7 @@ public  final class HttpRule extends
   }
 
   public static final int SELECTOR_FIELD_NUMBER = 1;
-  private String selector_;
+  private java.lang.String selector_;
   /**
    * <pre>
    * Selects a method to which this rule applies.
@@ -304,7 +304,7 @@ public  final class HttpRule extends
    *
    * <code>optional string selector = 1;</code>
    */
-  public String getSelector() {
+  public java.lang.String getSelector() {
     return selector_;
   }
   /**
@@ -328,7 +328,7 @@ public  final class HttpRule extends
    * <code>optional string selector = 1;</code>
    */
   private void setSelector(
-      String value) {
+      java.lang.String value) {
     if (value == null) {
     throw new NullPointerException();
   }
@@ -374,10 +374,10 @@ public  final class HttpRule extends
    *
    * <code>optional string get = 2;</code>
    */
-  public String getGet() {
-    String ref = "";
+  public java.lang.String getGet() {
+    java.lang.String ref = "";
     if (patternCase_ == 2) {
-      ref = (String) pattern_;
+      ref = (java.lang.String) pattern_;
     }
     return ref;
   }
@@ -391,9 +391,9 @@ public  final class HttpRule extends
    */
   public com.google.protobuf.ByteString
       getGetBytes() {
-    String ref = "";
+    java.lang.String ref = "";
     if (patternCase_ == 2) {
-      ref = (String) pattern_;
+      ref = (java.lang.String) pattern_;
     }
     return com.google.protobuf.ByteString.copyFromUtf8(ref);
   }
@@ -406,7 +406,7 @@ public  final class HttpRule extends
    * <code>optional string get = 2;</code>
    */
   private void setGet(
-      String value) {
+      java.lang.String value) {
     if (value == null) {
     throw new NullPointerException();
   }
@@ -453,10 +453,10 @@ public  final class HttpRule extends
    *
    * <code>optional string put = 3;</code>
    */
-  public String getPut() {
-    String ref = "";
+  public java.lang.String getPut() {
+    java.lang.String ref = "";
     if (patternCase_ == 3) {
-      ref = (String) pattern_;
+      ref = (java.lang.String) pattern_;
     }
     return ref;
   }
@@ -469,9 +469,9 @@ public  final class HttpRule extends
    */
   public com.google.protobuf.ByteString
       getPutBytes() {
-    String ref = "";
+    java.lang.String ref = "";
     if (patternCase_ == 3) {
-      ref = (String) pattern_;
+      ref = (java.lang.String) pattern_;
     }
     return com.google.protobuf.ByteString.copyFromUtf8(ref);
   }
@@ -483,7 +483,7 @@ public  final class HttpRule extends
    * <code>optional string put = 3;</code>
    */
   private void setPut(
-      String value) {
+      java.lang.String value) {
     if (value == null) {
     throw new NullPointerException();
   }
@@ -528,10 +528,10 @@ public  final class HttpRule extends
    *
    * <code>optional string post = 4;</code>
    */
-  public String getPost() {
-    String ref = "";
+  public java.lang.String getPost() {
+    java.lang.String ref = "";
     if (patternCase_ == 4) {
-      ref = (String) pattern_;
+      ref = (java.lang.String) pattern_;
     }
     return ref;
   }
@@ -544,9 +544,9 @@ public  final class HttpRule extends
    */
   public com.google.protobuf.ByteString
       getPostBytes() {
-    String ref = "";
+    java.lang.String ref = "";
     if (patternCase_ == 4) {
-      ref = (String) pattern_;
+      ref = (java.lang.String) pattern_;
     }
     return com.google.protobuf.ByteString.copyFromUtf8(ref);
   }
@@ -558,7 +558,7 @@ public  final class HttpRule extends
    * <code>optional string post = 4;</code>
    */
   private void setPost(
-      String value) {
+      java.lang.String value) {
     if (value == null) {
     throw new NullPointerException();
   }
@@ -603,10 +603,10 @@ public  final class HttpRule extends
    *
    * <code>optional string delete = 5;</code>
    */
-  public String getDelete() {
-    String ref = "";
+  public java.lang.String getDelete() {
+    java.lang.String ref = "";
     if (patternCase_ == 5) {
-      ref = (String) pattern_;
+      ref = (java.lang.String) pattern_;
     }
     return ref;
   }
@@ -619,9 +619,9 @@ public  final class HttpRule extends
    */
   public com.google.protobuf.ByteString
       getDeleteBytes() {
-    String ref = "";
+    java.lang.String ref = "";
     if (patternCase_ == 5) {
-      ref = (String) pattern_;
+      ref = (java.lang.String) pattern_;
     }
     return com.google.protobuf.ByteString.copyFromUtf8(ref);
   }
@@ -633,7 +633,7 @@ public  final class HttpRule extends
    * <code>optional string delete = 5;</code>
    */
   private void setDelete(
-      String value) {
+      java.lang.String value) {
     if (value == null) {
     throw new NullPointerException();
   }
@@ -678,10 +678,10 @@ public  final class HttpRule extends
    *
    * <code>optional string patch = 6;</code>
    */
-  public String getPatch() {
-    String ref = "";
+  public java.lang.String getPatch() {
+    java.lang.String ref = "";
     if (patternCase_ == 6) {
-      ref = (String) pattern_;
+      ref = (java.lang.String) pattern_;
     }
     return ref;
   }
@@ -694,9 +694,9 @@ public  final class HttpRule extends
    */
   public com.google.protobuf.ByteString
       getPatchBytes() {
-    String ref = "";
+    java.lang.String ref = "";
     if (patternCase_ == 6) {
-      ref = (String) pattern_;
+      ref = (java.lang.String) pattern_;
     }
     return com.google.protobuf.ByteString.copyFromUtf8(ref);
   }
@@ -708,7 +708,7 @@ public  final class HttpRule extends
    * <code>optional string patch = 6;</code>
    */
   private void setPatch(
-      String value) {
+      java.lang.String value) {
     if (value == null) {
     throw new NullPointerException();
   }
@@ -756,11 +756,11 @@ public  final class HttpRule extends
    *
    * <code>optional .google.api.CustomHttpPattern custom = 8;</code>
    */
-  public CustomHttpPattern getCustom() {
+  public com.google.api.CustomHttpPattern getCustom() {
     if (patternCase_ == 8) {
-       return (CustomHttpPattern) pattern_;
+       return (com.google.api.CustomHttpPattern) pattern_;
     }
-    return CustomHttpPattern.getDefaultInstance();
+    return com.google.api.CustomHttpPattern.getDefaultInstance();
   }
   /**
    * <pre>
@@ -772,7 +772,7 @@ public  final class HttpRule extends
    *
    * <code>optional .google.api.CustomHttpPattern custom = 8;</code>
    */
-  private void setCustom(CustomHttpPattern value) {
+  private void setCustom(com.google.api.CustomHttpPattern value) {
     if (value == null) {
       throw new NullPointerException();
     }
@@ -790,7 +790,7 @@ public  final class HttpRule extends
    * <code>optional .google.api.CustomHttpPattern custom = 8;</code>
    */
   private void setCustom(
-      CustomHttpPattern.Builder builderForValue) {
+      com.google.api.CustomHttpPattern.Builder builderForValue) {
     pattern_ = builderForValue.build();
     patternCase_ = 8;
   }
@@ -804,10 +804,10 @@ public  final class HttpRule extends
    *
    * <code>optional .google.api.CustomHttpPattern custom = 8;</code>
    */
-  private void mergeCustom(CustomHttpPattern value) {
+  private void mergeCustom(com.google.api.CustomHttpPattern value) {
     if (patternCase_ == 8 &&
-        pattern_ != CustomHttpPattern.getDefaultInstance()) {
-      pattern_ = CustomHttpPattern.newBuilder((CustomHttpPattern) pattern_)
+        pattern_ != com.google.api.CustomHttpPattern.getDefaultInstance()) {
+      pattern_ = com.google.api.CustomHttpPattern.newBuilder((com.google.api.CustomHttpPattern) pattern_)
           .mergeFrom(value).buildPartial();
     } else {
       pattern_ = value;
@@ -832,7 +832,7 @@ public  final class HttpRule extends
   }
 
   public static final int BODY_FIELD_NUMBER = 7;
-  private String body_;
+  private java.lang.String body_;
   /**
    * <pre>
    * The name of the request field whose value is mapped to the HTTP request
@@ -844,7 +844,7 @@ public  final class HttpRule extends
    *
    * <code>optional string body = 7;</code>
    */
-  public String getBody() {
+  public java.lang.String getBody() {
     return body_;
   }
   /**
@@ -874,7 +874,7 @@ public  final class HttpRule extends
    * <code>optional string body = 7;</code>
    */
   private void setBody(
-      String value) {
+      java.lang.String value) {
     if (value == null) {
     throw new NullPointerException();
   }
@@ -918,7 +918,7 @@ public  final class HttpRule extends
   }
 
   public static final int RESPONSE_BODY_FIELD_NUMBER = 12;
-  private String responseBody_;
+  private java.lang.String responseBody_;
   /**
    * <pre>
    * Optional. The name of the response field whose value is mapped to the HTTP
@@ -930,7 +930,7 @@ public  final class HttpRule extends
    *
    * <code>optional string response_body = 12;</code>
    */
-  public String getResponseBody() {
+  public java.lang.String getResponseBody() {
     return responseBody_;
   }
   /**
@@ -960,7 +960,7 @@ public  final class HttpRule extends
    * <code>optional string response_body = 12;</code>
    */
   private void setResponseBody(
-      String value) {
+      java.lang.String value) {
     if (value == null) {
     throw new NullPointerException();
   }
@@ -1004,7 +1004,7 @@ public  final class HttpRule extends
   }
 
   public static final int ADDITIONAL_BINDINGS_FIELD_NUMBER = 11;
-  private com.google.protobuf.Internal.ProtobufList<HttpRule> additionalBindings_;
+  private com.google.protobuf.Internal.ProtobufList<com.google.api.HttpRule> additionalBindings_;
   /**
    * <pre>
    * Additional HTTP bindings for the selector. Nested bindings must
@@ -1014,7 +1014,7 @@ public  final class HttpRule extends
    *
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
-  public java.util.List<HttpRule> getAdditionalBindingsList() {
+  public java.util.List<com.google.api.HttpRule> getAdditionalBindingsList() {
     return additionalBindings_;
   }
   /**
@@ -1026,7 +1026,7 @@ public  final class HttpRule extends
    *
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
-  public java.util.List<? extends HttpRuleOrBuilder>
+  public java.util.List<? extends com.google.api.HttpRuleOrBuilder> 
       getAdditionalBindingsOrBuilderList() {
     return additionalBindings_;
   }
@@ -1051,7 +1051,7 @@ public  final class HttpRule extends
    *
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
-  public HttpRule getAdditionalBindings(int index) {
+  public com.google.api.HttpRule getAdditionalBindings(int index) {
     return additionalBindings_.get(index);
   }
   /**
@@ -1063,7 +1063,7 @@ public  final class HttpRule extends
    *
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
-  public HttpRuleOrBuilder getAdditionalBindingsOrBuilder(
+  public com.google.api.HttpRuleOrBuilder getAdditionalBindingsOrBuilder(
       int index) {
     return additionalBindings_.get(index);
   }
@@ -1084,7 +1084,7 @@ public  final class HttpRule extends
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
   private void setAdditionalBindings(
-      int index, HttpRule value) {
+      int index, com.google.api.HttpRule value) {
     if (value == null) {
       throw new NullPointerException();
     }
@@ -1101,7 +1101,7 @@ public  final class HttpRule extends
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
   private void setAdditionalBindings(
-      int index, Builder builderForValue) {
+      int index, com.google.api.HttpRule.Builder builderForValue) {
     ensureAdditionalBindingsIsMutable();
     additionalBindings_.set(index, builderForValue.build());
   }
@@ -1114,7 +1114,7 @@ public  final class HttpRule extends
    *
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
-  private void addAdditionalBindings(HttpRule value) {
+  private void addAdditionalBindings(com.google.api.HttpRule value) {
     if (value == null) {
       throw new NullPointerException();
     }
@@ -1131,7 +1131,7 @@ public  final class HttpRule extends
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
   private void addAdditionalBindings(
-      int index, HttpRule value) {
+      int index, com.google.api.HttpRule value) {
     if (value == null) {
       throw new NullPointerException();
     }
@@ -1148,7 +1148,7 @@ public  final class HttpRule extends
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
   private void addAdditionalBindings(
-      Builder builderForValue) {
+      com.google.api.HttpRule.Builder builderForValue) {
     ensureAdditionalBindingsIsMutable();
     additionalBindings_.add(builderForValue.build());
   }
@@ -1162,7 +1162,7 @@ public  final class HttpRule extends
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
   private void addAdditionalBindings(
-      int index, Builder builderForValue) {
+      int index, com.google.api.HttpRule.Builder builderForValue) {
     ensureAdditionalBindingsIsMutable();
     additionalBindings_.add(index, builderForValue.build());
   }
@@ -1176,7 +1176,7 @@ public  final class HttpRule extends
    * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
    */
   private void addAllAdditionalBindings(
-      Iterable<? extends HttpRule> values) {
+      java.lang.Iterable<? extends com.google.api.HttpRule> values) {
     ensureAdditionalBindingsIsMutable();
     com.google.protobuf.AbstractMessageLite.addAll(
         values, additionalBindings_);
@@ -1231,7 +1231,7 @@ public  final class HttpRule extends
       output.writeString(7, getBody());
     }
     if (patternCase_ == 8) {
-      output.writeMessage(8, (CustomHttpPattern) pattern_);
+      output.writeMessage(8, (com.google.api.CustomHttpPattern) pattern_);
     }
     for (int i = 0; i < additionalBindings_.size(); i++) {
       output.writeMessage(11, additionalBindings_.get(i));
@@ -1276,7 +1276,7 @@ public  final class HttpRule extends
     }
     if (patternCase_ == 8) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(8, (CustomHttpPattern) pattern_);
+        .computeMessageSize(8, (com.google.api.CustomHttpPattern) pattern_);
     }
     for (int i = 0; i < additionalBindings_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
@@ -1290,60 +1290,60 @@ public  final class HttpRule extends
     return size;
   }
 
-  public static HttpRule parseFrom(
+  public static com.google.api.HttpRule parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data);
   }
-  public static HttpRule parseFrom(
+  public static com.google.api.HttpRule parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data, extensionRegistry);
   }
-  public static HttpRule parseFrom(byte[] data)
+  public static com.google.api.HttpRule parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data);
   }
-  public static HttpRule parseFrom(
+  public static com.google.api.HttpRule parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, data, extensionRegistry);
   }
-  public static HttpRule parseFrom(java.io.InputStream input)
+  public static com.google.api.HttpRule parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input);
   }
-  public static HttpRule parseFrom(
+  public static com.google.api.HttpRule parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input, extensionRegistry);
   }
-  public static HttpRule parseDelimitedFrom(java.io.InputStream input)
+  public static com.google.api.HttpRule parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return parseDelimitedFrom(DEFAULT_INSTANCE, input);
   }
-  public static HttpRule parseDelimitedFrom(
+  public static com.google.api.HttpRule parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
   }
-  public static HttpRule parseFrom(
+  public static com.google.api.HttpRule parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageLite.parseFrom(
         DEFAULT_INSTANCE, input);
   }
-  public static HttpRule parseFrom(
+  public static com.google.api.HttpRule parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -1354,7 +1354,7 @@ public  final class HttpRule extends
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(HttpRule prototype) {
+  public static Builder newBuilder(com.google.api.HttpRule prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
 
@@ -1588,9 +1588,9 @@ public  final class HttpRule extends
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageLite.Builder<
-        HttpRule, Builder> implements
+        com.google.api.HttpRule, Builder> implements
       // @@protoc_insertion_point(builder_implements:google.api.HttpRule)
-      HttpRuleOrBuilder {
+      com.google.api.HttpRuleOrBuilder {
     // Construct using com.google.api.HttpRule.newBuilder()
     private Builder() {
       super(DEFAULT_INSTANCE);
@@ -1616,7 +1616,7 @@ public  final class HttpRule extends
      *
      * <code>optional string selector = 1;</code>
      */
-    public String getSelector() {
+    public java.lang.String getSelector() {
       return instance.getSelector();
     }
     /**
@@ -1640,7 +1640,7 @@ public  final class HttpRule extends
      * <code>optional string selector = 1;</code>
      */
     public Builder setSelector(
-        String value) {
+        java.lang.String value) {
       copyOnWrite();
       instance.setSelector(value);
       return this;
@@ -1681,7 +1681,7 @@ public  final class HttpRule extends
      *
      * <code>optional string get = 2;</code>
      */
-    public String getGet() {
+    public java.lang.String getGet() {
       return instance.getGet();
     }
     /**
@@ -1705,7 +1705,7 @@ public  final class HttpRule extends
      * <code>optional string get = 2;</code>
      */
     public Builder setGet(
-        String value) {
+        java.lang.String value) {
       copyOnWrite();
       instance.setGet(value);
       return this;
@@ -1745,7 +1745,7 @@ public  final class HttpRule extends
      *
      * <code>optional string put = 3;</code>
      */
-    public String getPut() {
+    public java.lang.String getPut() {
       return instance.getPut();
     }
     /**
@@ -1767,7 +1767,7 @@ public  final class HttpRule extends
      * <code>optional string put = 3;</code>
      */
     public Builder setPut(
-        String value) {
+        java.lang.String value) {
       copyOnWrite();
       instance.setPut(value);
       return this;
@@ -1805,7 +1805,7 @@ public  final class HttpRule extends
      *
      * <code>optional string post = 4;</code>
      */
-    public String getPost() {
+    public java.lang.String getPost() {
       return instance.getPost();
     }
     /**
@@ -1827,7 +1827,7 @@ public  final class HttpRule extends
      * <code>optional string post = 4;</code>
      */
     public Builder setPost(
-        String value) {
+        java.lang.String value) {
       copyOnWrite();
       instance.setPost(value);
       return this;
@@ -1865,7 +1865,7 @@ public  final class HttpRule extends
      *
      * <code>optional string delete = 5;</code>
      */
-    public String getDelete() {
+    public java.lang.String getDelete() {
       return instance.getDelete();
     }
     /**
@@ -1887,7 +1887,7 @@ public  final class HttpRule extends
      * <code>optional string delete = 5;</code>
      */
     public Builder setDelete(
-        String value) {
+        java.lang.String value) {
       copyOnWrite();
       instance.setDelete(value);
       return this;
@@ -1925,7 +1925,7 @@ public  final class HttpRule extends
      *
      * <code>optional string patch = 6;</code>
      */
-    public String getPatch() {
+    public java.lang.String getPatch() {
       return instance.getPatch();
     }
     /**
@@ -1947,7 +1947,7 @@ public  final class HttpRule extends
      * <code>optional string patch = 6;</code>
      */
     public Builder setPatch(
-        String value) {
+        java.lang.String value) {
       copyOnWrite();
       instance.setPatch(value);
       return this;
@@ -1988,7 +1988,7 @@ public  final class HttpRule extends
      *
      * <code>optional .google.api.CustomHttpPattern custom = 8;</code>
      */
-    public CustomHttpPattern getCustom() {
+    public com.google.api.CustomHttpPattern getCustom() {
       return instance.getCustom();
     }
     /**
@@ -2001,7 +2001,7 @@ public  final class HttpRule extends
      *
      * <code>optional .google.api.CustomHttpPattern custom = 8;</code>
      */
-    public Builder setCustom(CustomHttpPattern value) {
+    public Builder setCustom(com.google.api.CustomHttpPattern value) {
       copyOnWrite();
       instance.setCustom(value);
       return this;
@@ -2017,7 +2017,7 @@ public  final class HttpRule extends
      * <code>optional .google.api.CustomHttpPattern custom = 8;</code>
      */
     public Builder setCustom(
-        CustomHttpPattern.Builder builderForValue) {
+        com.google.api.CustomHttpPattern.Builder builderForValue) {
       copyOnWrite();
       instance.setCustom(builderForValue);
       return this;
@@ -2032,7 +2032,7 @@ public  final class HttpRule extends
      *
      * <code>optional .google.api.CustomHttpPattern custom = 8;</code>
      */
-    public Builder mergeCustom(CustomHttpPattern value) {
+    public Builder mergeCustom(com.google.api.CustomHttpPattern value) {
       copyOnWrite();
       instance.mergeCustom(value);
       return this;
@@ -2064,7 +2064,7 @@ public  final class HttpRule extends
      *
      * <code>optional string body = 7;</code>
      */
-    public String getBody() {
+    public java.lang.String getBody() {
       return instance.getBody();
     }
     /**
@@ -2094,7 +2094,7 @@ public  final class HttpRule extends
      * <code>optional string body = 7;</code>
      */
     public Builder setBody(
-        String value) {
+        java.lang.String value) {
       copyOnWrite();
       instance.setBody(value);
       return this;
@@ -2144,7 +2144,7 @@ public  final class HttpRule extends
      *
      * <code>optional string response_body = 12;</code>
      */
-    public String getResponseBody() {
+    public java.lang.String getResponseBody() {
       return instance.getResponseBody();
     }
     /**
@@ -2174,7 +2174,7 @@ public  final class HttpRule extends
      * <code>optional string response_body = 12;</code>
      */
     public Builder setResponseBody(
-        String value) {
+        java.lang.String value) {
       copyOnWrite();
       instance.setResponseBody(value);
       return this;
@@ -2222,7 +2222,7 @@ public  final class HttpRule extends
      *
      * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
      */
-    public java.util.List<HttpRule> getAdditionalBindingsList() {
+    public java.util.List<com.google.api.HttpRule> getAdditionalBindingsList() {
       return java.util.Collections.unmodifiableList(
           instance.getAdditionalBindingsList());
     }
@@ -2246,7 +2246,7 @@ public  final class HttpRule extends
      *
      * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
      */
-    public HttpRule getAdditionalBindings(int index) {
+    public com.google.api.HttpRule getAdditionalBindings(int index) {
       return instance.getAdditionalBindings(index);
     }
     /**
@@ -2259,7 +2259,7 @@ public  final class HttpRule extends
      * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
      */
     public Builder setAdditionalBindings(
-        int index, HttpRule value) {
+        int index, com.google.api.HttpRule value) {
       copyOnWrite();
       instance.setAdditionalBindings(index, value);
       return this;
@@ -2274,7 +2274,7 @@ public  final class HttpRule extends
      * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
      */
     public Builder setAdditionalBindings(
-        int index, Builder builderForValue) {
+        int index, com.google.api.HttpRule.Builder builderForValue) {
       copyOnWrite();
       instance.setAdditionalBindings(index, builderForValue);
       return this;
@@ -2288,7 +2288,7 @@ public  final class HttpRule extends
      *
      * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
      */
-    public Builder addAdditionalBindings(HttpRule value) {
+    public Builder addAdditionalBindings(com.google.api.HttpRule value) {
       copyOnWrite();
       instance.addAdditionalBindings(value);
       return this;
@@ -2303,7 +2303,7 @@ public  final class HttpRule extends
      * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
      */
     public Builder addAdditionalBindings(
-        int index, HttpRule value) {
+        int index, com.google.api.HttpRule value) {
       copyOnWrite();
       instance.addAdditionalBindings(index, value);
       return this;
@@ -2318,7 +2318,7 @@ public  final class HttpRule extends
      * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
      */
     public Builder addAdditionalBindings(
-        Builder builderForValue) {
+        com.google.api.HttpRule.Builder builderForValue) {
       copyOnWrite();
       instance.addAdditionalBindings(builderForValue);
       return this;
@@ -2333,7 +2333,7 @@ public  final class HttpRule extends
      * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
      */
     public Builder addAdditionalBindings(
-        int index, Builder builderForValue) {
+        int index, com.google.api.HttpRule.Builder builderForValue) {
       copyOnWrite();
       instance.addAdditionalBindings(index, builderForValue);
       return this;
@@ -2348,7 +2348,7 @@ public  final class HttpRule extends
      * <code>repeated .google.api.HttpRule additional_bindings = 11;</code>
      */
     public Builder addAllAdditionalBindings(
-        Iterable<? extends HttpRule> values) {
+        java.lang.Iterable<? extends com.google.api.HttpRule> values) {
       copyOnWrite();
       instance.addAllAdditionalBindings(values);
       return this;
@@ -2385,11 +2385,11 @@ public  final class HttpRule extends
     // @@protoc_insertion_point(builder_scope:google.api.HttpRule)
   }
   protected final Object dynamicMethod(
-      MethodToInvoke method,
+      com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
       Object arg0, Object arg1) {
     switch (method) {
       case NEW_MUTABLE_INSTANCE: {
-        return new HttpRule();
+        return new com.google.api.HttpRule();
       }
       case IS_INITIALIZED: {
         return DEFAULT_INSTANCE;
@@ -2403,7 +2403,7 @@ public  final class HttpRule extends
       }
       case VISIT: {
         Visitor visitor = (Visitor) arg0;
-        HttpRule other = (HttpRule) arg1;
+        com.google.api.HttpRule other = (com.google.api.HttpRule) arg1;
         selector_ = visitor.visitString(!selector_.isEmpty(), selector_,
             !other.selector_.isEmpty(), other.selector_);
         body_ = visitor.visitString(!body_.isEmpty(), body_,
@@ -2449,7 +2449,7 @@ public  final class HttpRule extends
             break;
           }
         }
-        if (visitor == MergeFromVisitor
+        if (visitor == com.google.protobuf.GeneratedMessageLite.MergeFromVisitor
             .INSTANCE) {
           if (other.patternCase_ != 0) {
             patternCase_ = other.patternCase_;
@@ -2520,14 +2520,14 @@ public  final class HttpRule extends
                 break;
               }
               case 66: {
-                CustomHttpPattern.Builder subBuilder = null;
+                com.google.api.CustomHttpPattern.Builder subBuilder = null;
                 if (patternCase_ == 8) {
-                  subBuilder = ((CustomHttpPattern) pattern_).toBuilder();
+                  subBuilder = ((com.google.api.CustomHttpPattern) pattern_).toBuilder();
                 }
                 pattern_ =
-                     input.readMessage(CustomHttpPattern.parser(), extensionRegistry);
+                     input.readMessage(com.google.api.CustomHttpPattern.parser(), extensionRegistry);
                 if (subBuilder != null) {
-                  subBuilder.mergeFrom((CustomHttpPattern) pattern_);
+                  subBuilder.mergeFrom((com.google.api.CustomHttpPattern) pattern_);
                   pattern_ = subBuilder.buildPartial();
                 }
                 patternCase_ = 8;
@@ -2539,7 +2539,7 @@ public  final class HttpRule extends
                       com.google.protobuf.GeneratedMessageLite.mutableCopy(additionalBindings_);
                 }
                 additionalBindings_.add(
-                    input.readMessage(HttpRule.parser(), extensionRegistry));
+                    input.readMessage(com.google.api.HttpRule.parser(), extensionRegistry));
                 break;
               }
               case 98: {
@@ -2563,7 +2563,7 @@ public  final class HttpRule extends
         return DEFAULT_INSTANCE;
       }
       case GET_PARSER: {
-        if (PARSER == null) {    synchronized (HttpRule.class) {
+        if (PARSER == null) {    synchronized (com.google.api.HttpRule.class) {
             if (PARSER == null) {
               PARSER = new DefaultInstanceBasedParser(DEFAULT_INSTANCE);
             }
@@ -2577,13 +2577,13 @@ public  final class HttpRule extends
 
 
   // @@protoc_insertion_point(class_scope:google.api.HttpRule)
-  private static final HttpRule DEFAULT_INSTANCE;
+  private static final com.google.api.HttpRule DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new HttpRule();
     DEFAULT_INSTANCE.makeImmutable();
   }
 
-  public static HttpRule getDefaultInstance() {
+  public static com.google.api.HttpRule getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 

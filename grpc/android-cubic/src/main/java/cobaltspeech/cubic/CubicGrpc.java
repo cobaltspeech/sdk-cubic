@@ -2,11 +2,15 @@ package cobaltspeech.cubic;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
 import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
 import static io.grpc.stub.ClientCalls.asyncUnaryCall;
 import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
 import static io.grpc.stub.ClientCalls.blockingUnaryCall;
 import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
@@ -221,7 +225,7 @@ public final class CubicGrpc {
       return asyncUnimplementedStreamingCall(getStreamingRecognizeMethod(), responseObserver);
     }
 
-    @Override public final io.grpc.ServerServiceDefinition bindService() {
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
             getVersionMethod(),
@@ -270,7 +274,7 @@ public final class CubicGrpc {
       super(channel, callOptions);
     }
 
-    @Override
+    @java.lang.Override
     protected CubicStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new CubicStub(channel, callOptions);
@@ -341,7 +345,7 @@ public final class CubicGrpc {
       super(channel, callOptions);
     }
 
-    @Override
+    @java.lang.Override
     protected CubicBlockingStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new CubicBlockingStub(channel, callOptions);
@@ -396,7 +400,7 @@ public final class CubicGrpc {
       super(channel, callOptions);
     }
 
-    @Override
+    @java.lang.Override
     protected CubicFutureStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new CubicFutureStub(channel, callOptions);
@@ -457,8 +461,8 @@ public final class CubicGrpc {
       this.methodId = methodId;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
+    @java.lang.Override
+    @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_VERSION:
@@ -478,8 +482,8 @@ public final class CubicGrpc {
       }
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
+    @java.lang.Override
+    @java.lang.SuppressWarnings("unchecked")
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
