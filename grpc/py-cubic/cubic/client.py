@@ -14,9 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from cubic_pb2 import ListModelsRequest, RecognizeRequest, StreamingRecognizeRequest, CompileContextRequest
-from cubic_pb2 import RecognitionConfig, RecognitionAudio, RecognitionContext, ContextPhrase, CompiledContext
-from cubic_pb2_grpc import CubicStub
 import os
 import sys
 import grpc
@@ -24,6 +21,9 @@ import grpc
 from google.protobuf.empty_pb2 import Empty
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__))))
+from cubic_pb2 import ListModelsRequest, RecognizeRequest, StreamingRecognizeRequest, CompileContextRequest
+from cubic_pb2 import RecognitionConfig, RecognitionAudio, RecognitionContext, ContextPhrase, CompiledContext
+from cubic_pb2_grpc import CubicStub
 
 
 class Client(object):
