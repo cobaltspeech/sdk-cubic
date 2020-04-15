@@ -113,6 +113,12 @@ for resp in client.StreamingRecognize(cfg, audio):
 {{< /tab >}}
 
 {{< tab "C#" "c#" >}}
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Grpc.Core;
+
 // Initialize a gRPC connection
 var creds = Grpc.Core.ChannelCredentials.Insecure;
 var channel = new Grpc.Core.Channel(url, creds);
@@ -159,7 +165,7 @@ using (call)
             var buffer = new byte[chunkSize];
             while ((bytesRead = file.Read(buffer, 0, buffer.Length)) > 0)
             {
-                var bytes = Google.Protobuf.ByteString.CopyFrom(buffer);
+                var bytes = Google.Protobuf.ByteString.CopyFrom(buffer.Take(bytesRead).ToArray());
                 request.Audio.Data = bytes;
                 await call.RequestStream.WriteAsync(request);
             }
