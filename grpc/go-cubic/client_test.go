@@ -248,10 +248,15 @@ func TestStreamingRecognize(t *testing.T) {
 		t.Errorf("streamingrecognize failed: got %v; want %v", got, ExpectedStreamingRecognizeResponse)
 	}
 
-	// Now check that the server will never send a nil message.
+	// Now check that even if the server sends a nil message, it won't be a
+	// nil pointer when we receive the output.
 	err = c.StreamingRecognize(context.Background(), &cubicpb.RecognitionConfig{ModelId: "test-nil"}, bytes.NewReader(audio), handleResult)
-	if err == nil {
-		t.Errorf("streamingrecognize should have failed when server sent a nil message, but instead succeeded")
+	if err != nil {
+		t.Errorf("streamingrecognize should not have failed when server sent a nil message, but got error %v", err)
+	}
+
+	if got.Results[0] == nil {
+		t.Errorf("streamingrecognize should not have provided a nil pointer in the result")
 	}
 
 }
