@@ -128,18 +128,29 @@ func TestCompileContext(t *testing.T) {
 	}
 	defer c.Close()
 
-	phrases := map[string]float32{
-		"COVID":   0.0,
-		"COVFEFE": 0.0,
-		"NAMBIA":  0.0,
-	}
-	m, err := c.CompileContext(context.Background(), "1", "oov", phrases)
+	// with boost values
+	phrases := []string{"COVID", "COVFEFE", "NAMBIA"}
+	boostValues := []float32{0.0, 1.0, 2.0}
+	m, err := c.CompileContext(context.Background(), "1", "oov", phrases, boostValues)
 	if err != nil {
 		t.Errorf("did not expect error in compilecontext; got %v", err)
 	}
-
 	if !proto.Equal(m, ExpectedCompileContextResponse) {
 		t.Errorf("compilecontext failed; got %v, want %v", m, ExpectedCompileContextResponse)
+	}
+	// without boost values
+	m, err = c.CompileContext(context.Background(), "1", "oov", phrases, nil)
+	if err != nil {
+		t.Errorf("did not expect error in compilecontext; got %v", err)
+	}
+	if !proto.Equal(m, ExpectedCompileContextResponse) {
+		t.Errorf("compilecontext failed; got %v, want %v", m, ExpectedCompileContextResponse)
+	}
+	// with inadqueate list of boostValues
+	boostValues = []float32{1.0}
+	m, err = c.CompileContext(context.Background(), "1", "oov", phrases, boostValues)
+	if err == nil {
+		t.Errorf("expected error when not provided enough boost values in compilecontext")
 	}
 }
 
