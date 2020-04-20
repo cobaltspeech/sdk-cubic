@@ -134,7 +134,7 @@ public struct Cobaltspeech_Cubic_StreamingRecognizeRequest {
 /// contains a list of phrases or words, paired with a context token allowed by
 /// the model being used. The token specifies a category such as "names",
 /// "airports", "contacts", "product_name" etc. The context token is used to
-/// determine the position in the recognition output where the provided list of
+/// determine the places in the recognition output where the provided list of
 /// phrases or words may appear. The allowed context tokens for a given model can
 /// be found in its ModelAttributes obtained via the `ListModels` method.
 public struct Cobaltspeech_Cubic_CompileContextRequest {
@@ -459,7 +459,7 @@ public struct Cobaltspeech_Cubic_RecognitionContext {
   /// List of compiled context information, with each entry being generated from
   /// a list of words or phrases expected to appear in the recognition output by
   /// the `CompileContext` method.
-  public var contexts: [Cobaltspeech_Cubic_CompiledContext] = []
+  public var compiled: [Cobaltspeech_Cubic_CompiledContext] = []
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -494,11 +494,22 @@ public struct Cobaltspeech_Cubic_ContextPhrase {
   /// The actual phrase or word.
   public var text: String = String()
 
-  /// This is an optional field. Higher the number, higher the chances of this
-  /// phrase or word appearing in the recognition output. The default setting is
-  /// 0.0, which makes Cubic treat all context phrases or words equally. This
-  /// setting can be used to differentiate between similar sounding words, with
-  /// the desired word given a bigger boost value.
+  /// This is an optional field. The boost value is a positive number which is
+  /// used to increase the probability of the phrase or word appearing in the
+  /// output. This setting can be used to differentiate between similar sounding
+  /// words, with the desired word given a bigger boost value.
+  ///
+  /// By default, all phrases or words are given an equal probability of 1/N (N =
+  /// total .number of phrases or words). If a boost value is provided, the new
+  /// probability is (boost + 1) * 1/N. We normalize the boosted probabilities
+  /// for all the phrases or words so that they sum to one. This means that the
+  /// boost value only has an effect if there are relative differences in the
+  /// values for different phrases or words. That is, if all phrases or words
+  /// have the same boost value, after normalization, they will all still have
+  /// the same probability. This also means that the boost value can be any
+  /// positive value, but it is best to stick between 0 to 20.
+  ///
+  /// Negative values are not supported and will be treated as 0 values.
   public var boost: Float = 0
 
   public var unknownFields = SwiftProtobuf.UnknownStorage()
@@ -1189,27 +1200,27 @@ extension Cobaltspeech_Cubic_RecognitionMetadata: SwiftProtobuf.Message, SwiftPr
 extension Cobaltspeech_Cubic_RecognitionContext: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".RecognitionContext"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "contexts"),
+    1: .same(proto: "compiled"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
-      case 1: try decoder.decodeRepeatedMessageField(value: &self.contexts)
+      case 1: try decoder.decodeRepeatedMessageField(value: &self.compiled)
       default: break
       }
     }
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.contexts.isEmpty {
-      try visitor.visitRepeatedMessageField(value: self.contexts, fieldNumber: 1)
+    if !self.compiled.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.compiled, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   public static func ==(lhs: Cobaltspeech_Cubic_RecognitionContext, rhs: Cobaltspeech_Cubic_RecognitionContext) -> Bool {
-    if lhs.contexts != rhs.contexts {return false}
+    if lhs.compiled != rhs.compiled {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -1218,13 +1229,13 @@ extension Cobaltspeech_Cubic_RecognitionContext: SwiftProtobuf.Message, SwiftPro
 extension Cobaltspeech_Cubic_CompiledContext: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   public static let protoMessageName: String = _protobuf_package + ".CompiledContext"
   public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    2: .same(proto: "data"),
+    1: .same(proto: "data"),
   ]
 
   public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
-      case 2: try decoder.decodeSingularBytesField(value: &self.data)
+      case 1: try decoder.decodeSingularBytesField(value: &self.data)
       default: break
       }
     }
@@ -1232,7 +1243,7 @@ extension Cobaltspeech_Cubic_CompiledContext: SwiftProtobuf.Message, SwiftProtob
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.data.isEmpty {
-      try visitor.visitSingularBytesField(value: self.data, fieldNumber: 2)
+      try visitor.visitSingularBytesField(value: self.data, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
