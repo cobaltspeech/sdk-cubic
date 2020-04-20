@@ -19,6 +19,7 @@ models and use the first model to transcribe this speech.
 {{%tabs %}}
 
 {{% tab "Go" %}}
+
 ``` go
 
 package main
@@ -33,10 +34,11 @@ import (
 	"github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb"
 )
 
-const serverAddr = "127.0.0.1:2727"
-
 func main() {
-	client, err := cubic.NewClient(serverAddr)
+
+    // Creating client without TLS. Remove cubic.WithInsecure() if using TLS
+    serverAddr := "127.0.0.1:2727"
+	client, err := cubic.NewClient(serverAddr, cubic.WithInsecure())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -71,16 +73,19 @@ func main() {
 
 }
 ```
+
 {{% /tab %}}
 
 {{% tab "Python" %}}
+
 ``` python
 
 import cubic
 
 serverAddress = '127.0.0.1:2727'
+insecure = True # set to true if server does not use TLS
 
-client = cubic.Client(serverAddress)
+client = cubic.Client(serverAddress, insecure=insecure)
 
 # get list of available models
 modelResp = client.ListModels()
@@ -94,7 +99,7 @@ cfg = cubic.RecognitionConfig(
     model_id = model.id
 )
 
-# open audio file 
+# open audio file
 audio = open('test.raw', 'rb')
 
 resp = client.Recognize(cfg, audio)
@@ -104,48 +109,59 @@ for result in resp.results:
 		print(result.alternatives[0].transcript)
 
 ```
+
 {{% /tab %}}
 
 {{% tab "C#" %}}
+
 ``` c#
-// Initialize a gRPC connection
-var creds = Grpc.Core.ChannelCredentials.Insecure;
-var channel = new Grpc.Core.Channel(url, creds);
-var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+using System;
+using System.IO;
 
-// List the available models
-var listModelsRequest = new CobaltSpeech.Cubic.ListModelsRequest();
-var models = client.ListModels(listModelsRequest);
+namespace CubicSynchronousRecognitionExample {
+    class Program {
+        static void Main(string[] args) {
+            // set creds = new Grpc.Core.SslCredentials(); if using TLS
+            var serverAddress = "127.0.0.1:2727";
+            var creds = Grpc.Core.ChannelCredentials.Insecure;
 
-var cfg = new CobaltSpeech.Cubic.RecognitionConfig
-{
-    // Use the first available model
-    ModelId = models.Models[0].Id,
-};
+            // Initialize a gRPC connection
+            var channel = new Grpc.Core.Channel(serverAddress, creds);
+            var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
 
-// Open the audio file.
-FileStream file = File.OpenRead("test.raw")
-var audio = new CobaltSpeech.Cubic.RecognitionAudio{
-    Data = Google.Protobuf.ByteString.FromStream(file)
-};
+            // List the available models
+            var listModelsRequest = new CobaltSpeech.Cubic.ListModelsRequest();
+            var models = client.ListModels(listModelsRequest);
 
-// Create the request
-var request = new CobaltSpeech.Cubic.RecognizeRequest
-{
-    Config = cfg,
-    Audio = audio,
-};
+            var cfg = new CobaltSpeech.Cubic.RecognitionConfig {
+                // Use the first available model
+                ModelId = models.Models[0].Id,
+            };
 
-// Send the request
-var resp = client.Recognize(request);
-foreach (var result in resp.Results)
-{
-    if (!result.IsPartial)
-    {
-        Console.WriteLine(result.Alternatives[0].Transcript)
+            // Open the audio file.
+            FileStream file = File.OpenRead("test.raw");
+            var audio = new CobaltSpeech.Cubic.RecognitionAudio {
+                Data = Google.Protobuf.ByteString.FromStream(file)
+            };
+
+            // Create the request
+            var request = new CobaltSpeech.Cubic.RecognizeRequest {
+                Config = cfg,
+                Audio = audio,
+            };
+
+            // Send the request
+            var resp = client.Recognize(request);
+            foreach (var result in resp.Results) {
+                if (!result.IsPartial) {
+                    Console.WriteLine(result.Alternatives[0].Transcript);
+                }
+            }
+        }
     }
 }
 ```
+
 {{% /tab %}}
 
 {{% tab "Java/Android" %}}
@@ -207,26 +223,29 @@ public static int main() {
         responseObserver);
 }
 ```
+
 {{% /tab %}}
 
 {{% tab "Swift/iOS" %}}
+
 ``` swift
 import Cubic
 import GRPC
 
 class CubicExample {
 
-    let client = Client(host: "demo-cubic.cobaltspeech.com", port: 2727, useTLS: true)
+    // set useTLS to true if using TLS
+    let client = Client(host: "127.0.0.1", port: 2727, useTLS: false)
     var confg = Cobaltspeech_Cubic_RecognitionConfig()
-    let fileName = "text.wav"
-    
+    let fileName = "text.raw"
+
     public init() {
-        config.audioEncoding = .wav
-        
+        config.audioEncoding = .rawLinear16
+
         client.listModels(success: { (models) in
             if let model = models?.first {
                 self.config.modelID = model.id
-                
+
                 self.client.recognize(audioURL: URL(fileURLWithPath: fileName), config: self.config, success: { (response) in
                     for result in response.results {
                         if !result.isPartial, let alternative = result.alternatives.first {
@@ -244,6 +263,7 @@ class CubicExample {
 
 }
 ```
+
 {{% /tab %}}
 
 {{%/tabs %}}
