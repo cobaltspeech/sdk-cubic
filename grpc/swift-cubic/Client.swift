@@ -18,6 +18,10 @@ import NIOSSL
 
 public typealias CubicFailureCallback = (_ error: Error) -> ()
 
+public enum CubicError: Error {
+    case countError(String)
+}
+
 public typealias Client = Cobaltspeech_Cubic_CubicClient
 
 extension Cobaltspeech_Cubic_CubicClient {
@@ -78,20 +82,32 @@ extension Cobaltspeech_Cubic_CubicClient {
 
     public func compileContext(modelID: String,
                                token: String,
-                               phrases: [String: Float],
+                               phrases: [String],
+                               boostValues: [Float],
                                success: @escaping (_ compiledCtx: Cobaltspeech_Cubic_CompiledContext?) -> (),
                                failure: CubicFailureCallback?) {
 
         var request = Cobaltspeech_Cubic_CompileContextRequest()
         request.modelID = modelID
         request.token = token
-        for (phrase, boost) in phrases {
-            var ctxPhrase = Cobalt_Cubic_ContextPhrase()
-            ctxPhrase.text = phrase
-            ctxPhrase.boost = boost
-            request.phrases.append(ctxPhrase)
+        if (boostValues.count() > 0) {
+            if (boostValues.count() != phrases.count()) {
+                failure?(CubicError.countError("number of boost values not the same as number of phrases"))
+            })
+            for (phrase, boost) in zip(phrases, boostValues) {
+                var ctxPhrase = Cobalt_Cubic_ContextPhrase()
+                ctxPhrase.text = phrase
+                ctxPhrase.boost = boost
+                request.phrases.append(ctxPhrase)
+            }
+        } else {
+            for phrase in phrases {
+                var ctxPhrase = Cobalt_Cubic_ContextPhrase()
+                ctxPhrase.text = phrase
+                ctxPhrase.boost = 0
+                request.phrases.append(ctxPhrase)
+            }
         }
-
         compileContext(request).response.whenComplete({ (result) in
             do {
                 let response = try result.get()
