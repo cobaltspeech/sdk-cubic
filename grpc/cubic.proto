@@ -107,7 +107,7 @@ message StreamingRecognizeRequest {
 // contains a list of phrases or words, paired with a context token allowed by
 // the model being used. The token specifies a category such as "names",
 // "airports", "contacts", "product_name" etc. The context token is used to
-// determine the position in the recognition output where the provided list of
+// determine the places in the recognition output where the provided list of
 // phrases or words may appear. The allowed context tokens for a given model can
 // be found in its ModelAttributes obtained via the `ListModels` method.
 message CompileContextRequest {
@@ -292,14 +292,14 @@ message RecognitionContext {
   // List of compiled context information, with each entry being generated from
   // a list of words or phrases expected to appear in the recognition output by
   // the `CompileContext` method.
-  repeated CompiledContext contexts = 1;
+  repeated CompiledContext compiled = 1;
 }
 
 // Context information stored in a compact form that is fast to access for
 // a Cubic model.
 message CompiledContext {
   // The context information compiled by the `CompileContext` method. 
-  bytes data = 2;
+  bytes data = 1;
 }
 
 // A phrase or word that is to be compiled into context information that can be
@@ -310,11 +310,22 @@ message CompiledContext {
 message ContextPhrase {
   // The actual phrase or word.
   string text  = 1;
-  // This is an optional field. Higher the number, higher the chances of this
-  // phrase or word appearing in the recognition output. The default setting is
-  // 0.0, which makes Cubic treat all context phrases or words equally. This
-  // setting can be used to differentiate between similar sounding words, with
-  // the desired word given a bigger boost value.
+  // This is an optional field. The boost value is a positive number which is
+  // used to increase the probability of the phrase or word appearing in the
+  // output. This setting can be used to differentiate between similar sounding
+  // words, with the desired word given a bigger boost value.
+  //
+  // By default, all phrases or words are given an equal probability of 1/N (N =
+  // total .number of phrases or words). If a boost value is provided, the new
+  // probability is (boost + 1) * 1/N. We normalize the boosted probabilities
+  // for all the phrases or words so that they sum to one. This means that the
+  // boost value only has an effect if there are relative differences in the
+  // values for different phrases or words. That is, if all phrases or words
+  // have the same boost value, after normalization, they will all still have
+  // the same probability. This also means that the boost value can be any
+  // positive value, but it is best to stick between 0 to 20.
+  //
+  // Negative values are not supported and will be treated as 0 values.
   float boost = 2;
 }
 
