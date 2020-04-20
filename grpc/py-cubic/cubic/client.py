@@ -100,7 +100,7 @@ class Client(object):
         """ Retrieves a list of available speech recognition models. """
         return self._client.ListModels(ListModelsRequest())
 
-    def CompileContext(self, modelID, token, phrases):
+    def CompileContext(self, modelID, token, phrases, boostValues=None):
         """ Compiles the given list of phrases or words into a compact, fast to 
         access form for a cubic model, which may later be provided in a `Recognize` or
         `StreamingRecognize` call to aid speech recognition.
@@ -108,31 +108,40 @@ class Client(object):
         Args: 
             modelID: unique identifier of the model to compile the context information for.
 
-            token:  a string allowed by the model being used, such as "names" or 
+            token:  A string allowed by the model being used, such as "names" or 
                     "airports", that is used to determine the position in the 
                     recognition output where the provided list of phrases or words
                     may appear. The allowed tokens for a given model can be found in
                     its ModelAttributes obtained via the `ListModels` method.
 
-            phrases: a dictionary with the phrase or word as the key is the phrase
-                    or word itself, and the value is a boost parameter that can be
-                    used to give a phrase or word greater likelihood to appear in
-                    the recognition output. Higher the boost, higher the likelihood.
-                    A value of 0.0 implies that the phrase or word is not to be given
-                    any extra higher priority over others.
+            phrases: The list of phrases or words to compile.
+
+            boostValues: A list of positive floating numbers, one for each phrase or word in
+                         the phrases list. The likelihood of the corresponding entry in the
+                         phrarses list appearing in the output can be increased by setting a
+                         higher value for it. If given boostValues, the new probability of the
+                         corresponding phrase entry becomes (boost + 1.0) * old probability. By
+                         default, all provded phrases or words are given an equal probability of
+                         1/N, where N = total number of phrases or words. The new probabilities
+                         are normalized after boosting so that they sum to one. This means that
+                         if all phrases are given the same boost value, they will still have the
+                         same default likelihood. This also means that the boost value can be any
+                         positive value, but for most cases, values between 0 to 10 work well.
+                         Negative values may be provided but they will be treated as 0 (no boost).
         """
 
-        if not isinstance(phrases, dict):
-            raise ValueError(
-                "phrases must be a dictionary in the form { phrase : boost_value }")
+        if boostValues is not None:
+            if len(boostValues) != len(phrases):
+                raise ValueError(
+                    "len(boostValues) must be the same as len(phrases)")
+            contextPhrases = [ ContextPhrase(text=txt, boost=val)
+                                for (txt, val) in zip(phrases, boostValues) ]
+        else:
+            contextPhrases = [ContextPhrase(text=txt) for txt in phrases]
 
-        return self._client.CompileContext(
-            CompileContextRequest(
-                model_id=modelID,
-                token=token,
-                phrases=[ContextPhrase(text=phrase, boost=boost)
-                         for phrase, boost in phrases.items()],
-            ))
+        return self._client.CompileContext(CompileContextRequest(
+            model_id=modelID, token=token, phrases=contextPhrases,
+        ))
 
     def Recognize(self, cfg, audio):
         """ Performs synchronous speech recognition: receive results after all audio

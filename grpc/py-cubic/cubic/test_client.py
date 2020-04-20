@@ -111,9 +111,20 @@ class TestClient(unittest.TestCase):
 
     def test_CompileContext(self):
         client = Client(self.serverAddress, insecure=True)
-        phrases = {"COVID":0.0, "COVFEFE":0.0, "NAMBIA":0.0}
+        phrases = ["COVID", "COVFEFE", "NAMBIA"]
+        boostValues = [0.0, 1.0, 2.0]
+        # with boost values
+        response = client.CompileContext("1", "oov", phrases, boostValues)
+        self.assertEqual(response, expectedResponses['CompileContext'])
+        # without boost values
         response = client.CompileContext("1", "oov", phrases)
         self.assertEqual(response, expectedResponses['CompileContext'])
+        # with inadqueate list of boostValues
+        boostValues = [1.0]
+        try:
+            response = client.CompileContext("1", "oov", phrases)
+        except Exception as ex:
+            self.assertIsInstance(ex, ValueError)
 
     def test_Recognize(self):
         client = Client(self.serverAddress, insecure=True)
