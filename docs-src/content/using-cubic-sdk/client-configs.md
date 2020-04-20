@@ -1,6 +1,6 @@
 ---
 title: "Recognition Configurations"
-weight: 25
+weight: 26
 ---
 
 An in-depth explanation of the various fields of the complete SDK can be found [here](../../protobuf/autogen-doc-cubic-proto/).  The sub-section [RecognitionConfig](../../protobuf/autogen-doc-cubic-proto/#message-recognitionconfig) is particularly important here.
@@ -12,7 +12,7 @@ This page here discusses the more common combinations sent to the server.
 Here is a quick overview of the fields.
 
 | Field | Required | Default | Description |
-| ----- | -------- | ------- | ----------- |
+| ----- | :--------: | :-------: | ----------- |
 | model_id | Yes | | Unique ID of the model to use. |
 | audio_encoding | Yes | | Encoding format of the audio, such as RAW_LINEAR_16, WAV, MP3, etc. |
 | idle_timeout | No | `0s` (Unlimited) | Maximum time allowed between each gRPC message. The server may place further restrictions depending on its configuration. |
@@ -21,6 +21,8 @@ Here is a quick overview of the fields.
 | enable_raw_transcript | No | `false` | If `true`, the raw transcript will be included in the results. |
 | enable_confusion_network | No | `false` | Toggles the inclusion of a confusion network, consisting of multiple alternative transcriptions.  The specified model must also support confusion networks for this field to be populated. |
 | audio_channels | No | `[0]` (mono) | Specifies which channels of a multi-channel audio file to be transcribed, each as their own individual audio stream. |
+| metadata | No | "" | Can be used to send any custom metadata associated with the audio being sent.The server may record this metadata when processing the request.  The server does not use this field for any other purpose. |
+| context | No | `nil` | Can be used to provide any context information that can aid speech recognition, such as probable phrases or words that may appear in the recognition output or even out of vocabulary words for the model being used. Currently all context information must first be pre-compiled via the [`CompileContext()`](../recognition-context). |
 
 ## Use cases
 
