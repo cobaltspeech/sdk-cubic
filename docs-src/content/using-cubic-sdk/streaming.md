@@ -30,10 +30,11 @@ import (
 	"github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb"
 )
 
-const serverAddr = "127.0.0.1:2727"
-
 func main() {
-	client, err := cubic.NewClient(serverAddr)
+
+    // Creating client without TLS. Remove cubic.WithInsecure() if using TLS
+    serverAddr := "127.0.0.1:2727"
+	client, err := cubic.NewClient(serverAddr, cubic.WithInsecure())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -78,104 +79,123 @@ func main() {
 {{< tab "Python" "python" >}}
 import cubic
 
+# set insecure to False if server uses TLS
 serverAddress = '127.0.0.1:2727'
-
-client = cubic.Client(serverAddress)
+client = cubic.Client(serverAddress, insecure=True)
 
 # get list of available models
 modelResp = client.ListModels()
 for model in modelResp.models:
-	print("ID = {}, Name = {}".format(model.id, model.name))
+    print("ID = {}, Name = {}".format(model.id, model.name))
 
 # use the first available model
 model = modelResp.models[0]
 
 cfg = cubic.RecognitionConfig(
-	model_id = model.id
+    model_id = model.id
 )
 
-# client.StreamingRecognize takes any binary
-# stream object that has a read(nBytes) method.
-# The method should return nBytes from the stream.
+# client.StreamingRecognize takes any binary stream object that
+# has a read(nBytes) method. The method should return nBytes from
+# the stream.
 
 # open audio file stream
 audio = open('test.wav', 'rb')
 
-# send streaming request to cubic and
-# print out results as they come in
+# send streaming request to cubic and print out results as they come in
 for resp in client.StreamingRecognize(cfg, audio):
-	for result in resp.results:
-		if result.is_partial:
-			print("\r{0}".format(result.alternatives[0].transcript), end="")
-		else:
-			print("\r{0}".format(result.alternatives[0].transcript), end="\n")
-
+    for result in resp.results:
+        if result.is_partial:
+            print("\r{0}".format(result.alternatives[0].transcript), end="")
+        else:
+            print("\r{0}".format(result.alternatives[0].transcript), end="\n")
 {{< /tab >}}
 
 {{< tab "C#" "c#" >}}
-// Initialize a gRPC connection
-var creds = Grpc.Core.ChannelCredentials.Insecure;
-var channel = new Grpc.Core.Channel(url, creds);
-var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Grpc.Core;
 
-// List the available models
-var listModelsRequest = new CobaltSpeech.Cubic.ListModelsRequest();
-var models = client.ListModels(listModelsRequest);
+namespace CubicStreamingRecognitionExample {
+    class Program {
+        static async Task Main(string[] args) {
 
-// Setup the bi-directional gRPC stream.
-var call = client.StreamingRecognize();
-using (call)
-{
-    // Setup recieve task
-    var responseReaderTask = Task.Run(async () =>
-    {
-        // Wait for the next response
-        while (await call.ResponseStream.MoveNext())
-        {
-            var response = call.ResponseStream.Current;
-            foreach (var result in response.Results)
-            {
-                Console.WriteLine(result.Alternatives[0].Transcript);
+            // set creds = new Grpc.Core.SslCredentials(); if using TLS
+            var serverAddress = "127.0.0.1:2727";
+            var creds = Grpc.Core.ChannelCredentials.Insecure;
+
+            // Initialize a gRPC connection
+            var channel = new Grpc.Core.Channel(serverAddress, creds);
+            var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+
+            // List the available models
+            var listModelsRequest = new CobaltSpeech.Cubic.ListModelsRequest();
+            var modelResp = client.ListModels(listModelsRequest);
+
+            // Using first model available
+            var model = modelResp.Models[0];
+
+            // Setup Recognition Config
+            var cfg = new CobaltSpeech.Cubic.RecognitionConfig {
+                ModelId = model.Id,
+                AudioEncoding = CobaltSpeech.Cubic.RecognitionConfig.Types.Encoding.Wav,
+            };
+
+            string audioPath = "test.wav";
+
+            // Setup the bi-directional gRPC stream.
+            var call = client.StreamingRecognize();
+            using(call) {
+                // Setup recieve task
+                var responseReaderTask = Task.Run(async() => {
+                    // Wait for the next response
+                    while (await call.ResponseStream.MoveNext()) {
+                        var response = call.ResponseStream.Current;
+                        foreach (var result in response.Results) {
+                            Console.WriteLine(result.Alternatives[0].Transcript);
+                        }
+                    }
+                });
+
+                // Send config first, followed by the audio
+                {
+                    // Send the configs
+                    var request = new CobaltSpeech.Cubic.StreamingRecognizeRequest();
+                    request.Config = cfg;
+                    await call.RequestStream.WriteAsync(request);
+
+                    // Setup object for streaming audio
+                    request.Config = null;
+                    request.Audio = new CobaltSpeech.Cubic.RecognitionAudio { };
+
+                    // Send the audio, in 8kb chunks
+                    const int chunkSize = 8192;
+                    using(FileStream file = File.OpenRead(audioPath)) {
+                        int bytesRead;
+                        var buffer = new byte[chunkSize];
+                        while ((bytesRead = file.Read(buffer, 0, buffer.Length)) > 0) {
+                            var bytes = Google.Protobuf.ByteString.CopyFrom(buffer.Take(bytesRead).ToArray());
+                            request.Audio.Data = bytes;
+                            await call.RequestStream.WriteAsync(request);
+                        }
+
+                        // Close the sending stream
+                        await call.RequestStream.CompleteAsync();
+                    }
+                }
+
+                // Wait for all of the responses to come back through the receiving stream
+                await responseReaderTask;
             }
-        }
-    });
-
-    // Send config first, followed by the audio
-    {
-        // Send the configs
-        var request = new CobaltSpeech.Cubic.StreamingRecognizeRequest();
-        request.Config = cfg;
-        await call.RequestStream.WriteAsync(request);
-
-        // Setup object for streaming audio
-        request.Config = null;
-        request.Audio = new CobaltSpeech.Cubic.RecognitionAudio { };
-
-        // Send the audio, in 8kb chunks
-        const int chunkSize = 8192;
-        using (FileStream file = File.OpenRead("test.raw"))
-        {
-            int bytesRead;
-            var buffer = new byte[chunkSize];
-            while ((bytesRead = file.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                var bytes = Google.Protobuf.ByteString.CopyFrom(buffer);
-                request.Audio.Data = bytes;
-                await call.RequestStream.WriteAsync(request);
-            }
-
-            // Close the sending stream
-            await call.RequestStream.CompleteAsync();
         }
     }
-
-    // Wait for all of the responses to come back through the receiving stream
-    await responseReaderTask;
 }
 {{< /tab >}}
 
 {{< tab "Java/Android" "java" >}}
-
 /*
   Please note: this example does not attempt to handle threading and all exceptions.
   It gives a simplified overview of the essential gRPC calls.
@@ -251,6 +271,47 @@ public static void transcribeFile() {
     requestObserver.onCompleted();
 
     // Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
+}
+{{< /tab >}}
+
+{{< tab "Swift/iOS" "swift" >}}
+import Foundation
+import Cubic
+
+class CubicExample {
+
+    // set useTLS to true if using TLS
+    let client = Client(host: "127.0.0.1", port: 2727, useTLS: false)
+    var config = Cobaltspeech_Cubic_RecognitionConfig()
+    let fileName = "test.wav"
+    let chunkSize = 8192
+    
+    public init() {
+        let fileUrl = URL(fileURLWithPath: fileName)
+        
+        guard let audioData = try? Data(contentsOf: fileUrl) else { return }
+        
+        config.audioEncoding = .wav
+        
+        client.listModels(success: { (models) in
+            if let model = models?.first {
+                self.config.modelID = model.id
+                
+                self.client.streamingRecognize(audioData: audioData, chunkSize: self.chunkSize, config: self.config, success: { (response) in
+                    for result in response.results {
+                        if !result.isPartial, let alternative = result.alternatives.first {
+                            print(alternative.transcript)
+                        }
+                    }
+                }) { (error) in
+                    print(error.localizedDescription)
+                }
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+
 }
 {{< /tab >}}
 
@@ -349,7 +410,9 @@ func (mic *Microphone) Close() {
 
 func main() {
 
-	bufferSize := uint32(8192)
+    bufferSize := uint32(8192)
+
+    // Creating client without TLS. Remove cubic.WithInsecure() if using TLS
 	client, err := cubic.NewClient(serverAddr, cubic.WithInsecure(), cubic.WithStreamingBufferSize(bufferSize))
 	if err != nil {
 		log.Fatal(err)
@@ -404,9 +467,9 @@ func main() {
 import cubic
 import pyaudio
 
+# set insecure to False if server uses TLS
 serverAddress = '127.0.0.1:2727'
-
-client = cubic.Client(serverAddress)
+client = cubic.Client(serverAddress, insecure=True)
 
 # get list of available models
 modelResp = client.ListModels()
@@ -431,8 +494,7 @@ audio = p.open(format=pyaudio.paInt16,              # 16 bit samples
 				rate=model.attributes.sample_rate,  # sample rate in hertz
 				input=True)                         # audio input stream
 
-# send streaming request to cubic and
-# print out results as they come in
+# send streaming request to cubic and print out results as they come in
 try:
 	for resp in client.StreamingRecognize(cfg, audio):
 		for result in resp.results:
@@ -452,14 +514,22 @@ audio.close()
 
 {{< tab "C#" "c#" >}}
 
-We do not currently have example C# code for streaming from a microphone.
-Simply pass the bytes from the microphone the same as is done from the file in the `Streaming from an audio file` example above.
+// We do not currently have example C# code for streaming from a microphone.
+// Simply pass the bytes from the microphone the same as is done from the file in
+// the `Streaming from an audio file` example above. You can do this by implementing
+// your own class derived from `System.IO.Stream` class which the `StreamingRecognize`
+// method accepts.
+//
+// For more on the `System.IO.Stream` class see:
+// https://docs.microsoft.com/en-us/dotnet/api/system.io.stream?view=netframework-4.8
 
 {{< /tab >}}
 
 {{< tab "C++" "c++" >}}
 
-For a complete C++ example, see [the examples-cpp github repository](https://github.com/cobaltspeech/examples-cpp).
+// For a complete C++ example, see the examples-cpp github repository:
+// https://github.com/cobaltspeech/examples-cpp
+
 {{< /tab >}}
 
 {{< tab "Java/Android" "java" >}}
@@ -469,7 +539,8 @@ This example uses the `android.media.AudioRecord` class and assumes the min API 
 Please note: this example does not attempt to handle threading and all exceptions.
 It gives a simplified overview of the essential gRPC calls.
 
-For a complete android example, see [the examples-android github repository](https://github.com/cobaltspeech/examples-android).
+For a complete android example, see the examples-android github repository:
+https://github.com/cobaltspeech/examples-android
 */
 
 import io.grpc.ManagedChannel;
@@ -558,48 +629,9 @@ public static void streamMicrophoneAudio() {
 
 {{< tab "Swift/iOS" "swift" >}}
 
-/*
-This example uses methods of the Client class to establish connection to Cubic server, list models, stream audio file and receive the transcription results.
-You can call Client from your client view controller or any other class.
-*/
+// For a complete iOS example, see the `AudioRecorder class` in the examples-ios github repository:
+// https://github.com/cobaltspeech/examples-ios/blob/master/CubicExample/AudioRecorder.swift
 
-import Cubic
-import GRPC
-
-class CubicExample {
-
-    let client = Client(host: "demo-cubic.cobaltspeech.com", port: 2727, useTLS: true)
-    var confg = Cobaltspeech_Cubic_RecognitionConfig()
-    let fileName = "test.wav"
-    let chunkSize = 8192
-
-    public init() {
-        let fileUrl = URL(fileURLWithPath: fileName)
-
-        guard let audioData = try? Data(contentsOf: fileUrl) else { return }
-
-        config.audioEncoding = .wav
-
-        client.listModels(success: { (models) in
-            if let model = models?.first {
-                self.config.modelID = model.id
-
-                self.client.streamingRecognize(audioData: audioData, chunkSize: self.chunkSize, config: self.config, success: { (response) in
-                    for result in response.results {
-                        if !result.isPartial, let alternative = result.alternatives.first {
-                            print(alternative.transcript)
-                        }
-                    }
-                }) { (error) in
-                    print(error.localizedDescription)
-                }
-            }
-        }) { (error) in
-            print(error.localizedDescription)
-        }
-    }
-
-}
-{{< /tab >}}
+{{% /tab %}}
 
 {{< /tabs >}}
