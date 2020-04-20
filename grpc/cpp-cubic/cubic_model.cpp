@@ -11,8 +11,9 @@ CubicModel::CubicModel(const cobaltspeech::cubic::Model &model) :
     // getting list of context tokens
     cobaltspeech::cubic::ModelAttributes attributes = model.attributes();
     mAllowedContextTokens.resize(attributes.allowed_context_tokens_size());
-    for(int i=0; i<mAllowedContextTokens.size(); i++) {
-      mAllowedContextTokens[i] = *(attributes.mutable_allowed_context_tokens(i));
+    for(int i=0; i < mAllowedContextTokens.size(); i++)
+    {
+      mAllowedContextTokens[i] = attributes.allowed_context_tokens(i);
     }
 }
 

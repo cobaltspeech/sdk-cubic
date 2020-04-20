@@ -86,16 +86,37 @@ std::vector<CubicModel> CubicClient::listModels()
 }
 
 cobaltspeech::cubic::CompiledContext
-    CubicClient::compileContext(const std::string &modelID, const std::string &token, std::map<std::string, float> &phrases){
+    CubicClient::compileContext(const std::string &modelID, const std::string &token, 
+                                const std::vector<std::string> &phrases,
+                                const std::vector<float> &boostValues)
+{
 
     // Setup the request
     cobaltspeech::cubic::CompileContextRequest request;
     request.set_model_id(modelID);
     request.set_token(token);
-    for(auto& phraseBoostPair : phrases) {
-        cobaltspeech::cubic::ContextPhrase *ptr = request.add_phrases();
-        ptr->set_text(phraseBoostPair.first);
-        ptr->set_boost(phraseBoostPair.second);
+    if (boostValues.size() > 0) 
+    {
+        if (boostValues.size() != phrases.size())
+        {
+          throw CubicException("number of boost values not the same as number of phrases");
+        }
+        
+        for(int i=0; i < phrases.size(); i++) 
+        {
+            cobaltspeech::cubic::ContextPhrase *ptr = request.add_phrases();
+            ptr->set_text(phrases[i]);
+            ptr->set_boost(boostValues[i]);
+        }
+    }
+    else // no boost values
+    {
+        for(int i=0; i < phrases.size(); i++) 
+        {
+            cobaltspeech::cubic::ContextPhrase *ptr = request.add_phrases();
+            ptr->set_text(phrases[i]);
+            ptr->set_boost(0);
+        }
     }
 
     // Setup the context and make the request
