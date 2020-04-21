@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-	<meta name="generator" content="Hugo 0.59.1" />
+	<meta name="generator" content="Hugo 0.69.0" />
     <title>Cubic SDK -- Cobalt</title>
     
       <meta charset="utf-8">
@@ -43,8 +43,7 @@
       
 	
   
-    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt's SDK Documentation" /></p>
-
+    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt&rsquo;s SDK Documentation"></p>
 <p>Cubic SDK &ndash; Cobalt</p>
 
   
@@ -179,26 +178,16 @@
 <a href="#" id="sidebar-toggle" data-sidebar-toggle=""><i class="fa fa-bars"></i> navigation</a>
 </span>
  
-
-
 <h1 id="cubic-api-overview">Cubic API Overview</h1>
-
-<p>Cubic is Cobalt’s automatic speech recognition (ASR) engine. It can be deployed on-prem and accessed over the network or on your local machine via an API. We currently support C++, C#, Go, Java and Python, and can support for more languages as required.</p>
-
+<p>Cubic is Cobalt’s automatic speech recognition (ASR) engine. It can be deployed on-prem and accessed over the network or on your local machine via an API. We currently support C++, C#, Go, Java and Python, and can add support for more languages as required.</p>
 <p>Once running, Cubic’s API provides a method to which you can stream audio. This audio can either be from a microphone or a file. We recommend uncompressed WAV as the encoding, but support other formats such as MP3.</p>
-
-<p><img src="img/cubicoverview.png" alt="Cubic setup" /></p>
-
+<p><img src="img/cubicoverview.png" alt="Cubic setup"></p>
 <p>Cubic’s API provides a number of options for returning the speech recognition results. The results are passed back using Google’s protobuf library, allowing them to be handled natively by your application. Cubic can estimate its confidence in the transcription result at the word or utterance level, along with timestamps of the words. Confidence scores are in the range 0-1. Cubic’s output options are described below.</p>
-
 <h2 id="automatic-transcription-results">Automatic Transcription Results</h2>
-
 <p>The simplest result that Cubic returns is its best guess at the transcription of your audio. Cubic recognizes the audio you are streaming, listens for the end of each utterance, and returns the speech recognition result.</p>
-
 <p>Cubic maintains its transcriptions in an N-best list, i.e. is the top N transcriptions from the recogniser. The best ASR result is the first entry in this list.</p>
-
-<p><details>
-<summary><font color="236ecc"><b>Click here to see an example json representation of Cubic’s N-best list with utterance-level confidence scores</b></font></summary></p>
+<details>
+<summary><font color="236ecc"><b>Click here to see an example json representation of Cubic’s N-best list with utterance-level confidence scores</b></font></summary>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
   <span style="color:#6ab825;font-weight:bold">&#34;alternatives&#34;</span>: [
     {
@@ -222,23 +211,16 @@
       <span style="color:#6ab825;font-weight:bold">&#34;confidence&#34;</span>: <span style="color:#3677a9">0.087</span>
     }
   ],
-}</code></pre></div>
-<p></details></p>
-
+}
+</code></pre></div></details>
 <p>A single stream may consist of multiple utterances separated by silence. Cubic handles each utterance separately.</p>
-
 <p>For longer utterances, it is often useful to see the partial speech recognition results while the audio is being streamed. For example, this allows you to see what the ASR system is predicting in real-time while someone is speaking. Cubic supports both partial and final ASR results.</p>
-
 <h2 id="confusion-network">Confusion Network</h2>
-
 <p>A Confusion Network is a form of speech recognition output that’s been turned into a compact graph representation of many possible transcriptions, as here:</p>
-
-<p><img src="img/confnet.png" alt="Confusion Network Example" /></p>
-
+<p><img src="img/confnet.png" alt="Confusion Network Example"></p>
 <p>Note that <code>&lt;eps&gt;</code> in this representation is silence.</p>
-
-<p><details>
-<summary><font color="236ecc"><b>Click here to see an example json representation of this Confusion Network object, with time stamps and word-level confidence scores</b></font></summary></p>
+<details>
+<summary><font color="236ecc"><b>Click here to see an example json representation of this Confusion Network object, with time stamps and word-level confidence scores</b></font></summary>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
   <span style="color:#6ab825;font-weight:bold">&#34;cnet&#34;</span>: {
     <span style="color:#6ab825;font-weight:bold">&#34;links&#34;</span>: [
@@ -390,24 +372,18 @@
       }
     ]
   }
-}</code></pre></div>
-<p></details></p>
-
+}
+</code></pre></div></details>
 <h2 id="formatted-output">Formatted output</h2>
-
 <p>Speech recognition systems typically output the words that were spoken, with no formatting. For example, utterances with numbers in might return “twenty seven bridges”, and “the year two thousand and three”. Cubic has the option to enable basic formatting of speech recognition results:</p>
-
 <ul>
 <li>Capitalising the first letter of the utterance</li>
 <li>Numbers: “cobalt’s atomic number is twenty seven” -&gt; “Cobalt’s atomic number is 27”</li>
 <li>Truecasing: “the iphone was launched in two thousand and seven” -&gt; “The iPhone was launched in 2007”</li>
 <li>Ordinals: “summer solstice is twenty first june” -&gt; “Summer solstice is 21st June”</li>
 </ul>
-
 <p>Note that word level timestamps and confidences aren’t supported when formatting is enabled.</p>
-
 <h2 id="obtaining-cubic">Obtaining Cubic</h2>
-
 <p>Cobalt will provide you with a package of Cubic that contains the engine,
 appropriate speech recognition models and a server application.  This server
 exports Cubic&rsquo;s functionality over the gRPC protocol.  The

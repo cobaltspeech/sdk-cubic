@@ -42,8 +42,7 @@
       
 	
   
-    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt's SDK Documentation" /></p>
-
+    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt&rsquo;s SDK Documentation"></p>
 <p>Cubic SDK &ndash; Cobalt</p>
 
   
@@ -197,34 +196,32 @@
     <div class="progress">
         <div class="wrapper">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#cubic-proto">cubic.proto</a>
-<ul>
-<li><a href="#service-cubic">Service: Cubic</a></li>
-<li><a href="#message-confusionnetworkarc">Message: ConfusionNetworkArc</a></li>
-<li><a href="#message-confusionnetworklink">Message: ConfusionNetworkLink</a></li>
-<li><a href="#message-listmodelsrequest">Message: ListModelsRequest</a></li>
-<li><a href="#message-listmodelsresponse">Message: ListModelsResponse</a></li>
-<li><a href="#message-model">Message: Model</a></li>
-<li><a href="#message-modelattributes">Message: ModelAttributes</a></li>
-<li><a href="#message-recognitionalternative">Message: RecognitionAlternative</a></li>
-<li><a href="#message-recognitionaudio">Message: RecognitionAudio</a></li>
-<li><a href="#message-recognitionconfig">Message: RecognitionConfig</a></li>
-<li><a href="#message-recognitionconfusionnetwork">Message: RecognitionConfusionNetwork</a></li>
-<li><a href="#message-recognitionmetadata">Message: RecognitionMetadata</a></li>
-<li><a href="#message-recognitionresponse">Message: RecognitionResponse</a></li>
-<li><a href="#message-recognitionresult">Message: RecognitionResult</a></li>
-<li><a href="#message-recognizerequest">Message: RecognizeRequest</a></li>
-<li><a href="#message-streamingrecognizerequest">Message: StreamingRecognizeRequest</a></li>
-<li><a href="#message-versionresponse">Message: VersionResponse</a></li>
-<li><a href="#message-wordinfo">Message: WordInfo</a></li>
-<li><a href="#enum-recognitionconfig-encoding">Enum: RecognitionConfig.Encoding</a></li>
-</ul></li>
-<li><a href="#scalar-value-types">Scalar Value Types</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#cubicproto">cubic.proto</a>
+      <ul>
+        <li><a href="#service-cubic">Service: Cubic</a></li>
+        <li><a href="#message-confusionnetworkarc">Message: ConfusionNetworkArc</a></li>
+        <li><a href="#message-confusionnetworklink">Message: ConfusionNetworkLink</a></li>
+        <li><a href="#message-listmodelsrequest">Message: ListModelsRequest</a></li>
+        <li><a href="#message-listmodelsresponse">Message: ListModelsResponse</a></li>
+        <li><a href="#message-model">Message: Model</a></li>
+        <li><a href="#message-modelattributes">Message: ModelAttributes</a></li>
+        <li><a href="#message-recognitionalternative">Message: RecognitionAlternative</a></li>
+        <li><a href="#message-recognitionaudio">Message: RecognitionAudio</a></li>
+        <li><a href="#message-recognitionconfig">Message: RecognitionConfig</a></li>
+        <li><a href="#message-recognitionconfusionnetwork">Message: RecognitionConfusionNetwork</a></li>
+        <li><a href="#message-recognitionmetadata">Message: RecognitionMetadata</a></li>
+        <li><a href="#message-recognitionresponse">Message: RecognitionResponse</a></li>
+        <li><a href="#message-recognitionresult">Message: RecognitionResult</a></li>
+        <li><a href="#message-recognizerequest">Message: RecognizeRequest</a></li>
+        <li><a href="#message-streamingrecognizerequest">Message: StreamingRecognizeRequest</a></li>
+        <li><a href="#message-versionresponse">Message: VersionResponse</a></li>
+        <li><a href="#message-wordinfo">Message: WordInfo</a></li>
+        <li><a href="#enum-recognitionconfigencoding">Enum: RecognitionConfig.Encoding</a></li>
+      </ul>
+    </li>
+    <li><a href="#scalar-value-types">Scalar Value Types</a></li>
+  </ul>
 </nav>
         </div>
     </div>
@@ -243,14 +240,9 @@
     
     
     
-    
-
-<h2 id="cubic-proto">cubic.proto</h2>
-
+    <h2 id="cubicproto">cubic.proto</h2>
 <h3 id="service-cubic">Service: Cubic</h3>
-
 <p>Service that implements the Cobalt Cubic Speech Recognition API</p>
-
 <table>
 <thead>
 <tr>
@@ -260,7 +252,6 @@
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>Version</td>
@@ -268,21 +259,18 @@
 <td>VersionResponse</td>
 <td>Queries the Version of the Server</td>
 </tr>
-
 <tr>
 <td>ListModels</td>
 <td>ListModelsRequest</td>
 <td>ListModelsResponse</td>
 <td>Retrieves a list of available speech recognition models</td>
 </tr>
-
 <tr>
 <td>Recognize</td>
 <td>RecognizeRequest</td>
 <td>RecognitionResponse</td>
 <td>Performs synchronous speech recognition: receive results after all audio has been sent and processed. It is expected that this request be typically used for short audio content: less than a minute long. For longer content, the <code>StreamingRecognize</code> method should be preferred.</td>
 </tr>
-
 <tr>
 <td>StreamingRecognize</td>
 <td>StreamingRecognizeRequest</td>
@@ -291,13 +279,9 @@
 </tr>
 </tbody>
 </table>
-
-<p><!-- end services --></p>
-
+ <!-- end services -->
 <h3 id="message-confusionnetworkarc">Message: ConfusionNetworkArc</h3>
-
 <p>An Arc inside a Confusion Network Link</p>
-
 <table>
 <thead>
 <tr>
@@ -307,7 +291,6 @@
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>word</td>
@@ -315,7 +298,6 @@
 <td></td>
 <td><p>Word in the recognized transcript</p></td>
 </tr>
-
 <tr>
 <td>confidence</td>
 <td>double</td>
@@ -324,11 +306,8 @@
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-confusionnetworklink">Message: ConfusionNetworkLink</h3>
-
 <p>A Link inside a confusion network</p>
-
 <table>
 <thead>
 <tr>
@@ -338,7 +317,6 @@
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>start_time</td>
@@ -346,14 +324,12 @@
 <td></td>
 <td><p>Time offset relative to the beginning of audio received by the recognizer and corresponding to the start of this link</p></td>
 </tr>
-
 <tr>
 <td>duration</td>
 <td>google.protobuf.Duration</td>
 <td></td>
 <td><p>Duration of the current link in the confusion network</p></td>
 </tr>
-
 <tr>
 <td>arcs</td>
 <td>ConfusionNetworkArc</td>
@@ -362,17 +338,11 @@
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-listmodelsrequest">Message: ListModelsRequest</h3>
-
 <p>The top-level message sent by the client for the <code>ListModels</code> method.</p>
-
 <p>This message is empty and has no fields.</p>
-
 <h3 id="message-listmodelsresponse">Message: ListModelsResponse</h3>
-
 <p>The message returned to the client by the <code>ListModels</code> method.</p>
-
 <table>
 <thead>
 <tr>
@@ -382,7 +352,6 @@
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>models</td>
@@ -392,11 +361,8 @@
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-model">Message: Model</h3>
-
 <p>Description of a Cubic Model</p>
-
 <table>
 <thead>
 <tr>
@@ -406,7 +372,6 @@
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>id</td>
@@ -414,14 +379,12 @@
 <td></td>
 <td><p>Unique identifier of the model. This identifier is used to choose the model that should be used for recognition, and is specified in the <code>RecognitionConfig</code> message.</p></td>
 </tr>
-
 <tr>
 <td>name</td>
 <td>string</td>
 <td></td>
 <td><p>Model name. This is a concise name describing the model, and maybe presented to the end-user, for example, to help choose which model to use for their recognition task.</p></td>
 </tr>
-
 <tr>
 <td>attributes</td>
 <td>ModelAttributes</td>
@@ -430,11 +393,8 @@
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-modelattributes">Message: ModelAttributes</h3>
-
 <p>Attributes of a Cubic Model</p>
-
 <table>
 <thead>
 <tr>
@@ -444,7 +404,6 @@
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>sample_rate</td>
@@ -454,11 +413,8 @@
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-recognitionalternative">Message: RecognitionAlternative</h3>
-
 <p>A recognition hypothesis</p>
-
 <table>
 <thead>
 <tr>
@@ -468,7 +424,6 @@
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>transcript</td>
@@ -476,35 +431,30 @@
 <td></td>
 <td><p>Text representing the transcription of the words that the user spoke.</p><p>The transcript will be formatted according to the servers formatting configuration. If you want the raw transcript, please see the field <code>raw_transcript</code>. If the server is configured to not use any formatting, then this field will contain the raw transcript.</p><p>As an example, if the spoken utterance was &ldquo;four people&rdquo;, and the server was configured to format numbers, this field would be set to &ldquo;4 people&rdquo;.</p></td>
 </tr>
-
 <tr>
 <td>raw_transcript</td>
 <td>string</td>
 <td></td>
 <td><p>Text representing the transcription of the words that the user spoke, without any formatting. This field will be populated only the config <code>RecognitionConfig.enable_raw_transcript</code> is set to true. Otherwise this field will be an empty string. If you want the formatted transcript, please see the field <code>transcript</code>.</p><p>As an example, if the spoken utterance was <code>here are four words</code>, this field would be set to &ldquo;HERE ARE FOUR WORDS&rdquo;.</p></td>
 </tr>
-
 <tr>
 <td>confidence</td>
 <td>double</td>
 <td></td>
 <td><p>Confidence estimate between 0 and 1. A higher number represents a higher likelihood of the output being correct.</p></td>
 </tr>
-
 <tr>
 <td>words</td>
 <td>WordInfo</td>
 <td>repeated</td>
 <td><p>A list of word-specific information for each recognized word. This is available only if <code>enable_word_confidence</code> or <code>enable_word_time_offsets</code> was set to <code>true</code> in the <code>RecognitionConfig</code>.</p></td>
 </tr>
-
 <tr>
 <td>start_time</td>
 <td>google.protobuf.Duration</td>
 <td></td>
 <td><p>Time offset relative to the beginning of audio received by the recognizer and corresponding to the start of this utterance.</p></td>
 </tr>
-
 <tr>
 <td>duration</td>
 <td>google.protobuf.Duration</td>
@@ -513,11 +463,8 @@
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-recognitionaudio">Message: RecognitionAudio</h3>
-
 <p>Audio to be sent to the recognizer</p>
-
 <table>
 <thead>
 <tr>
@@ -527,7 +474,6 @@
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>data</td>
@@ -537,11 +483,8 @@
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-recognitionconfig">Message: RecognitionConfig</h3>
-
 <p>Configuration for setting up a Recognizer</p>
-
 <table>
 <thead>
 <tr>
@@ -551,7 +494,6 @@
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>model_id</td>
@@ -559,56 +501,48 @@
 <td></td>
 <td><p>Unique identifier of the model to use, as obtained from a <code>Model</code> message.</p></td>
 </tr>
-
 <tr>
 <td>audio_encoding</td>
 <td>RecognitionConfig.Encoding</td>
 <td></td>
 <td><p>Encoding of audio data sent/streamed through the <code>RecognitionAudio</code> messages. For encodings like WAV/MP3 that have headers, the headers are expected to be sent at the beginning of the stream, not in every <code>RecognitionAudio</code> message.</p><p>If not specified, the default encoding is RAW_LINEAR16.</p><p>Depending on how they are configured, server instances of this service may not support all the encodings enumerated above. They are always required to accept RAW_LINEAR16. If any other <code>Encoding</code> is specified, and it is not available on the server being used, the recognition request will result in an appropriate error message.</p></td>
 </tr>
-
 <tr>
 <td>idle_timeout</td>
 <td>google.protobuf.Duration</td>
 <td></td>
 <td><p>Idle Timeout of the created Recognizer. If no audio data is received by the recognizer for this duration, ongoing rpc calls will result in an error, the recognizer will be destroyed and thus more audio may not be sent to the same recognizer. The server may impose a limit on the maximum idle timeout that can be specified, and if the value in this message exceeds that serverside value, creating of the recognizer will fail with an error.</p></td>
 </tr>
-
 <tr>
 <td>enable_word_time_offsets</td>
 <td>bool</td>
 <td></td>
 <td><p>This is an optional field. If this is set to true, each result will include a list of words and the start time offset (timestamp) and the duration for each of those words. If set to <code>false</code>, no word-level timestamps will be returned. The default is <code>false</code>.</p></td>
 </tr>
-
 <tr>
 <td>enable_word_confidence</td>
 <td>bool</td>
 <td></td>
 <td><p>This is an optional field. If this is set to true, each result will include a list of words and the confidence for those words. If <code>false</code>, no word-level confidence information is returned. The default is <code>false</code>.</p></td>
 </tr>
-
 <tr>
 <td>enable_raw_transcript</td>
 <td>bool</td>
 <td></td>
 <td><p>This is an optional field. If this is set to true, the field <code>RecognitionAlternative.raw_transcript</code> will be populated with the raw transcripts output from the recognizer will be exposed without any formatting rules applied. If this is set to false, that field will not be set in the results. The RecognitionAlternative.transcript will always be populated with text formatted according to the server&rsquo;s settings.</p></td>
 </tr>
-
 <tr>
 <td>enable_confusion_network</td>
 <td>bool</td>
 <td></td>
 <td><p>This is an optional field. If this is set to true, the results will include a confusion network. If set to <code>false</code>, no confusion network will be returned. The default is <code>false</code>. If the model being used does not support a confusion network, results may be returned without a confusion network available. If this field is set to <code>true</code>, then <code>enable_raw_transcript</code> is also forced to be true.</p></td>
 </tr>
-
 <tr>
 <td>audio_channels</td>
 <td>uint32</td>
 <td>repeated</td>
 <td><p>This is an optional field. If the audio has multiple channels, this field should be configured with the list of channel indices that should be transcribed. Channels are 0-indexed.</p><p>Example: <code>[0]</code> for a mono file, <code>[0, 1]</code> for a stereo file.</p><p>If this field is not set, a mono file will be assumed by default and only channel-0 will be transcribed even if the file actually has additional channels.</p><p>Channels that are present in the audio may be omitted, but it is an error to include a channel index in this field that is not present in the audio. Channels may be listed in any order but the same index may not be repeated in this list.</p><p>BAD: <code>[0, 2]</code> for a stereo file; BAD: <code>[0, 0]</code> for a mono file.</p></td>
 </tr>
-
 <tr>
 <td>metadata</td>
 <td>RecognitionMetadata</td>
@@ -617,11 +551,8 @@
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-recognitionconfusionnetwork">Message: RecognitionConfusionNetwork</h3>
-
 <p>Confusion network in recognition output</p>
-
 <table>
 <thead>
 <tr>
@@ -631,7 +562,6 @@
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>links</td>
@@ -641,11 +571,8 @@
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-recognitionmetadata">Message: RecognitionMetadata</h3>
-
 <p>Metadata associated with the audio to be recognized</p>
-
 <table>
 <thead>
 <tr>
@@ -655,7 +582,6 @@
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>custom_metadata</td>
@@ -665,9 +591,7 @@
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-recognitionresponse">Message: RecognitionResponse</h3>
-
 <p>Collection of sequence of recognition results in a portion of audio.  When
 transcribing a single audio channel (e.g. RAW_LINEAR16 input, or a mono
 file), results will be ordered chronologically.  When transcribing multiple
@@ -675,7 +599,6 @@ channels, the results of all channels will be interleaved.  Results of each
 individual channel will be chronological.  No such promise is made for the
 ordering of results of different channels, as results are returned for each
 channel individually as soon as they are ready.</p>
-
 <table>
 <thead>
 <tr>
@@ -685,7 +608,6 @@ channel individually as soon as they are ready.</p>
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>results</td>
@@ -695,11 +617,8 @@ channel individually as soon as they are ready.</p>
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-recognitionresult">Message: RecognitionResult</h3>
-
 <p>A recognition result corresponding to a portion of audio.</p>
-
 <table>
 <thead>
 <tr>
@@ -709,7 +628,6 @@ channel individually as soon as they are ready.</p>
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>alternatives</td>
@@ -717,21 +635,18 @@ channel individually as soon as they are ready.</p>
 <td>repeated</td>
 <td><p>An n-best list of recognition hypotheses alternatives</p></td>
 </tr>
-
 <tr>
 <td>is_partial</td>
 <td>bool</td>
 <td></td>
 <td><p>If this is set to true, it denotes that the result is an interim partial result, and could change after more audio is processed. If unset, or set to false, it denotes that this is a final result and will not change.</p><p>Servers are not required to implement support for returning partial results, and clients should generally not depend on their availability.</p></td>
 </tr>
-
 <tr>
 <td>cnet</td>
 <td>RecognitionConfusionNetwork</td>
 <td></td>
 <td><p>If <code>enable_confusion_network</code> was set to true in the <code>RecognitionConfig</code>, and if the model supports it, a confusion network will be available in the results.</p></td>
 </tr>
-
 <tr>
 <td>audio_channel</td>
 <td>uint32</td>
@@ -740,14 +655,11 @@ channel individually as soon as they are ready.</p>
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-recognizerequest">Message: RecognizeRequest</h3>
-
 <p>The top-level message sent by the client for the <code>Recognize</code> method.  Both
 the <code>RecognitionConfig</code> and <code>RecognitionAudio</code> fields are required.  The
 entire audio data must be sent in one request.  If your audio data is larger,
 please use the <code>StreamingRecognize</code> call..</p>
-
 <table>
 <thead>
 <tr>
@@ -757,7 +669,6 @@ please use the <code>StreamingRecognize</code> call..</p>
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>config</td>
@@ -765,7 +676,6 @@ please use the <code>StreamingRecognize</code> call..</p>
 <td></td>
 <td><p>Provides configuration to create the recognizer.</p></td>
 </tr>
-
 <tr>
 <td>audio</td>
 <td>RecognitionAudio</td>
@@ -774,16 +684,13 @@ please use the <code>StreamingRecognize</code> call..</p>
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-streamingrecognizerequest">Message: StreamingRecognizeRequest</h3>
-
 <p>The top-level message sent by the client for the <code>StreamingRecognize</code>
 request.  Multiple <code>StreamingRecognizeRequest</code> messages are sent. The first
 message must contain a <code>RecognitionConfig</code> message only, and all subsequent
 messages must contain <code>RecognitionAudio</code> only.  All <code>RecognitionAudio</code>
 messages must contain non-empty audio.  If audio content is empty, the server
 may interpret it as end of stream and stop accepting any further messages.</p>
-
 <table>
 <thead>
 <tr>
@@ -793,7 +700,6 @@ may interpret it as end of stream and stop accepting any further messages.</p>
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>config</td>
@@ -801,7 +707,6 @@ may interpret it as end of stream and stop accepting any further messages.</p>
 <td></td>
 <td><p></p></td>
 </tr>
-
 <tr>
 <td>audio</td>
 <td>RecognitionAudio</td>
@@ -810,11 +715,8 @@ may interpret it as end of stream and stop accepting any further messages.</p>
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-versionresponse">Message: VersionResponse</h3>
-
 <p>The message sent by the server for the <code>Version</code> method.</p>
-
 <table>
 <thead>
 <tr>
@@ -824,7 +726,6 @@ may interpret it as end of stream and stop accepting any further messages.</p>
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>cubic</td>
@@ -832,7 +733,6 @@ may interpret it as end of stream and stop accepting any further messages.</p>
 <td></td>
 <td><p>version of the cubic library handling the recognition</p></td>
 </tr>
-
 <tr>
 <td>server</td>
 <td>string</td>
@@ -841,11 +741,8 @@ may interpret it as end of stream and stop accepting any further messages.</p>
 </tr>
 </tbody>
 </table>
-
 <h3 id="message-wordinfo">Message: WordInfo</h3>
-
 <p>Word-specific information for recognized words</p>
-
 <table>
 <thead>
 <tr>
@@ -855,7 +752,6 @@ may interpret it as end of stream and stop accepting any further messages.</p>
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>word</td>
@@ -863,21 +759,18 @@ may interpret it as end of stream and stop accepting any further messages.</p>
 <td></td>
 <td><p>The actual word in the text</p></td>
 </tr>
-
 <tr>
 <td>confidence</td>
 <td>double</td>
 <td></td>
 <td><p>Confidence estimate between 0 and 1. A higher number represents a higher likelihood that the word was correctly recognized.</p></td>
 </tr>
-
 <tr>
 <td>start_time</td>
 <td>google.protobuf.Duration</td>
 <td></td>
 <td><p>Time offset relative to the beginning of audio received by the recognizer and corresponding to the start of this spoken word.</p></td>
 </tr>
-
 <tr>
 <td>duration</td>
 <td>google.protobuf.Duration</td>
@@ -886,16 +779,11 @@ may interpret it as end of stream and stop accepting any further messages.</p>
 </tr>
 </tbody>
 </table>
-
-<p><!-- end messages --></p>
-
-<h3 id="enum-recognitionconfig-encoding">Enum: RecognitionConfig.Encoding</h3>
-
+ <!-- end messages -->
+<h3 id="enum-recognitionconfigencoding">Enum: RecognitionConfig.Encoding</h3>
 <p>The encoding of the audio data to be sent for recognition.</p>
-
 <p>For best results, the audio source should be captured and transmitted using
 the RAW_LINEAR16 encoding.</p>
-
 <table>
 <thead>
 <tr>
@@ -904,38 +792,32 @@ the RAW_LINEAR16 encoding.</p>
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>RAW_LINEAR16</td>
 <td>0</td>
 <td>Raw (headerless) Uncompressed 16-bit signed little endian samples (linear PCM), single channel, sampled at the rate expected by the chosen <code>Model</code>.</td>
 </tr>
-
 <tr>
 <td>WAV</td>
 <td>1</td>
 <td>WAV (data with RIFF headers), with data sampled at a rate equal to or higher than the sample rate expected by the chosen Model.</td>
 </tr>
-
 <tr>
 <td>MP3</td>
 <td>2</td>
 <td>MP3 data, sampled at a rate equal to or higher than the sampling rate expected by the chosen Model.</td>
 </tr>
-
 <tr>
 <td>FLAC</td>
 <td>3</td>
 <td>FLAC data, sampled at a rate equal to or higher than the sample rate expected by the chosen Model.</td>
 </tr>
-
 <tr>
 <td>VOX8000</td>
 <td>4</td>
 <td>VOX data (Dialogic ADPCM), sampled at 8 KHz.</td>
 </tr>
-
 <tr>
 <td>ULAW8000</td>
 <td>5</td>
@@ -943,13 +825,9 @@ the RAW_LINEAR16 encoding.</p>
 </tr>
 </tbody>
 </table>
-
-<p><!-- end enums --></p>
-
-<p><!-- end HasExtensions --></p>
-
+ <!-- end enums -->
+ <!-- end HasExtensions -->
 <h2 id="scalar-value-types">Scalar Value Types</h2>
-
 <table>
 <thead>
 <tr>
@@ -959,7 +837,6 @@ the RAW_LINEAR16 encoding.</p>
 <th>Python Type</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>double</td>
@@ -967,98 +844,84 @@ the RAW_LINEAR16 encoding.</p>
 <td>float64</td>
 <td>float</td>
 </tr>
-
 <tr>
 <td>float</td>
 <td></td>
 <td>float32</td>
 <td>float</td>
 </tr>
-
 <tr>
 <td>int32</td>
 <td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead.</td>
 <td>int32</td>
 <td>int</td>
 </tr>
-
 <tr>
 <td>int64</td>
 <td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead.</td>
 <td>int64</td>
 <td>int/long</td>
 </tr>
-
 <tr>
 <td>uint32</td>
 <td>Uses variable-length encoding.</td>
 <td>uint32</td>
 <td>int/long</td>
 </tr>
-
 <tr>
 <td>uint64</td>
 <td>Uses variable-length encoding.</td>
 <td>uint64</td>
 <td>int/long</td>
 </tr>
-
 <tr>
 <td>sint32</td>
 <td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.</td>
 <td>int32</td>
 <td>int</td>
 </tr>
-
 <tr>
 <td>sint64</td>
 <td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.</td>
 <td>int64</td>
 <td>int/long</td>
 </tr>
-
 <tr>
 <td>fixed32</td>
 <td>Always four bytes. More efficient than uint32 if values are often greater than 2^28.</td>
 <td>uint32</td>
 <td>int</td>
 </tr>
-
 <tr>
 <td>fixed64</td>
 <td>Always eight bytes. More efficient than uint64 if values are often greater than 2^56.</td>
 <td>uint64</td>
 <td>int/long</td>
 </tr>
-
 <tr>
 <td>sfixed32</td>
 <td>Always four bytes.</td>
 <td>int32</td>
 <td>int</td>
 </tr>
-
 <tr>
 <td>sfixed64</td>
 <td>Always eight bytes.</td>
 <td>int64</td>
 <td>int/long</td>
 </tr>
-
 <tr>
 <td>bool</td>
 <td></td>
 <td>bool</td>
 <td>boolean</td>
 </tr>
-
 <tr>
 <td>string</td>
 <td>A string must always contain UTF-8 encoded or 7-bit ASCII text.</td>
 <td>string</td>
 <td>str/unicode</td>
 </tr>
-
 <tr>
 <td>bytes</td>
 <td>May contain any arbitrary sequence of bytes.</td>

@@ -42,8 +42,7 @@
       
 	
   
-    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt's SDK Documentation" /></p>
-
+    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt&rsquo;s SDK Documentation"></p>
 <p>Cubic SDK &ndash; Cobalt</p>
 
   
@@ -197,13 +196,10 @@
     <div class="progress">
         <div class="wrapper">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#fields">Fields</a></li>
-<li><a href="#use-cases">Use cases</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#fields">Fields</a></li>
+    <li><a href="#use-cases">Use cases</a></li>
+  </ul>
 </nav>
         </div>
     </div>
@@ -222,16 +218,10 @@
     
     
     
-    
-
-<p>An in-depth explanation of the various fields of the complete SDK can be found <a href="../../protobuf/autogen-doc-cubic-proto/">here</a>.  The sub-section <a href="../../protobuf/autogen-doc-cubic-proto/#message-recognitionconfig">RecognitionConfig</a> is particularly important here.</p>
-
+    <p>An in-depth explanation of the various fields of the complete SDK can be found <a href="../../protobuf/autogen-doc-cubic-proto/">here</a>.  The sub-section <a href="../../protobuf/autogen-doc-cubic-proto/#message-recognitionconfig">RecognitionConfig</a> is particularly important here.</p>
 <p>This page here discusses the more common combinations sent to the server.</p>
-
 <h2 id="fields">Fields</h2>
-
 <p>Here is a quick overview of the fields.</p>
-
 <table>
 <thead>
 <tr>
@@ -241,7 +231,6 @@
 <th>Description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>model_id</td>
@@ -249,49 +238,42 @@
 <td></td>
 <td>Unique ID of the model to use.</td>
 </tr>
-
 <tr>
 <td>audio_encoding</td>
 <td>Yes</td>
 <td></td>
 <td>Encoding format of the audio, such as RAW_LINEAR_16, WAV, MP3, etc.</td>
 </tr>
-
 <tr>
 <td>idle_timeout</td>
 <td>No</td>
 <td><code>0s</code> (Unlimited)</td>
 <td>Maximum time allowed between each gRPC message. The server may place further restrictions depending on its configuration.</td>
 </tr>
-
 <tr>
 <td>enable_word_time_offsets</td>
 <td>No</td>
 <td><code>false</code></td>
 <td>Toggles the calculation of word-level timestamps.  The specified model must also support word-level timestamps for this field to be populated.</td>
 </tr>
-
 <tr>
 <td>enable_word_confidence</td>
 <td>No</td>
 <td><code>false</code></td>
 <td>Toggles the calculation of word-level confidence scores. The specified model must also support word-level confidence for this field to be populated.</td>
 </tr>
-
 <tr>
 <td>enable_raw_transcript</td>
 <td>No</td>
 <td><code>false</code></td>
 <td>If <code>true</code>, the raw transcript will be included in the results.</td>
 </tr>
-
 <tr>
 <td>enable_confusion_network</td>
 <td>No</td>
 <td><code>false</code></td>
 <td>Toggles the inclusion of a confusion network, consisting of multiple alternative transcriptions.  The specified model must also support confusion networks for this field to be populated.</td>
 </tr>
-
 <tr>
 <td>audio_channels</td>
 <td>No</td>
@@ -300,73 +282,58 @@
 </tr>
 </tbody>
 </table>
-
 <h2 id="use-cases">Use cases</h2>
-
 <p>The most basic use case is getting a formatted transcript.  This would simply need a config such as:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
     <span style="color:#6ab825;font-weight:bold">&#34;model_id&#34;</span>: <span style="color:#ed9d13">&#34;1&#34;</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;audio_encoding&#34;</span>: <span style="color:#ed9d13">&#34;raw&#34;</span>
-}</code></pre></div>
-<p>and your resulting transcript would be found at <code>results.alternatives[*].transcript</code>.</p>
-
-<hr />
-
+}
+</code></pre></div><p>and your resulting transcript would be found at <code>results.alternatives[*].transcript</code>.</p>
+<hr>
 <p>Sometimes, only the raw (unformatted) transcript is desired.  In this case, there are two options.</p>
-
 <ol>
 <li>Disable server-side formatting and use the above config.  Retrieve the raw transcript from the <code>results.alternatives[*].transcript</code> field.</li>
 <li>Specify the <code>enable_raw_transcript = true</code> flag, and access the field <code>results.alternatives[*].raw_transcript</code>.</li>
 </ol>
-
 <blockquote>
 <p>Note: Prior to <code>cubicsvr</code> v2.9.0 and SDK-Cubic v1.3.0, the field <code>results.alternatives[*].transcript</code> was populated with either the raw or the formatted transcription depending on the <code>enable_raw_transcript</code> config.  After these changes, raw transcripts have been pushed to a new field <code>results.alternatives[*].raw_transcript</code>, and only populated when <code>enable_raw_transcript</code> is set to true.</p>
 </blockquote>
-
-<hr />
-
+<hr>
 <p>Another use case would be getting both the formatted and raw transcript.  This can be done using this config.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
     <span style="color:#6ab825;font-weight:bold">&#34;model_id&#34;</span>: <span style="color:#ed9d13">&#34;1&#34;</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;audio_encoding&#34;</span>: <span style="color:#ed9d13">&#34;raw&#34;</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;enable_raw_transcript&#34;</span>: <span style="color:#ed9d13">&#34;true&#34;</span>
-}</code></pre></div>
-<p>The formatted transcript would be found at <code>results.alternatives[*].transcript</code>, and the raw transcript would be found at <code>results.alternatives[*].raw_transcript</code>.</p>
-
-<hr />
-
+}
+</code></pre></div><p>The formatted transcript would be found at <code>results.alternatives[*].transcript</code>, and the raw transcript would be found at <code>results.alternatives[*].raw_transcript</code>.</p>
+<hr>
 <p>If you need to know the timestamp for each word, to align subtitles with a video, for example, then you can use this config to enable those word-level timestamps.  Please note the inclusion of <code>enable_raw_transcript</code>; the word-level information corresponds to the raw transcript, since the formatter may combine multiple words into one symbol in the formatted transcript (e.g. &ldquo;twenty one&rdquo; to &ldquo;21&rdquo;)</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
     <span style="color:#6ab825;font-weight:bold">&#34;model_id&#34;</span>: <span style="color:#ed9d13">&#34;1&#34;</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;audio_encoding&#34;</span>: <span style="color:#ed9d13">&#34;raw&#34;</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;enable_raw_transcript&#34;</span>: <span style="color:#6ab825;font-weight:bold">true</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;enable_word_time_offsets&#34;</span>: <span style="color:#6ab825;font-weight:bold">true</span>
-}</code></pre></div>
-<p>Timestamps will be found at <code>results.alternatives[*].words[*].start_time</code> and <code>results.alternatives[*].words[*].duration</code>.</p>
-
-<hr />
-
+}
+</code></pre></div><p>Timestamps will be found at <code>results.alternatives[*].words[*].start_time</code> and <code>results.alternatives[*].words[*].duration</code>.</p>
+<hr>
 <p>Word-level confidences, i.e. for displaying a lighter color for less confident words, can be included much like the word-level timestamps.  Please note the inclusion of <code>enable_raw_transcript</code>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
     <span style="color:#6ab825;font-weight:bold">&#34;model_id&#34;</span>: <span style="color:#ed9d13">&#34;1&#34;</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;audio_encoding&#34;</span>: <span style="color:#ed9d13">&#34;raw&#34;</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;enable_raw_transcript&#34;</span>: <span style="color:#6ab825;font-weight:bold">true</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;enable_word_time_offsets&#34;</span>: <span style="color:#6ab825;font-weight:bold">true</span>
-}</code></pre></div>
-<p>Word-level confidence scores will be found at <code>results.alternatives[*].words[*].confidence</code>.</p>
-
-<hr />
-
+}
+</code></pre></div><p>Word-level confidence scores will be found at <code>results.alternatives[*].words[*].confidence</code>.</p>
+<hr>
 <p>For applications that need more than the one-best transcription, the most comprehensive and detailed Cubic results are found in the confusion network.  Please refer to the <a href="../../protobuf/autogen-doc-cubic-proto/#message-recognitionconfusionnetwork">in depth confusion network documentation</a> to see what is included.</p>
-
 <p>To enable the confusion network, the config will look similar to this:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
     <span style="color:#6ab825;font-weight:bold">&#34;model_id&#34;</span>: <span style="color:#ed9d13">&#34;1&#34;</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;audio_encoding&#34;</span>: <span style="color:#ed9d13">&#34;raw&#34;</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;enable_raw_transcript&#34;</span>: <span style="color:#6ab825;font-weight:bold">true</span>,
     <span style="color:#6ab825;font-weight:bold">&#34;enable_confusion_network&#34;</span>: <span style="color:#6ab825;font-weight:bold">true</span>
-}</code></pre></div>
-<p>The confusion network can be accessed at <code>result.cnet</code>.</p>
+}
+</code></pre></div><p>The confusion network can be accessed at <code>result.cnet</code>.</p>
 
 
     

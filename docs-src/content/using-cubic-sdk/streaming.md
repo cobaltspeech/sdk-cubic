@@ -16,9 +16,8 @@ see the protocol buffer specification file in the SDK repository (`grpc/cubic.pr
 The examples below use a WAV file as input to the streaming recognition. We will query
 the server for available models and use the first model to transcribe the speech.
 
-{{%tabs %}}
-{{% tab "Go" %}}
-``` go
+{{< tabs >}}
+{{< tab "Go" "go" >}}
 package main
 
 import (
@@ -74,11 +73,9 @@ func main() {
 	}
 
 }
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Python" %}}
-``` python
+{{< tab "Python" "python" >}}
 import cubic
 
 serverAddress = '127.0.0.1:2727'
@@ -104,7 +101,7 @@ cfg = cubic.RecognitionConfig(
 # open audio file stream
 audio = open('test.wav', 'rb')
 
-# send streaming request to cubic and 
+# send streaming request to cubic and
 # print out results as they come in
 for resp in client.StreamingRecognize(cfg, audio):
 	for result in resp.results:
@@ -113,11 +110,9 @@ for resp in client.StreamingRecognize(cfg, audio):
 		else:
 			print("\r{0}".format(result.alternatives[0].transcript), end="\n")
 
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "C#" %}}
-``` c#
+{{< tab "C#" "c#" >}}
 // Initialize a gRPC connection
 var creds = Grpc.Core.ChannelCredentials.Insecure;
 var channel = new Grpc.Core.Channel(url, creds);
@@ -177,15 +172,15 @@ using (call)
     // Wait for all of the responses to come back through the receiving stream
     await responseReaderTask;
 }
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Java/Android" %}}
+{{< tab "Java/Android" "java" >}}
 
-Please note: this example does not attempt to handle threading and all exceptions.
-It gives a simplified overview of the essential gRPC calls.
+/*
+  Please note: this example does not attempt to handle threading and all exceptions.
+  It gives a simplified overview of the essential gRPC calls.
+*/
 
-``` java
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -257,10 +252,9 @@ public static void transcribeFile() {
 
     // Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
 }
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{%/tabs %}}
+{{< /tabs >}}
 
 ### Streaming from microphone
 
@@ -269,14 +263,16 @@ libraries. There are several options available, and although the examples here u
 one, you may choose to use an alternative as long as the recording audio format is
 chosen correctly.
 
-{{%tabs %}}
-{{% tab "Go" %}}
+{{< tabs >}}
+{{< tab "Go" "go" >}}
 
-This example utilizes the portaudio [bindings](https://github.com/gordonklaus/portaudio) for Go
-to stream audio from a microphone. To use this package, install [PortAudio](http://www.portaudio.com/)
+/*
+This example utilizes the portaudio bindings for Go (see https://github.com/gordonklaus/portaudio)
+to stream audio from a microphone. To use this package, install PortAudio (see http://www.portaudio.com/)
 development headers and libraries using an appropriate package manager for your system (e.g. `apt-get install portaudio19-dev` on Ubuntu, `brew install portaudio` for OSX, etc.) or build from [source](http://portaudio.com/docs/v19-doxydocs/tutorial_start.html).
 
-``` go
+*/
+
 package main
 
 import (
@@ -293,7 +289,7 @@ import (
 
 const serverAddr = "127.0.0.1:2727"
 
-// Microphone implements the io.ReadCloser interface and provides 
+// Microphone implements the io.ReadCloser interface and provides
 // a data stream for microphone input.
 type Microphone struct {
 	buffer []int16
@@ -397,16 +393,14 @@ func main() {
 		log.Fatal(err)
 	}
 }
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Python" %}}
+{{< tab "Python" "python" >}}
+#
+# This example requires the pyaudio (http://people.csail.mit.edu/hubert/pyaudio/)
+# module to stream audio from a microphone. Instructions for installing pyaudio for
+# different systems are available at the link. On most platforms, this is simply `pip install pyaudio`.
 
-This example requires the [pyaudio](http://people.csail.mit.edu/hubert/pyaudio/) 
-module to stream audio from a microphone. Instructions for installing pyaudio for 
-different systems are available at the link. On most platforms, this is simply `pip install pyaudio`.
-
-``` python
 import cubic
 import pyaudio
 
@@ -437,7 +431,7 @@ audio = p.open(format=pyaudio.paInt16,              # 16 bit samples
 				rate=model.attributes.sample_rate,  # sample rate in hertz
 				input=True)                         # audio input stream
 
-# send streaming request to cubic and 
+# send streaming request to cubic and
 # print out results as they come in
 try:
 	for resp in client.StreamingRecognize(cfg, audio):
@@ -454,25 +448,25 @@ except Exception as err:
 
 audio.stop_stream()
 audio.close()
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "C#" %}}
+{{< tab "C#" "c#" >}}
 
 We do not currently have example C# code for streaming from a microphone.
 Simply pass the bytes from the microphone the same as is done from the file in the `Streaming from an audio file` example above.
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Java/Android" %}}
+{{< tab "Java/Android" "java" >}}
 
+/*
 This example uses the `android.media.AudioRecord` class and assumes the min API level is higher than Marshmallow.
 Please note: this example does not attempt to handle threading and all exceptions.
 It gives a simplified overview of the essential gRPC calls.
 
 For a complete android example, see the examples directory in [the sdk-cubic github repository](https://github.com/cobaltspeech/sdk-cubic/examples/android).
+*/
 
-``` java
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -555,15 +549,15 @@ public static void streamMicrophoneAudio() {
 
     // Note: Once the server is done transcribing everything, it will call responseObserver.onCompleted().
 }
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Swift/iOS" %}}
+{{< tab "Swift/iOS" "swift" >}}
 
-This example uses methods of the Client class to establish connection to Cubic server, list models, stream audio file and receive the transcription results. 
+/*
+This example uses methods of the Client class to establish connection to Cubic server, list models, stream audio file and receive the transcription results.
 You can call Client from your client view controller or any other class.
+*/
 
-``` swift
 import Cubic
 import GRPC
 
@@ -573,18 +567,18 @@ class CubicExample {
     var confg = Cobaltspeech_Cubic_RecognitionConfig()
     let fileName = "test.wav"
     let chunkSize = 8192
-    
+
     public init() {
         let fileUrl = URL(fileURLWithPath: fileName)
-        
+
         guard let audioData = try? Data(contentsOf: fileUrl) else { return }
-        
+
         config.audioEncoding = .wav
-        
+
         client.listModels(success: { (models) in
             if let model = models?.first {
                 self.config.modelID = model.id
-                
+
                 self.client.streamingRecognize(audioData: audioData, chunkSize: self.chunkSize, config: self.config, success: { (response) in
                     for result in response.results {
                         if !result.isPartial, let alternative = result.alternatives.first {
@@ -601,7 +595,6 @@ class CubicExample {
     }
 
 }
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{%/tabs %}}
+{{< /tabs >}}

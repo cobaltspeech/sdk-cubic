@@ -16,11 +16,9 @@ models and use the first model to transcribe this speech.
 
 <!--more-->
 
-{{%tabs %}}
+{{< tabs >}}
 
-{{% tab "Go" %}}
-``` go
-
+{{< tab "Go" "go" >}}
 package main
 
 import (
@@ -70,12 +68,9 @@ func main() {
 	}
 
 }
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Python" %}}
-``` python
-
+{{< tab "Python" "python" >}}
 import cubic
 
 serverAddress = '127.0.0.1:2727'
@@ -94,7 +89,7 @@ cfg = cubic.RecognitionConfig(
     model_id = model.id
 )
 
-# open audio file 
+# open audio file
 audio = open('test.raw', 'rb')
 
 resp = client.Recognize(cfg, audio)
@@ -103,11 +98,9 @@ for result in resp.results:
 	if not result.is_partial:
 		print(result.alternatives[0].transcript)
 
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "C#" %}}
-``` c#
+{{< tab "C#" "c#" >}}
 // Initialize a gRPC connection
 var creds = Grpc.Core.ChannelCredentials.Insecure;
 var channel = new Grpc.Core.Channel(url, creds);
@@ -145,15 +138,14 @@ foreach (var result in resp.Results)
         Console.WriteLine(result.Alternatives[0].Transcript)
     }
 }
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Java/Android" %}}
+{{< tab "Java/Android" "java" >}}
 
-Please note: this example does not attempt to handle threading and all exceptions.
-It gives a simplified overview of the essential gRPC calls.
-
-``` java
+/*
+  Please note: this example does not attempt to handle threading and all exceptions.
+  It gives a simplified overview of the essential gRPC calls.
+*/
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -206,11 +198,9 @@ public static int main() {
             .build(),
         responseObserver);
 }
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Swift/iOS" %}}
-``` swift
+{{< tab "Swift/iOS" "swift" >}}
 import Cubic
 import GRPC
 
@@ -219,14 +209,14 @@ class CubicExample {
     let client = Client(host: "demo-cubic.cobaltspeech.com", port: 2727, useTLS: true)
     var confg = Cobaltspeech_Cubic_RecognitionConfig()
     let fileName = "text.wav"
-    
+
     public init() {
         config.audioEncoding = .wav
-        
+
         client.listModels(success: { (models) in
             if let model = models?.first {
                 self.config.modelID = model.id
-                
+
                 self.client.recognize(audioURL: URL(fileURLWithPath: fileName), config: self.config, success: { (response) in
                     for result in response.results {
                         if !result.isPartial, let alternative = result.alternatives.first {
@@ -243,7 +233,6 @@ class CubicExample {
     }
 
 }
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{%/tabs %}}
+{{< /tabs >}}

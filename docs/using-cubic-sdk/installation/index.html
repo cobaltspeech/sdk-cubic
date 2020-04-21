@@ -42,8 +42,7 @@
       
 	
   
-    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt's SDK Documentation" /></p>
-
+    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt&rsquo;s SDK Documentation"></p>
 <p>Cubic SDK &ndash; Cobalt</p>
 
   
@@ -197,22 +196,17 @@
     <div class="progress">
         <div class="wrapper">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#go">Go</a></li>
-<li><a href="#python">Python</a></li>
-<li><a href="#c">C#</a></li>
-<li><a href="#android">Android</a></li>
-<li><a href="#ios">iOS</a>
-<ul>
-<li><a href="#swift-package-manager">Swift Package Manager</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#go">Go</a></li>
+        <li><a href="#python">Python</a></li>
+        <li><a href="#c">C#</a></li>
+        <li><a href="#android">Android</a></li>
+        <li><a href="#ios">iOS</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
         </div>
     </div>
@@ -232,37 +226,28 @@
     
     
     <p>Instructions for installing the SDK are language specific.</p>
-
 <h3 id="go">Go</h3>
-
 <p>The Go SDK supports Go modules and requires Go 1.12 or later. To use the SDK,
 import this package into your application:</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#ed9d13">&#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic&#34;</span></code></pre></div>
-<h3 id="python">Python</h3>
-
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#ed9d13">&#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic&#34;</span>
+</code></pre></div><h3 id="python">Python</h3>
 <p>The Python SDK depends on Python &gt;= 3.5. You may use pip to perform a system-wide install, or use virtualenv for a local install.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install --upgrade pip
-pip install <span style="color:#ed9d13">&#34;git+https://github.com/cobaltspeech/sdk-cubic#egg=cobalt-cubic&amp;subdirectory=grpc/py-cubic&#34;</span></code></pre></div>
-<h3 id="c">C#</h3>
-
+pip install <span style="color:#ed9d13">&#34;git+https://github.com/cobaltspeech/sdk-cubic#egg=cobalt-cubic&amp;subdirectory=grpc/py-cubic&#34;</span>
+</code></pre></div><h3 id="c">C#</h3>
 <p>The C# SDK utilizes the <a href="https://www.nuget.org">NuGet package manager</a>.  The package is called <code>Cubic-SDK</code>, under the owners name of <code>CobaltSpeech</code>.</p>
-
 <p>NuGet allows 4 different ways to install.  Further instructions can be found on the <a href="https://www.nuget.org/packages/Cubic-SDK/">nuget webpage</a>.  Installing via the <code>dotnet</code> cli through the command:</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dotnet add package Cubic-SDK</code></pre></div>
-<h3 id="android">Android</h3>
-
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dotnet add package Cubic-SDK
+</code></pre></div><h3 id="android">Android</h3>
 <p>Building for Android requires more steps, so it is described on the <a href="https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/android/">Android Integrations</a> page.</p>
-
 <h3 id="ios">iOS</h3>
-
 <h4 id="swift-package-manager">Swift Package Manager</h4>
-
 <p>The <a href="https://swift.org/package-manager/">Swift Package Manager</a> is a tool for automating the distribution of Swift code and is integrated into the <code>swift</code> compiler.</p>
-
 <p>Once you have your Swift package set up, adding swift-cubic as a dependency is as easy as adding it to the <code>dependencies</code> value of your <code>Package.swift</code>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">dependencies: [
     .package(url: <span style="color:#ed9d13">&#34;https://github.com/cobaltspeech/sdk-cubic.git&#34;</span>, .upToNextMajor(from: <span style="color:#ed9d13">&#34;1.4.0&#34;</span>))
-]</code></pre></div>
+]
+</code></pre></div>
 
     
     
