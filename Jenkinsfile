@@ -12,20 +12,17 @@ if (env.CHANGE_ID) {
     node {
 	try {
 	    timeout(time: 30, unit: 'MINUTES'){
-		sh '$(aws ecr get-login --region us-east-1 --no-include-email)'
-		withCredentials([string(credentialsId: 'cobalt-ecr-registry-url', variable: 'ecrRegistry')]) {
-		    docker.withRegistry("${ecrRegistry}") {
-			docker.image("private/sdk-generator").inside('-u root') {
-			    try {
-				stage("validate") {
-				    checkout scm
-				    commit.setBuildStatus("validate-built-artifacts", "PENDING", "Validating generated artifacts.")
-				    sh './ci/validate_generated_artifacts.sh'
-				}
-			    } finally {
-				// Allow Jenkins to cleanup workspace
-				sh "chown -R 1000:1000 ."
-			    }
+		checkout scm
+		def sdkGenImage = docker.build("sdk-generator", "./ci")
+		sdkGenImage.inside('-u root') {
+		    stage("validate") {
+			try {
+			    commit.setBuildStatus("validate-built-artifacts", "PENDING", "Validating generated artifacts.")
+			    sh 'make'
+			    sh "git diff --exit-code"
+			} finally {
+			    // Allow Jenkins to cleanup workspace
+			    sh "chown -R 1000:1000 ."
 			}
 		    }
 		}
