@@ -86,33 +86,36 @@ extension Cobaltspeech_Cubic_CubicClient {
                                boostValues: [Float],
                                success: @escaping (_ compiledCtx: Cobaltspeech_Cubic_CompiledContext?) -> (),
                                failure: CubicFailureCallback?) {
-
         var request = Cobaltspeech_Cubic_CompileContextRequest()
         request.modelID = modelID
         request.token = token
-        if (boostValues.count() > 0) {
-            if (boostValues.count() != phrases.count()) {
+        
+        if (boostValues.count > 0) {
+            if boostValues.count != phrases.count {
                 failure?(CubicError.countError("number of boost values not the same as number of phrases"))
-            })
+                return
+            }
+            
             for (phrase, boost) in zip(phrases, boostValues) {
-                var ctxPhrase = Cobalt_Cubic_ContextPhrase()
+                var ctxPhrase = Cobaltspeech_Cubic_ContextPhrase()
                 ctxPhrase.text = phrase
                 ctxPhrase.boost = boost
                 request.phrases.append(ctxPhrase)
             }
         } else {
             for phrase in phrases {
-                var ctxPhrase = Cobalt_Cubic_ContextPhrase()
+                var ctxPhrase = Cobaltspeech_Cubic_ContextPhrase()
                 ctxPhrase.text = phrase
                 ctxPhrase.boost = 0
                 request.phrases.append(ctxPhrase)
             }
         }
+
         compileContext(request).response.whenComplete({ (result) in
-            do {
-                let response = try result.get()
+            switch result {
+            case .success(let response):
                 success(response.context)
-            } catch let error {
+            case .failure(let error):
                 failure?(error)
             }
         })
