@@ -22,10 +22,8 @@ The following code snippet connects to the server and queries its version.  It u
 default setup, expecting the server to be listening on a TLS encrypted connection,  as the demo
 server does.
 
-{{%tabs %}}
-
-{{% tab "Go" %}}
-``` go
+{{< tabs >}}
+{{< tab "Go" "go" >}}
 package main
 
 import (
@@ -53,11 +51,9 @@ func main() {
 
 	fmt.Println(version)
 }
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Python" %}}
-``` python
+{{< tab "Python" "python" >}}
 import cubic
 
 serverAddress = "127.0.0.1:2727"
@@ -66,22 +62,20 @@ client = cubic.Client(serverAddress)
 
 resp = client.Version()
 print(resp)
-```
-{{% /tab %}}
 
-{{% tab "C#" %}}
-``` c#
+{{< /tab >}}
+
+{{< tab "C#" "c#" >}}
 var creds = new Grpc.Core.SslCredentials();
 var channel = new Grpc.Core.Channel(serverAddr, creds);
 var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
 
 var resp = client.Version(new Google.Protobuf.WellKnownTypes.Empty());
 Console.WriteLine(String.Format("CubicServer: {0}, Cubic: {1}", resp.Server, resp.Cubic));
-```
-{{% /tab %}}
 
-{{% tab "Java/Android" %}}
-``` java
+{{< /tab >}}
+
+{{< tab "Java/Android" "java" >}}
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -92,25 +86,22 @@ ManagedChannel mCubicChannel = ManagedChannelBuilder
     .forTarget(url)
     .build();
 CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Swift/iOS" %}}
-``` swift
+{{< tab "Swift/iOS" "swift" >}}
 import Cubic
 
 class CubicConnection {
-    
+
     let serverAddress = "demo-cubic.cobaltspeech.com"
     let serverPort = 2727
 
     let client = Client(host: serverAddress, port: serverPort, useTLS: true)
 
 }
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{%/tabs %}}
+{{< /tabs >}}
 
 ## Insecure Connection
 
@@ -121,30 +112,23 @@ Please note that if the server has TLS enabled, attempting to connect with an
 insecure client will fail.
 To connect to such an instance of cubic server, you can use:
 
-{{%tabs %}}
+{{< tabs >}}
 
-{{% tab "Go" %}}
-``` go
+{{< tab "Go" "go" >}}
 client, err := cubic.NewClient(serverAddr, cubic.WithInsecure())
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Python" %}}
-``` python
+{{< tab "Python" "python" >}}
 client = cubic.Client(serverAddress, insecure=True)
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "C#" %}}
-``` c#
+{{< tab "C#" "c#" >}}
 var creds = Grpc.Core.ChannelCredentials.Insecure;
 var channel = new Grpc.Core.Channel(serverAddr, creds);
 var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Java/Android" %}}
-``` java
+{{< tab "Java/Android" "java" >}}
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -156,16 +140,13 @@ ManagedChannel mCubicChannel = ManagedChannelBuilder
     .usePlainText()
     .build();
 CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Swift/iOS" %}}
-``` swift
+{{< tab "Swift/iOS" "swift" >}}
 let client = Client(host: serverAddress, port: serverPort, useTLS: false)
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{%/tabs %}}
+{{< /tabs >}}
 
 ## Client Authentication
 
@@ -183,41 +164,34 @@ Please note that in the client-authentication mode, the client will still also
 verify the server's certificate, and therefore this setup uses mutually
 authenticated TLS. This can be done with:
 
-{{%tabs %}}
+{{< tabs >}}
 
-{{% tab "Go" %}}
-``` go
+{{< tab "Go" "go" >}}
 client, err := cubic.NewClient(serverAddr,  cubic.WithClientCert(certPem, keyPem))
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Python" %}}
-``` python
+{{< tab "Python" "python" >}}
 client = cubic.Client(serverAddress, clientCertificate=certPem, clientKey=keyPem)
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "C#" %}}
-``` c#
+{{< tab "C#" "c#" >}}
 var creds = new Grpc.Core.SslCredentials(File.ReadAllText("root.pem"));
 var channel = new Grpc.Core.Channel(serverAddr, creds);
 var client = new CobaltSpeech.Cubic.Cubic.CubicClient(channel);
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Java/Android" %}}
+{{< tab "Java/Android" "java" >}}
 
 Please see the Java section of https://grpc.io/docs/guides/auth/ for more details.
 
-{{% /tab %}}
+{{< /tab >}}
 
-{{% tab "Swift/iOS" %}}
-``` swift
+{{< tab "Swift/iOS" "swift" >}}
 import Cubic
 import NIOSSL
 
 class CubicConnection {
-    
+
     let serverAddress = "demo-cubic.cobaltspeech.com"
     let serverPort = 2727
 
@@ -225,10 +199,9 @@ class CubicConnection {
 
 }
 
-```
-{{% /tab %}}
+{{< /tab >}}
 
-{{%/tabs %}}
+{{< /tabs >}}
 
 where certPem and keyPem are the bytes of the client certificate and key
 provided to you.

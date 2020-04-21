@@ -42,8 +42,7 @@
       
 	
   
-    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt's SDK Documentation" /></p>
-
+    <p><img src="/sdk-cubic/images/logo-white.png" alt="Cobalt&rsquo;s SDK Documentation"></p>
 <p>Cubic SDK &ndash; Cobalt</p>
 
   
@@ -197,15 +196,12 @@
     <div class="progress">
         <div class="wrapper">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#adding-the-protobuf-gradle-plugin-to-your-android-project">Adding the <code>protobuf-gradle-plugin</code> to your Android project</a></li>
-<li><a href="#generating-code-from-protobuf-files">Generating code from protobuf files</a></li>
-<li><a href="#downloading-the-latest-cubic-proto-file">Downloading the latest cubic.proto file</a></li>
-<li><a href="#contact-us">Contact us</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#adding-the-protobuf-gradle-plugin-to-your-android-project">Adding the <code>protobuf-gradle-plugin</code> to your Android project</a></li>
+    <li><a href="#generating-code-from-protobuf-files">Generating code from protobuf files</a></li>
+    <li><a href="#downloading-the-latest-cubicproto-file">Downloading the latest cubic.proto file</a></li>
+    <li><a href="#contact-us">Contact us</a></li>
+  </ul>
 </nav>
         </div>
     </div>
@@ -224,10 +220,7 @@
     
     
     
-    
-
-<h2 id="adding-the-protobuf-gradle-plugin-to-your-android-project">Adding the <code>protobuf-gradle-plugin</code> to your Android project</h2>
-
+    <h2 id="adding-the-protobuf-gradle-plugin-to-your-android-project">Adding the <code>protobuf-gradle-plugin</code> to your Android project</h2>
 <p>In your root <code>build.gradle</code> file, add a new protobuf-gradle-plugin dependency</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">buildscript {
     <span style="color:#999;font-style:italic">// ...
@@ -236,11 +229,9 @@
 </span><span style="color:#999;font-style:italic"></span>        classpath <span style="color:#ed9d13">&#34;com.google.protobuf:protobuf-gradle-plugin:0.8.10&#34;</span>
         <span style="color:#999;font-style:italic">// ...
 </span><span style="color:#999;font-style:italic"></span>    }
-}</code></pre></div>
-<p>This will allow the app&rsquo;s gradle build script to generate the protobuf code.</p>
-
+}
+</code></pre></div><p>This will allow the app&rsquo;s gradle build script to generate the protobuf code.</p>
 <h2 id="generating-code-from-protobuf-files">Generating code from protobuf files</h2>
-
 <p>Next, you will have to add the code to actually generate the files.
 To generate the gRPC code, modify your <code>app/build.gradle</code> file with the following:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">apply plugin: <span style="color:#ed9d13">&#39;com.android.application&#39;</span> <span style="color:#999;font-style:italic">// Should already exist
@@ -286,21 +277,21 @@ android { <span style="color:#999;font-style:italic">/*...*/</span>}
 </span><span style="color:#999;font-style:italic"></span>    implementation <span style="color:#ed9d13">&#39;io.grpc:grpc-stub:1.24.0&#39;</span>
     implementation <span style="color:#ed9d13">&#39;io.grpc:grpc-auth:1.24.0&#39;</span>
     implementation <span style="color:#ed9d13">&#39;javax.annotation:javax.annotation-api:1.2&#39;</span>
-}</code></pre></div>
-<p>By default,  generateProtoTasks assumes all protofiles are availabe at <code>app/src/main/proto</code>.
+}
+
+</code></pre></div><p>By default,  generateProtoTasks assumes all protofiles are availabe at <code>app/src/main/proto</code>.
 To include proto files somewhere else, add lines such as this:</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">dependencies {
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">
+dependencies {
     <span style="color:#999;font-style:italic">// ...
 </span><span style="color:#999;font-style:italic"></span>    protobuf <span style="color:#447fcf">files</span>(<span style="color:#ed9d13">&#34;lib/protos.tar.gz&#34;</span>)
     protobuf <span style="color:#447fcf">files</span>(<span style="color:#ed9d13">&#34;/path/to/other/folder/to/include/&#34;</span>)
-}</code></pre></div>
-<h2 id="downloading-the-latest-cubic-proto-file">Downloading the latest cubic.proto file</h2>
+}
 
+</code></pre></div><h2 id="downloading-the-latest-cubicproto-file">Downloading the latest cubic.proto file</h2>
 <p>You can find our proto file at <code>https://github.com/cobaltspeech/sdk-cubic/blob/master/grpc/cubic.proto</code>.
 Copy this file to <code>app/src/main/proto/cubic.proto</code>.</p>
-
 <p>cubic.proto also relies on a few other proto files:</p>
-
 <table>
 <thead>
 <tr>
@@ -308,35 +299,29 @@ Copy this file to <code>app/src/main/proto/cubic.proto</code>.</p>
 <th>URL</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>cubic.proto</td>
 <td><a href="https://github.com/cobaltspeech/sdk-cubic/blob/master/grpc/cubic.proto">https://github.com/cobaltspeech/sdk-cubic/blob/master/grpc/cubic.proto</a></td>
 </tr>
-
 <tr>
 <td>google/api/annotations.proto</td>
 <td><a href="https://github.com/googleapis/googleapis/blob/6ae2d42/google/api/annotations.proto">https://github.com/googleapis/googleapis/blob/6ae2d42/google/api/annotations.proto</a></td>
 </tr>
-
 <tr>
 <td>google/api/http.proto</td>
 <td><a href="https://github.com/googleapis/googleapis/blob/6ae2d42/google/api/http.proto">https://github.com/googleapis/googleapis/blob/6ae2d42/google/api/http.proto</a></td>
 </tr>
-
 <tr>
 <td>google/protobuf/descriptor.proto</td>
 <td><a href="https://github.com/protocolbuffers/protobuf/blob/044c766/src/google/protobuf/descriptor.proto">https://github.com/protocolbuffers/protobuf/blob/044c766/src/google/protobuf/descriptor.proto</a></td>
 </tr>
-
 <tr>
 <td>google/protobuf/duration.proto</td>
 <td><a href="https://github.com/protocolbuffers/protobuf/blob/044c766/src/google/protobuf/duration.proto">https://github.com/protocolbuffers/protobuf/blob/044c766/src/google/protobuf/duration.proto</a></td>
 </tr>
 </tbody>
 </table>
-
 <p>Once you have all of these files downloaded, your file structure would look like this:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">app/src/main/proto/
 ├── cubic.proto
@@ -346,11 +331,9 @@ Copy this file to <code>app/src/main/proto/cubic.proto</code>.</p>
     │   └── http.proto
     └── protobuf
         ├── descriptor.proto
-        └── duration.proto</code></pre></div>
-<p>At this point, you should be able to do a <code>Build&gt;Clean Build</code> and <code>Build&gt;Rebuild Project</code>.</p>
-
+        └── duration.proto
+</code></pre></div><p>At this point, you should be able to do a <code>Build&gt;Clean Build</code> and <code>Build&gt;Rebuild Project</code>.</p>
 <h2 id="contact-us">Contact us</h2>
-
 <p>We know it takes work to get environments set up.  If you have any problems, don&rsquo;t hesitate to contact us.</p>
 
 

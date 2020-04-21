@@ -17,7 +17,7 @@ PY_GOOGLEAPIS_VERSION := 1.51.0
 SWIFT_GRPC_VERSION := 1.0.0-alpha.10
 
 # Be careful when updating hugo, as there are breaking changes.
-HUGO_VERSION := 0.59.1
+HUGO_VERSION := 0.69.0
 
 SHELL := /bin/bash
 

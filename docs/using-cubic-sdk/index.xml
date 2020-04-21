@@ -36,16 +36,13 @@ to connect to it.&lt;/p&gt;</description>
       
       <guid>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/recognize/</guid>
       <description>&lt;div class=&#34;panel panel-info&#34;&gt;
-    &lt;div class=&#34;panel-heading&#34;&gt;Note&lt;/div&gt;
-    &lt;div class=&#34;panel-body&#34;&gt;
+	&lt;div class=&#34;panel-heading&#34;&gt;Note&lt;/div&gt;
+	&lt;div class=&#34;panel-body&#34;&gt;
 Synchronous recognize requests are suitable only for audio clips shorter than 30
 seconds.  In general, it is strongly recommended that you use streaming
 recognition.
 &lt;/div&gt;
-    
-
-&lt;p&gt;&lt;/div&gt;&lt;/p&gt;
-
+&lt;/div&gt;
 &lt;p&gt;The following example shows how to transcribe a short audio clip using Cubic&amp;rsquo;s
 Synchoronous Recognize Request. It is assumed that the audio file contains raw
 samples, PCM16SLE like Cubic expects.  We will query the server for available
