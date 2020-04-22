@@ -334,6 +334,12 @@ audio = <span style="color:#24909d">open</span>(<span style="color:#ed9d13">&#39
 
 <div class="tab-pane" title="C#">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#">
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">System.Collections.Generic</span>;
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">System.IO</span>;
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">System.Linq</span>;
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">System.Threading.Tasks</span>;
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">Grpc.Core</span>;
+
 <span style="color:#999;font-style:italic">// Initialize a gRPC connection
 </span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> creds = Grpc.Core.ChannelCredentials.Insecure;
 <span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(url, creds);
@@ -380,7 +386,7 @@ audio = <span style="color:#24909d">open</span>(<span style="color:#ed9d13">&#39
             <span style="color:#6ab825;font-weight:bold">var</span> buffer = <span style="color:#6ab825;font-weight:bold">new</span> <span style="color:#6ab825;font-weight:bold">byte</span>[chunkSize];
             <span style="color:#6ab825;font-weight:bold">while</span> ((bytesRead = file.Read(buffer, <span style="color:#3677a9">0</span>, buffer.Length)) &gt; <span style="color:#3677a9">0</span>)
             {
-                <span style="color:#6ab825;font-weight:bold">var</span> bytes = Google.Protobuf.ByteString.CopyFrom(buffer);
+                <span style="color:#6ab825;font-weight:bold">var</span> bytes = Google.Protobuf.ByteString.CopyFrom(buffer.Take(bytesRead).ToArray());
                 request.Audio.Data = bytes;
                 <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.WriteAsync(request);
             }
