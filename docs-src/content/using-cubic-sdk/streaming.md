@@ -457,6 +457,11 @@ Simply pass the bytes from the microphone the same as is done from the file in t
 
 {{< /tab >}}
 
+{{< tab "C++" "c++" >}}
+
+For a complete C++ example, see [the examples-cpp github repository](https://github.com/cobaltspeech/examples-cpp).
+{{< /tab >}}
+
 {{< tab "Java/Android" "java" >}}
 
 /*
@@ -464,7 +469,7 @@ This example uses the `android.media.AudioRecord` class and assumes the min API 
 Please note: this example does not attempt to handle threading and all exceptions.
 It gives a simplified overview of the essential gRPC calls.
 
-For a complete android example, see the examples directory in [the sdk-cubic github repository](https://github.com/cobaltspeech/sdk-cubic/examples/android).
+For a complete android example, see [the examples-android github repository](https://github.com/cobaltspeech/examples-android).
 */
 
 import io.grpc.ManagedChannel;
