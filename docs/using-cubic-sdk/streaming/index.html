@@ -109,6 +109,13 @@
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/recognition-context/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/recognition-context/">
+            Recognition Context
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
       <li data-nav-id="/sdk-cubic/using-cubic-sdk/client-configs/" class="dd-item">
         <div>
           <a href="/sdk-cubic/using-cubic-sdk/client-configs/">
@@ -245,10 +252,11 @@ the server for available models and use the first model to transcribe the speech
 	<span style="color:#ed9d13">&#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb&#34;</span>
 )
 
-<span style="color:#6ab825;font-weight:bold">const</span> serverAddr = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
-
 <span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">main</span>() {
-	client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr)
+
+    <span style="color:#999;font-style:italic">// Creating client without TLS. Remove cubic.WithInsecure() if using TLS
+</span><span style="color:#999;font-style:italic"></span>    serverAddr := <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+	client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr, cubic.<span style="color:#447fcf">WithInsecure</span>())
 	<span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
 		log.<span style="color:#447fcf">Fatal</span>(err)
 	}
@@ -296,102 +304,122 @@ the server for available models and use the first model to transcribe the speech
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">cubic</span>
 
+<span style="color:#999;font-style:italic"># set insecure to False if server uses TLS</span>
 serverAddress = <span style="color:#ed9d13">&#39;127.0.0.1:2727&#39;</span>
-
-client = cubic.Client(serverAddress)
+client = cubic.Client(serverAddress, insecure=True)
 
 <span style="color:#999;font-style:italic"># get list of available models</span>
 modelResp = client.ListModels()
 <span style="color:#6ab825;font-weight:bold">for</span> model <span style="color:#6ab825;font-weight:bold">in</span> modelResp.models:
-	<span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;ID = {}, Name = {}&#34;</span>.format(model.id, model.name))
+    <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;ID = {}, Name = {}&#34;</span>.format(model.id, model.name))
 
 <span style="color:#999;font-style:italic"># use the first available model</span>
 model = modelResp.models[<span style="color:#3677a9">0</span>]
 
 cfg = cubic.RecognitionConfig(
-	model_id = model.id
+    model_id = model.id
 )
 
-<span style="color:#999;font-style:italic"># client.StreamingRecognize takes any binary</span>
-<span style="color:#999;font-style:italic"># stream object that has a read(nBytes) method.</span>
-<span style="color:#999;font-style:italic"># The method should return nBytes from the stream.</span>
+<span style="color:#999;font-style:italic"># client.StreamingRecognize takes any binary stream object that</span>
+<span style="color:#999;font-style:italic"># has a read(nBytes) method. The method should return nBytes from</span>
+<span style="color:#999;font-style:italic"># the stream.</span>
 
 <span style="color:#999;font-style:italic"># open audio file stream</span>
 audio = <span style="color:#24909d">open</span>(<span style="color:#ed9d13">&#39;test.wav&#39;</span>, <span style="color:#ed9d13">&#39;rb&#39;</span>)
 
-<span style="color:#999;font-style:italic"># send streaming request to cubic and</span>
-<span style="color:#999;font-style:italic"># print out results as they come in</span>
+<span style="color:#999;font-style:italic"># send streaming request to cubic and print out results as they come in</span>
 <span style="color:#6ab825;font-weight:bold">for</span> resp <span style="color:#6ab825;font-weight:bold">in</span> client.StreamingRecognize(cfg, audio):
-	<span style="color:#6ab825;font-weight:bold">for</span> result <span style="color:#6ab825;font-weight:bold">in</span> resp.results:
-		<span style="color:#6ab825;font-weight:bold">if</span> result.is_partial:
-			<span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\r</span><span style="color:#ed9d13">{0}&#34;</span>.format(result.alternatives[<span style="color:#3677a9">0</span>].transcript), end=<span style="color:#ed9d13">&#34;&#34;</span>)
-		<span style="color:#6ab825;font-weight:bold">else</span>:
-			<span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\r</span><span style="color:#ed9d13">{0}&#34;</span>.format(result.alternatives[<span style="color:#3677a9">0</span>].transcript), end=<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\n</span><span style="color:#ed9d13">&#34;</span>)
-
+    <span style="color:#6ab825;font-weight:bold">for</span> result <span style="color:#6ab825;font-weight:bold">in</span> resp.results:
+        <span style="color:#6ab825;font-weight:bold">if</span> result.is_partial:
+            <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\r</span><span style="color:#ed9d13">{0}&#34;</span>.format(result.alternatives[<span style="color:#3677a9">0</span>].transcript), end=<span style="color:#ed9d13">&#34;&#34;</span>)
+        <span style="color:#6ab825;font-weight:bold">else</span>:
+            <span style="color:#6ab825;font-weight:bold">print</span>(<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\r</span><span style="color:#ed9d13">{0}&#34;</span>.format(result.alternatives[<span style="color:#3677a9">0</span>].transcript), end=<span style="color:#ed9d13">&#34;</span><span style="color:#ed9d13">\n</span><span style="color:#ed9d13">&#34;</span>)
 </code></pre></div>
 </div>
 
 
 <div class="tab-pane" title="C#">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#">
-<span style="color:#999;font-style:italic">// Initialize a gRPC connection
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> creds = Grpc.Core.ChannelCredentials.Insecure;
-<span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(url, creds);
-<span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">System</span>;
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">System.Collections.Generic</span>;
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">System.IO</span>;
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">System.Linq</span>;
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">System.Threading.Tasks</span>;
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">Grpc.Core</span>;
 
-<span style="color:#999;font-style:italic">// List the available models
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> listModelsRequest = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.ListModelsRequest();
-<span style="color:#6ab825;font-weight:bold">var</span> models = client.ListModels(listModelsRequest);
+<span style="color:#6ab825;font-weight:bold">namespace</span> <span style="color:#447fcf;text-decoration:underline">CubicStreamingRecognitionExample</span> {
+    <span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Program</span> {
+        <span style="color:#6ab825;font-weight:bold">static</span> <span style="color:#6ab825;font-weight:bold">async</span> Task Main(<span style="color:#6ab825;font-weight:bold">string</span>[] args) {
 
-<span style="color:#999;font-style:italic">// Setup the bi-directional gRPC stream.
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> call = client.StreamingRecognize();
-<span style="color:#6ab825;font-weight:bold">using</span> (call)
-{
-    <span style="color:#999;font-style:italic">// Setup recieve task
-</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">var</span> responseReaderTask = Task.Run(<span style="color:#6ab825;font-weight:bold">async</span> () =&gt;
-    {
-        <span style="color:#999;font-style:italic">// Wait for the next response
-</span><span style="color:#999;font-style:italic"></span>        <span style="color:#6ab825;font-weight:bold">while</span> (<span style="color:#6ab825;font-weight:bold">await</span> call.ResponseStream.MoveNext())
-        {
-            <span style="color:#6ab825;font-weight:bold">var</span> response = call.ResponseStream.Current;
-            <span style="color:#6ab825;font-weight:bold">foreach</span> (<span style="color:#6ab825;font-weight:bold">var</span> result <span style="color:#6ab825;font-weight:bold">in</span> response.Results)
-            {
-                Console.WriteLine(result.Alternatives[<span style="color:#3677a9">0</span>].Transcript);
+            <span style="color:#999;font-style:italic">// set creds = new Grpc.Core.SslCredentials(); if using TLS
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">var</span> serverAddress = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>;
+            <span style="color:#6ab825;font-weight:bold">var</span> creds = Grpc.Core.ChannelCredentials.Insecure;
+
+            <span style="color:#999;font-style:italic">// Initialize a gRPC connection
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(serverAddress, creds);
+            <span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+
+            <span style="color:#999;font-style:italic">// List the available models
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">var</span> listModelsRequest = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.ListModelsRequest();
+            <span style="color:#6ab825;font-weight:bold">var</span> modelResp = client.ListModels(listModelsRequest);
+
+            <span style="color:#999;font-style:italic">// Using first model available
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">var</span> model = modelResp.Models[<span style="color:#3677a9">0</span>];
+
+            <span style="color:#999;font-style:italic">// Setup Recognition Config
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">var</span> cfg = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognitionConfig {
+                ModelId = model.Id,
+                AudioEncoding = CobaltSpeech.Cubic.RecognitionConfig.Types.Encoding.Wav,
+            };
+
+            <span style="color:#6ab825;font-weight:bold">string</span> audioPath = <span style="color:#ed9d13">&#34;test.wav&#34;</span>;
+
+            <span style="color:#999;font-style:italic">// Setup the bi-directional gRPC stream.
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">var</span> call = client.StreamingRecognize();
+            using(call) {
+                <span style="color:#999;font-style:italic">// Setup recieve task
+</span><span style="color:#999;font-style:italic"></span>                <span style="color:#6ab825;font-weight:bold">var</span> responseReaderTask = Task.Run(<span style="color:#6ab825;font-weight:bold">async</span>() =&gt; {
+                    <span style="color:#999;font-style:italic">// Wait for the next response
+</span><span style="color:#999;font-style:italic"></span>                    <span style="color:#6ab825;font-weight:bold">while</span> (<span style="color:#6ab825;font-weight:bold">await</span> call.ResponseStream.MoveNext()) {
+                        <span style="color:#6ab825;font-weight:bold">var</span> response = call.ResponseStream.Current;
+                        <span style="color:#6ab825;font-weight:bold">foreach</span> (<span style="color:#6ab825;font-weight:bold">var</span> result <span style="color:#6ab825;font-weight:bold">in</span> response.Results) {
+                            Console.WriteLine(result.Alternatives[<span style="color:#3677a9">0</span>].Transcript);
+                        }
+                    }
+                });
+
+                <span style="color:#999;font-style:italic">// Send config first, followed by the audio
+</span><span style="color:#999;font-style:italic"></span>                {
+                    <span style="color:#999;font-style:italic">// Send the configs
+</span><span style="color:#999;font-style:italic"></span>                    <span style="color:#6ab825;font-weight:bold">var</span> request = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.StreamingRecognizeRequest();
+                    request.Config = cfg;
+                    <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.WriteAsync(request);
+
+                    <span style="color:#999;font-style:italic">// Setup object for streaming audio
+</span><span style="color:#999;font-style:italic"></span>                    request.Config = <span style="color:#6ab825;font-weight:bold">null</span>;
+                    request.Audio = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognitionAudio { };
+
+                    <span style="color:#999;font-style:italic">// Send the audio, in 8kb chunks
+</span><span style="color:#999;font-style:italic"></span>                    <span style="color:#6ab825;font-weight:bold">const</span> <span style="color:#6ab825;font-weight:bold">int</span> chunkSize = <span style="color:#3677a9">8192</span>;
+                    using(FileStream file = File.OpenRead(audioPath)) {
+                        <span style="color:#6ab825;font-weight:bold">int</span> bytesRead;
+                        <span style="color:#6ab825;font-weight:bold">var</span> buffer = <span style="color:#6ab825;font-weight:bold">new</span> <span style="color:#6ab825;font-weight:bold">byte</span>[chunkSize];
+                        <span style="color:#6ab825;font-weight:bold">while</span> ((bytesRead = file.Read(buffer, <span style="color:#3677a9">0</span>, buffer.Length)) &gt; <span style="color:#3677a9">0</span>) {
+                            <span style="color:#6ab825;font-weight:bold">var</span> bytes = Google.Protobuf.ByteString.CopyFrom(buffer.Take(bytesRead).ToArray());
+                            request.Audio.Data = bytes;
+                            <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.WriteAsync(request);
+                        }
+
+                        <span style="color:#999;font-style:italic">// Close the sending stream
+</span><span style="color:#999;font-style:italic"></span>                        <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.CompleteAsync();
+                    }
+                }
+
+                <span style="color:#999;font-style:italic">// Wait for all of the responses to come back through the receiving stream
+</span><span style="color:#999;font-style:italic"></span>                <span style="color:#6ab825;font-weight:bold">await</span> responseReaderTask;
             }
-        }
-    });
-
-    <span style="color:#999;font-style:italic">// Send config first, followed by the audio
-</span><span style="color:#999;font-style:italic"></span>    {
-        <span style="color:#999;font-style:italic">// Send the configs
-</span><span style="color:#999;font-style:italic"></span>        <span style="color:#6ab825;font-weight:bold">var</span> request = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.StreamingRecognizeRequest();
-        request.Config = cfg;
-        <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.WriteAsync(request);
-
-        <span style="color:#999;font-style:italic">// Setup object for streaming audio
-</span><span style="color:#999;font-style:italic"></span>        request.Config = <span style="color:#6ab825;font-weight:bold">null</span>;
-        request.Audio = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognitionAudio { };
-
-        <span style="color:#999;font-style:italic">// Send the audio, in 8kb chunks
-</span><span style="color:#999;font-style:italic"></span>        <span style="color:#6ab825;font-weight:bold">const</span> <span style="color:#6ab825;font-weight:bold">int</span> chunkSize = <span style="color:#3677a9">8192</span>;
-        <span style="color:#6ab825;font-weight:bold">using</span> (FileStream file = File.OpenRead(<span style="color:#ed9d13">&#34;test.raw&#34;</span>))
-        {
-            <span style="color:#6ab825;font-weight:bold">int</span> bytesRead;
-            <span style="color:#6ab825;font-weight:bold">var</span> buffer = <span style="color:#6ab825;font-weight:bold">new</span> <span style="color:#6ab825;font-weight:bold">byte</span>[chunkSize];
-            <span style="color:#6ab825;font-weight:bold">while</span> ((bytesRead = file.Read(buffer, <span style="color:#3677a9">0</span>, buffer.Length)) &gt; <span style="color:#3677a9">0</span>)
-            {
-                <span style="color:#6ab825;font-weight:bold">var</span> bytes = Google.Protobuf.ByteString.CopyFrom(buffer);
-                request.Audio.Data = bytes;
-                <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.WriteAsync(request);
-            }
-
-            <span style="color:#999;font-style:italic">// Close the sending stream
-</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">await</span> call.RequestStream.CompleteAsync();
         }
     }
-
-    <span style="color:#999;font-style:italic">// Wait for all of the responses to come back through the receiving stream
-</span><span style="color:#999;font-style:italic"></span>    <span style="color:#6ab825;font-weight:bold">await</span> responseReaderTask;
 }
 </code></pre></div>
 </div>
@@ -399,7 +427,6 @@ audio = <span style="color:#24909d">open</span>(<span style="color:#ed9d13">&#39
 
 <div class="tab-pane" title="Java/Android">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
-
 <span style="color:#999;font-style:italic">/*
 </span><span style="color:#999;font-style:italic">  Please note: this example does not attempt to handle threading and all exceptions.
 </span><span style="color:#999;font-style:italic">  It gives a simplified overview of the essential gRPC calls.
@@ -476,6 +503,50 @@ audio = <span style="color:#24909d">open</span>(<span style="color:#ed9d13">&#39
 
     <span style="color:#999;font-style:italic">// Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
 </span><span style="color:#999;font-style:italic"></span>}
+</code></pre></div>
+</div>
+
+
+<div class="tab-pane" title="Swift/iOS">
+  <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">Foundation</span>
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">Cubic</span>
+
+<span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">CubicExample</span> {
+
+    <span style="color:#999;font-style:italic">// set useTLS to true if using TLS</span>
+    <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">client</span> = Client(host: <span style="color:#ed9d13">&#34;127.0.0.1&#34;</span>, port: <span style="color:#3677a9">2727</span>, useTLS: <span style="color:#6ab825;font-weight:bold">false</span>)
+    <span style="color:#6ab825;font-weight:bold">var</span> <span style="color:#40ffff">config</span> = Cobaltspeech_Cubic_RecognitionConfig()
+    <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">fileName</span> = <span style="color:#ed9d13">&#34;test.wav&#34;</span>
+    <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">chunkSize</span> = <span style="color:#3677a9">8192</span>
+    
+    <span style="color:#6ab825;font-weight:bold">public</span> <span style="color:#6ab825;font-weight:bold">init</span>() {
+        <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">fileUrl</span> = URL(fileURLWithPath: fileName)
+        
+        <span style="color:#6ab825;font-weight:bold">guard</span> <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">audioData</span> = <span style="color:#6ab825;font-weight:bold">try</span>? Data(contentsOf: fileUrl) <span style="color:#6ab825;font-weight:bold">else</span> { <span style="color:#6ab825;font-weight:bold">return</span> }
+        
+        config.audioEncoding = .wav
+        
+        client.listModels(success: { (models) <span style="color:#6ab825;font-weight:bold">in</span>
+            <span style="color:#6ab825;font-weight:bold">if</span> <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">model</span> = models?.first {
+                <span style="color:#6ab825;font-weight:bold">self</span>.config.modelID = model.id
+                
+                <span style="color:#6ab825;font-weight:bold">self</span>.client.streamingRecognize(audioData: audioData, chunkSize: <span style="color:#6ab825;font-weight:bold">self</span>.chunkSize, config: <span style="color:#6ab825;font-weight:bold">self</span>.config, success: { (response) <span style="color:#6ab825;font-weight:bold">in</span>
+                    <span style="color:#6ab825;font-weight:bold">for</span> result <span style="color:#6ab825;font-weight:bold">in</span> response.results {
+                        <span style="color:#6ab825;font-weight:bold">if</span> !result.isPartial, <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">alternative</span> = result.alternatives.first {
+                            print(alternative.transcript)
+                        }
+                    }
+                }) { (error) <span style="color:#6ab825;font-weight:bold">in</span>
+                    print(error.localizedDescription)
+                }
+            }
+        }) { (error) <span style="color:#6ab825;font-weight:bold">in</span>
+            print(error.localizedDescription)
+        }
+    }
+
+}
 </code></pre></div>
 </div>
 
@@ -574,8 +645,10 @@ chosen correctly.</p>
 
 <span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">main</span>() {
 
-	bufferSize := <span style="color:#24909d">uint32</span>(<span style="color:#3677a9">8192</span>)
-	client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr, cubic.<span style="color:#447fcf">WithInsecure</span>(), cubic.<span style="color:#447fcf">WithStreamingBufferSize</span>(bufferSize))
+    bufferSize := <span style="color:#24909d">uint32</span>(<span style="color:#3677a9">8192</span>)
+
+    <span style="color:#999;font-style:italic">// Creating client without TLS. Remove cubic.WithInsecure() if using TLS
+</span><span style="color:#999;font-style:italic"></span>	client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr, cubic.<span style="color:#447fcf">WithInsecure</span>(), cubic.<span style="color:#447fcf">WithStreamingBufferSize</span>(bufferSize))
 	<span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
 		log.<span style="color:#447fcf">Fatal</span>(err)
 	}
@@ -632,9 +705,9 @@ chosen correctly.</p>
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">cubic</span>
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">pyaudio</span>
 
+<span style="color:#999;font-style:italic"># set insecure to False if server uses TLS</span>
 serverAddress = <span style="color:#ed9d13">&#39;127.0.0.1:2727&#39;</span>
-
-client = cubic.Client(serverAddress)
+client = cubic.Client(serverAddress, insecure=True)
 
 <span style="color:#999;font-style:italic"># get list of available models</span>
 modelResp = client.ListModels()
@@ -659,8 +732,7 @@ audio = p.open(format=pyaudio.paInt16,              <span style="color:#999;font
 				rate=model.attributes.sample_rate,  <span style="color:#999;font-style:italic"># sample rate in hertz</span>
 				<span style="color:#24909d">input</span>=True)                         <span style="color:#999;font-style:italic"># audio input stream</span>
 
-<span style="color:#999;font-style:italic"># send streaming request to cubic and</span>
-<span style="color:#999;font-style:italic"># print out results as they come in</span>
+<span style="color:#999;font-style:italic"># send streaming request to cubic and print out results as they come in</span>
 <span style="color:#6ab825;font-weight:bold">try</span>:
 	<span style="color:#6ab825;font-weight:bold">for</span> resp <span style="color:#6ab825;font-weight:bold">in</span> client.StreamingRecognize(cfg, audio):
 		<span style="color:#6ab825;font-weight:bold">for</span> result <span style="color:#6ab825;font-weight:bold">in</span> resp.results:
@@ -683,9 +755,15 @@ audio.close()
 <div class="tab-pane" title="C#">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#">
 
-We <span style="color:#6ab825;font-weight:bold">do</span> not currently have example C<span style="color:#a61717;background-color:#e3d2d2">#</span> code <span style="color:#6ab825;font-weight:bold">for</span> streaming <span style="color:#6ab825;font-weight:bold">from</span> a microphone.
-Simply pass the bytes <span style="color:#6ab825;font-weight:bold">from</span> the microphone the same <span style="color:#6ab825;font-weight:bold">as</span> <span style="color:#6ab825;font-weight:bold">is</span> done <span style="color:#6ab825;font-weight:bold">from</span> the file <span style="color:#6ab825;font-weight:bold">in</span> the <span style="color:#a61717;background-color:#e3d2d2">`</span>Streaming <span style="color:#6ab825;font-weight:bold">from</span> an audio file<span style="color:#a61717;background-color:#e3d2d2">`</span> example above.
-
+<span style="color:#999;font-style:italic">// We do not currently have example C# code for streaming from a microphone.
+</span><span style="color:#999;font-style:italic">// Simply pass the bytes from the microphone the same as is done from the file in
+</span><span style="color:#999;font-style:italic">// the `Streaming from an audio file` example above. You can do this by implementing
+</span><span style="color:#999;font-style:italic">// your own class derived from `System.IO.Stream` class which the `StreamingRecognize`
+</span><span style="color:#999;font-style:italic">// method accepts.
+</span><span style="color:#999;font-style:italic">//
+</span><span style="color:#999;font-style:italic">// For more on the `System.IO.Stream` class see:
+</span><span style="color:#999;font-style:italic">// https://docs.microsoft.com/en-us/dotnet/api/system.io.stream?view=netframework-4.8
+</span><span style="color:#999;font-style:italic"></span>
 </code></pre></div>
 </div>
 
@@ -693,8 +771,10 @@ Simply pass the bytes <span style="color:#6ab825;font-weight:bold">from</span> t
 <div class="tab-pane" title="C&#43;&#43;">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">
 
-For a complete C++ example, see [the examples-cpp github repository](https:<span style="color:#999;font-style:italic">//github.com/cobaltspeech/examples-cpp).
-</span></code></pre></div>
+<span style="color:#999;font-style:italic">// For a complete C++ example, see the examples-cpp github repository:
+</span><span style="color:#999;font-style:italic">// https://github.com/cobaltspeech/examples-cpp
+</span><span style="color:#999;font-style:italic"></span>
+</code></pre></div>
 </div>
 
 
@@ -706,7 +786,8 @@ For a complete C++ example, see [the examples-cpp github repository](https:<span
 </span><span style="color:#999;font-style:italic">Please note: this example does not attempt to handle threading and all exceptions.
 </span><span style="color:#999;font-style:italic">It gives a simplified overview of the essential gRPC calls.
 </span><span style="color:#999;font-style:italic">
-</span><span style="color:#999;font-style:italic">For a complete android example, see [the examples-android github repository](https://github.com/cobaltspeech/examples-android).
+</span><span style="color:#999;font-style:italic">For a complete android example, see the examples-android github repository:
+</span><span style="color:#999;font-style:italic">https://github.com/cobaltspeech/examples-android
 </span><span style="color:#999;font-style:italic">*/</span>
 
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannel</span>;
@@ -798,48 +879,9 @@ For a complete C++ example, see [the examples-cpp github repository](https:<span
 <div class="tab-pane" title="Swift/iOS">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">
 
-<span style="color:#999;font-style:italic">/*
-</span><span style="color:#999;font-style:italic">This example uses methods of the Client class to establish connection to Cubic server, list models, stream audio file and receive the transcription results.
-</span><span style="color:#999;font-style:italic">You can call Client from your client view controller or any other class.
-</span><span style="color:#999;font-style:italic">*/</span>
+<span style="color:#999;font-style:italic">// For a complete iOS example, see the `AudioRecorder class` in the examples-ios github repository:</span>
+<span style="color:#999;font-style:italic">// https://github.com/cobaltspeech/examples-ios/blob/master/CubicExample/AudioRecorder.swift</span>
 
-<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">Cubic</span>
-<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">GRPC</span>
-
-<span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">CubicExample</span> {
-
-    <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">client</span> = Client(host: <span style="color:#ed9d13">&#34;demo-cubic.cobaltspeech.com&#34;</span>, port: <span style="color:#3677a9">2727</span>, useTLS: <span style="color:#6ab825;font-weight:bold">true</span>)
-    <span style="color:#6ab825;font-weight:bold">var</span> <span style="color:#40ffff">confg</span> = Cobaltspeech_Cubic_RecognitionConfig()
-    <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">fileName</span> = <span style="color:#ed9d13">&#34;test.wav&#34;</span>
-    <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">chunkSize</span> = <span style="color:#3677a9">8192</span>
-
-    <span style="color:#6ab825;font-weight:bold">public</span> <span style="color:#6ab825;font-weight:bold">init</span>() {
-        <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">fileUrl</span> = URL(fileURLWithPath: fileName)
-
-        <span style="color:#6ab825;font-weight:bold">guard</span> <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">audioData</span> = <span style="color:#6ab825;font-weight:bold">try</span>? Data(contentsOf: fileUrl) <span style="color:#6ab825;font-weight:bold">else</span> { <span style="color:#6ab825;font-weight:bold">return</span> }
-
-        config.audioEncoding = .wav
-
-        client.listModels(success: { (models) <span style="color:#6ab825;font-weight:bold">in</span>
-            <span style="color:#6ab825;font-weight:bold">if</span> <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">model</span> = models?.first {
-                <span style="color:#6ab825;font-weight:bold">self</span>.config.modelID = model.id
-
-                <span style="color:#6ab825;font-weight:bold">self</span>.client.streamingRecognize(audioData: audioData, chunkSize: <span style="color:#6ab825;font-weight:bold">self</span>.chunkSize, config: <span style="color:#6ab825;font-weight:bold">self</span>.config, success: { (response) <span style="color:#6ab825;font-weight:bold">in</span>
-                    <span style="color:#6ab825;font-weight:bold">for</span> result <span style="color:#6ab825;font-weight:bold">in</span> response.results {
-                        <span style="color:#6ab825;font-weight:bold">if</span> !result.isPartial, <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">alternative</span> = result.alternatives.first {
-                            print(alternative.transcript)
-                        }
-                    }
-                }) { (error) <span style="color:#6ab825;font-weight:bold">in</span>
-                    print(error.localizedDescription)
-                }
-            }
-        }) { (error) <span style="color:#6ab825;font-weight:bold">in</span>
-            print(error.localizedDescription)
-        }
-    }
-
-}
 </code></pre></div>
 </div>
 
@@ -856,7 +898,7 @@ For a complete C++ example, see [the examples-cpp github repository](https:<span
 
 <div id="navigation">
 <a class="nav nav-prev" href="/sdk-cubic/using-cubic-sdk/recognize/" title="Synchronous Recognition"> <i class="fa fa-chevron-left"></i><label>Synchronous Recognition</label></a>
-    <a class="nav nav-next" href="/sdk-cubic/using-cubic-sdk/client-configs/" title="Recognition Configurations" style="margin-right: 0px;"><label>Recognition Configurations</label><i class="fa fa-chevron-right"></i></a></div>
+    <a class="nav nav-next" href="/sdk-cubic/using-cubic-sdk/recognition-context/" title="Recognition Context" style="margin-right: 0px;"><label>Recognition Context</label><i class="fa fa-chevron-right"></i></a></div>
 
 </section>
 <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">

@@ -21,7 +21,7 @@ Service that implements the Cobalt Cubic Speech Recognition API
 | ListModels | ListModelsRequest | ListModelsResponse | Retrieves a list of available speech recognition models |
 | Recognize | RecognizeRequest | RecognitionResponse | Performs synchronous speech recognition: receive results after all audio has been sent and processed. It is expected that this request be typically used for short audio content: less than a minute long. For longer content, the `StreamingRecognize` method should be preferred. |
 | StreamingRecognize | StreamingRecognizeRequest | RecognitionResponse | Performs bidirectional streaming speech recognition. Receive results while sending audio. This method is only available via GRPC and not via HTTP+JSON. However, a web browser may use websockets to use this service. |
-| CompileContext | CompileContextRequest | CompileContextResponse | Compiles recognition context information, such as list of words or phrases that may appear in the recognition output, into a compact, fast to access form for a Cubic model. The compiled object may be sent with subsequent `Recognize` or `StreamingRecognize` requests to aid speech recognition. This is useful when the context information is constant for multiple recognize requests. Precompiling context information like this ensures that there is no added latency to recognition. |
+| CompileContext | CompileContextRequest | CompileContextResponse | Compiles recognition context information, such as a specialized list of words or phrases, into a compact, efficient form to send with subsequent `Recognize` or `StreamingRecognize` requests to customize speech recognition. For example, a list of contact names may be compiled in a mobile app and sent with each recognition request so that the app user's contact names are more likely to be recognized than arbitrary names. This pre-compilation ensures that there is no added latency for the recognition request. It is important to note that in order to compile context for a model, that model has to support context in the first place, which can be verified by checking its `ModelAttributes.ContextInfo` obtained via the `ListModels` method. Also, the compiled data will be model specific; that is, the data compiled for one model will generally not be usable with a different model. |
 
  <!-- end services -->
 
@@ -29,18 +29,19 @@ Service that implements the Cobalt Cubic Speech Recognition API
 
 ### Message: CompileContextRequest
 The top-level message sent by the client for the `CompileContext` request. It
-contains a list of phrases or words, paired with a context token allowed by
-the model being used. The token specifies a category such as "names",
-"airports", "contacts", "product_name" etc. The context token is used to
+contains a list of phrases or words, paired with a context token included in
+the model being used. The token specifies a category such as "menu_item",
+"airport", "contact", "product_name" etc. The context token is used to
 determine the places in the recognition output where the provided list of
 phrases or words may appear. The allowed context tokens for a given model can
-be found in its ModelAttributes obtained via the `ListModels` method.
+be found in its `ModelAttributes.ContextInfo` obtained via the `ListModels`
+method.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| model_id | string |  | <p>Unique identifier of the model to compile the context information for.</p> |
-| token | string |  | <p>The token that is associated with the provided list of phrases or words (e.g "names", "airports" etc.). Must be from one of the allowed tokens in the model being used.</p> |
+| model_id | string |  | <p>Unique identifier of the model to compile the context information for. The model chosen needs to support context which can be verified by checking its `ModelAttributes.ContextInfo` obtained via `ListModels`.</p> |
+| token | string |  | <p>The token that is associated with the provided list of phrases or words (e.g "menu_item", "airport" etc.). Must be one of the tokens included in the model being used, which can be retrieved by calling the `ListModels` method.</p> |
 | phrases | ContextPhrase | repeated | <p>List of phrases and/or words to be compiled.</p> |
 
 
@@ -55,7 +56,7 @@ The message returned to the client by the `CompileContext` method.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| context | CompiledContext |  | <p>Context information stored in a compact form that is fast to access for a Cubic model.</p> |
+| context | CompiledContext |  | <p>Context information in a compact form that is efficient for use in subsequent recognition requests. The size of the compiled form will depend on the amount of text that was sent for compilation. For 1000 words it's generally less than 100 kilobytes.</p> |
 
 
 
@@ -64,8 +65,10 @@ The message returned to the client by the `CompileContext` method.
 
 
 ### Message: CompiledContext
-Context information stored in a compact form that is fast to access for
-a Cubic model.
+Context information in a compact form that is efficient for use in subsequent
+recognition requests. The size of the compiled form will depend on the amount
+of text that was sent for compilation. For 1000 words it's generally less
+than 100 kilobytes.
 
 
 | Field | Type | Label | Description |
@@ -109,6 +112,21 @@ A Link inside a confusion network
 
 
 
+### Message: ContextInfo
+Model information specifc to supporting recognition context.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| supports_context | bool |  | <p>If this is set to true, the model supports taking context information into account to aid speech recognition. The information may be sent with with recognition requests via RecognitionContext inside RecognitionConfig.</p> |
+| allowed_context_tokens | string | repeated | <p>A list of tokens (e.g "name", "airport" etc.) that serve has placeholders in the model where a client provided list of phrases or words may be used to aid speech recognition and produce the exact desired recognition output.</p> |
+
+
+
+
+
+
+
 ### Message: ContextPhrase
 A phrase or word that is to be compiled into context information that can be
 later used to improve speech recognition during a `Recognize` or
@@ -120,7 +138,7 @@ phrase or word in the recognition output.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | text | string |  | <p>The actual phrase or word.</p> |
-| boost | float |  | <p>This is an optional field. The boost value is a positive number which is used to increase the probability of the phrase or word appearing in the output. This setting can be used to differentiate between similar sounding words, with the desired word given a bigger boost value.</p><p>By default, all phrases or words are given an equal probability of 1/N (N = total .number of phrases or words). If a boost value is provided, the new probability is (boost + 1) * 1/N. We normalize the boosted probabilities for all the phrases or words so that they sum to one. This means that the boost value only has an effect if there are relative differences in the values for different phrases or words. That is, if all phrases or words have the same boost value, after normalization, they will all still have the same probability. This also means that the boost value can be any positive value, but it is best to stick between 0 to 20.</p><p>Negative values are not supported and will be treated as 0 values.</p> |
+| boost | float |  | <p>This is an optional field. The boost value is a positive number which is used to increase the probability of the phrase or word appearing in the output. This setting can be used to differentiate between similar sounding words, with the desired word given a bigger boost value.</p><p>By default, all phrases or words are given an equal probability of 1/N (where N = total number of phrases or words). If a boost value is provided, the new probability is (boost + 1) * 1/N. We normalize the boosted probabilities for all the phrases or words so that they sum to one. This means that the boost value only has an effect if there are relative differences in the values for different phrases or words. That is, if all phrases or words have the same boost value, after normalization they will all still have the same probability. This also means that the boost value can be any positive value, but it is best to stick between 0 to 20.</p><p>Negative values are not supported and will be treated as 0 values.</p> |
 
 
 
@@ -176,8 +194,7 @@ Attributes of a Cubic Model
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | sample_rate | uint32 |  | <p>Audio sample rate supported by the model</p> |
-| supports_context | bool |  | <p>If this is set to true, the model supports taking context information into account to aid speech recognition. The information may be sent with with recognition requests via RecognitionContext inside RecognitionConfig.</p> |
-| allowed_context_tokens | string | repeated | <p>A list of tokens (e.g "names", "airports" etc.) that serve has placeholders in the model where a client provided list of phrases or tokens may be used to aid speech recognition and produce the exact desired recognition output.</p> |
+| context_info | ContextInfo |  | <p>Attributes specifc to supporting recognition context.</p> |
 
 
 
@@ -233,7 +250,7 @@ Configuration for setting up a Recognizer
 | enable_confusion_network | bool |  | <p>This is an optional field. If this is set to true, the results will include a confusion network. If set to `false`, no confusion network will be returned. The default is `false`. If the model being used does not support a confusion network, results may be returned without a confusion network available. If this field is set to `true`, then `enable_raw_transcript` is also forced to be true.</p> |
 | audio_channels | uint32 | repeated | <p>This is an optional field. If the audio has multiple channels, this field should be configured with the list of channel indices that should be transcribed. Channels are 0-indexed.</p><p>Example: `[0]` for a mono file, `[0, 1]` for a stereo file.</p><p>If this field is not set, a mono file will be assumed by default and only channel-0 will be transcribed even if the file actually has additional channels.</p><p>Channels that are present in the audio may be omitted, but it is an error to include a channel index in this field that is not present in the audio. Channels may be listed in any order but the same index may not be repeated in this list.</p><p>BAD: `[0, 2]` for a stereo file; BAD: `[0, 0]` for a mono file.</p> |
 | metadata | RecognitionMetadata |  | <p>This is an optional field. If there is any metadata associated with the audio being sent, use this field to provide it to cubic. The server may record this metadata when processing the request. The server does not use this field for any other purpose.</p> |
-| context | RecognitionContext |  | <p>This is an optional field. If there is any context information that can aid speech recognition, it may be provided through this field. This can be used to improve the transcription of particular phrases or words such as proper names or commands for example. This can also be used to add out of vocabulary words to the model. Currently, all context information must be pre-compiled via the `CompileContext()` method before sending it with a `Recognizer()` or `StreamingRecognize()` request.</p> |
+| context | RecognitionContext |  | <p>This is an optional field for providing any additional context information that may aid speech recognition. This can also be used to add out-of-vocabulary words to the model or boost recognition of specific proper names or commands. Context information must be pre-compiled via the `CompileContext()` method.</p> |
 
 
 
@@ -256,17 +273,14 @@ Confusion network in recognition output
 
 
 ### Message: RecognitionContext
-Data that may provide useful context to assist the speech recognition. This
-can be used to improve the transcription of particular phrases or words such
-as proper names or commands for example. This can also be used to add out of
-vocabulary words to the model. We currently support pre-compiled context
-information  via the `CompileContext` method, generated from lists of words
-or phrases expected to appear in the recognition output.
+A collection of additional context information that may aid speech
+recognition.  This can be used to add out-of-vocabulary words to  
+the model or to boost recognition of specific proper names or commands.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| compiled | CompiledContext | repeated | <p>List of compiled context information, with each entry being generated from a list of words or phrases expected to appear in the recognition output by the `CompileContext` method.</p> |
+| compiled | CompiledContext | repeated | <p>List of compiled context information, with each entry being compiled from a list of words or phrases using the `CompileContext` method.</p> |
 
 
 

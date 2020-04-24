@@ -109,6 +109,13 @@
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/recognition-context/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/recognition-context/">
+            Recognition Context
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
       <li data-nav-id="/sdk-cubic/using-cubic-sdk/client-configs/" class="dd-item active">
         <div>
           <a href="/sdk-cubic/using-cubic-sdk/client-configs/">
@@ -226,59 +233,71 @@
 <thead>
 <tr>
 <th>Field</th>
-<th>Required</th>
-<th>Default</th>
+<th align="center">Required</th>
+<th align="center">Default</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>model_id</td>
-<td>Yes</td>
-<td></td>
+<td align="center">Yes</td>
+<td align="center"></td>
 <td>Unique ID of the model to use.</td>
 </tr>
 <tr>
 <td>audio_encoding</td>
-<td>Yes</td>
-<td></td>
+<td align="center">Yes</td>
+<td align="center"></td>
 <td>Encoding format of the audio, such as RAW_LINEAR_16, WAV, MP3, etc.</td>
 </tr>
 <tr>
 <td>idle_timeout</td>
-<td>No</td>
-<td><code>0s</code> (Unlimited)</td>
+<td align="center">No</td>
+<td align="center"><code>0s</code> (Unlimited)</td>
 <td>Maximum time allowed between each gRPC message. The server may place further restrictions depending on its configuration.</td>
 </tr>
 <tr>
 <td>enable_word_time_offsets</td>
-<td>No</td>
-<td><code>false</code></td>
+<td align="center">No</td>
+<td align="center"><code>false</code></td>
 <td>Toggles the calculation of word-level timestamps.  The specified model must also support word-level timestamps for this field to be populated.</td>
 </tr>
 <tr>
 <td>enable_word_confidence</td>
-<td>No</td>
-<td><code>false</code></td>
+<td align="center">No</td>
+<td align="center"><code>false</code></td>
 <td>Toggles the calculation of word-level confidence scores. The specified model must also support word-level confidence for this field to be populated.</td>
 </tr>
 <tr>
 <td>enable_raw_transcript</td>
-<td>No</td>
-<td><code>false</code></td>
+<td align="center">No</td>
+<td align="center"><code>false</code></td>
 <td>If <code>true</code>, the raw transcript will be included in the results.</td>
 </tr>
 <tr>
 <td>enable_confusion_network</td>
-<td>No</td>
-<td><code>false</code></td>
+<td align="center">No</td>
+<td align="center"><code>false</code></td>
 <td>Toggles the inclusion of a confusion network, consisting of multiple alternative transcriptions.  The specified model must also support confusion networks for this field to be populated.</td>
 </tr>
 <tr>
 <td>audio_channels</td>
-<td>No</td>
-<td><code>[0]</code> (mono)</td>
+<td align="center">No</td>
+<td align="center"><code>[0]</code> (mono)</td>
 <td>Specifies which channels of a multi-channel audio file to be transcribed, each as their own individual audio stream.</td>
+</tr>
+<tr>
+<td>metadata</td>
+<td align="center">No</td>
+<td align="center">&quot;&rdquo;</td>
+<td>Can be used to send any custom metadata associated with the audio being sent.The server may record this metadata when processing the request.  The server does not use this field for any other purpose.</td>
+</tr>
+<tr>
+<td>context</td>
+<td align="center">No</td>
+<td align="center"><code>nil</code></td>
+<td>Can be used to provide any context information that can aid speech recognition, such as probable phrases or words that may appear in the recognition output or even out of vocabulary words for the model being used. Currently all context information must first be pre-compiled via the <a href="../recognition-context"><code>CompileContext()</code></a>.</td>
 </tr>
 </tbody>
 </table>
@@ -345,7 +364,7 @@
 </div>
 
 <div id="navigation">
-<a class="nav nav-prev" href="/sdk-cubic/using-cubic-sdk/streaming/" title="Streaming Recognition"> <i class="fa fa-chevron-left"></i><label>Streaming Recognition</label></a>
+<a class="nav nav-prev" href="/sdk-cubic/using-cubic-sdk/recognition-context/" title="Recognition Context"> <i class="fa fa-chevron-left"></i><label>Recognition Context</label></a>
     <a class="nav nav-next" href="/sdk-cubic/using-cubic-sdk/android/" title="Android Integrations" style="margin-right: 0px;"><label>Android Integrations</label><i class="fa fa-chevron-right"></i></a></div>
 
 </section>

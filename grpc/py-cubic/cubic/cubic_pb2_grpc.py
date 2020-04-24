@@ -35,6 +35,11 @@ class CubicStub(object):
                 request_serializer=cubic__pb2.StreamingRecognizeRequest.SerializeToString,
                 response_deserializer=cubic__pb2.RecognitionResponse.FromString,
                 )
+        self.CompileContext = channel.unary_unary(
+                '/cobaltspeech.cubic.Cubic/CompileContext',
+                request_serializer=cubic__pb2.CompileContextRequest.SerializeToString,
+                response_deserializer=cubic__pb2.CompileContextResponse.FromString,
+                )
 
 
 class CubicServicer(object):
@@ -74,6 +79,25 @@ class CubicServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def CompileContext(self, request, context):
+        """Compiles recognition context information, such as a specialized list of
+        words or phrases, into a compact, efficient form to send with subsequent
+        `Recognize` or `StreamingRecognize` requests to customize speech
+        recognition. For example, a list of contact names may be compiled in a
+        mobile app and sent with each recognition request so that the app user's
+        contact names are more likely to be recognized than arbitrary names. This
+        pre-compilation ensures that there is no added latency for the recognition
+        request. It is important to note that in order to compile context for a
+        model, that model has to support context in the first place, which can be
+        verified by checking its `ModelAttributes.ContextInfo` obtained via the
+        `ListModels` method. Also, the compiled data will be model specific; that
+        is, the data compiled for one model will generally not be usable with a
+        different model.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_CubicServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -96,6 +120,11 @@ def add_CubicServicer_to_server(servicer, server):
                     servicer.StreamingRecognize,
                     request_deserializer=cubic__pb2.StreamingRecognizeRequest.FromString,
                     response_serializer=cubic__pb2.RecognitionResponse.SerializeToString,
+            ),
+            'CompileContext': grpc.unary_unary_rpc_method_handler(
+                    servicer.CompileContext,
+                    request_deserializer=cubic__pb2.CompileContextRequest.FromString,
+                    response_serializer=cubic__pb2.CompileContextResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -169,5 +198,21 @@ class Cubic(object):
         return grpc.experimental.stream_stream(request_iterator, target, '/cobaltspeech.cubic.Cubic/StreamingRecognize',
             cubic__pb2.StreamingRecognizeRequest.SerializeToString,
             cubic__pb2.RecognitionResponse.FromString,
+            options, channel_credentials,
+            call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CompileContext(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/cobaltspeech.cubic.Cubic/CompileContext',
+            cubic__pb2.CompileContextRequest.SerializeToString,
+            cubic__pb2.CompileContextResponse.FromString,
             options, channel_credentials,
             call_credentials, compression, wait_for_ready, timeout, metadata)
