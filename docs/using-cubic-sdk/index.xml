@@ -61,6 +61,30 @@ directly from a microphone in real time.&lt;/p&gt;</description>
     </item>
     
     <item>
+      <title>Recognition Context</title>
+      <link>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/recognition-context/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/recognition-context/</guid>
+      <description>&lt;p&gt;Cubic allows users to send context information with a recognition request which
+may aid the speech recognition. For example, if you have a list of names that
+you want to make sure the Cubic model transcribes correctly, with the correct
+spelling, then you may provide the list in the form of a
+&lt;a href=&#34;../../protobuf/autogen-doc-cubic-proto/#message-recognitioncontext&#34;&gt;&lt;code&gt;RecognitionContext&lt;/code&gt;&lt;/a&gt; object along with the &lt;a href=&#34;../client-configs/#fields&#34;&gt;&lt;code&gt;RecognitionConfig&lt;/code&gt;&lt;/a&gt;
+before streaming data.&lt;/p&gt;
+&lt;p&gt;Cubic models allow different sets of &amp;ldquo;context tokens&amp;rdquo; each of which can be
+paired with a list of words or phrases. For example, a Cubic model may have a
+context token for airport names, and you can provide a list of airport names you
+want to be recognized correctly for this context token. Likewise, models may
+also be configured with tokens for &amp;ldquo;contact list names&amp;rdquo;, &amp;ldquo;menu items&amp;rdquo;, &amp;ldquo;medical jargon&amp;rdquo; etc.&lt;/p&gt;
+&lt;p&gt;To ensure that there is no added latency in processing the list of words or
+phrases during a recognition request, we have a API method called
+&lt;a href=&#34;../../protobuf/autogen-doc-cubic-proto/#service-cubic&#34;&gt;&lt;code&gt;CompileContext()&lt;/code&gt;&lt;/a&gt; that
+allows the user to compile the list into a compact, efficient format for
+passing to the &lt;code&gt;Recognize()&lt;/code&gt; or &lt;code&gt;StreamingRecognize()&lt;/code&gt; methods.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Recognition Configurations</title>
       <link>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/client-configs/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

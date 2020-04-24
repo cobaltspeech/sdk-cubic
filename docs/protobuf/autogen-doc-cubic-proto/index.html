@@ -108,6 +108,13 @@
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/recognition-context/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/recognition-context/">
+            Recognition Context
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
       <li data-nav-id="/sdk-cubic/using-cubic-sdk/client-configs/" class="dd-item">
         <div>
           <a href="/sdk-cubic/using-cubic-sdk/client-configs/">
@@ -200,8 +207,13 @@
     <li><a href="#cubicproto">cubic.proto</a>
       <ul>
         <li><a href="#service-cubic">Service: Cubic</a></li>
+        <li><a href="#message-compilecontextrequest">Message: CompileContextRequest</a></li>
+        <li><a href="#message-compilecontextresponse">Message: CompileContextResponse</a></li>
+        <li><a href="#message-compiledcontext">Message: CompiledContext</a></li>
         <li><a href="#message-confusionnetworkarc">Message: ConfusionNetworkArc</a></li>
         <li><a href="#message-confusionnetworklink">Message: ConfusionNetworkLink</a></li>
+        <li><a href="#message-contextinfo">Message: ContextInfo</a></li>
+        <li><a href="#message-contextphrase">Message: ContextPhrase</a></li>
         <li><a href="#message-listmodelsrequest">Message: ListModelsRequest</a></li>
         <li><a href="#message-listmodelsresponse">Message: ListModelsResponse</a></li>
         <li><a href="#message-model">Message: Model</a></li>
@@ -210,6 +222,7 @@
         <li><a href="#message-recognitionaudio">Message: RecognitionAudio</a></li>
         <li><a href="#message-recognitionconfig">Message: RecognitionConfig</a></li>
         <li><a href="#message-recognitionconfusionnetwork">Message: RecognitionConfusionNetwork</a></li>
+        <li><a href="#message-recognitioncontext">Message: RecognitionContext</a></li>
         <li><a href="#message-recognitionmetadata">Message: RecognitionMetadata</a></li>
         <li><a href="#message-recognitionresponse">Message: RecognitionResponse</a></li>
         <li><a href="#message-recognitionresult">Message: RecognitionResult</a></li>
@@ -277,9 +290,97 @@
 <td>RecognitionResponse</td>
 <td>Performs bidirectional streaming speech recognition. Receive results while sending audio. This method is only available via GRPC and not via HTTP+JSON. However, a web browser may use websockets to use this service.</td>
 </tr>
+<tr>
+<td>CompileContext</td>
+<td>CompileContextRequest</td>
+<td>CompileContextResponse</td>
+<td>Compiles recognition context information, such as a specialized list of words or phrases, into a compact, efficient form to send with subsequent <code>Recognize</code> or <code>StreamingRecognize</code> requests to customize speech recognition. For example, a list of contact names may be compiled in a mobile app and sent with each recognition request so that the app user&rsquo;s contact names are more likely to be recognized than arbitrary names. This pre-compilation ensures that there is no added latency for the recognition request. It is important to note that in order to compile context for a model, that model has to support context in the first place, which can be verified by checking its <code>ModelAttributes.ContextInfo</code> obtained via the <code>ListModels</code> method. Also, the compiled data will be model specific; that is, the data compiled for one model will generally not be usable with a different model.</td>
+</tr>
 </tbody>
 </table>
  <!-- end services -->
+<h3 id="message-compilecontextrequest">Message: CompileContextRequest</h3>
+<p>The top-level message sent by the client for the <code>CompileContext</code> request. It
+contains a list of phrases or words, paired with a context token included in
+the model being used. The token specifies a category such as &ldquo;menu_item&rdquo;,
+&ldquo;airport&rdquo;, &ldquo;contact&rdquo;, &ldquo;product_name&rdquo; etc. The context token is used to
+determine the places in the recognition output where the provided list of
+phrases or words may appear. The allowed context tokens for a given model can
+be found in its <code>ModelAttributes.ContextInfo</code> obtained via the <code>ListModels</code>
+method.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>model_id</td>
+<td>string</td>
+<td></td>
+<td><p>Unique identifier of the model to compile the context information for. The model chosen needs to support context which can be verified by checking its <code>ModelAttributes.ContextInfo</code> obtained via <code>ListModels</code>.</p></td>
+</tr>
+<tr>
+<td>token</td>
+<td>string</td>
+<td></td>
+<td><p>The token that is associated with the provided list of phrases or words (e.g &ldquo;menu_item&rdquo;, &ldquo;airport&rdquo; etc.). Must be one of the tokens included in the model being used, which can be retrieved by calling the <code>ListModels</code> method.</p></td>
+</tr>
+<tr>
+<td>phrases</td>
+<td>ContextPhrase</td>
+<td>repeated</td>
+<td><p>List of phrases and/or words to be compiled.</p></td>
+</tr>
+</tbody>
+</table>
+<h3 id="message-compilecontextresponse">Message: CompileContextResponse</h3>
+<p>The message returned to the client by the <code>CompileContext</code> method.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>context</td>
+<td>CompiledContext</td>
+<td></td>
+<td><p>Context information in a compact form that is efficient for use in subsequent recognition requests. The size of the compiled form will depend on the amount of text that was sent for compilation. For 1000 words it&rsquo;s generally less than 100 kilobytes.</p></td>
+</tr>
+</tbody>
+</table>
+<h3 id="message-compiledcontext">Message: CompiledContext</h3>
+<p>Context information in a compact form that is efficient for use in subsequent
+recognition requests. The size of the compiled form will depend on the amount
+of text that was sent for compilation. For 1000 words it&rsquo;s generally less
+than 100 kilobytes.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>bytes</td>
+<td></td>
+<td><p>The context information compiled by the <code>CompileContext</code> method.</p></td>
+</tr>
+</tbody>
+</table>
 <h3 id="message-confusionnetworkarc">Message: ConfusionNetworkArc</h3>
 <p>An Arc inside a Confusion Network Link</p>
 <table>
@@ -335,6 +436,62 @@
 <td>ConfusionNetworkArc</td>
 <td>repeated</td>
 <td><p>Arcs between this link</p></td>
+</tr>
+</tbody>
+</table>
+<h3 id="message-contextinfo">Message: ContextInfo</h3>
+<p>Model information specifc to supporting recognition context.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>supports_context</td>
+<td>bool</td>
+<td></td>
+<td><p>If this is set to true, the model supports taking context information into account to aid speech recognition. The information may be sent with with recognition requests via RecognitionContext inside RecognitionConfig.</p></td>
+</tr>
+<tr>
+<td>allowed_context_tokens</td>
+<td>string</td>
+<td>repeated</td>
+<td><p>A list of tokens (e.g &ldquo;name&rdquo;, &ldquo;airport&rdquo; etc.) that serve has placeholders in the model where a client provided list of phrases or words may be used to aid speech recognition and produce the exact desired recognition output.</p></td>
+</tr>
+</tbody>
+</table>
+<h3 id="message-contextphrase">Message: ContextPhrase</h3>
+<p>A phrase or word that is to be compiled into context information that can be
+later used to improve speech recognition during a <code>Recognize</code> or
+<code>StreamingRecognize</code> call. Along with the phrase or word itself, there is an
+optional boost parameter that can be used to boost the likelihood of the
+phrase or word in the recognition output.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text</td>
+<td>string</td>
+<td></td>
+<td><p>The actual phrase or word.</p></td>
+</tr>
+<tr>
+<td>boost</td>
+<td>float</td>
+<td></td>
+<td><p>This is an optional field. The boost value is a positive number which is used to increase the probability of the phrase or word appearing in the output. This setting can be used to differentiate between similar sounding words, with the desired word given a bigger boost value.</p><p>By default, all phrases or words are given an equal probability of 1/N (where N = total number of phrases or words). If a boost value is provided, the new probability is (boost + 1) * 1/N. We normalize the boosted probabilities for all the phrases or words so that they sum to one. This means that the boost value only has an effect if there are relative differences in the values for different phrases or words. That is, if all phrases or words have the same boost value, after normalization they will all still have the same probability. This also means that the boost value can be any positive value, but it is best to stick between 0 to 20.</p><p>Negative values are not supported and will be treated as 0 values.</p></td>
 </tr>
 </tbody>
 </table>
@@ -410,6 +567,12 @@
 <td>uint32</td>
 <td></td>
 <td><p>Audio sample rate supported by the model</p></td>
+</tr>
+<tr>
+<td>context_info</td>
+<td>ContextInfo</td>
+<td></td>
+<td><p>Attributes specifc to supporting recognition context.</p></td>
 </tr>
 </tbody>
 </table>
@@ -549,6 +712,12 @@
 <td></td>
 <td><p>This is an optional field. If there is any metadata associated with the audio being sent, use this field to provide it to cubic. The server may record this metadata when processing the request. The server does not use this field for any other purpose.</p></td>
 </tr>
+<tr>
+<td>context</td>
+<td>RecognitionContext</td>
+<td></td>
+<td><p>This is an optional field for providing any additional context information that may aid speech recognition. This can also be used to add out-of-vocabulary words to the model or boost recognition of specific proper names or commands. Context information must be pre-compiled via the <code>CompileContext()</code> method.</p></td>
+</tr>
 </tbody>
 </table>
 <h3 id="message-recognitionconfusionnetwork">Message: RecognitionConfusionNetwork</h3>
@@ -571,8 +740,30 @@
 </tr>
 </tbody>
 </table>
+<h3 id="message-recognitioncontext">Message: RecognitionContext</h3>
+<p>A collection of additional context information that may aid speech
+recognition.  This can be used to add out-of-vocabulary words to<br>
+the model or to boost recognition of specific proper names or commands.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>compiled</td>
+<td>CompiledContext</td>
+<td>repeated</td>
+<td><p>List of compiled context information, with each entry being compiled from a list of words or phrases using the <code>CompileContext</code> method.</p></td>
+</tr>
+</tbody>
+</table>
 <h3 id="message-recognitionmetadata">Message: RecognitionMetadata</h3>
-<p>Metadata associated with the audio to be recognized</p>
+<p>Metadata associated with the audio to be recognized.</p>
 <table>
 <thead>
 <tr>

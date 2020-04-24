@@ -115,7 +115,7 @@ func (x RecognitionConfig_Encoding) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use RecognitionConfig_Encoding.Descriptor instead.
 func (RecognitionConfig_Encoding) EnumDescriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{6, 0}
+	return file_cubic_proto_rawDescGZIP(), []int{8, 0}
 }
 
 // The top-level message sent by the client for the `ListModels` method.
@@ -304,6 +304,85 @@ func (*StreamingRecognizeRequest_Config) isStreamingRecognizeRequest_Request() {
 
 func (*StreamingRecognizeRequest_Audio) isStreamingRecognizeRequest_Request() {}
 
+// The top-level message sent by the client for the `CompileContext` request. It
+// contains a list of phrases or words, paired with a context token included in
+// the model being used. The token specifies a category such as "menu_item",
+// "airport", "contact", "product_name" etc. The context token is used to
+// determine the places in the recognition output where the provided list of
+// phrases or words may appear. The allowed context tokens for a given model can
+// be found in its `ModelAttributes.ContextInfo` obtained via the `ListModels`
+// method.
+type CompileContextRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Unique identifier of the model to compile the context information for. The
+	// model chosen needs to support context which can be verified by checking its
+	// `ModelAttributes.ContextInfo` obtained via `ListModels`.
+	ModelId string `protobuf:"bytes,1,opt,name=model_id,json=modelId,proto3" json:"model_id,omitempty"`
+	// The token that is associated with the provided list of phrases or words
+	// (e.g "menu_item", "airport" etc.). Must be one of the tokens included in
+	// the model being used, which can be retrieved by calling the `ListModels`
+	// method.
+	Token string `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
+	// List of phrases and/or words to be compiled.
+	Phrases []*ContextPhrase `protobuf:"bytes,3,rep,name=phrases,proto3" json:"phrases,omitempty"`
+}
+
+func (x *CompileContextRequest) Reset() {
+	*x = CompileContextRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cubic_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CompileContextRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CompileContextRequest) ProtoMessage() {}
+
+func (x *CompileContextRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_cubic_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CompileContextRequest.ProtoReflect.Descriptor instead.
+func (*CompileContextRequest) Descriptor() ([]byte, []int) {
+	return file_cubic_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CompileContextRequest) GetModelId() string {
+	if x != nil {
+		return x.ModelId
+	}
+	return ""
+}
+
+func (x *CompileContextRequest) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+func (x *CompileContextRequest) GetPhrases() []*ContextPhrase {
+	if x != nil {
+		return x.Phrases
+	}
+	return nil
+}
+
 // The message sent by the server for the `Version` method.
 type VersionResponse struct {
 	state         protoimpl.MessageState
@@ -319,7 +398,7 @@ type VersionResponse struct {
 func (x *VersionResponse) Reset() {
 	*x = VersionResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[3]
+		mi := &file_cubic_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -332,7 +411,7 @@ func (x *VersionResponse) String() string {
 func (*VersionResponse) ProtoMessage() {}
 
 func (x *VersionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[3]
+	mi := &file_cubic_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -345,7 +424,7 @@ func (x *VersionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VersionResponse.ProtoReflect.Descriptor instead.
 func (*VersionResponse) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{3}
+	return file_cubic_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *VersionResponse) GetCubic() string {
@@ -375,7 +454,7 @@ type ListModelsResponse struct {
 func (x *ListModelsResponse) Reset() {
 	*x = ListModelsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[4]
+		mi := &file_cubic_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -388,7 +467,7 @@ func (x *ListModelsResponse) String() string {
 func (*ListModelsResponse) ProtoMessage() {}
 
 func (x *ListModelsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[4]
+	mi := &file_cubic_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -401,7 +480,7 @@ func (x *ListModelsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListModelsResponse.ProtoReflect.Descriptor instead.
 func (*ListModelsResponse) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{4}
+	return file_cubic_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ListModelsResponse) GetModels() []*Model {
@@ -429,7 +508,7 @@ type RecognitionResponse struct {
 func (x *RecognitionResponse) Reset() {
 	*x = RecognitionResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[5]
+		mi := &file_cubic_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -442,7 +521,7 @@ func (x *RecognitionResponse) String() string {
 func (*RecognitionResponse) ProtoMessage() {}
 
 func (x *RecognitionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[5]
+	mi := &file_cubic_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -455,12 +534,64 @@ func (x *RecognitionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecognitionResponse.ProtoReflect.Descriptor instead.
 func (*RecognitionResponse) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{5}
+	return file_cubic_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *RecognitionResponse) GetResults() []*RecognitionResult {
 	if x != nil {
 		return x.Results
+	}
+	return nil
+}
+
+// The message returned to the client by the `CompileContext` method.
+type CompileContextResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Context information in a compact form that is efficient for use in
+	// subsequent recognition requests. The size of the compiled form will depend
+	// on the amount of text that was sent for compilation. For 1000 words it's
+	// generally less than 100 kilobytes.
+	Context *CompiledContext `protobuf:"bytes,1,opt,name=context,proto3" json:"context,omitempty"`
+}
+
+func (x *CompileContextResponse) Reset() {
+	*x = CompileContextResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cubic_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CompileContextResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CompileContextResponse) ProtoMessage() {}
+
+func (x *CompileContextResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_cubic_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CompileContextResponse.ProtoReflect.Descriptor instead.
+func (*CompileContextResponse) Descriptor() ([]byte, []int) {
+	return file_cubic_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CompileContextResponse) GetContext() *CompiledContext {
+	if x != nil {
+		return x.Context
 	}
 	return nil
 }
@@ -538,12 +669,18 @@ type RecognitionConfig struct {
 	// record this metadata when processing the request.  The server does not use
 	// this field for any other purpose.
 	Metadata *RecognitionMetadata `protobuf:"bytes,9,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	// This is an optional field for providing any additional context information
+	// that may aid speech recognition.  This can also be used to add
+	// out-of-vocabulary words to the model or boost recognition of specific
+	// proper names or commands. Context information must be pre-compiled via the
+	// `CompileContext()` method.
+	Context *RecognitionContext `protobuf:"bytes,10,opt,name=context,proto3" json:"context,omitempty"`
 }
 
 func (x *RecognitionConfig) Reset() {
 	*x = RecognitionConfig{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[6]
+		mi := &file_cubic_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -556,7 +693,7 @@ func (x *RecognitionConfig) String() string {
 func (*RecognitionConfig) ProtoMessage() {}
 
 func (x *RecognitionConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[6]
+	mi := &file_cubic_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -569,7 +706,7 @@ func (x *RecognitionConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecognitionConfig.ProtoReflect.Descriptor instead.
 func (*RecognitionConfig) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{6}
+	return file_cubic_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *RecognitionConfig) GetModelId() string {
@@ -635,7 +772,14 @@ func (x *RecognitionConfig) GetMetadata() *RecognitionMetadata {
 	return nil
 }
 
-// Metadata associated with the audio to be recognized
+func (x *RecognitionConfig) GetContext() *RecognitionContext {
+	if x != nil {
+		return x.Context
+	}
+	return nil
+}
+
+// Metadata associated with the audio to be recognized.
 type RecognitionMetadata struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -650,7 +794,7 @@ type RecognitionMetadata struct {
 func (x *RecognitionMetadata) Reset() {
 	*x = RecognitionMetadata{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[7]
+		mi := &file_cubic_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -663,7 +807,7 @@ func (x *RecognitionMetadata) String() string {
 func (*RecognitionMetadata) ProtoMessage() {}
 
 func (x *RecognitionMetadata) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[7]
+	mi := &file_cubic_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -676,7 +820,7 @@ func (x *RecognitionMetadata) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecognitionMetadata.ProtoReflect.Descriptor instead.
 func (*RecognitionMetadata) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{7}
+	return file_cubic_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *RecognitionMetadata) GetCustomMetadata() string {
@@ -684,6 +828,187 @@ func (x *RecognitionMetadata) GetCustomMetadata() string {
 		return x.CustomMetadata
 	}
 	return ""
+}
+
+// A collection of additional context information that may aid speech
+// recognition.  This can be used to add out-of-vocabulary words to
+// the model or to boost recognition of specific proper names or commands.
+type RecognitionContext struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// List of compiled context information, with each entry being compiled from a
+	// list of words or phrases using the `CompileContext` method.
+	Compiled []*CompiledContext `protobuf:"bytes,1,rep,name=compiled,proto3" json:"compiled,omitempty"`
+}
+
+func (x *RecognitionContext) Reset() {
+	*x = RecognitionContext{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cubic_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RecognitionContext) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RecognitionContext) ProtoMessage() {}
+
+func (x *RecognitionContext) ProtoReflect() protoreflect.Message {
+	mi := &file_cubic_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RecognitionContext.ProtoReflect.Descriptor instead.
+func (*RecognitionContext) Descriptor() ([]byte, []int) {
+	return file_cubic_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *RecognitionContext) GetCompiled() []*CompiledContext {
+	if x != nil {
+		return x.Compiled
+	}
+	return nil
+}
+
+// Context information in a compact form that is efficient for use in subsequent
+// recognition requests. The size of the compiled form will depend on the amount
+// of text that was sent for compilation. For 1000 words it's generally less
+// than 100 kilobytes.
+type CompiledContext struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The context information compiled by the `CompileContext` method.
+	Data []byte `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+}
+
+func (x *CompiledContext) Reset() {
+	*x = CompiledContext{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cubic_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CompiledContext) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CompiledContext) ProtoMessage() {}
+
+func (x *CompiledContext) ProtoReflect() protoreflect.Message {
+	mi := &file_cubic_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CompiledContext.ProtoReflect.Descriptor instead.
+func (*CompiledContext) Descriptor() ([]byte, []int) {
+	return file_cubic_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *CompiledContext) GetData() []byte {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+// A phrase or word that is to be compiled into context information that can be
+// later used to improve speech recognition during a `Recognize` or
+// `StreamingRecognize` call. Along with the phrase or word itself, there is an
+// optional boost parameter that can be used to boost the likelihood of the
+// phrase or word in the recognition output.
+type ContextPhrase struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The actual phrase or word.
+	Text string `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
+	// This is an optional field. The boost value is a positive number which is
+	// used to increase the probability of the phrase or word appearing in the
+	// output. This setting can be used to differentiate between similar sounding
+	// words, with the desired word given a bigger boost value.
+	//
+	// By default, all phrases or words are given an equal probability of 1/N
+	// (where N = total number of phrases or words). If a boost value is provided,
+	// the new probability is (boost + 1) * 1/N. We normalize the boosted
+	// probabilities for all the phrases or words so that they sum to one. This
+	// means that the boost value only has an effect if there are relative
+	// differences in the values for different phrases or words. That is, if all
+	// phrases or words have the same boost value, after normalization they will
+	// all still have the same probability. This also means that the boost value
+	// can be any positive value, but it is best to stick between 0 to 20.
+	//
+	// Negative values are not supported and will be treated as 0 values.
+	Boost float32 `protobuf:"fixed32,2,opt,name=boost,proto3" json:"boost,omitempty"`
+}
+
+func (x *ContextPhrase) Reset() {
+	*x = ContextPhrase{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cubic_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ContextPhrase) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContextPhrase) ProtoMessage() {}
+
+func (x *ContextPhrase) ProtoReflect() protoreflect.Message {
+	mi := &file_cubic_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContextPhrase.ProtoReflect.Descriptor instead.
+func (*ContextPhrase) Descriptor() ([]byte, []int) {
+	return file_cubic_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ContextPhrase) GetText() string {
+	if x != nil {
+		return x.Text
+	}
+	return ""
+}
+
+func (x *ContextPhrase) GetBoost() float32 {
+	if x != nil {
+		return x.Boost
+	}
+	return 0
 }
 
 // Audio to be sent to the recognizer
@@ -698,7 +1023,7 @@ type RecognitionAudio struct {
 func (x *RecognitionAudio) Reset() {
 	*x = RecognitionAudio{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[8]
+		mi := &file_cubic_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -711,7 +1036,7 @@ func (x *RecognitionAudio) String() string {
 func (*RecognitionAudio) ProtoMessage() {}
 
 func (x *RecognitionAudio) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[8]
+	mi := &file_cubic_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -724,7 +1049,7 @@ func (x *RecognitionAudio) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecognitionAudio.ProtoReflect.Descriptor instead.
 func (*RecognitionAudio) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{8}
+	return file_cubic_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *RecognitionAudio) GetData() []byte {
@@ -755,7 +1080,7 @@ type Model struct {
 func (x *Model) Reset() {
 	*x = Model{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[9]
+		mi := &file_cubic_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -768,7 +1093,7 @@ func (x *Model) String() string {
 func (*Model) ProtoMessage() {}
 
 func (x *Model) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[9]
+	mi := &file_cubic_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -781,7 +1106,7 @@ func (x *Model) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Model.ProtoReflect.Descriptor instead.
 func (*Model) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{9}
+	return file_cubic_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *Model) GetId() string {
@@ -813,12 +1138,14 @@ type ModelAttributes struct {
 
 	// Audio sample rate supported by the model
 	SampleRate uint32 `protobuf:"varint,1,opt,name=sample_rate,json=sampleRate,proto3" json:"sample_rate,omitempty"`
+	// Attributes specifc to supporting recognition context.
+	ContextInfo *ContextInfo `protobuf:"bytes,2,opt,name=context_info,json=contextInfo,proto3" json:"context_info,omitempty"`
 }
 
 func (x *ModelAttributes) Reset() {
 	*x = ModelAttributes{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[10]
+		mi := &file_cubic_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -831,7 +1158,7 @@ func (x *ModelAttributes) String() string {
 func (*ModelAttributes) ProtoMessage() {}
 
 func (x *ModelAttributes) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[10]
+	mi := &file_cubic_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -844,7 +1171,7 @@ func (x *ModelAttributes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ModelAttributes.ProtoReflect.Descriptor instead.
 func (*ModelAttributes) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{10}
+	return file_cubic_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ModelAttributes) GetSampleRate() uint32 {
@@ -852,6 +1179,75 @@ func (x *ModelAttributes) GetSampleRate() uint32 {
 		return x.SampleRate
 	}
 	return 0
+}
+
+func (x *ModelAttributes) GetContextInfo() *ContextInfo {
+	if x != nil {
+		return x.ContextInfo
+	}
+	return nil
+}
+
+// Model information specifc to supporting recognition context.
+type ContextInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// If this is set to true, the model supports taking context information into
+	// account to aid speech recognition. The information may be sent with with
+	// recognition requests via RecognitionContext inside RecognitionConfig.
+	SupportsContext bool `protobuf:"varint,1,opt,name=supports_context,json=supportsContext,proto3" json:"supports_context,omitempty"`
+	// A list of tokens (e.g "name", "airport" etc.) that serve has placeholders
+	// in the model where a client provided list of phrases or words may be used
+	// to aid speech recognition and produce the exact desired recognition output.
+	AllowedContextTokens []string `protobuf:"bytes,2,rep,name=allowed_context_tokens,json=allowedContextTokens,proto3" json:"allowed_context_tokens,omitempty"`
+}
+
+func (x *ContextInfo) Reset() {
+	*x = ContextInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cubic_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ContextInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContextInfo) ProtoMessage() {}
+
+func (x *ContextInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_cubic_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContextInfo.ProtoReflect.Descriptor instead.
+func (*ContextInfo) Descriptor() ([]byte, []int) {
+	return file_cubic_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *ContextInfo) GetSupportsContext() bool {
+	if x != nil {
+		return x.SupportsContext
+	}
+	return false
+}
+
+func (x *ContextInfo) GetAllowedContextTokens() []string {
+	if x != nil {
+		return x.AllowedContextTokens
+	}
+	return nil
 }
 
 // A recognition result corresponding to a portion of audio.
@@ -881,7 +1277,7 @@ type RecognitionResult struct {
 func (x *RecognitionResult) Reset() {
 	*x = RecognitionResult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[11]
+		mi := &file_cubic_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -894,7 +1290,7 @@ func (x *RecognitionResult) String() string {
 func (*RecognitionResult) ProtoMessage() {}
 
 func (x *RecognitionResult) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[11]
+	mi := &file_cubic_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -907,7 +1303,7 @@ func (x *RecognitionResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecognitionResult.ProtoReflect.Descriptor instead.
 func (*RecognitionResult) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{11}
+	return file_cubic_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *RecognitionResult) GetAlternatives() []*RecognitionAlternative {
@@ -981,7 +1377,7 @@ type RecognitionAlternative struct {
 func (x *RecognitionAlternative) Reset() {
 	*x = RecognitionAlternative{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[12]
+		mi := &file_cubic_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -994,7 +1390,7 @@ func (x *RecognitionAlternative) String() string {
 func (*RecognitionAlternative) ProtoMessage() {}
 
 func (x *RecognitionAlternative) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[12]
+	mi := &file_cubic_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1007,7 +1403,7 @@ func (x *RecognitionAlternative) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecognitionAlternative.ProtoReflect.Descriptor instead.
 func (*RecognitionAlternative) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{12}
+	return file_cubic_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *RecognitionAlternative) GetTranscript() string {
@@ -1073,7 +1469,7 @@ type WordInfo struct {
 func (x *WordInfo) Reset() {
 	*x = WordInfo{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[13]
+		mi := &file_cubic_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1086,7 +1482,7 @@ func (x *WordInfo) String() string {
 func (*WordInfo) ProtoMessage() {}
 
 func (x *WordInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[13]
+	mi := &file_cubic_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1099,7 +1495,7 @@ func (x *WordInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WordInfo.ProtoReflect.Descriptor instead.
 func (*WordInfo) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{13}
+	return file_cubic_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *WordInfo) GetWord() string {
@@ -1142,7 +1538,7 @@ type RecognitionConfusionNetwork struct {
 func (x *RecognitionConfusionNetwork) Reset() {
 	*x = RecognitionConfusionNetwork{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[14]
+		mi := &file_cubic_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1155,7 +1551,7 @@ func (x *RecognitionConfusionNetwork) String() string {
 func (*RecognitionConfusionNetwork) ProtoMessage() {}
 
 func (x *RecognitionConfusionNetwork) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[14]
+	mi := &file_cubic_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1168,7 +1564,7 @@ func (x *RecognitionConfusionNetwork) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecognitionConfusionNetwork.ProtoReflect.Descriptor instead.
 func (*RecognitionConfusionNetwork) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{14}
+	return file_cubic_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *RecognitionConfusionNetwork) GetLinks() []*ConfusionNetworkLink {
@@ -1196,7 +1592,7 @@ type ConfusionNetworkLink struct {
 func (x *ConfusionNetworkLink) Reset() {
 	*x = ConfusionNetworkLink{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[15]
+		mi := &file_cubic_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1209,7 +1605,7 @@ func (x *ConfusionNetworkLink) String() string {
 func (*ConfusionNetworkLink) ProtoMessage() {}
 
 func (x *ConfusionNetworkLink) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[15]
+	mi := &file_cubic_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1222,7 +1618,7 @@ func (x *ConfusionNetworkLink) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfusionNetworkLink.ProtoReflect.Descriptor instead.
 func (*ConfusionNetworkLink) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{15}
+	return file_cubic_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *ConfusionNetworkLink) GetStartTime() *duration.Duration {
@@ -1262,7 +1658,7 @@ type ConfusionNetworkArc struct {
 func (x *ConfusionNetworkArc) Reset() {
 	*x = ConfusionNetworkArc{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cubic_proto_msgTypes[16]
+		mi := &file_cubic_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1275,7 +1671,7 @@ func (x *ConfusionNetworkArc) String() string {
 func (*ConfusionNetworkArc) ProtoMessage() {}
 
 func (x *ConfusionNetworkArc) ProtoReflect() protoreflect.Message {
-	mi := &file_cubic_proto_msgTypes[16]
+	mi := &file_cubic_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1288,7 +1684,7 @@ func (x *ConfusionNetworkArc) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfusionNetworkArc.ProtoReflect.Descriptor instead.
 func (*ConfusionNetworkArc) Descriptor() ([]byte, []int) {
-	return file_cubic_proto_rawDescGZIP(), []int{16}
+	return file_cubic_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *ConfusionNetworkArc) GetWord() string {
@@ -1336,76 +1732,117 @@ var file_cubic_proto_rawDesc = []byte{
 	0x24, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x63,
 	0x75, 0x62, 0x69, 0x63, 0x2e, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e,
 	0x41, 0x75, 0x64, 0x69, 0x6f, 0x48, 0x00, 0x52, 0x05, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x42, 0x09,
-	0x0a, 0x07, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x3f, 0x0a, 0x0f, 0x56, 0x65, 0x72,
-	0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05,
-	0x63, 0x75, 0x62, 0x69, 0x63, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x63, 0x75, 0x62,
-	0x69, 0x63, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x06, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x22, 0x47, 0x0a, 0x12, 0x4c, 0x69,
-	0x73, 0x74, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x31, 0x0a, 0x06, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x19, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e,
-	0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x52, 0x06, 0x6d, 0x6f, 0x64,
-	0x65, 0x6c, 0x73, 0x22, 0x56, 0x0a, 0x13, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69,
-	0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3f, 0x0a, 0x07, 0x72, 0x65,
-	0x73, 0x75, 0x6c, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x63, 0x6f,
-	0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63,
-	0x2e, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x75,
-	0x6c, 0x74, 0x52, 0x07, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x22, 0xe1, 0x04, 0x0a, 0x11,
-	0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x6e, 0x66, 0x69,
-	0x67, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x49, 0x64, 0x12, 0x55, 0x0a, 0x0e,
-	0x61, 0x75, 0x64, 0x69, 0x6f, 0x5f, 0x65, 0x6e, 0x63, 0x6f, 0x64, 0x69, 0x6e, 0x67, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x0e, 0x32, 0x2e, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65,
-	0x65, 0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e,
-	0x69, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x45, 0x6e, 0x63, 0x6f,
-	0x64, 0x69, 0x6e, 0x67, 0x52, 0x0d, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x45, 0x6e, 0x63, 0x6f, 0x64,
-	0x69, 0x6e, 0x67, 0x12, 0x3c, 0x0a, 0x0c, 0x69, 0x64, 0x6c, 0x65, 0x5f, 0x74, 0x69, 0x6d, 0x65,
-	0x6f, 0x75, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
-	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x75, 0x72, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0b, 0x69, 0x64, 0x6c, 0x65, 0x54, 0x69, 0x6d, 0x65, 0x6f, 0x75,
-	0x74, 0x12, 0x37, 0x0a, 0x18, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x77, 0x6f, 0x72, 0x64,
-	0x5f, 0x74, 0x69, 0x6d, 0x65, 0x5f, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x73, 0x18, 0x04, 0x20,
-	0x01, 0x28, 0x08, 0x52, 0x15, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x57, 0x6f, 0x72, 0x64, 0x54,
-	0x69, 0x6d, 0x65, 0x4f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x73, 0x12, 0x34, 0x0a, 0x16, 0x65, 0x6e,
-	0x61, 0x62, 0x6c, 0x65, 0x5f, 0x77, 0x6f, 0x72, 0x64, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x64,
-	0x65, 0x6e, 0x63, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x14, 0x65, 0x6e, 0x61, 0x62,
-	0x6c, 0x65, 0x57, 0x6f, 0x72, 0x64, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x64, 0x65, 0x6e, 0x63, 0x65,
-	0x12, 0x32, 0x0a, 0x15, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x72, 0x61, 0x77, 0x5f, 0x74,
-	0x72, 0x61, 0x6e, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x08, 0x52,
-	0x13, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x52, 0x61, 0x77, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x63,
-	0x72, 0x69, 0x70, 0x74, 0x12, 0x38, 0x0a, 0x18, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x63,
-	0x6f, 0x6e, 0x66, 0x75, 0x73, 0x69, 0x6f, 0x6e, 0x5f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
-	0x18, 0x07, 0x20, 0x01, 0x28, 0x08, 0x52, 0x16, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x43, 0x6f,
-	0x6e, 0x66, 0x75, 0x73, 0x69, 0x6f, 0x6e, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x12, 0x25,
-	0x0a, 0x0e, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x5f, 0x63, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x73,
-	0x18, 0x08, 0x20, 0x03, 0x28, 0x0d, 0x52, 0x0d, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x43, 0x68, 0x61,
-	0x6e, 0x6e, 0x65, 0x6c, 0x73, 0x12, 0x43, 0x0a, 0x08, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
-	0x61, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74,
-	0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x52, 0x65, 0x63,
-	0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
-	0x52, 0x08, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x22, 0x53, 0x0a, 0x08, 0x45, 0x6e,
-	0x63, 0x6f, 0x64, 0x69, 0x6e, 0x67, 0x12, 0x10, 0x0a, 0x0c, 0x52, 0x41, 0x57, 0x5f, 0x4c, 0x49,
-	0x4e, 0x45, 0x41, 0x52, 0x31, 0x36, 0x10, 0x00, 0x12, 0x07, 0x0a, 0x03, 0x57, 0x41, 0x56, 0x10,
-	0x01, 0x12, 0x07, 0x0a, 0x03, 0x4d, 0x50, 0x33, 0x10, 0x02, 0x12, 0x08, 0x0a, 0x04, 0x46, 0x4c,
-	0x41, 0x43, 0x10, 0x03, 0x12, 0x0b, 0x0a, 0x07, 0x56, 0x4f, 0x58, 0x38, 0x30, 0x30, 0x30, 0x10,
-	0x04, 0x12, 0x0c, 0x0a, 0x08, 0x55, 0x4c, 0x41, 0x57, 0x38, 0x30, 0x30, 0x30, 0x10, 0x05, 0x22,
-	0x3e, 0x0a, 0x13, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65,
-	0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x12, 0x27, 0x0a, 0x0f, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d,
-	0x5f, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x0e, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x22,
-	0x26, 0x0a, 0x10, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x75,
-	0x64, 0x69, 0x6f, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x0c, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0x70, 0x0a, 0x05, 0x4d, 0x6f, 0x64, 0x65, 0x6c,
-	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64,
-	0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
-	0x6e, 0x61, 0x6d, 0x65, 0x12, 0x43, 0x0a, 0x0a, 0x61, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74,
-	0x65, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c,
+	0x0a, 0x07, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x85, 0x01, 0x0a, 0x15, 0x43, 0x6f,
+	0x6d, 0x70, 0x69, 0x6c, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x5f, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x49, 0x64, 0x12, 0x14,
+	0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74,
+	0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x3b, 0x0a, 0x07, 0x70, 0x68, 0x72, 0x61, 0x73, 0x65, 0x73, 0x18,
+	0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70,
+	0x65, 0x65, 0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x65,
+	0x78, 0x74, 0x50, 0x68, 0x72, 0x61, 0x73, 0x65, 0x52, 0x07, 0x70, 0x68, 0x72, 0x61, 0x73, 0x65,
+	0x73, 0x22, 0x3f, 0x0a, 0x0f, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x75, 0x62, 0x69, 0x63, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x63, 0x75, 0x62, 0x69, 0x63, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x65,
+	0x72, 0x76, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x65, 0x72, 0x76,
+	0x65, 0x72, 0x22, 0x47, 0x0a, 0x12, 0x4c, 0x69, 0x73, 0x74, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x31, 0x0a, 0x06, 0x6d, 0x6f, 0x64, 0x65,
+	0x6c, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c,
 	0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x4d, 0x6f,
-	0x64, 0x65, 0x6c, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x52, 0x0a, 0x61,
-	0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x22, 0x32, 0x0a, 0x0f, 0x4d, 0x6f, 0x64,
-	0x65, 0x6c, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x12, 0x1f, 0x0a, 0x0b,
-	0x73, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x5f, 0x72, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x0d, 0x52, 0x0a, 0x73, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x52, 0x61, 0x74, 0x65, 0x22, 0xec, 0x01,
+	0x64, 0x65, 0x6c, 0x52, 0x06, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x73, 0x22, 0x56, 0x0a, 0x13, 0x52,
+	0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x3f, 0x0a, 0x07, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x18, 0x01, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65,
+	0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x07, 0x72, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x73, 0x22, 0x57, 0x0a, 0x16, 0x43, 0x6f, 0x6d, 0x70, 0x69, 0x6c, 0x65, 0x43, 0x6f,
+	0x6e, 0x74, 0x65, 0x78, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3d, 0x0a,
+	0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23,
+	0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x63, 0x75,
+	0x62, 0x69, 0x63, 0x2e, 0x43, 0x6f, 0x6d, 0x70, 0x69, 0x6c, 0x65, 0x64, 0x43, 0x6f, 0x6e, 0x74,
+	0x65, 0x78, 0x74, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x22, 0xa3, 0x05, 0x0a,
+	0x11, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x6e, 0x66,
+	0x69, 0x67, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x49, 0x64, 0x12, 0x55, 0x0a,
+	0x0e, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x5f, 0x65, 0x6e, 0x63, 0x6f, 0x64, 0x69, 0x6e, 0x67, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x2e, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70,
+	0x65, 0x65, 0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x52, 0x65, 0x63, 0x6f, 0x67,
+	0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x45, 0x6e, 0x63,
+	0x6f, 0x64, 0x69, 0x6e, 0x67, 0x52, 0x0d, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x45, 0x6e, 0x63, 0x6f,
+	0x64, 0x69, 0x6e, 0x67, 0x12, 0x3c, 0x0a, 0x0c, 0x69, 0x64, 0x6c, 0x65, 0x5f, 0x74, 0x69, 0x6d,
+	0x65, 0x6f, 0x75, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x75, 0x72,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0b, 0x69, 0x64, 0x6c, 0x65, 0x54, 0x69, 0x6d, 0x65, 0x6f,
+	0x75, 0x74, 0x12, 0x37, 0x0a, 0x18, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x77, 0x6f, 0x72,
+	0x64, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x5f, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x73, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x08, 0x52, 0x15, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x57, 0x6f, 0x72, 0x64,
+	0x54, 0x69, 0x6d, 0x65, 0x4f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x73, 0x12, 0x34, 0x0a, 0x16, 0x65,
+	0x6e, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x77, 0x6f, 0x72, 0x64, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69,
+	0x64, 0x65, 0x6e, 0x63, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x14, 0x65, 0x6e, 0x61,
+	0x62, 0x6c, 0x65, 0x57, 0x6f, 0x72, 0x64, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x64, 0x65, 0x6e, 0x63,
+	0x65, 0x12, 0x32, 0x0a, 0x15, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x5f, 0x72, 0x61, 0x77, 0x5f,
+	0x74, 0x72, 0x61, 0x6e, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x08,
+	0x52, 0x13, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x52, 0x61, 0x77, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x63, 0x72, 0x69, 0x70, 0x74, 0x12, 0x38, 0x0a, 0x18, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x5f,
+	0x63, 0x6f, 0x6e, 0x66, 0x75, 0x73, 0x69, 0x6f, 0x6e, 0x5f, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72,
+	0x6b, 0x18, 0x07, 0x20, 0x01, 0x28, 0x08, 0x52, 0x16, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x43,
+	0x6f, 0x6e, 0x66, 0x75, 0x73, 0x69, 0x6f, 0x6e, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x12,
+	0x25, 0x0a, 0x0e, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x5f, 0x63, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c,
+	0x73, 0x18, 0x08, 0x20, 0x03, 0x28, 0x0d, 0x52, 0x0d, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x43, 0x68,
+	0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x73, 0x12, 0x43, 0x0a, 0x08, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61,
+	0x74, 0x61, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c,
+	0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x52, 0x65,
+	0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
+	0x61, 0x52, 0x08, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x12, 0x40, 0x0a, 0x07, 0x63,
+	0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63,
+	0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69,
+	0x63, 0x2e, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x6e,
+	0x74, 0x65, 0x78, 0x74, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x22, 0x53, 0x0a,
+	0x08, 0x45, 0x6e, 0x63, 0x6f, 0x64, 0x69, 0x6e, 0x67, 0x12, 0x10, 0x0a, 0x0c, 0x52, 0x41, 0x57,
+	0x5f, 0x4c, 0x49, 0x4e, 0x45, 0x41, 0x52, 0x31, 0x36, 0x10, 0x00, 0x12, 0x07, 0x0a, 0x03, 0x57,
+	0x41, 0x56, 0x10, 0x01, 0x12, 0x07, 0x0a, 0x03, 0x4d, 0x50, 0x33, 0x10, 0x02, 0x12, 0x08, 0x0a,
+	0x04, 0x46, 0x4c, 0x41, 0x43, 0x10, 0x03, 0x12, 0x0b, 0x0a, 0x07, 0x56, 0x4f, 0x58, 0x38, 0x30,
+	0x30, 0x30, 0x10, 0x04, 0x12, 0x0c, 0x0a, 0x08, 0x55, 0x4c, 0x41, 0x57, 0x38, 0x30, 0x30, 0x30,
+	0x10, 0x05, 0x22, 0x3e, 0x0a, 0x13, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f,
+	0x6e, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x12, 0x27, 0x0a, 0x0f, 0x63, 0x75, 0x73,
+	0x74, 0x6f, 0x6d, 0x5f, 0x6d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0e, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
+	0x74, 0x61, 0x22, 0x55, 0x0a, 0x12, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f,
+	0x6e, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x12, 0x3f, 0x0a, 0x08, 0x63, 0x6f, 0x6d, 0x70,
+	0x69, 0x6c, 0x65, 0x64, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x63, 0x6f, 0x62,
+	0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e,
+	0x43, 0x6f, 0x6d, 0x70, 0x69, 0x6c, 0x65, 0x64, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x52,
+	0x08, 0x63, 0x6f, 0x6d, 0x70, 0x69, 0x6c, 0x65, 0x64, 0x22, 0x25, 0x0a, 0x0f, 0x43, 0x6f, 0x6d,
+	0x70, 0x69, 0x6c, 0x65, 0x64, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x12, 0x12, 0x0a, 0x04,
+	0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61,
+	0x22, 0x39, 0x0a, 0x0d, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x50, 0x68, 0x72, 0x61, 0x73,
+	0x65, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x04, 0x74, 0x65, 0x78, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x62, 0x6f, 0x6f, 0x73, 0x74, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x02, 0x52, 0x05, 0x62, 0x6f, 0x6f, 0x73, 0x74, 0x22, 0x26, 0x0a, 0x10, 0x52,
+	0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x12,
+	0x12, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x64,
+	0x61, 0x74, 0x61, 0x22, 0x70, 0x0a, 0x05, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x12, 0x0e, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04,
+	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65,
+	0x12, 0x43, 0x0a, 0x0a, 0x61, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65,
+	0x65, 0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x41,
+	0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x52, 0x0a, 0x61, 0x74, 0x74, 0x72, 0x69,
+	0x62, 0x75, 0x74, 0x65, 0x73, 0x22, 0x76, 0x0a, 0x0f, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x41, 0x74,
+	0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x12, 0x1f, 0x0a, 0x0b, 0x73, 0x61, 0x6d, 0x70,
+	0x6c, 0x65, 0x5f, 0x72, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x0a, 0x73,
+	0x61, 0x6d, 0x70, 0x6c, 0x65, 0x52, 0x61, 0x74, 0x65, 0x12, 0x42, 0x0a, 0x0c, 0x63, 0x6f, 0x6e,
+	0x74, 0x65, 0x78, 0x74, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x1f, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x63,
+	0x75, 0x62, 0x69, 0x63, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x49, 0x6e, 0x66, 0x6f,
+	0x52, 0x0b, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x49, 0x6e, 0x66, 0x6f, 0x22, 0x6e, 0x0a,
+	0x0b, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x29, 0x0a, 0x10,
+	0x73, 0x75, 0x70, 0x70, 0x6f, 0x72, 0x74, 0x73, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0f, 0x73, 0x75, 0x70, 0x70, 0x6f, 0x72, 0x74, 0x73,
+	0x43, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x12, 0x34, 0x0a, 0x16, 0x61, 0x6c, 0x6c, 0x6f, 0x77,
+	0x65, 0x64, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e,
+	0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x14, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x65, 0x64,
+	0x43, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x73, 0x22, 0xec, 0x01,
 	0x0a, 0x11, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73,
 	0x75, 0x6c, 0x74, 0x12, 0x4e, 0x0a, 0x0c, 0x61, 0x6c, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x74, 0x69,
 	0x76, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2a, 0x2e, 0x63, 0x6f, 0x62, 0x61,
@@ -1473,7 +1910,7 @@ var file_cubic_proto_rawDesc = []byte{
 	0x72, 0x63, 0x12, 0x12, 0x0a, 0x04, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x04, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x64,
 	0x65, 0x6e, 0x63, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52, 0x0a, 0x63, 0x6f, 0x6e, 0x66,
-	0x69, 0x64, 0x65, 0x6e, 0x63, 0x65, 0x32, 0xda, 0x03, 0x0a, 0x05, 0x43, 0x75, 0x62, 0x69, 0x63,
+	0x69, 0x64, 0x65, 0x6e, 0x63, 0x65, 0x32, 0xe1, 0x04, 0x0a, 0x05, 0x43, 0x75, 0x62, 0x69, 0x63,
 	0x12, 0x5c, 0x0a, 0x07, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x2e, 0x67, 0x6f,
 	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d,
 	0x70, 0x74, 0x79, 0x1a, 0x23, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65,
@@ -1503,9 +1940,18 @@ var file_cubic_proto_rawDesc = []byte{
 	0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x52, 0x65, 0x63, 0x6f, 0x67, 0x6e, 0x69, 0x74, 0x69,
 	0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x13, 0x82, 0xd3, 0xe4, 0x93,
 	0x02, 0x0d, 0x12, 0x0b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x28,
-	0x01, 0x30, 0x01, 0x42, 0x20, 0x5a, 0x09, 0x2e, 0x3b, 0x63, 0x75, 0x62, 0x69, 0x63, 0x70, 0x62,
-	0xaa, 0x02, 0x12, 0x43, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x53, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e,
-	0x43, 0x75, 0x62, 0x69, 0x63, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x01, 0x30, 0x01, 0x12, 0x84, 0x01, 0x0a, 0x0e, 0x43, 0x6f, 0x6d, 0x70, 0x69, 0x6c, 0x65, 0x43,
+	0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x12, 0x29, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73,
+	0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x43, 0x6f, 0x6d, 0x70,
+	0x69, 0x6c, 0x65, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x2a, 0x2e, 0x63, 0x6f, 0x62, 0x61, 0x6c, 0x74, 0x73, 0x70, 0x65, 0x65, 0x63, 0x68,
+	0x2e, 0x63, 0x75, 0x62, 0x69, 0x63, 0x2e, 0x43, 0x6f, 0x6d, 0x70, 0x69, 0x6c, 0x65, 0x43, 0x6f,
+	0x6e, 0x74, 0x65, 0x78, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1b, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x15, 0x12, 0x13, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6d, 0x70,
+	0x69, 0x6c, 0x65, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x42, 0x20, 0x5a, 0x09, 0x2e, 0x3b,
+	0x63, 0x75, 0x62, 0x69, 0x63, 0x70, 0x62, 0xaa, 0x02, 0x12, 0x43, 0x6f, 0x62, 0x61, 0x6c, 0x74,
+	0x53, 0x70, 0x65, 0x65, 0x63, 0x68, 0x2e, 0x43, 0x75, 0x62, 0x69, 0x63, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1521,64 +1967,77 @@ func file_cubic_proto_rawDescGZIP() []byte {
 }
 
 var file_cubic_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_cubic_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_cubic_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
 var file_cubic_proto_goTypes = []interface{}{
 	(RecognitionConfig_Encoding)(0),     // 0: cobaltspeech.cubic.RecognitionConfig.Encoding
 	(*ListModelsRequest)(nil),           // 1: cobaltspeech.cubic.ListModelsRequest
 	(*RecognizeRequest)(nil),            // 2: cobaltspeech.cubic.RecognizeRequest
 	(*StreamingRecognizeRequest)(nil),   // 3: cobaltspeech.cubic.StreamingRecognizeRequest
-	(*VersionResponse)(nil),             // 4: cobaltspeech.cubic.VersionResponse
-	(*ListModelsResponse)(nil),          // 5: cobaltspeech.cubic.ListModelsResponse
-	(*RecognitionResponse)(nil),         // 6: cobaltspeech.cubic.RecognitionResponse
-	(*RecognitionConfig)(nil),           // 7: cobaltspeech.cubic.RecognitionConfig
-	(*RecognitionMetadata)(nil),         // 8: cobaltspeech.cubic.RecognitionMetadata
-	(*RecognitionAudio)(nil),            // 9: cobaltspeech.cubic.RecognitionAudio
-	(*Model)(nil),                       // 10: cobaltspeech.cubic.Model
-	(*ModelAttributes)(nil),             // 11: cobaltspeech.cubic.ModelAttributes
-	(*RecognitionResult)(nil),           // 12: cobaltspeech.cubic.RecognitionResult
-	(*RecognitionAlternative)(nil),      // 13: cobaltspeech.cubic.RecognitionAlternative
-	(*WordInfo)(nil),                    // 14: cobaltspeech.cubic.WordInfo
-	(*RecognitionConfusionNetwork)(nil), // 15: cobaltspeech.cubic.RecognitionConfusionNetwork
-	(*ConfusionNetworkLink)(nil),        // 16: cobaltspeech.cubic.ConfusionNetworkLink
-	(*ConfusionNetworkArc)(nil),         // 17: cobaltspeech.cubic.ConfusionNetworkArc
-	(*duration.Duration)(nil),           // 18: google.protobuf.Duration
-	(*empty.Empty)(nil),                 // 19: google.protobuf.Empty
+	(*CompileContextRequest)(nil),       // 4: cobaltspeech.cubic.CompileContextRequest
+	(*VersionResponse)(nil),             // 5: cobaltspeech.cubic.VersionResponse
+	(*ListModelsResponse)(nil),          // 6: cobaltspeech.cubic.ListModelsResponse
+	(*RecognitionResponse)(nil),         // 7: cobaltspeech.cubic.RecognitionResponse
+	(*CompileContextResponse)(nil),      // 8: cobaltspeech.cubic.CompileContextResponse
+	(*RecognitionConfig)(nil),           // 9: cobaltspeech.cubic.RecognitionConfig
+	(*RecognitionMetadata)(nil),         // 10: cobaltspeech.cubic.RecognitionMetadata
+	(*RecognitionContext)(nil),          // 11: cobaltspeech.cubic.RecognitionContext
+	(*CompiledContext)(nil),             // 12: cobaltspeech.cubic.CompiledContext
+	(*ContextPhrase)(nil),               // 13: cobaltspeech.cubic.ContextPhrase
+	(*RecognitionAudio)(nil),            // 14: cobaltspeech.cubic.RecognitionAudio
+	(*Model)(nil),                       // 15: cobaltspeech.cubic.Model
+	(*ModelAttributes)(nil),             // 16: cobaltspeech.cubic.ModelAttributes
+	(*ContextInfo)(nil),                 // 17: cobaltspeech.cubic.ContextInfo
+	(*RecognitionResult)(nil),           // 18: cobaltspeech.cubic.RecognitionResult
+	(*RecognitionAlternative)(nil),      // 19: cobaltspeech.cubic.RecognitionAlternative
+	(*WordInfo)(nil),                    // 20: cobaltspeech.cubic.WordInfo
+	(*RecognitionConfusionNetwork)(nil), // 21: cobaltspeech.cubic.RecognitionConfusionNetwork
+	(*ConfusionNetworkLink)(nil),        // 22: cobaltspeech.cubic.ConfusionNetworkLink
+	(*ConfusionNetworkArc)(nil),         // 23: cobaltspeech.cubic.ConfusionNetworkArc
+	(*duration.Duration)(nil),           // 24: google.protobuf.Duration
+	(*empty.Empty)(nil),                 // 25: google.protobuf.Empty
 }
 var file_cubic_proto_depIdxs = []int32{
-	7,  // 0: cobaltspeech.cubic.RecognizeRequest.config:type_name -> cobaltspeech.cubic.RecognitionConfig
-	9,  // 1: cobaltspeech.cubic.RecognizeRequest.audio:type_name -> cobaltspeech.cubic.RecognitionAudio
-	7,  // 2: cobaltspeech.cubic.StreamingRecognizeRequest.config:type_name -> cobaltspeech.cubic.RecognitionConfig
-	9,  // 3: cobaltspeech.cubic.StreamingRecognizeRequest.audio:type_name -> cobaltspeech.cubic.RecognitionAudio
-	10, // 4: cobaltspeech.cubic.ListModelsResponse.models:type_name -> cobaltspeech.cubic.Model
-	12, // 5: cobaltspeech.cubic.RecognitionResponse.results:type_name -> cobaltspeech.cubic.RecognitionResult
-	0,  // 6: cobaltspeech.cubic.RecognitionConfig.audio_encoding:type_name -> cobaltspeech.cubic.RecognitionConfig.Encoding
-	18, // 7: cobaltspeech.cubic.RecognitionConfig.idle_timeout:type_name -> google.protobuf.Duration
-	8,  // 8: cobaltspeech.cubic.RecognitionConfig.metadata:type_name -> cobaltspeech.cubic.RecognitionMetadata
-	11, // 9: cobaltspeech.cubic.Model.attributes:type_name -> cobaltspeech.cubic.ModelAttributes
-	13, // 10: cobaltspeech.cubic.RecognitionResult.alternatives:type_name -> cobaltspeech.cubic.RecognitionAlternative
-	15, // 11: cobaltspeech.cubic.RecognitionResult.cnet:type_name -> cobaltspeech.cubic.RecognitionConfusionNetwork
-	14, // 12: cobaltspeech.cubic.RecognitionAlternative.words:type_name -> cobaltspeech.cubic.WordInfo
-	18, // 13: cobaltspeech.cubic.RecognitionAlternative.start_time:type_name -> google.protobuf.Duration
-	18, // 14: cobaltspeech.cubic.RecognitionAlternative.duration:type_name -> google.protobuf.Duration
-	18, // 15: cobaltspeech.cubic.WordInfo.start_time:type_name -> google.protobuf.Duration
-	18, // 16: cobaltspeech.cubic.WordInfo.duration:type_name -> google.protobuf.Duration
-	16, // 17: cobaltspeech.cubic.RecognitionConfusionNetwork.links:type_name -> cobaltspeech.cubic.ConfusionNetworkLink
-	18, // 18: cobaltspeech.cubic.ConfusionNetworkLink.start_time:type_name -> google.protobuf.Duration
-	18, // 19: cobaltspeech.cubic.ConfusionNetworkLink.duration:type_name -> google.protobuf.Duration
-	17, // 20: cobaltspeech.cubic.ConfusionNetworkLink.arcs:type_name -> cobaltspeech.cubic.ConfusionNetworkArc
-	19, // 21: cobaltspeech.cubic.Cubic.Version:input_type -> google.protobuf.Empty
-	1,  // 22: cobaltspeech.cubic.Cubic.ListModels:input_type -> cobaltspeech.cubic.ListModelsRequest
-	2,  // 23: cobaltspeech.cubic.Cubic.Recognize:input_type -> cobaltspeech.cubic.RecognizeRequest
-	3,  // 24: cobaltspeech.cubic.Cubic.StreamingRecognize:input_type -> cobaltspeech.cubic.StreamingRecognizeRequest
-	4,  // 25: cobaltspeech.cubic.Cubic.Version:output_type -> cobaltspeech.cubic.VersionResponse
-	5,  // 26: cobaltspeech.cubic.Cubic.ListModels:output_type -> cobaltspeech.cubic.ListModelsResponse
-	6,  // 27: cobaltspeech.cubic.Cubic.Recognize:output_type -> cobaltspeech.cubic.RecognitionResponse
-	6,  // 28: cobaltspeech.cubic.Cubic.StreamingRecognize:output_type -> cobaltspeech.cubic.RecognitionResponse
-	25, // [25:29] is the sub-list for method output_type
-	21, // [21:25] is the sub-list for method input_type
-	21, // [21:21] is the sub-list for extension type_name
-	21, // [21:21] is the sub-list for extension extendee
-	0,  // [0:21] is the sub-list for field type_name
+	9,  // 0: cobaltspeech.cubic.RecognizeRequest.config:type_name -> cobaltspeech.cubic.RecognitionConfig
+	14, // 1: cobaltspeech.cubic.RecognizeRequest.audio:type_name -> cobaltspeech.cubic.RecognitionAudio
+	9,  // 2: cobaltspeech.cubic.StreamingRecognizeRequest.config:type_name -> cobaltspeech.cubic.RecognitionConfig
+	14, // 3: cobaltspeech.cubic.StreamingRecognizeRequest.audio:type_name -> cobaltspeech.cubic.RecognitionAudio
+	13, // 4: cobaltspeech.cubic.CompileContextRequest.phrases:type_name -> cobaltspeech.cubic.ContextPhrase
+	15, // 5: cobaltspeech.cubic.ListModelsResponse.models:type_name -> cobaltspeech.cubic.Model
+	18, // 6: cobaltspeech.cubic.RecognitionResponse.results:type_name -> cobaltspeech.cubic.RecognitionResult
+	12, // 7: cobaltspeech.cubic.CompileContextResponse.context:type_name -> cobaltspeech.cubic.CompiledContext
+	0,  // 8: cobaltspeech.cubic.RecognitionConfig.audio_encoding:type_name -> cobaltspeech.cubic.RecognitionConfig.Encoding
+	24, // 9: cobaltspeech.cubic.RecognitionConfig.idle_timeout:type_name -> google.protobuf.Duration
+	10, // 10: cobaltspeech.cubic.RecognitionConfig.metadata:type_name -> cobaltspeech.cubic.RecognitionMetadata
+	11, // 11: cobaltspeech.cubic.RecognitionConfig.context:type_name -> cobaltspeech.cubic.RecognitionContext
+	12, // 12: cobaltspeech.cubic.RecognitionContext.compiled:type_name -> cobaltspeech.cubic.CompiledContext
+	16, // 13: cobaltspeech.cubic.Model.attributes:type_name -> cobaltspeech.cubic.ModelAttributes
+	17, // 14: cobaltspeech.cubic.ModelAttributes.context_info:type_name -> cobaltspeech.cubic.ContextInfo
+	19, // 15: cobaltspeech.cubic.RecognitionResult.alternatives:type_name -> cobaltspeech.cubic.RecognitionAlternative
+	21, // 16: cobaltspeech.cubic.RecognitionResult.cnet:type_name -> cobaltspeech.cubic.RecognitionConfusionNetwork
+	20, // 17: cobaltspeech.cubic.RecognitionAlternative.words:type_name -> cobaltspeech.cubic.WordInfo
+	24, // 18: cobaltspeech.cubic.RecognitionAlternative.start_time:type_name -> google.protobuf.Duration
+	24, // 19: cobaltspeech.cubic.RecognitionAlternative.duration:type_name -> google.protobuf.Duration
+	24, // 20: cobaltspeech.cubic.WordInfo.start_time:type_name -> google.protobuf.Duration
+	24, // 21: cobaltspeech.cubic.WordInfo.duration:type_name -> google.protobuf.Duration
+	22, // 22: cobaltspeech.cubic.RecognitionConfusionNetwork.links:type_name -> cobaltspeech.cubic.ConfusionNetworkLink
+	24, // 23: cobaltspeech.cubic.ConfusionNetworkLink.start_time:type_name -> google.protobuf.Duration
+	24, // 24: cobaltspeech.cubic.ConfusionNetworkLink.duration:type_name -> google.protobuf.Duration
+	23, // 25: cobaltspeech.cubic.ConfusionNetworkLink.arcs:type_name -> cobaltspeech.cubic.ConfusionNetworkArc
+	25, // 26: cobaltspeech.cubic.Cubic.Version:input_type -> google.protobuf.Empty
+	1,  // 27: cobaltspeech.cubic.Cubic.ListModels:input_type -> cobaltspeech.cubic.ListModelsRequest
+	2,  // 28: cobaltspeech.cubic.Cubic.Recognize:input_type -> cobaltspeech.cubic.RecognizeRequest
+	3,  // 29: cobaltspeech.cubic.Cubic.StreamingRecognize:input_type -> cobaltspeech.cubic.StreamingRecognizeRequest
+	4,  // 30: cobaltspeech.cubic.Cubic.CompileContext:input_type -> cobaltspeech.cubic.CompileContextRequest
+	5,  // 31: cobaltspeech.cubic.Cubic.Version:output_type -> cobaltspeech.cubic.VersionResponse
+	6,  // 32: cobaltspeech.cubic.Cubic.ListModels:output_type -> cobaltspeech.cubic.ListModelsResponse
+	7,  // 33: cobaltspeech.cubic.Cubic.Recognize:output_type -> cobaltspeech.cubic.RecognitionResponse
+	7,  // 34: cobaltspeech.cubic.Cubic.StreamingRecognize:output_type -> cobaltspeech.cubic.RecognitionResponse
+	8,  // 35: cobaltspeech.cubic.Cubic.CompileContext:output_type -> cobaltspeech.cubic.CompileContextResponse
+	31, // [31:36] is the sub-list for method output_type
+	26, // [26:31] is the sub-list for method input_type
+	26, // [26:26] is the sub-list for extension type_name
+	26, // [26:26] is the sub-list for extension extendee
+	0,  // [0:26] is the sub-list for field type_name
 }
 
 func init() { file_cubic_proto_init() }
@@ -1624,7 +2083,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*VersionResponse); i {
+			switch v := v.(*CompileContextRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1636,7 +2095,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListModelsResponse); i {
+			switch v := v.(*VersionResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1648,7 +2107,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecognitionResponse); i {
+			switch v := v.(*ListModelsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1660,7 +2119,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecognitionConfig); i {
+			switch v := v.(*RecognitionResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1672,7 +2131,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecognitionMetadata); i {
+			switch v := v.(*CompileContextResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1684,7 +2143,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecognitionAudio); i {
+			switch v := v.(*RecognitionConfig); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1696,7 +2155,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Model); i {
+			switch v := v.(*RecognitionMetadata); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1708,7 +2167,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ModelAttributes); i {
+			switch v := v.(*RecognitionContext); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1720,7 +2179,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecognitionResult); i {
+			switch v := v.(*CompiledContext); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1732,7 +2191,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecognitionAlternative); i {
+			switch v := v.(*ContextPhrase); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1744,7 +2203,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WordInfo); i {
+			switch v := v.(*RecognitionAudio); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1756,7 +2215,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecognitionConfusionNetwork); i {
+			switch v := v.(*Model); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1768,7 +2227,7 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ConfusionNetworkLink); i {
+			switch v := v.(*ModelAttributes); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1780,6 +2239,78 @@ func file_cubic_proto_init() {
 			}
 		}
 		file_cubic_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ContextInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cubic_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RecognitionResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cubic_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RecognitionAlternative); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cubic_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WordInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cubic_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RecognitionConfusionNetwork); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cubic_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ConfusionNetworkLink); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cubic_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ConfusionNetworkArc); i {
 			case 0:
 				return &v.state
@@ -1802,7 +2333,7 @@ func file_cubic_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_cubic_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   17,
+			NumMessages:   23,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -1842,6 +2373,20 @@ type CubicClient interface {
 	// sending audio.  This method is only available via GRPC and not via
 	// HTTP+JSON. However, a web browser may use websockets to use this service.
 	StreamingRecognize(ctx context.Context, opts ...grpc.CallOption) (Cubic_StreamingRecognizeClient, error)
+	// Compiles recognition context information, such as a specialized list of
+	// words or phrases, into a compact, efficient form to send with subsequent
+	// `Recognize` or `StreamingRecognize` requests to customize speech
+	// recognition. For example, a list of contact names may be compiled in a
+	// mobile app and sent with each recognition request so that the app user's
+	// contact names are more likely to be recognized than arbitrary names. This
+	// pre-compilation ensures that there is no added latency for the recognition
+	// request. It is important to note that in order to compile context for a
+	// model, that model has to support context in the first place, which can be
+	// verified by checking its `ModelAttributes.ContextInfo` obtained via the
+	// `ListModels` method. Also, the compiled data will be model specific; that
+	// is, the data compiled for one model will generally not be usable with a
+	// different model.
+	CompileContext(ctx context.Context, in *CompileContextRequest, opts ...grpc.CallOption) (*CompileContextResponse, error)
 }
 
 type cubicClient struct {
@@ -1910,6 +2455,15 @@ func (x *cubicStreamingRecognizeClient) Recv() (*RecognitionResponse, error) {
 	return m, nil
 }
 
+func (c *cubicClient) CompileContext(ctx context.Context, in *CompileContextRequest, opts ...grpc.CallOption) (*CompileContextResponse, error) {
+	out := new(CompileContextResponse)
+	err := c.cc.Invoke(ctx, "/cobaltspeech.cubic.Cubic/CompileContext", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CubicServer is the server API for Cubic service.
 type CubicServer interface {
 	// Queries the Version of the Server
@@ -1925,6 +2479,20 @@ type CubicServer interface {
 	// sending audio.  This method is only available via GRPC and not via
 	// HTTP+JSON. However, a web browser may use websockets to use this service.
 	StreamingRecognize(Cubic_StreamingRecognizeServer) error
+	// Compiles recognition context information, such as a specialized list of
+	// words or phrases, into a compact, efficient form to send with subsequent
+	// `Recognize` or `StreamingRecognize` requests to customize speech
+	// recognition. For example, a list of contact names may be compiled in a
+	// mobile app and sent with each recognition request so that the app user's
+	// contact names are more likely to be recognized than arbitrary names. This
+	// pre-compilation ensures that there is no added latency for the recognition
+	// request. It is important to note that in order to compile context for a
+	// model, that model has to support context in the first place, which can be
+	// verified by checking its `ModelAttributes.ContextInfo` obtained via the
+	// `ListModels` method. Also, the compiled data will be model specific; that
+	// is, the data compiled for one model will generally not be usable with a
+	// different model.
+	CompileContext(context.Context, *CompileContextRequest) (*CompileContextResponse, error)
 }
 
 // UnimplementedCubicServer can be embedded to have forward compatible implementations.
@@ -1942,6 +2510,9 @@ func (*UnimplementedCubicServer) Recognize(context.Context, *RecognizeRequest) (
 }
 func (*UnimplementedCubicServer) StreamingRecognize(Cubic_StreamingRecognizeServer) error {
 	return status.Errorf(codes.Unimplemented, "method StreamingRecognize not implemented")
+}
+func (*UnimplementedCubicServer) CompileContext(context.Context, *CompileContextRequest) (*CompileContextResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CompileContext not implemented")
 }
 
 func RegisterCubicServer(s *grpc.Server, srv CubicServer) {
@@ -2028,6 +2599,24 @@ func (x *cubicStreamingRecognizeServer) Recv() (*StreamingRecognizeRequest, erro
 	return m, nil
 }
 
+func _Cubic_CompileContext_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompileContextRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CubicServer).CompileContext(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cobaltspeech.cubic.Cubic/CompileContext",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CubicServer).CompileContext(ctx, req.(*CompileContextRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Cubic_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "cobaltspeech.cubic.Cubic",
 	HandlerType: (*CubicServer)(nil),
@@ -2043,6 +2632,10 @@ var _Cubic_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Recognize",
 			Handler:    _Cubic_Recognize_Handler,
+		},
+		{
+			MethodName: "CompileContext",
+			Handler:    _Cubic_CompileContext_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

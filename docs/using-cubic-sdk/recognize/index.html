@@ -109,6 +109,13 @@
           </a><i class="fa fa-circle-thin read-icon"></i>
         </div>
     </li>
+      <li data-nav-id="/sdk-cubic/using-cubic-sdk/recognition-context/" class="dd-item">
+        <div>
+          <a href="/sdk-cubic/using-cubic-sdk/recognition-context/">
+            Recognition Context
+          </a><i class="fa fa-circle-thin read-icon"></i>
+        </div>
+    </li>
       <li data-nav-id="/sdk-cubic/using-cubic-sdk/client-configs/" class="dd-item">
         <div>
           <a href="/sdk-cubic/using-cubic-sdk/client-configs/">
@@ -241,10 +248,11 @@ models and use the first model to transcribe this speech.</p>
 	<span style="color:#ed9d13">&#34;github.com/cobaltspeech/sdk-cubic/grpc/go-cubic/cubicpb&#34;</span>
 )
 
-<span style="color:#6ab825;font-weight:bold">const</span> serverAddr = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
-
 <span style="color:#6ab825;font-weight:bold">func</span> <span style="color:#447fcf">main</span>() {
-	client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr)
+
+    <span style="color:#999;font-style:italic">// Creating client without TLS. Remove cubic.WithInsecure() if using TLS
+</span><span style="color:#999;font-style:italic"></span>    serverAddr := <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>
+	client, err := cubic.<span style="color:#447fcf">NewClient</span>(serverAddr, cubic.<span style="color:#447fcf">WithInsecure</span>())
 	<span style="color:#6ab825;font-weight:bold">if</span> err != <span style="color:#6ab825;font-weight:bold">nil</span> {
 		log.<span style="color:#447fcf">Fatal</span>(err)
 	}
@@ -286,9 +294,9 @@ models and use the first model to transcribe this speech.</p>
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">cubic</span>
 
+<span style="color:#999;font-style:italic"># set insecure to False if server uses TLS</span>
 serverAddress = <span style="color:#ed9d13">&#39;127.0.0.1:2727&#39;</span>
-
-client = cubic.Client(serverAddress)
+client = cubic.Client(serverAddress, insecure=True)
 
 <span style="color:#999;font-style:italic"># get list of available models</span>
 modelResp = client.ListModels()
@@ -310,48 +318,55 @@ resp = client.Recognize(cfg, audio)
 <span style="color:#6ab825;font-weight:bold">for</span> result <span style="color:#6ab825;font-weight:bold">in</span> resp.results:
 	<span style="color:#6ab825;font-weight:bold">if</span> <span style="color:#6ab825;font-weight:bold">not</span> result.is_partial:
 		<span style="color:#6ab825;font-weight:bold">print</span>(result.alternatives[<span style="color:#3677a9">0</span>].transcript)
-
 </code></pre></div>
 </div>
 
 
 <div class="tab-pane" title="C#">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c#" data-lang="c#">
-<span style="color:#999;font-style:italic">// Initialize a gRPC connection
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> creds = Grpc.Core.ChannelCredentials.Insecure;
-<span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(url, creds);
-<span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">System</span>;
+<span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">System.IO</span>;
 
-<span style="color:#999;font-style:italic">// List the available models
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> listModelsRequest = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.ListModelsRequest();
-<span style="color:#6ab825;font-weight:bold">var</span> models = client.ListModels(listModelsRequest);
+<span style="color:#6ab825;font-weight:bold">namespace</span> <span style="color:#447fcf;text-decoration:underline">CubicSynchronousRecognitionExample</span> {
+    <span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">Program</span> {
+        <span style="color:#6ab825;font-weight:bold">static</span> <span style="color:#6ab825;font-weight:bold">void</span> Main(<span style="color:#6ab825;font-weight:bold">string</span>[] args) {
+            <span style="color:#999;font-style:italic">// set creds = new Grpc.Core.SslCredentials(); if using TLS
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">var</span> serverAddress = <span style="color:#ed9d13">&#34;127.0.0.1:2727&#34;</span>;
+            <span style="color:#6ab825;font-weight:bold">var</span> creds = Grpc.Core.ChannelCredentials.Insecure;
 
-<span style="color:#6ab825;font-weight:bold">var</span> cfg = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognitionConfig
-{
-    <span style="color:#999;font-style:italic">// Use the first available model
-</span><span style="color:#999;font-style:italic"></span>    ModelId = models.Models[<span style="color:#3677a9">0</span>].Id,
-};
+            <span style="color:#999;font-style:italic">// Initialize a gRPC connection
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">var</span> channel = <span style="color:#6ab825;font-weight:bold">new</span> Grpc.Core.Channel(serverAddress, creds);
+            <span style="color:#6ab825;font-weight:bold">var</span> client = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.Cubic.CubicClient(channel);
 
-<span style="color:#999;font-style:italic">// Open the audio file.
-</span><span style="color:#999;font-style:italic"></span>FileStream file = File.OpenRead(<span style="color:#ed9d13">&#34;test.raw&#34;</span>)
-<span style="color:#6ab825;font-weight:bold">var</span> audio = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognitionAudio{
-    Data = Google.Protobuf.ByteString.FromStream(file)
-};
+            <span style="color:#999;font-style:italic">// List the available models
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">var</span> listModelsRequest = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.ListModelsRequest();
+            <span style="color:#6ab825;font-weight:bold">var</span> models = client.ListModels(listModelsRequest);
 
-<span style="color:#999;font-style:italic">// Create the request
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> request = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognizeRequest
-{
-    Config = cfg,
-    Audio = audio,
-};
+            <span style="color:#6ab825;font-weight:bold">var</span> cfg = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognitionConfig {
+                <span style="color:#999;font-style:italic">// Use the first available model
+</span><span style="color:#999;font-style:italic"></span>                ModelId = models.Models[<span style="color:#3677a9">0</span>].Id,
+            };
 
-<span style="color:#999;font-style:italic">// Send the request
-</span><span style="color:#999;font-style:italic"></span><span style="color:#6ab825;font-weight:bold">var</span> resp = client.Recognize(request);
-<span style="color:#6ab825;font-weight:bold">foreach</span> (<span style="color:#6ab825;font-weight:bold">var</span> result <span style="color:#6ab825;font-weight:bold">in</span> resp.Results)
-{
-    <span style="color:#6ab825;font-weight:bold">if</span> (!result.IsPartial)
-    {
-        Console.WriteLine(result.Alternatives[<span style="color:#3677a9">0</span>].Transcript)
+            <span style="color:#999;font-style:italic">// Open the audio file.
+</span><span style="color:#999;font-style:italic"></span>            FileStream file = File.OpenRead(<span style="color:#ed9d13">&#34;test.raw&#34;</span>);
+            <span style="color:#6ab825;font-weight:bold">var</span> audio = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognitionAudio {
+                Data = Google.Protobuf.ByteString.FromStream(file)
+            };
+
+            <span style="color:#999;font-style:italic">// Create the request
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">var</span> request = <span style="color:#6ab825;font-weight:bold">new</span> CobaltSpeech.Cubic.RecognizeRequest {
+                Config = cfg,
+                Audio = audio,
+            };
+
+            <span style="color:#999;font-style:italic">// Send the request
+</span><span style="color:#999;font-style:italic"></span>            <span style="color:#6ab825;font-weight:bold">var</span> resp = client.Recognize(request);
+            <span style="color:#6ab825;font-weight:bold">foreach</span> (<span style="color:#6ab825;font-weight:bold">var</span> result <span style="color:#6ab825;font-weight:bold">in</span> resp.Results) {
+                <span style="color:#6ab825;font-weight:bold">if</span> (!result.IsPartial) {
+                    Console.WriteLine(result.Alternatives[<span style="color:#3677a9">0</span>].Transcript);
+                }
+            }
+        }
     }
 }
 </code></pre></div>
@@ -360,11 +375,11 @@ resp = client.Recognize(cfg, audio)
 
 <div class="tab-pane" title="Java/Android">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
-
 <span style="color:#999;font-style:italic">/*
 </span><span style="color:#999;font-style:italic">  Please note: this example does not attempt to handle threading and all exceptions.
 </span><span style="color:#999;font-style:italic">  It gives a simplified overview of the essential gRPC calls.
 </span><span style="color:#999;font-style:italic">*/</span>
+
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannel</span>;
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.ManagedChannelBuilder</span>;
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">io.grpc.stub.StreamObserver</span>;
@@ -423,17 +438,18 @@ resp = client.Recognize(cfg, audio)
 
 <div class="tab-pane" title="Swift/iOS">
   <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">
+<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">Foundation</span>
 <span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">Cubic</span>
-<span style="color:#6ab825;font-weight:bold">import</span> <span style="color:#447fcf;text-decoration:underline">GRPC</span>
 
 <span style="color:#6ab825;font-weight:bold">class</span> <span style="color:#447fcf;text-decoration:underline">CubicExample</span> {
 
-    <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">client</span> = Client(host: <span style="color:#ed9d13">&#34;demo-cubic.cobaltspeech.com&#34;</span>, port: <span style="color:#3677a9">2727</span>, useTLS: <span style="color:#6ab825;font-weight:bold">true</span>)
-    <span style="color:#6ab825;font-weight:bold">var</span> <span style="color:#40ffff">confg</span> = Cobaltspeech_Cubic_RecognitionConfig()
-    <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">fileName</span> = <span style="color:#ed9d13">&#34;text.wav&#34;</span>
+    <span style="color:#999;font-style:italic">// set useTLS to true if using TLS</span>
+    <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">client</span> = Client(host: <span style="color:#ed9d13">&#34;127.0.0.1&#34;</span>, port: <span style="color:#3677a9">2727</span>, useTLS: <span style="color:#6ab825;font-weight:bold">false</span>)
+    <span style="color:#6ab825;font-weight:bold">var</span> <span style="color:#40ffff">config</span> = Cobaltspeech_Cubic_RecognitionConfig()
+    <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">fileName</span> = <span style="color:#ed9d13">&#34;text.raw&#34;</span>
 
     <span style="color:#6ab825;font-weight:bold">public</span> <span style="color:#6ab825;font-weight:bold">init</span>() {
-        config.audioEncoding = .wav
+        config.audioEncoding = .rawLinear16
 
         client.listModels(success: { (models) <span style="color:#6ab825;font-weight:bold">in</span>
             <span style="color:#6ab825;font-weight:bold">if</span> <span style="color:#6ab825;font-weight:bold">let</span> <span style="color:#40ffff">model</span> = models?.first {

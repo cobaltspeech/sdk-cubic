@@ -33,6 +33,7 @@ public protocol Cobaltspeech_Cubic_CubicClientProtocol {
   func listModels(_ request: Cobaltspeech_Cubic_ListModelsRequest, callOptions: CallOptions?) -> UnaryCall<Cobaltspeech_Cubic_ListModelsRequest, Cobaltspeech_Cubic_ListModelsResponse>
   func recognize(_ request: Cobaltspeech_Cubic_RecognizeRequest, callOptions: CallOptions?) -> UnaryCall<Cobaltspeech_Cubic_RecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>
   func streamingRecognize(callOptions: CallOptions?, handler: @escaping (Cobaltspeech_Cubic_RecognitionResponse) -> Void) -> BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>
+  func compileContext(_ request: Cobaltspeech_Cubic_CompileContextRequest, callOptions: CallOptions?) -> UnaryCall<Cobaltspeech_Cubic_CompileContextRequest, Cobaltspeech_Cubic_CompileContextResponse>
 }
 
 public final class Cobaltspeech_Cubic_CubicClient: GRPCClient, Cobaltspeech_Cubic_CubicClientProtocol {
@@ -105,6 +106,30 @@ public final class Cobaltspeech_Cubic_CubicClient: GRPCClient, Cobaltspeech_Cubi
                                                handler: handler)
   }
 
+  /// Compiles recognition context information, such as a specialized list of
+  /// words or phrases, into a compact, efficient form to send with subsequent
+  /// `Recognize` or `StreamingRecognize` requests to customize speech
+  /// recognition. For example, a list of contact names may be compiled in a
+  /// mobile app and sent with each recognition request so that the app user's
+  /// contact names are more likely to be recognized than arbitrary names. This
+  /// pre-compilation ensures that there is no added latency for the recognition
+  /// request. It is important to note that in order to compile context for a
+  /// model, that model has to support context in the first place, which can be
+  /// verified by checking its `ModelAttributes.ContextInfo` obtained via the
+  /// `ListModels` method. Also, the compiled data will be model specific; that
+  /// is, the data compiled for one model will generally not be usable with a
+  /// different model.
+  ///
+  /// - Parameters:
+  ///   - request: Request to send to CompileContext.
+  ///   - callOptions: Call options; `self.defaultCallOptions` is used if `nil`.
+  /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
+  public func compileContext(_ request: Cobaltspeech_Cubic_CompileContextRequest, callOptions: CallOptions? = nil) -> UnaryCall<Cobaltspeech_Cubic_CompileContextRequest, Cobaltspeech_Cubic_CompileContextResponse> {
+    return self.makeUnaryCall(path: "/cobaltspeech.cubic.Cubic/CompileContext",
+                              request: request,
+                              callOptions: callOptions ?? self.defaultCallOptions)
+  }
+
 }
 
 
@@ -116,4 +141,6 @@ extension Cobaltspeech_Cubic_ListModelsResponse: GRPCProtobufPayload {}
 extension Cobaltspeech_Cubic_RecognizeRequest: GRPCProtobufPayload {}
 extension Cobaltspeech_Cubic_RecognitionResponse: GRPCProtobufPayload {}
 extension Cobaltspeech_Cubic_StreamingRecognizeRequest: GRPCProtobufPayload {}
+extension Cobaltspeech_Cubic_CompileContextRequest: GRPCProtobufPayload {}
+extension Cobaltspeech_Cubic_CompileContextResponse: GRPCProtobufPayload {}
 
