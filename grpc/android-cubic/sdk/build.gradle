@@ -4,12 +4,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.google.protobuf'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.tumarsal'
 android {
     preBuild.dependsOn initProtoFiles, downloadGoogleApi, downloadGoogleProto
 
     compileSdkVersion 29
-
 
     defaultConfig {
         minSdkVersion 16
@@ -21,7 +19,6 @@ android {
                 proto {
                     srcDir 'src/main/protobuf'
                     srcDir 'src/main/protocolbuffers'
-
                     include '**/*.protodevel'
                 }
             }
@@ -61,7 +58,6 @@ protobuf {
 }
 dependencies {
     implementation 'javax.annotation:javax.annotation-api:1.2'
-
     implementation 'io.grpc:grpc-protobuf-lite:1.25.0'
     implementation 'io.grpc:grpc-okhttp:1.24.0'
     implementation 'io.grpc:grpc-stub:1.24.0'

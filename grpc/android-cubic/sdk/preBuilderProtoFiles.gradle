@@ -6,6 +6,7 @@ task downloadGoogleApi(type: Download) {
     dest 'src/main/proto/google/api'
     onlyIfModified true
 }
+
 task downloadGoogleProto(type: Download) {
     src([
             'https://raw.githubusercontent.com/protocolbuffers/protobuf/master/src/google/protobuf/descriptor.proto',
@@ -15,8 +16,6 @@ task downloadGoogleProto(type: Download) {
     dest 'src/main/proto/google/protobuf'
     onlyIfModified true
 }
-
-
 
 task initProtoFiles() {
     mkdir('src/main/proto')
