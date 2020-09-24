@@ -1,4 +1,4 @@
-baseURL = "https://sdk-cubic.onrender.com/"
+baseURL = "https://sdk-cubic.onrender.com"
 
 languageCode = "en-us"
 DefaultContentLanguage = "en"
