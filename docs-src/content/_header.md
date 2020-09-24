@@ -1,3 +1,3 @@
-![Cobalt's SDK Documentation](images/logo-white.png)
+![Cobalt's SDK Documentation](/images/logo-white.png)
 
-Cubic SDK -- Cobalt Hosted on Render
+Cubic SDK -- Cobalt (modified)
