@@ -3,64 +3,64 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/getting-started/</loc>
+    <loc>/getting-started/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/</loc>
+    <loc>/using-cubic-sdk/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/protobuf/</loc>
+    <loc>/protobuf/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/installation/</loc>
+    <loc>/using-cubic-sdk/installation/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/connecting/</loc>
+    <loc>/using-cubic-sdk/connecting/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/recognize/</loc>
+    <loc>/using-cubic-sdk/recognize/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/streaming/</loc>
+    <loc>/using-cubic-sdk/streaming/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/recognition-context/</loc>
+    <loc>/using-cubic-sdk/recognition-context/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/client-configs/</loc>
+    <loc>/using-cubic-sdk/client-configs/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/android/</loc>
+    <loc>/using-cubic-sdk/android/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/protobuf/autogen-doc-cubic-proto/</loc>
+    <loc>/protobuf/autogen-doc-cubic-proto/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/_header/</loc>
+    <loc>/_header/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/categories/</loc>
+    <loc>/categories/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/</loc>
+    <loc>/</loc>
   </url>
   
   <url>
-    <loc>https://cobaltspeech.github.io/sdk-cubic/tags/</loc>
+    <loc>/tags/</loc>
   </url>
   
 </urlset>
