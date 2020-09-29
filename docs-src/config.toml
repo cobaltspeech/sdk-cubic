@@ -1,4 +1,4 @@
-baseURL = "https://cobaltspeech.github.io/sdk-cubic"
+relativeURLs = true
 
 languageCode = "en-us"
 DefaultContentLanguage = "en"

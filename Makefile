@@ -16,9 +16,6 @@ PY_GOOGLEAPIS_VERSION := 1.51.0
 
 SWIFT_GRPC_VERSION := 1.0.0-alpha.10
 
-# Be careful when updating hugo, as there are breaking changes.
-HUGO_VERSION := 0.69.0
-
 SHELL := /bin/bash
 
 TOP := $(shell pwd)
@@ -38,18 +35,13 @@ ifeq ($(SWIFT_BIN),)
 endif
 
 export PATH := ${DEPSBIN}:${DEPSGO}/bin:$(PATH)
-deps: deps-protoc deps-hugo deps-gendoc deps-gengo deps-gengateway deps-py deps-swift
+deps: deps-protoc deps-gendoc deps-gengo deps-gengateway deps-py deps-swift
 
 deps-protoc: ${DEPSBIN}/protoc
 ${DEPSBIN}/protoc:
 	cd ${DEPSBIN}/../ && wget \
 		"https://github.com/protocolbuffers/protobuf/releases/download/v$(PROTOC_VERSION)/protoc-$(PROTOC_VERSION)-linux-x86_64.zip" && \
 		unzip protoc-$(PROTOC_VERSION)-linux-x86_64.zip && rm -f protoc-$(PROTOC_VERSION)-linux-x86_64.zip
-
-deps-hugo: ${DEPSBIN}/hugo
-${DEPSBIN}/hugo:
-	cd ${DEPSBIN} && wget \
-		"https://github.com/gohugoio/hugo/releases/download/v$(HUGO_VERSION)/hugo_$(HUGO_VERSION)_Linux-64bit.tar.gz" -O - | tar xz hugo
 
 deps-gendoc: ${DEPSBIN}/protoc-gen-doc
 ${DEPSBIN}/protoc-gen-doc:
@@ -84,10 +76,7 @@ ${DEPSSWIFT}/.done:
  		cp protoc-gen-swift ${DEPSBIN}
 		touch $@
  
-gendoc: deps-hugo
-	@ pushd docs-src && ${DEPSBIN}/hugo -d ../docs && popd
-
-gen: deps gendoc
+gen: deps 
 	@ source ${DEPSVENV}/bin/activate && \
 		PROTOINC=${DEPSGO}/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v$(PROTOC_GEN_GRPC_GATEWAY_VERSION)/third_party/googleapis \
 		$(MAKE) -C grpc
