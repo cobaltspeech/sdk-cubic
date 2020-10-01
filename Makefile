@@ -12,6 +12,7 @@ PROTOC_GEN_GO_VERSION := 1.4.0
 PROTOC_GEN_GRPC_GATEWAY_VERSION := 1.14.4
 
 PY_GRPC_VERSION := 1.28.1
+PY_GRPCIO_VERSION := 1.31.0 # 1.32.0 uses boring SSL and some tls tests fail -- https://github.com/grpc/grpc/issues/24252
 PY_GOOGLEAPIS_VERSION := 1.51.0
 
 SWIFT_GRPC_VERSION := 1.0.0-alpha.10
@@ -61,7 +62,7 @@ ${DEPSGO}/bin/protoc-gen-grpc-gateway:
 deps-py: ${DEPSVENV}/.done
 ${DEPSVENV}/.done:
 	virtualenv -p python3 ${DEPSVENV}
-	source ${DEPSVENV}/bin/activate && pip install grpcio-tools==$(PY_GRPC_VERSION) googleapis-common-protos==$(PY_GOOGLEAPIS_VERSION) && deactivate
+	source ${DEPSVENV}/bin/activate && pip install grpcio==$(PY_GRPCIO_VERSION) grpcio-tools==$(PY_GRPC_VERSION) googleapis-common-protos==$(PY_GOOGLEAPIS_VERSION) && deactivate
 	touch $@
 
 deps-swift: ${DEPSSWIFT}/.done
