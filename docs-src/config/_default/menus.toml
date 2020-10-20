@@ -1,0 +1,66 @@
+[[shortcuts]]
+    identifier = "cubic-sdk"
+    name = "<i class='fa fa-assistive-listening-systems'></i> <label>Cubic (ASR) Documentation</label>"
+    url = "https://sdk-cubic.cobaltspeech.com/"
+    weight = 20
+
+[[shortcuts]]
+    identifier = "juzu-sdk"
+    name = "<i class='fa fa-group'></i> <label>Juzu (Diarization) Documentation</label>"
+    url = "https://cobaltspeech.github.io/sdk-juzu/"
+    weight = 40
+
+
+[[shortcuts]]
+    identifier = "diatheke-sdk"
+    name = "<i class='fa fa-comments'></i> <label>Diatheke (Dialogue) Documentation</label>"
+    url = "https://sdk-diatheke.cobaltspeech.com/"
+    weight = 60
+
+[[shortcuts]]
+    identifier = "luna-sdk"
+    name = "<i class='fa fa-bullhorn'></i> <label>Luna (TTS) Documentation</label>"
+    url = "https://cobaltspeech.github.io/sdk-luna/"
+    weight = 80
+
+
+[[shortcuts]]
+    pre = "<h4>Demos</h4>"
+    identifier = "cubic-demo"
+    name = "<i class='fa fa-assistive-listening-systems'></i> <label>Cubic Demo</label>"
+    url = "https://demo.cobaltspeech.com/cubic"
+    weight = 110
+
+[[shortcuts]]
+    identifier = "juzu-demo"
+    name = "<i class='fa fa-group'></i> <label>Juzu Demo</label>"
+    url = "https://demo-juzu.cobaltspeech.com/"
+    weight = 130
+
+
+[[shortcuts]]
+    identifier = "diatheke-demo"
+    name = "<i class='fa fa-comments'></i> <label>Diatheke Demo</label>"
+    url = "https://demo.cobaltspeech.com/diatheke"
+    weight = 150
+
+
+[[shortcuts]]
+    identifier = "luna-demo"
+    name = "<i class='fa fa-bullhorn'></i> <label>Luna Demo</label>"
+    url = "https://demo.cobaltspeech.com/luna"
+    weight = 170
+
+
+[[shortcuts]]
+    pre = "<h4>More</h4>"
+    name = "<i class='fa fa-github'></i> <label>Github repos</label>"
+    identifier = "gh"
+    url = "https://github.com/cobaltspeech/"
+    weight = 1000    
+
+[[shortcuts]]
+name = "<i class='fa fa-bookmark'></i> <label>Contact us</label>"
+identifier = "contactus"
+url = "https://www.cobaltspeech.com/contact"
+weight = 2000
