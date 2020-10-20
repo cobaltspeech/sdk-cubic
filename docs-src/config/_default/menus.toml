@@ -1,8 +1,8 @@
 [[shortcuts]]
     identifier = "cubic-sdk"
     name = "<i class='fa fa-assistive-listening-systems'></i> <label>Cubic (ASR) Documentation</label>"
-    url = "https://sdk-cubic.cobaltspeech.com/"
-    weight = 20
+    url = "/"
+    weight = -20
 
 [[shortcuts]]
     identifier = "juzu-sdk"
