@@ -6,7 +6,7 @@ weight = 1
 
 This section is meant to get you started using Cubic Server via a Docker image.
 
-It is not necessary to go through through these steps to call the demo server for evaluation purposes, only to run Cubic Server on premises.  The demo server can be found at https://demo-cubic.cobaltspeech.com.
+It is not necessary to go through through these steps to call the demo server for evaluation purposes, only to run Cubic Server on premises.  The demo server can be found at https://demo.cobaltspeech.com/cubic.
 
 {{% panel theme="default" header="Note" %}}
 Commercial use of the demo service is not permitted. This server is for testing and demonstration purposes only and is not guaranteed to support high availability or high volume. Data uploaded to the server may be stored for internal purposes.
