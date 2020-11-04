@@ -432,10 +432,16 @@ message RecognitionAlternative {
   // likelihood of the output being correct.
   double confidence = 2;
 
-  // A list of word-specific information for each recognized word.  This is
-  // available only if `enable_word_confidence` or `enable_word_time_offsets`
-  // was set to `true` in the `RecognitionConfig`.
+  // A list of word-specific information for each recognized word in the
+  // `transcript` field. This is available only if `enable_word_confidence` or
+  // `enable_word_time_offsets` was set to `true` in the `RecognitionConfig`.
   repeated WordInfo words = 3;
+
+  // A list of word-specific information for each recognized word in the
+  // `raw_transcript` field. This is available only if `enable_word_confidence`
+  // or `enable_word_time_offsets` was set to `true` _and_
+  // `enable_raw_transcript` is also set to `true` in the `RecognitionConfig`.
+  repeated WordInfo raw_words = 7;
 
   // Time offset relative to the beginning of audio received by the recognizer
   // and corresponding to the start of this utterance.
