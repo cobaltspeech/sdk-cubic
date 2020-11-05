@@ -684,10 +684,16 @@ public struct Cobaltspeech_Cubic_RecognitionAlternative {
   /// likelihood of the output being correct.
   public var confidence: Double = 0
 
-  /// A list of word-specific information for each recognized word.  This is
-  /// available only if `enable_word_confidence` or `enable_word_time_offsets`
-  /// was set to `true` in the `RecognitionConfig`.
+  /// A list of word-specific information for each recognized word in the
+  /// `transcript` field. This is available only if `enable_word_confidence` or
+  /// `enable_word_time_offsets` was set to `true` in the `RecognitionConfig`.
   public var words: [Cobaltspeech_Cubic_WordInfo] = []
+
+  /// A list of word-specific information for each recognized word in the
+  /// `raw_transcript` field. This is available only if `enable_word_confidence`
+  /// or `enable_word_time_offsets` was set to `true` _and_
+  /// `enable_raw_transcript` is also set to `true` in the `RecognitionConfig`.
+  public var rawWords: [Cobaltspeech_Cubic_WordInfo] = []
 
   /// Time offset relative to the beginning of audio received by the recognizer
   /// and corresponding to the start of this utterance.
@@ -1509,6 +1515,7 @@ extension Cobaltspeech_Cubic_RecognitionAlternative: SwiftProtobuf.Message, Swif
     6: .standard(proto: "raw_transcript"),
     2: .same(proto: "confidence"),
     3: .same(proto: "words"),
+    7: .standard(proto: "raw_words"),
     4: .standard(proto: "start_time"),
     5: .same(proto: "duration"),
   ]
@@ -1522,6 +1529,7 @@ extension Cobaltspeech_Cubic_RecognitionAlternative: SwiftProtobuf.Message, Swif
       case 4: try decoder.decodeSingularMessageField(value: &self._startTime)
       case 5: try decoder.decodeSingularMessageField(value: &self._duration)
       case 6: try decoder.decodeSingularStringField(value: &self.rawTranscript)
+      case 7: try decoder.decodeRepeatedMessageField(value: &self.rawWords)
       default: break
       }
     }
@@ -1546,6 +1554,9 @@ extension Cobaltspeech_Cubic_RecognitionAlternative: SwiftProtobuf.Message, Swif
     if !self.rawTranscript.isEmpty {
       try visitor.visitSingularStringField(value: self.rawTranscript, fieldNumber: 6)
     }
+    if !self.rawWords.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.rawWords, fieldNumber: 7)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -1554,6 +1565,7 @@ extension Cobaltspeech_Cubic_RecognitionAlternative: SwiftProtobuf.Message, Swif
     if lhs.rawTranscript != rhs.rawTranscript {return false}
     if lhs.confidence != rhs.confidence {return false}
     if lhs.words != rhs.words {return false}
+    if lhs.rawWords != rhs.rawWords {return false}
     if lhs._startTime != rhs._startTime {return false}
     if lhs._duration != rhs._duration {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
