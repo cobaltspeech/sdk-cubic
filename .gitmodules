@@ -1,0 +1,3 @@
+[submodule "docdock"]
+	path = docdock
+	url = https://github.com/cobaltspeech/docdock.git
