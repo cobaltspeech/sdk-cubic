@@ -3,6 +3,7 @@ relativeURLs = true
 languageCode = "en-us"
 DefaultContentLanguage = "en"
 title = "Cubic SDK -- Cobalt"
+theme = "docdock"
 pygmentsCodeFences = true
 pygmentsStyle = "native"
 
@@ -41,8 +42,3 @@ weight = 20
 
 [markup.goldmark.renderer]
 unsafe= true
-
-[module]
-[[module.imports]]
-    path = "github.com/cobaltspeech/docdock"
-    # Project theme
