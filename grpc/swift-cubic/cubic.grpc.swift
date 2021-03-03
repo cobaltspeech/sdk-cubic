@@ -20,58 +20,83 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import Foundation
 import GRPC
 import NIO
-import NIOHTTP1
 import SwiftProtobuf
 
 
-/// Usage: instantiate Cobaltspeech_Cubic_CubicClient, then call methods of this protocol to make API calls.
-public protocol Cobaltspeech_Cubic_CubicClientProtocol {
-  func version(_ request: SwiftProtobuf.Google_Protobuf_Empty, callOptions: CallOptions?) -> UnaryCall<SwiftProtobuf.Google_Protobuf_Empty, Cobaltspeech_Cubic_VersionResponse>
-  func listModels(_ request: Cobaltspeech_Cubic_ListModelsRequest, callOptions: CallOptions?) -> UnaryCall<Cobaltspeech_Cubic_ListModelsRequest, Cobaltspeech_Cubic_ListModelsResponse>
-  func recognize(_ request: Cobaltspeech_Cubic_RecognizeRequest, callOptions: CallOptions?) -> UnaryCall<Cobaltspeech_Cubic_RecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>
-  func streamingRecognize(callOptions: CallOptions?, handler: @escaping (Cobaltspeech_Cubic_RecognitionResponse) -> Void) -> BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>
-  func compileContext(_ request: Cobaltspeech_Cubic_CompileContextRequest, callOptions: CallOptions?) -> UnaryCall<Cobaltspeech_Cubic_CompileContextRequest, Cobaltspeech_Cubic_CompileContextResponse>
+/// Service that implements the Cobalt Cubic Speech Recognition API
+///
+/// Usage: instantiate `Cobaltspeech_Cubic_CubicClient`, then call methods of this protocol to make API calls.
+public protocol Cobaltspeech_Cubic_CubicClientProtocol: GRPCClient {
+  var serviceName: String { get }
+  var interceptors: Cobaltspeech_Cubic_CubicClientInterceptorFactoryProtocol? { get }
+
+  func version(
+    _ request: SwiftProtobuf.Google_Protobuf_Empty,
+    callOptions: CallOptions?
+  ) -> UnaryCall<SwiftProtobuf.Google_Protobuf_Empty, Cobaltspeech_Cubic_VersionResponse>
+
+  func listModels(
+    _ request: Cobaltspeech_Cubic_ListModelsRequest,
+    callOptions: CallOptions?
+  ) -> UnaryCall<Cobaltspeech_Cubic_ListModelsRequest, Cobaltspeech_Cubic_ListModelsResponse>
+
+  func recognize(
+    _ request: Cobaltspeech_Cubic_RecognizeRequest,
+    callOptions: CallOptions?
+  ) -> UnaryCall<Cobaltspeech_Cubic_RecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>
+
+  func streamingRecognize(
+    callOptions: CallOptions?,
+    handler: @escaping (Cobaltspeech_Cubic_RecognitionResponse) -> Void
+  ) -> BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>
+
+  func compileContext(
+    _ request: Cobaltspeech_Cubic_CompileContextRequest,
+    callOptions: CallOptions?
+  ) -> UnaryCall<Cobaltspeech_Cubic_CompileContextRequest, Cobaltspeech_Cubic_CompileContextResponse>
 }
 
-public final class Cobaltspeech_Cubic_CubicClient: GRPCClient, Cobaltspeech_Cubic_CubicClientProtocol {
-  public let channel: GRPCChannel
-  public var defaultCallOptions: CallOptions
-
-  /// Creates a client for the cobaltspeech.cubic.Cubic service.
-  ///
-  /// - Parameters:
-  ///   - channel: `GRPCChannel` to the service host.
-  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
-  public init(channel: GRPCChannel, defaultCallOptions: CallOptions = CallOptions()) {
-    self.channel = channel
-    self.defaultCallOptions = defaultCallOptions
+extension Cobaltspeech_Cubic_CubicClientProtocol {
+  public var serviceName: String {
+    return "cobaltspeech.cubic.Cubic"
   }
 
   /// Queries the Version of the Server
   ///
   /// - Parameters:
   ///   - request: Request to send to Version.
-  ///   - callOptions: Call options; `self.defaultCallOptions` is used if `nil`.
+  ///   - callOptions: Call options.
   /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-  public func version(_ request: SwiftProtobuf.Google_Protobuf_Empty, callOptions: CallOptions? = nil) -> UnaryCall<SwiftProtobuf.Google_Protobuf_Empty, Cobaltspeech_Cubic_VersionResponse> {
-    return self.makeUnaryCall(path: "/cobaltspeech.cubic.Cubic/Version",
-                              request: request,
-                              callOptions: callOptions ?? self.defaultCallOptions)
+  public func version(
+    _ request: SwiftProtobuf.Google_Protobuf_Empty,
+    callOptions: CallOptions? = nil
+  ) -> UnaryCall<SwiftProtobuf.Google_Protobuf_Empty, Cobaltspeech_Cubic_VersionResponse> {
+    return self.makeUnaryCall(
+      path: "/cobaltspeech.cubic.Cubic/Version",
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeVersionInterceptors() ?? []
+    )
   }
 
   /// Retrieves a list of available speech recognition models
   ///
   /// - Parameters:
   ///   - request: Request to send to ListModels.
-  ///   - callOptions: Call options; `self.defaultCallOptions` is used if `nil`.
+  ///   - callOptions: Call options.
   /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-  public func listModels(_ request: Cobaltspeech_Cubic_ListModelsRequest, callOptions: CallOptions? = nil) -> UnaryCall<Cobaltspeech_Cubic_ListModelsRequest, Cobaltspeech_Cubic_ListModelsResponse> {
-    return self.makeUnaryCall(path: "/cobaltspeech.cubic.Cubic/ListModels",
-                              request: request,
-                              callOptions: callOptions ?? self.defaultCallOptions)
+  public func listModels(
+    _ request: Cobaltspeech_Cubic_ListModelsRequest,
+    callOptions: CallOptions? = nil
+  ) -> UnaryCall<Cobaltspeech_Cubic_ListModelsRequest, Cobaltspeech_Cubic_ListModelsResponse> {
+    return self.makeUnaryCall(
+      path: "/cobaltspeech.cubic.Cubic/ListModels",
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeListModelsInterceptors() ?? []
+    )
   }
 
   /// Performs synchronous speech recognition: receive results after all audio
@@ -81,12 +106,18 @@ public final class Cobaltspeech_Cubic_CubicClient: GRPCClient, Cobaltspeech_Cubi
   ///
   /// - Parameters:
   ///   - request: Request to send to Recognize.
-  ///   - callOptions: Call options; `self.defaultCallOptions` is used if `nil`.
+  ///   - callOptions: Call options.
   /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-  public func recognize(_ request: Cobaltspeech_Cubic_RecognizeRequest, callOptions: CallOptions? = nil) -> UnaryCall<Cobaltspeech_Cubic_RecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse> {
-    return self.makeUnaryCall(path: "/cobaltspeech.cubic.Cubic/Recognize",
-                              request: request,
-                              callOptions: callOptions ?? self.defaultCallOptions)
+  public func recognize(
+    _ request: Cobaltspeech_Cubic_RecognizeRequest,
+    callOptions: CallOptions? = nil
+  ) -> UnaryCall<Cobaltspeech_Cubic_RecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse> {
+    return self.makeUnaryCall(
+      path: "/cobaltspeech.cubic.Cubic/Recognize",
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeRecognizeInterceptors() ?? []
+    )
   }
 
   /// Performs bidirectional streaming speech recognition.  Receive results while
@@ -97,13 +128,19 @@ public final class Cobaltspeech_Cubic_CubicClient: GRPCClient, Cobaltspeech_Cubi
   /// to the server. The caller should send an `.end` after the final message has been sent.
   ///
   /// - Parameters:
-  ///   - callOptions: Call options; `self.defaultCallOptions` is used if `nil`.
+  ///   - callOptions: Call options.
   ///   - handler: A closure called when each response is received from the server.
   /// - Returns: A `ClientStreamingCall` with futures for the metadata and status.
-  public func streamingRecognize(callOptions: CallOptions? = nil, handler: @escaping (Cobaltspeech_Cubic_RecognitionResponse) -> Void) -> BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse> {
-    return self.makeBidirectionalStreamingCall(path: "/cobaltspeech.cubic.Cubic/StreamingRecognize",
-                                               callOptions: callOptions ?? self.defaultCallOptions,
-                                               handler: handler)
+  public func streamingRecognize(
+    callOptions: CallOptions? = nil,
+    handler: @escaping (Cobaltspeech_Cubic_RecognitionResponse) -> Void
+  ) -> BidirectionalStreamingCall<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse> {
+    return self.makeBidirectionalStreamingCall(
+      path: "/cobaltspeech.cubic.Cubic/StreamingRecognize",
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeStreamingRecognizeInterceptors() ?? [],
+      handler: handler
+    )
   }
 
   /// Compiles recognition context information, such as a specialized list of
@@ -122,25 +159,58 @@ public final class Cobaltspeech_Cubic_CubicClient: GRPCClient, Cobaltspeech_Cubi
   ///
   /// - Parameters:
   ///   - request: Request to send to CompileContext.
-  ///   - callOptions: Call options; `self.defaultCallOptions` is used if `nil`.
+  ///   - callOptions: Call options.
   /// - Returns: A `UnaryCall` with futures for the metadata, status and response.
-  public func compileContext(_ request: Cobaltspeech_Cubic_CompileContextRequest, callOptions: CallOptions? = nil) -> UnaryCall<Cobaltspeech_Cubic_CompileContextRequest, Cobaltspeech_Cubic_CompileContextResponse> {
-    return self.makeUnaryCall(path: "/cobaltspeech.cubic.Cubic/CompileContext",
-                              request: request,
-                              callOptions: callOptions ?? self.defaultCallOptions)
+  public func compileContext(
+    _ request: Cobaltspeech_Cubic_CompileContextRequest,
+    callOptions: CallOptions? = nil
+  ) -> UnaryCall<Cobaltspeech_Cubic_CompileContextRequest, Cobaltspeech_Cubic_CompileContextResponse> {
+    return self.makeUnaryCall(
+      path: "/cobaltspeech.cubic.Cubic/CompileContext",
+      request: request,
+      callOptions: callOptions ?? self.defaultCallOptions,
+      interceptors: self.interceptors?.makeCompileContextInterceptors() ?? []
+    )
   }
-
 }
 
+public protocol Cobaltspeech_Cubic_CubicClientInterceptorFactoryProtocol {
 
-// Provides conformance to `GRPCPayload` for request and response messages
-extension SwiftProtobuf.Google_Protobuf_Empty: GRPCProtobufPayload {}
-extension Cobaltspeech_Cubic_VersionResponse: GRPCProtobufPayload {}
-extension Cobaltspeech_Cubic_ListModelsRequest: GRPCProtobufPayload {}
-extension Cobaltspeech_Cubic_ListModelsResponse: GRPCProtobufPayload {}
-extension Cobaltspeech_Cubic_RecognizeRequest: GRPCProtobufPayload {}
-extension Cobaltspeech_Cubic_RecognitionResponse: GRPCProtobufPayload {}
-extension Cobaltspeech_Cubic_StreamingRecognizeRequest: GRPCProtobufPayload {}
-extension Cobaltspeech_Cubic_CompileContextRequest: GRPCProtobufPayload {}
-extension Cobaltspeech_Cubic_CompileContextResponse: GRPCProtobufPayload {}
+  /// - Returns: Interceptors to use when invoking 'version'.
+  func makeVersionInterceptors() -> [ClientInterceptor<SwiftProtobuf.Google_Protobuf_Empty, Cobaltspeech_Cubic_VersionResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'listModels'.
+  func makeListModelsInterceptors() -> [ClientInterceptor<Cobaltspeech_Cubic_ListModelsRequest, Cobaltspeech_Cubic_ListModelsResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'recognize'.
+  func makeRecognizeInterceptors() -> [ClientInterceptor<Cobaltspeech_Cubic_RecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'streamingRecognize'.
+  func makeStreamingRecognizeInterceptors() -> [ClientInterceptor<Cobaltspeech_Cubic_StreamingRecognizeRequest, Cobaltspeech_Cubic_RecognitionResponse>]
+
+  /// - Returns: Interceptors to use when invoking 'compileContext'.
+  func makeCompileContextInterceptors() -> [ClientInterceptor<Cobaltspeech_Cubic_CompileContextRequest, Cobaltspeech_Cubic_CompileContextResponse>]
+}
+
+public final class Cobaltspeech_Cubic_CubicClient: Cobaltspeech_Cubic_CubicClientProtocol {
+  public let channel: GRPCChannel
+  public var defaultCallOptions: CallOptions
+  public var interceptors: Cobaltspeech_Cubic_CubicClientInterceptorFactoryProtocol?
+
+  /// Creates a client for the cobaltspeech.cubic.Cubic service.
+  ///
+  /// - Parameters:
+  ///   - channel: `GRPCChannel` to the service host.
+  ///   - defaultCallOptions: Options to use for each service call if the user doesn't provide them.
+  ///   - interceptors: A factory providing interceptors for each RPC.
+  public init(
+    channel: GRPCChannel,
+    defaultCallOptions: CallOptions = CallOptions(),
+    interceptors: Cobaltspeech_Cubic_CubicClientInterceptorFactoryProtocol? = nil
+  ) {
+    self.channel = channel
+    self.defaultCallOptions = defaultCallOptions
+    self.interceptors = interceptors
+  }
+}
 
