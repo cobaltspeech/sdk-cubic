@@ -57,11 +57,10 @@ which depends on the other, and in order to make sure correct versions are used,
 we need to follow a few careful steps to release new versions on this
 repository.
 
-Step 1: Make sure all generated code and documentation is up to date.
+Step 1: Make sure all generated code is up to date.
 
 ```
 pushd grpc && make && popd
-pushd docs-src && hugo -d ../docs && popd
 git diff --quiet || echo "You have uncommitted changes.  Please get them merged in via a PR before updating versions."
 ```
 
