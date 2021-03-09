@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>Cubic-SDK</PackageId>
-    <Version>1.5.0</Version>
+    <Version>1.6.1</Version>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <Authors>Jacob Holloway</Authors>
     <Company>Cobalt Speech and Language, Inc.</Company>
