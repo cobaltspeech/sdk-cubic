@@ -75,7 +75,8 @@ service Cubic {
   // different model.
   rpc CompileContext(CompileContextRequest) returns (CompileContextResponse) {
     option (google.api.http) = {
-      get : "/api/compilecontext"
+      post: "/api/compilecontext"
+      body: "*"
     };
   }
 }
