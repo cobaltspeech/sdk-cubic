@@ -1,6 +1,6 @@
-# Copyright (2019) Cobalt Speech and Language, Inc.
+# Copyright (2021) Cobalt Speech and Language, Inc.
 
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 3.14.0)
 project(cubic_client)
 
 include(CobaltGRPC.cmake)
