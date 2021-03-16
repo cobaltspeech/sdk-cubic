@@ -34,7 +34,7 @@ dotnet add package Cubic-SDK
 ```
 
 ### Android
-Building for Android requires more steps, so it is described on the [Android Integrations](https://cobaltspeech.github.io/sdk-cubic/using-cubic-sdk/android/) page.
+Building for Android requires more steps, so it is described on the [Android Integrations](../android/) page.
 
 ### iOS
 
