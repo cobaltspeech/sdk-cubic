@@ -4,7 +4,8 @@
   <groupId>com.github.cobaltspeech</groupId>
   <artifactId>sdk-cubic</artifactId>
   <packaging>jar</packaging>
-  <version>${git.tag}-SNAPSHOT</version>
+  <version>${git.tag}</version>
+ <!-- <version>${git.tag}-SNAPSHOT</version>-->
   <name>java-cobaltspeech-cubic-sdk</name>
   <url>https://docs.cobaltspeech.com</url>
   
