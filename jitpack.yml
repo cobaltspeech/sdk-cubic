@@ -1,3 +1,4 @@
 install:
   - cp grpc/cubic.proto grpc/android-cubic/src/main/proto/cubic.proto
   - cd ./grpc/android-cubic && chmod +x gradlew && ./gradlew clean install -xtest
+  - mvn install -Dgit.tag=$(git tag --contains)
