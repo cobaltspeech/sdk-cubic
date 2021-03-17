@@ -32,8 +32,31 @@ NuGet allows 4 different ways to install.  Further instructions can be found on 
 ``` bash
 dotnet add package Cubic-SDK
 ```
-
-### Android
+### Java
+#### Maven 
+Add jitpack to repository list:
+``` bash
+<repositories>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository> 
+    ...
+  </repositories>
+```
+Add dependency:
+``` bash
+<dependencies>
+    ...
+    <dependency>
+        <groupId>com.github.cobaltspeech</groupId>
+        <artifactId>sdk-cubic</artifactId>
+        <version>v1.6.0-java</version>
+    </dependency>
+</dependencies>
+```
+#### Android
+##### From Souce code
 Building for Android requires more steps, so it is described on the [Android Integrations](../android/) page.
 
 ### iOS
