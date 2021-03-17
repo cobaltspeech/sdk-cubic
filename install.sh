@@ -1,7 +1,8 @@
 #!/bin/bash
 #tag=$(git tag --contains) && branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p' | sed 's#/#~#g') && restag=${tag:=$branch}
-for restag in $(git tag) 
+for restag in $(git tag --contains) 
 do
+    echo $restag
     if [[ "$restag" == *java ]]
     then
         mvn install
