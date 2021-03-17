@@ -3,4 +3,6 @@ install:
   - #cd ./grpc/android-cubic && chmod +x gradlew && ./gradlew clean install -xtest
   - #tag=$(git tag --contains) && branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p' | sed 's#/#~#g') && restag=${tag:=$branch} && mvn install -Dgit.tag=$restag 
   - mvn install
+  - ls
+  - echo PWD
   - cd $HOME/.m2/repository/com/github/cobaltspeech/sdk-cubic.jar/v1.6.0 && ls
