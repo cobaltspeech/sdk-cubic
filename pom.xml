@@ -7,10 +7,12 @@
   <version>${git.tag}</version>
   <name>java-cobaltspeech-cubic-sdk</name>
   <url>https://docs.cobaltspeech.com</url>
+  
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+  
   </properties>
   <build>
     <sourceDirectory>grpc/java-cubic</sourceDirectory>
