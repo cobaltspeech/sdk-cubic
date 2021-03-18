@@ -58,10 +58,26 @@ The Cubic SDK is published to the jitpack repository.  To build using Maven, add
 </dependencies>
 ```
 3. You should then be able to build your project with  `mvn package`
-#### Android
-#### From Source code
-Building for Android requires more steps, so it is described on the [Android Integrations](../android/) page.
 
+### Android
+#### Using Gradle and JitPack 
+To use the pre-built SDK libraries, add JitPack in your root build.gradle at the end of `repositories`:
+``` gradle
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+Then add sdk-cubic as a dependency:
+``` gradle
+dependencies {
+    implementation 'com.github.cobaltspeech:sdk-cubic:v1.6.0'
+}
+```
+#### From Source Code
+Building for Android from source requires more steps, so it is described on the [Android Integrations](../android/) page.
 ### iOS
 
 #### Swift Package Manager
