@@ -1,4 +1,4 @@
-// Copyright (2019) Cobalt Speech and Language, Inc.
+// Copyright (2021) Cobalt Speech and Language, Inc.
 
 #include "cubic_client.h"
 
@@ -8,13 +8,12 @@
 #include <grpcpp/channel.h>
 #include <grpcpp/client_context.h>
 #include <grpcpp/create_channel.h>
-#include <grpcpp/security/credentials.h>
 
 #include "cubic.grpc.pb.h"
 #include "cubic_exception.h"
 
 
-CubicClient::CubicClient(const std::string &url, bool secureConnection) :
+CubicClient::CubicClient(const std::string &url) :
     mCubicVersion(""),
     mServerVersion(""),
     mTimeout(30000)
@@ -24,12 +23,27 @@ CubicClient::CubicClient(const std::string &url, bool secureConnection) :
     // to generate the c++ files.
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-    // Setup credentials
-    std::shared_ptr<grpc::ChannelCredentials> creds;
-    if(secureConnection)
-        creds = grpc::SslCredentials(grpc::SslCredentialsOptions());
-    else
-        creds = grpc::InsecureChannelCredentials();
+    // Set up insecure credentials
+    auto creds = grpc::InsecureChannelCredentials();
+
+    // Create the channel and stub
+    std::unique_ptr<cobaltspeech::cubic::Cubic::Stub> tmpStub =
+            cobaltspeech::cubic::Cubic::NewStub(grpc::CreateChannel(url, creds));
+    mStub.swap(tmpStub);
+}
+
+CubicClient::CubicClient(const std::string &url, const grpc::SslCredentialsOptions &opts) :
+    mCubicVersion(""),
+    mServerVersion(""),
+    mTimeout(30000)
+{
+    // Quick runtime check to verify that the user has linked against
+    // a version of protobuf that is compatible with the version used
+    // to generate the c++ files.
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+    // Set up secure credentials
+    auto creds = grpc::SslCredentials(opts);
 
     // Create the channel and stub
     std::unique_ptr<cobaltspeech::cubic::Cubic::Stub> tmpStub =
