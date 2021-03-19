@@ -1,4 +1,4 @@
-// Copyright (2019) Cobalt Speech and Language, Inc.
+// Copyright (2021) Cobalt Speech and Language, Inc.
 
 #ifndef CUBIC_CLIENT_H
 #define CUBIC_CLIENT_H
@@ -6,6 +6,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+
+#include <grpcpp/security/credentials.h>
 
 #include "cubic.grpc.pb.h"
 #include "cubic.pb.h"
@@ -18,13 +20,23 @@
 class CubicClient
 {
 public:
-    //! Create a new client that is connected to a Cubic server instance
-    //! running at the given url. The given url should include the port number.
-    //! If secureConnection is true, the connection will use TLS/SSL to
-    //! communicate with the server. Otherwise the connection is insecure.
-    //! Note that the server must also be running with TLS/SSL for the
-    //! secure connection to succeed.
-    CubicClient(const std::string &url, bool secureConnection);
+    //! Create a new insecure cleint that is connected to a Cubic server
+    //! instance running at the given url. Note that for security reasons
+    //! it is not recommended to use an insecure connection in production.
+    CubicClient(const std::string &url);
+
+    //! Create a new secure client connected to a Cubic server instance
+    //! running at the given url. The connection will use TLS/SSL to
+    //! communicate with the server. For the connection to succeed, the server
+    //! must also be using a TLS/SSL connection.
+    //!
+    //! Note that on Windows and Mac, the gRPC library does not find the
+    //! root CA certificates automatically, in which case the `pem_root_certs`
+    //! field of the options should be set to contain the PEM encoded
+    //! contents of the root CA cert.
+    //! (see https://grpc.github.io/grpc/cpp/structgrpc_1_1_ssl_credentials_options.html)
+    CubicClient(const std::string &url, const grpc::SslCredentialsOptions &opts);
+
     ~CubicClient();
 
     //! Returns the version of Cubic used by the server.
