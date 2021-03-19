@@ -34,8 +34,10 @@ dotnet add package Cubic-SDK
 ```
 ### Java
 #### Maven 
-Add jitpack to repository list:
-``` bash
+The Cubic SDK is published to the jitpack repository.  To build using Maven, add the following to your project's pom.xml file:
+
+ 1. Add jitpack to repository list
+``` xml
 <repositories>
     <repository>
       <id>jitpack.io</id>
@@ -44,7 +46,7 @@ Add jitpack to repository list:
     ...
   </repositories>
 ```
-Add dependency:
+2.  Add Cubic as a dependency
 ``` bash
 <dependencies>
     ...
@@ -55,6 +57,7 @@ Add dependency:
     </dependency>
 </dependencies>
 ```
+3. You should then be able to build your project with  `mvn package`
 #### Android
 ##### From Souce code
 Building for Android requires more steps, so it is described on the [Android Integrations](../android/) page.
