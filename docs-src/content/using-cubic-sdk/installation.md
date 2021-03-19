@@ -53,7 +53,7 @@ The Cubic SDK is published to the jitpack repository.  To build using Maven, add
     <dependency>
         <groupId>com.github.cobaltspeech</groupId>
         <artifactId>sdk-cubic</artifactId>
-        <version>v1.6.0-java</version>
+        <version>v1.6.2-java</version>
     </dependency>
 </dependencies>
 ```
