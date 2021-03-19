@@ -47,7 +47,7 @@ The Cubic SDK is published to the jitpack repository.  To build using Maven, add
   </repositories>
 ```
 2.  Add Cubic as a dependency
-``` bash
+``` xml
 <dependencies>
     ...
     <dependency>
