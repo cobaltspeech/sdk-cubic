@@ -59,7 +59,7 @@ The Cubic SDK is published to the jitpack repository.  To build using Maven, add
 ```
 3. You should then be able to build your project with  `mvn package`
 #### Android
-##### From Souce code
+#### From Source code
 Building for Android requires more steps, so it is described on the [Android Integrations](../android/) page.
 
 ### iOS
