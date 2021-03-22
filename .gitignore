@@ -6,4 +6,8 @@ grpc/google
 publish/**
 .vscode/settings.json
 /.build
+#Jave ide files
 /target
+.classpath
+.project
+.settings
