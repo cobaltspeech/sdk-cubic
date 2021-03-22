@@ -81,15 +81,15 @@ NEW_VERSION="1.0.1"
 git checkout master
 git checkout -b version-update-v$NEW_VERSION
 
-sed -i 's|grpc/go-cubic v[0-9.]*|grpc/go-cubic v'$NEW_VERSION'|g' grpc/go-cubic/cubicpb/gw/go.mod
-sed -i 's|version='\''[0-9.]*'\''|version='\'$NEW_VERSION\''|g' grpc/py-cubic/setup.py
-sed -i 's|CubicVersion = "[0-9.]*"|CubicVersion = "'$NEW_VERSION'"|g' grpc/swift-cubic/Cubic.swift
+sed -i '' -e 's|grpc/go-cubic v[0-9.]*|grpc/go-cubic v'$NEW_VERSION'|g' grpc/go-cubic/cubicpb/gw/go.mod
+sed -i '' -e 's|version='\''[0-9.]*'\''|version='\'$NEW_VERSION\''|g' grpc/py-cubic/setup.py
+sed -i '' -e 's|CubicVersion = "[0-9.]*"|CubicVersion = "'$NEW_VERSION'"|g' grpc/swift-cubic/Cubic.swift
 sed -i '' -e 's|.upToNextMajor(from: "[0-9.]*")|.upToNextMajor(from: "'$NEW_VERSION'")|g' docs-src/content/using-cubic-sdk/installation.md
 sed -i '' -e 's|com.github.cobaltspeech:sdk-cubic:v[0-9.]*|com.github.cobaltspeech:sdk-cubic:v'$NEW_VERSION'|g' docs-src/content/using-cubic-sdk/installation.md
 sed -i '' -e 's|<version>v[0-9.]*-java</version>|<version>v'$NEW_VERSION'-java</version>|g' docs-src/content/using-cubic-sdk/installation.md
-sed -i 's|<Version>[0-9.]*</Version>|<Version>'$NEW_VERSION'</Version>|g' grpc/csharp-cubic/cubic.csproj
-sed -i 's|CSHARP_RELEASE_VERSION="[0-9.]*"|CSHARP_RELEASE_VERSION="'$NEW_VERSION'"|g' grpc/Makefile
-sed -i 's|<version>v[0-9.]*</version>|<version>v$NEW_VERSION</version>|' pom.xml
+sed -i '' -e 's|<Version>[0-9.]*</Version>|<Version>'$NEW_VERSION'</Version>|g' grpc/csharp-cubic/cubic.csproj
+sed -i '' -e 's|CSHARP_RELEASE_VERSION="[0-9.]*"|CSHARP_RELEASE_VERSION="'$NEW_VERSION'"|g' grpc/Makefile
+sed -i '' -e 's|<version>v[0-9.]*</version>|<version>v$NEW_VERSION</version>|' pom.xml
 
 git commit -m "Update version to v$NEW_VERSION"
 git push origin version-update-v$NEW_VERSION
