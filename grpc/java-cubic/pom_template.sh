@@ -1,5 +1,7 @@
+cat > pom.xml << EOL
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.cobaltspeech.sdk</groupId>
   <artifactId>sdk-cubic</artifactId>
@@ -13,9 +15,8 @@
     <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
   <build>
-    <sourceDirectory>grpc/java-cubic</sourceDirectory>
+    <sourceDirectory>main/java</sourceDirectory>
   </build>
-
   <dependencies>
     <dependency>
       <groupId>io.grpc</groupId>
@@ -44,3 +45,4 @@
     </dependency>
   </dependencies>
 </project>
+EOL

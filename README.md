@@ -104,6 +104,7 @@ git checkout master
 git pull origin master
 git tag -a v$NEW_VERSION -m ''
 git tag -a v$NEW_VERSION-java -m ''
+git tag -a v$NEW_VERSION-java-lite -m ''
 git tag -a grpc/go-cubic/v$NEW_VERSION -m ''
 git tag -a grpc/go-cubic/cubicpb/gw/v$NEW_VERSION -m ''
 git push origin --tags

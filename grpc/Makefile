@@ -1,6 +1,6 @@
 # Copyright (2019) Cobalt Speech and Language Inc.
 
-.PHONY: all go py cs swift cs_push android go-test py-test docs
+.PHONY: all go py cs swift cs_push android java-lite java go-test py-test docs
 
 all: docs go py swift
 
@@ -88,3 +88,12 @@ android:
 docs:
 	protoc -I . -I ${PROTOINC} --doc_out=${DOCS_OUTDIR} --doc_opt=doc.md.tmpl,autogen-doc-cubic-proto.md cubic.proto
 
+JAVA_GRPC_VERSION=1.21.0
+java:
+	(mkdir -p ./java-cubic/proto/ && cp cubic.proto ./java-cubic/proto/cubic.proto && cd java-cubic && \
+	JAVA_GRPC_VERSION=${JAVA_GRPC_VERSION} ./generator_pom_template.sh && mvn compile && ./pom_template.sh ) 
+java-lite:
+	(mkdir -p ./java-lite-cubic/proto/ && cp cubic.proto ./java-lite-cubic/proto/cubic.proto && \
+	cd java-lite-cubic && JAVA_GRPC_VERSION=${JAVA_GRPC_VERSION} ./generator_pom_template.sh && mvn compile && ./pom_template.sh ) 
+
+	

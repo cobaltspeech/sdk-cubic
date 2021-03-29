@@ -11,3 +11,9 @@ publish/**
 .classpath
 .project
 .settings
+/grpc/java-cubic/proto
+/grpc/java-cubic/pom.xml
+/grpc/java-cubic/target
+/grpc/java-lite-cubic/proto
+/grpc/java-lite-cubic/pom.xml
+/grpc/java-lite-cubic/target
