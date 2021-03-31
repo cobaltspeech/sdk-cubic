@@ -71,7 +71,8 @@ func NewClient(addr string, opts ...Option) (*Client, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), c.connectTimeout)
 	defer cancel()
 
-	conn, err := grpc.DialContext(ctx, addr, dopt, grpc.WithBlock())
+	conn, err := grpc.DialContext(ctx, addr, dopt, grpc.WithBlock(),
+		grpc.WithReturnConnectionError(), grpc.FailOnNonTempDialError(true)) // these are both experimental but very useful.
 	if err != nil {
 		return nil, fmt.Errorf("unable to create a client: %v", err)
 	}
