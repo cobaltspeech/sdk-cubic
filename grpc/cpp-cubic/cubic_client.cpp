@@ -12,11 +12,12 @@
 #include "cubic.grpc.pb.h"
 #include "cubic_exception.h"
 
+static unsigned int defaultTimeout = 30000;
 
 CubicClient::CubicClient(const std::string &url) :
     mCubicVersion(""),
     mServerVersion(""),
-    mTimeout(30000)
+    mTimeout(defaultTimeout)
 {
     // Quick runtime check to verify that the user has linked against
     // a version of protobuf that is compatible with the version used
@@ -35,7 +36,7 @@ CubicClient::CubicClient(const std::string &url) :
 CubicClient::CubicClient(const std::string &url, const grpc::SslCredentialsOptions &opts) :
     mCubicVersion(""),
     mServerVersion(""),
-    mTimeout(30000)
+    mTimeout(defaultTimeout)
 {
     // Quick runtime check to verify that the user has linked against
     // a version of protobuf that is compatible with the version used

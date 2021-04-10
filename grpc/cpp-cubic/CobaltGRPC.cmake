@@ -104,13 +104,13 @@ if(NOT COMMAND run_protoc)
 
         # Uniquify the include path list and format it properly
         list(REMOVE_DUPLICATES PROTOC_INCLUDE_LIST)
-        if(NOT WIN32)
-            string(REPLACE ";" ":" PROTOC_INCLUDES "${PROTOC_INCLUDE_LIST}")
-        else()
+        if(WIN32)
             # For windows, instead of providing a single delimited list,
             # we will just add the include flag for each path.
             string(REPLACE ";" " -I " PROTOC_INCLUDES "${PROTOC_INCLUDE_LIST}")
             separate_arguments(PROTOC_INCLUDES WINDOWS_COMMAND "${PROTOC_INCLUDES}")
+        else()
+            string(REPLACE ";" ":" PROTOC_INCLUDES "${PROTOC_INCLUDE_LIST}")
         endif()
 
         # To enable cross-compiling, we allow users to specify a native
