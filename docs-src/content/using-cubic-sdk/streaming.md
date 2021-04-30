@@ -111,6 +111,73 @@ for resp in client.StreamingRecognize(cfg, audio):
             print("\r{0}".format(result.alternatives[0].transcript), end="\n")
 {{< /tab >}}
 
+{{< tab "C++" "c++" >}}
+#include "cubic_client.h"
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <thread>
+
+namespace CubicPB = cobaltspeech::cubic;
+const std::string serverAddress = "localhost:2727";
+const std::string filename = "test.raw";
+
+// This client demonstrates using synchronous recognition.
+int main(int argc, char *argv[]) {
+    // Create the client (note this is an insecure connection,
+    // which is not recommended for production).
+    CubicClient client(serverAddress);
+
+    // Get the list of available models
+    std::vector<CubicModel> models = client.listModels();
+    std::cout << "Available Models:" << std::endl;
+    for (const CubicModel &m : models) {
+        std::cout << "ID = " << m.id() << ", Name = " << m.name() << std::endl;
+    }
+
+    // Use the first model to set up the recognition config
+    auto modelID = models[0].id();
+    CubicPB::RecognitionConfig cfg;
+    cfg.set_model_id(modelID);
+    cfg.set_audio_encoding(CubicPB::RecognitionConfig::RAW_LINEAR16);
+
+    // Create the stream
+    auto stream = client.streamingRecognize(cfg);
+
+    // Push the audio on a separate thread
+    std::thread audioThread([&stream](){
+        // Open the file and push audio bytes
+        std::ifstream infile(filename);
+        std::streamsize buffSize = 8192;
+        char *buff = new char[buffSize];
+        while (infile.good()) {
+            infile.read(buff, buffSize);
+            stream.pushAudio(buff, infile.gcount());
+        }
+
+        // Let Cubic know that no more audio will be coming
+        stream.audioFinished();
+        delete[] buff;
+    });
+
+    // Print the results as they come
+    CubicPB::RecognitionResponse resp;
+    while (stream.receiveResults(&resp)) {
+        for (int i = 0; i < resp.results_size(); i++) {
+            CubicPB::RecognitionResult result = resp.results(i);
+            if (!result.is_partial()) {
+                std::cout << result.alternatives(0).transcript() << std::endl;
+            }
+        }
+    }
+
+    // Close the stream
+    audioThread.join();
+    stream.close();
+}
+{{< /tab >}}
+
 {{< tab "C#" "c#" >}}
 using System;
 using System.Collections.Generic;
@@ -512,6 +579,13 @@ audio.stop_stream()
 audio.close()
 {{< /tab >}}
 
+{{< tab "C++" "c++" >}}
+
+// For a complete C++ example, see the examples-cpp github repository:
+// https://github.com/cobaltspeech/examples-cpp
+
+{{< /tab >}}
+
 {{< tab "C#" "c#" >}}
 
 // We do not currently have example C# code for streaming from a microphone.
@@ -522,13 +596,6 @@ audio.close()
 //
 // For more on the `System.IO.Stream` class see:
 // https://docs.microsoft.com/en-us/dotnet/api/system.io.stream?view=netframework-4.8
-
-{{< /tab >}}
-
-{{< tab "C++" "c++" >}}
-
-// For a complete C++ example, see the examples-cpp github repository:
-// https://github.com/cobaltspeech/examples-cpp
 
 {{< /tab >}}
 

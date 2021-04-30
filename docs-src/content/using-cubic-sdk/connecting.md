@@ -65,6 +65,32 @@ print(resp)
 
 {{< /tab >}}
 
+{{< tab "C++" "c++" >}}
+#include <cubic_client.h>
+#include <iostream>
+
+int main(int argc, char* argv[])
+{
+  std::string serverAddress = "127.0.0.1:2727";
+
+  // Read or embed the digital certificate, and store
+  // in rootCert. Unlike other languages, in C++ there
+  // is nothing to do this automatically.
+  grpc::string rootCert;
+
+  // Set up SSL options for the secure connection.
+  grpc::SslCredentialsOptions sslOpts;
+  sslOpts.pem_root_certs = rootCert;
+
+  // Create the client with ssl options
+  CubicClient client(serverAddress, sslOpts);
+
+  std::cout << "cubicsvr version: " << client.serverVersion() << std::endl;
+
+  return 0;
+}
+{{< /tab >}}
+
 {{< tab "C#" "c#" >}}
 var creds = new Grpc.Core.SslCredentials();
 var channel = new Grpc.Core.Channel(serverAddr, creds);
@@ -122,6 +148,11 @@ client, err := cubic.NewClient(serverAddr, cubic.WithInsecure())
 client = cubic.Client(serverAddress, insecure=True)
 {{< /tab >}}
 
+{{< tab "C++" "c++" >}}
+std::string serverAddress = "127.0.0.1:2727";
+CubicClient client(serverAddress);
+{{< /tab >}}
+
 {{< tab "C#" "c#" >}}
 var creds = Grpc.Core.ChannelCredentials.Insecure;
 var channel = new Grpc.Core.Channel(serverAddr, creds);
@@ -172,6 +203,22 @@ client, err := cubic.NewClient(serverAddr,  cubic.WithClientCert(certPem, keyPem
 
 {{< tab "Python" "python" >}}
 client = cubic.Client(serverAddress, clientCertificate=certPem, clientKey=keyPem)
+{{< /tab >}}
+
+{{< tab "C++" "c++" >}}
+std::string serverAddress = "127.0.0.1:2727";
+
+// Read or embed the bytes of the client certificate and key
+grpc::string certPem, keyPem;
+
+// Set up the SSL options.
+// See https://grpc.github.io/grpc/cpp/structgrpc_1_1_ssl_credentials_options.html
+// for more details about the SSL options struct.
+grpc::SslCredentialsOptions sslOpts;
+sslOpts.pem_root_certs = certPem;
+sslOpts.pem_private_key = keyPem;
+
+CubicClient client(serverAddress, sslOpts);
 {{< /tab >}}
 
 {{< tab "C#" "c#" >}}
