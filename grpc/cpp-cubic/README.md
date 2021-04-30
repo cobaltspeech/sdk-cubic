@@ -38,7 +38,25 @@ copy this repository into your project and add the line
 add_subdirectory(sdk-cubic/grpc/cpp-cubic)
 ```
 
-to your project's CMakeLists.txt.
+to your project's CMakeLists.txt. You may also include it
+using the [FetchContent module](https://cmake.org/cmake/help/latest/module/FetchContent.html),
+which has the added convenience of downloading a specific
+version of the SDK from Github automatically.
+
+```cmake
+# Fetch Cubic SDK code and add to the project
+include(FetchContent)
+FetchContent_Declare(
+    sdk_cubic
+    GIT_REPOSITORY https://github.com/cobaltspeech/sdk-cubic.git
+    GIT_TAG v1.6.2
+)
+FetchContent_Populate(sdk_cubic)
+
+# The SDK's CMake file is not at the top-level directory of the repo,
+# so we must tell CMake explicitly which subdirectory to add.
+add_subdirectory(${sdk_cubic_SOURCE_DIR}/grpc/cpp-cubic ${sdk_cubic_BINARY_DIR})
+```
 
 ## Build without CMake
 When building without CMake, you must manually build and install 

@@ -22,6 +22,16 @@ The Python SDK depends on Python >= 3.5. You may use pip to perform a system-wid
 pip install --upgrade pip
 pip install "git+https://github.com/cobaltspeech/sdk-cubic#egg=cobalt-cubic&subdirectory=grpc/py-cubic"
 ```
+### C++
+To use the Cubic SDK in a C++ project, you must first download the SDK from Github.
+```bash
+git clone https://github.com/cobaltspeech/sdk-cubic.git
+```
+
+To simplify the build process, the C++ SDK uses [CMake](http://www.cmake.org),
+although it is possible to use a different build system with some additional
+work. Details for building and including the SDK in a C++ project are described
+in detail in [this README file](https://github.com/cobaltspeech/sdk-cubic/blob/master/grpc/cpp-cubic/README.md).
 
 ### C# 
 
