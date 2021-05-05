@@ -209,7 +209,7 @@ int main(int argc, char *argv[]) {
     // which is not recommended for production).
     CubicClient client(serverAddress);
 
-    // Get the list of available models
+    // Get the list of available models.
     std::vector<CubicModel> models = client.listModels();
     std::cout << "Available Models:" << std::endl;
     for (const CubicModel &m : models) {
@@ -231,12 +231,12 @@ int main(int argc, char *argv[]) {
         std::cout << std::endl;
     }
 
-    // Assuming the first model supports context
+    // Assuming the first model supports context.
     auto model = models[0];
 
     // Let's say this model has an allowed context token called
     // "airport_names" and we have a list of airport names that
-    // we ant to make sure the recognizer gets right. We compile
+    // we want to make sure the recognizer gets right. We compile
     // the list of names using the CompileContext() method, save
     // the compiled data and send it with subsequent recognize
     // requests to customize and improve the results.
@@ -266,10 +266,10 @@ int main(int argc, char *argv[]) {
 
     // The rest is the same as the usual streaming recognize request.
 
-    // Create the stream
+    // Create the stream.
     auto stream = client.streamingRecognize(cfg);
 
-    // Push the audio on a separate thread
+    // Push the audio on a separate thread.
     std::thread audioThread([&stream](){
         // Open the file and push audio bytes
         std::ifstream infile(filename);
@@ -280,12 +280,12 @@ int main(int argc, char *argv[]) {
             stream.pushAudio(buff, infile.gcount());
         }
 
-        // Let Cubic know that no more audio will be coming
+        // Let Cubic know that no more audio will be coming.
         stream.audioFinished();
         delete[] buff;
     });
 
-    // Print the results as they come
+    // Print the results as they come.
     CubicPB::RecognitionResponse resp;
     while (stream.receiveResults(&resp)) {
         for (int i = 0; i < resp.results_size(); i++) {
@@ -296,7 +296,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Close the stream
+    // Close the stream.
     audioThread.join();
     stream.close();
 }
