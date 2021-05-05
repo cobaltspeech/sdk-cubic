@@ -110,25 +110,25 @@ for result in resp.results:
 namespace CubicPB = cobaltspeech::cubic;
 
 const std::string serverAddress = "localhost:2727";
-const std::string filename = "test.wav";
+const std::string filename = "test.raw";
 
 int main(int argc, char *argv[]) {
     CubicClient client(serverAddress);
 
-    // Get the list of available models
+    // Get the list of available models.
     std::vector<CubicModel> models = client.listModels();
     std::cout << "Available Models:" << std::endl;
     for (const CubicModel &m : models) {
         std::cout << "ID = " << m.id() << ", Name = " << m.name() << std::endl;
     }
 
-    // Use the first model to set up the recognition config
+    // Use the first model to set up the recognition config.
     auto modelID = models[0].id();
     CubicPB::RecognitionConfig cfg;
     cfg.set_model_id(modelID);
-    cfg.set_audio_encoding(CubicPB::RecognitionConfig::WAV);
+    cfg.set_audio_encoding(CubicPB::RecognitionConfig::RAW_LINEAR16);
 
-    // Read the entire audio file
+    // Read the entire audio file.
     std::ifstream infile(filename);
     std::string data( (std::istreambuf_iterator<char>(infile)),
                       (std::istreambuf_iterator<char>()) );
@@ -136,7 +136,7 @@ int main(int argc, char *argv[]) {
     // Send the recognition request.
     CubicPB::RecognitionResponse resp = client.recognize(cfg, data.c_str(), data.length());
 
-    // Print the results
+    // Print the results.
     for (int i = 0; i < resp.results_size(); i++) {
         CubicPB::RecognitionResult result = resp.results(i);
         if (!result.is_partial()) {

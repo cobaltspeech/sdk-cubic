@@ -121,7 +121,7 @@ for resp in client.StreamingRecognize(cfg, audio):
 
 namespace CubicPB = cobaltspeech::cubic;
 const std::string serverAddress = "localhost:2727";
-const std::string filename = "test.raw";
+const std::string filename = "test.wav";
 
 // This client demonstrates using synchronous recognition.
 int main(int argc, char *argv[]) {
@@ -129,23 +129,23 @@ int main(int argc, char *argv[]) {
     // which is not recommended for production).
     CubicClient client(serverAddress);
 
-    // Get the list of available models
+    // Get the list of available models.
     std::vector<CubicModel> models = client.listModels();
     std::cout << "Available Models:" << std::endl;
     for (const CubicModel &m : models) {
         std::cout << "ID = " << m.id() << ", Name = " << m.name() << std::endl;
     }
 
-    // Use the first model to set up the recognition config
+    // Use the first model to set up the recognition config.
     auto modelID = models[0].id();
     CubicPB::RecognitionConfig cfg;
     cfg.set_model_id(modelID);
-    cfg.set_audio_encoding(CubicPB::RecognitionConfig::RAW_LINEAR16);
+    cfg.set_audio_encoding(CubicPB::RecognitionConfig::WAV);
 
-    // Create the stream
+    // Create the stream.
     auto stream = client.streamingRecognize(cfg);
 
-    // Push the audio on a separate thread
+    // Push the audio on a separate thread.
     std::thread audioThread([&stream](){
         // Open the file and push audio bytes
         std::ifstream infile(filename);
@@ -156,12 +156,12 @@ int main(int argc, char *argv[]) {
             stream.pushAudio(buff, infile.gcount());
         }
 
-        // Let Cubic know that no more audio will be coming
+        // Let Cubic know that no more audio will be coming.
         stream.audioFinished();
         delete[] buff;
     });
 
-    // Print the results as they come
+    // Print the results as they come.
     CubicPB::RecognitionResponse resp;
     while (stream.receiveResults(&resp)) {
         for (int i = 0; i < resp.results_size(); i++) {
@@ -172,7 +172,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Close the stream
+    // Close the stream.
     audioThread.join();
     stream.close();
 }
