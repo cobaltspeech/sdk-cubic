@@ -450,6 +450,8 @@ the RAW_LINEAR16 encoding.
 | FLAC | 3 | FLAC data, sampled at a rate equal to or higher than the sample rate expected by the chosen Model. |
 | VOX8000 | 4 | VOX data (Dialogic ADPCM), sampled at 8 KHz. |
 | ULAW8000 | 5 | μ-law (8-bit) encoded RAW data, single channel, sampled at 8 KHz. |
+| ALAW8000 | 6 | A-law (8-bit) encoded RAW data, single channel, sampled at 8 KHz. |
+| OPUS | 7 | Opus (16-bit) encoded RAW data, sampled at a rate equal to or higher than the sample rate expected by the chosen Model. |
 
 
  <!-- end enums -->

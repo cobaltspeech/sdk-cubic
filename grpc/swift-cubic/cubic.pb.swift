@@ -388,6 +388,12 @@ public struct Cobaltspeech_Cubic_RecognitionConfig {
 
     /// μ-law (8-bit) encoded RAW data, single channel, sampled at 8 KHz.
     case ulaw8000 // = 5
+
+    /// A-law (8-bit) encoded RAW data, single channel, sampled at 8 KHz.
+    case alaw8000 // = 6
+
+    /// Opus (16-bit) encoded RAW data, sampled at a rate equal to or higher than the sample rate expected by the chosen Model.
+    case opus // = 7
     case UNRECOGNIZED(Int)
 
     public init() {
@@ -402,6 +408,8 @@ public struct Cobaltspeech_Cubic_RecognitionConfig {
       case 3: self = .flac
       case 4: self = .vox8000
       case 5: self = .ulaw8000
+      case 6: self = .alaw8000
+      case 7: self = .opus
       default: self = .UNRECOGNIZED(rawValue)
       }
     }
@@ -414,6 +422,8 @@ public struct Cobaltspeech_Cubic_RecognitionConfig {
       case .flac: return 3
       case .vox8000: return 4
       case .ulaw8000: return 5
+      case .alaw8000: return 6
+      case .opus: return 7
       case .UNRECOGNIZED(let i): return i
       }
     }
@@ -438,6 +448,8 @@ extension Cobaltspeech_Cubic_RecognitionConfig.Encoding: CaseIterable {
     .flac,
     .vox8000,
     .ulaw8000,
+    .alaw8000,
+    .opus,
   ]
 }
 
@@ -921,21 +933,29 @@ extension Cobaltspeech_Cubic_StreamingRecognizeRequest: SwiftProtobuf.Message, S
       switch fieldNumber {
       case 1: try {
         var v: Cobaltspeech_Cubic_RecognitionConfig?
+        var hadOneofValue = false
         if let current = self.request {
-          try decoder.handleConflictingOneOf()
+          hadOneofValue = true
           if case .config(let m) = current {v = m}
         }
         try decoder.decodeSingularMessageField(value: &v)
-        if let v = v {self.request = .config(v)}
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.request = .config(v)
+        }
       }()
       case 2: try {
         var v: Cobaltspeech_Cubic_RecognitionAudio?
+        var hadOneofValue = false
         if let current = self.request {
-          try decoder.handleConflictingOneOf()
+          hadOneofValue = true
           if case .audio(let m) = current {v = m}
         }
         try decoder.decodeSingularMessageField(value: &v)
-        if let v = v {self.request = .audio(v)}
+        if let v = v {
+          if hadOneofValue {try decoder.handleConflictingOneOf()}
+          self.request = .audio(v)
+        }
       }()
       default: break
       }
@@ -1239,6 +1259,8 @@ extension Cobaltspeech_Cubic_RecognitionConfig.Encoding: SwiftProtobuf._ProtoNam
     3: .same(proto: "FLAC"),
     4: .same(proto: "VOX8000"),
     5: .same(proto: "ULAW8000"),
+    6: .same(proto: "ALAW8000"),
+    7: .same(proto: "OPUS"),
   ]
 }
 

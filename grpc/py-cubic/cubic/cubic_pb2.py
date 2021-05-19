@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='cobaltspeech.cubic',
   syntax='proto3',
   serialized_options=b'Z\t.;cubicpb\252\002\022CobaltSpeech.Cubic',
-  serialized_pb=b'\n\x0b\x63ubic.proto\x12\x12\x63obaltspeech.cubic\x1a\x1cgoogle/api/annotations.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x13\n\x11ListModelsRequest\"~\n\x10RecognizeRequest\x12\x35\n\x06\x63onfig\x18\x01 \x01(\x0b\x32%.cobaltspeech.cubic.RecognitionConfig\x12\x33\n\x05\x61udio\x18\x02 \x01(\x0b\x32$.cobaltspeech.cubic.RecognitionAudio\"\x96\x01\n\x19StreamingRecognizeRequest\x12\x37\n\x06\x63onfig\x18\x01 \x01(\x0b\x32%.cobaltspeech.cubic.RecognitionConfigH\x00\x12\x35\n\x05\x61udio\x18\x02 \x01(\x0b\x32$.cobaltspeech.cubic.RecognitionAudioH\x00\x42\t\n\x07request\"l\n\x15\x43ompileContextRequest\x12\x10\n\x08model_id\x18\x01 \x01(\t\x12\r\n\x05token\x18\x02 \x01(\t\x12\x32\n\x07phrases\x18\x03 \x03(\x0b\x32!.cobaltspeech.cubic.ContextPhrase\"0\n\x0fVersionResponse\x12\r\n\x05\x63ubic\x18\x01 \x01(\t\x12\x0e\n\x06server\x18\x02 \x01(\t\"?\n\x12ListModelsResponse\x12)\n\x06models\x18\x01 \x03(\x0b\x32\x19.cobaltspeech.cubic.Model\"M\n\x13RecognitionResponse\x12\x36\n\x07results\x18\x01 \x03(\x0b\x32%.cobaltspeech.cubic.RecognitionResult\"N\n\x16\x43ompileContextResponse\x12\x34\n\x07\x63ontext\x18\x01 \x01(\x0b\x32#.cobaltspeech.cubic.CompiledContext\"\x82\x04\n\x11RecognitionConfig\x12\x10\n\x08model_id\x18\x01 \x01(\t\x12\x46\n\x0e\x61udio_encoding\x18\x02 \x01(\x0e\x32..cobaltspeech.cubic.RecognitionConfig.Encoding\x12/\n\x0cidle_timeout\x18\x03 \x01(\x0b\x32\x19.google.protobuf.Duration\x12 \n\x18\x65nable_word_time_offsets\x18\x04 \x01(\x08\x12\x1e\n\x16\x65nable_word_confidence\x18\x05 \x01(\x08\x12\x1d\n\x15\x65nable_raw_transcript\x18\x06 \x01(\x08\x12 \n\x18\x65nable_confusion_network\x18\x07 \x01(\x08\x12\x16\n\x0e\x61udio_channels\x18\x08 \x03(\r\x12\x39\n\x08metadata\x18\t \x01(\x0b\x32\'.cobaltspeech.cubic.RecognitionMetadata\x12\x37\n\x07\x63ontext\x18\n \x01(\x0b\x32&.cobaltspeech.cubic.RecognitionContext\"S\n\x08\x45ncoding\x12\x10\n\x0cRAW_LINEAR16\x10\x00\x12\x07\n\x03WAV\x10\x01\x12\x07\n\x03MP3\x10\x02\x12\x08\n\x04\x46LAC\x10\x03\x12\x0b\n\x07VOX8000\x10\x04\x12\x0c\n\x08ULAW8000\x10\x05\".\n\x13RecognitionMetadata\x12\x17\n\x0f\x63ustom_metadata\x18\x01 \x01(\t\"K\n\x12RecognitionContext\x12\x35\n\x08\x63ompiled\x18\x01 \x03(\x0b\x32#.cobaltspeech.cubic.CompiledContext\"\x1f\n\x0f\x43ompiledContext\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\",\n\rContextPhrase\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\r\n\x05\x62oost\x18\x02 \x01(\x02\" \n\x10RecognitionAudio\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\"Z\n\x05Model\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x37\n\nattributes\x18\x03 \x01(\x0b\x32#.cobaltspeech.cubic.ModelAttributes\"]\n\x0fModelAttributes\x12\x13\n\x0bsample_rate\x18\x01 \x01(\r\x12\x35\n\x0c\x63ontext_info\x18\x02 \x01(\x0b\x32\x1f.cobaltspeech.cubic.ContextInfo\"G\n\x0b\x43ontextInfo\x12\x18\n\x10supports_context\x18\x01 \x01(\x08\x12\x1e\n\x16\x61llowed_context_tokens\x18\x02 \x03(\t\"\xbf\x01\n\x11RecognitionResult\x12@\n\x0c\x61lternatives\x18\x01 \x03(\x0b\x32*.cobaltspeech.cubic.RecognitionAlternative\x12\x12\n\nis_partial\x18\x02 \x01(\x08\x12=\n\x04\x63net\x18\x03 \x01(\x0b\x32/.cobaltspeech.cubic.RecognitionConfusionNetwork\x12\x15\n\raudio_channel\x18\x04 \x01(\r\"\x92\x02\n\x16RecognitionAlternative\x12\x12\n\ntranscript\x18\x01 \x01(\t\x12\x16\n\x0eraw_transcript\x18\x06 \x01(\t\x12\x12\n\nconfidence\x18\x02 \x01(\x01\x12+\n\x05words\x18\x03 \x03(\x0b\x32\x1c.cobaltspeech.cubic.WordInfo\x12/\n\traw_words\x18\x07 \x03(\x0b\x32\x1c.cobaltspeech.cubic.WordInfo\x12-\n\nstart_time\x18\x04 \x01(\x0b\x32\x19.google.protobuf.Duration\x12+\n\x08\x64uration\x18\x05 \x01(\x0b\x32\x19.google.protobuf.Duration\"\x88\x01\n\x08WordInfo\x12\x0c\n\x04word\x18\x01 \x01(\t\x12\x12\n\nconfidence\x18\x02 \x01(\x01\x12-\n\nstart_time\x18\x03 \x01(\x0b\x32\x19.google.protobuf.Duration\x12+\n\x08\x64uration\x18\x04 \x01(\x0b\x32\x19.google.protobuf.Duration\"V\n\x1bRecognitionConfusionNetwork\x12\x37\n\x05links\x18\x01 \x03(\x0b\x32(.cobaltspeech.cubic.ConfusionNetworkLink\"\xa9\x01\n\x14\x43onfusionNetworkLink\x12-\n\nstart_time\x18\x01 \x01(\x0b\x32\x19.google.protobuf.Duration\x12+\n\x08\x64uration\x18\x02 \x01(\x0b\x32\x19.google.protobuf.Duration\x12\x35\n\x04\x61rcs\x18\x03 \x03(\x0b\x32\'.cobaltspeech.cubic.ConfusionNetworkArc\"7\n\x13\x43onfusionNetworkArc\x12\x0c\n\x04word\x18\x01 \x01(\t\x12\x12\n\nconfidence\x18\x02 \x01(\x01\x32\xe4\x04\n\x05\x43ubic\x12\\\n\x07Version\x12\x16.google.protobuf.Empty\x1a#.cobaltspeech.cubic.VersionResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\x0c/api/version\x12t\n\nListModels\x12%.cobaltspeech.cubic.ListModelsRequest\x1a&.cobaltspeech.cubic.ListModelsResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/api/listmodels\x12u\n\tRecognize\x12$.cobaltspeech.cubic.RecognizeRequest\x1a\'.cobaltspeech.cubic.RecognitionResponse\"\x19\x82\xd3\xe4\x93\x02\x13\"\x0e/api/recognize:\x01*\x12\x85\x01\n\x12StreamingRecognize\x12-.cobaltspeech.cubic.StreamingRecognizeRequest\x1a\'.cobaltspeech.cubic.RecognitionResponse\"\x13\x82\xd3\xe4\x93\x02\r\x12\x0b/api/stream(\x01\x30\x01\x12\x87\x01\n\x0e\x43ompileContext\x12).cobaltspeech.cubic.CompileContextRequest\x1a*.cobaltspeech.cubic.CompileContextResponse\"\x1e\x82\xd3\xe4\x93\x02\x18\"\x13/api/compilecontext:\x01*B Z\t.;cubicpb\xaa\x02\x12\x43obaltSpeech.Cubicb\x06proto3'
+  serialized_pb=b'\n\x0b\x63ubic.proto\x12\x12\x63obaltspeech.cubic\x1a\x1cgoogle/api/annotations.proto\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\"\x13\n\x11ListModelsRequest\"~\n\x10RecognizeRequest\x12\x35\n\x06\x63onfig\x18\x01 \x01(\x0b\x32%.cobaltspeech.cubic.RecognitionConfig\x12\x33\n\x05\x61udio\x18\x02 \x01(\x0b\x32$.cobaltspeech.cubic.RecognitionAudio\"\x96\x01\n\x19StreamingRecognizeRequest\x12\x37\n\x06\x63onfig\x18\x01 \x01(\x0b\x32%.cobaltspeech.cubic.RecognitionConfigH\x00\x12\x35\n\x05\x61udio\x18\x02 \x01(\x0b\x32$.cobaltspeech.cubic.RecognitionAudioH\x00\x42\t\n\x07request\"l\n\x15\x43ompileContextRequest\x12\x10\n\x08model_id\x18\x01 \x01(\t\x12\r\n\x05token\x18\x02 \x01(\t\x12\x32\n\x07phrases\x18\x03 \x03(\x0b\x32!.cobaltspeech.cubic.ContextPhrase\"0\n\x0fVersionResponse\x12\r\n\x05\x63ubic\x18\x01 \x01(\t\x12\x0e\n\x06server\x18\x02 \x01(\t\"?\n\x12ListModelsResponse\x12)\n\x06models\x18\x01 \x03(\x0b\x32\x19.cobaltspeech.cubic.Model\"M\n\x13RecognitionResponse\x12\x36\n\x07results\x18\x01 \x03(\x0b\x32%.cobaltspeech.cubic.RecognitionResult\"N\n\x16\x43ompileContextResponse\x12\x34\n\x07\x63ontext\x18\x01 \x01(\x0b\x32#.cobaltspeech.cubic.CompiledContext\"\x9a\x04\n\x11RecognitionConfig\x12\x10\n\x08model_id\x18\x01 \x01(\t\x12\x46\n\x0e\x61udio_encoding\x18\x02 \x01(\x0e\x32..cobaltspeech.cubic.RecognitionConfig.Encoding\x12/\n\x0cidle_timeout\x18\x03 \x01(\x0b\x32\x19.google.protobuf.Duration\x12 \n\x18\x65nable_word_time_offsets\x18\x04 \x01(\x08\x12\x1e\n\x16\x65nable_word_confidence\x18\x05 \x01(\x08\x12\x1d\n\x15\x65nable_raw_transcript\x18\x06 \x01(\x08\x12 \n\x18\x65nable_confusion_network\x18\x07 \x01(\x08\x12\x16\n\x0e\x61udio_channels\x18\x08 \x03(\r\x12\x39\n\x08metadata\x18\t \x01(\x0b\x32\'.cobaltspeech.cubic.RecognitionMetadata\x12\x37\n\x07\x63ontext\x18\n \x01(\x0b\x32&.cobaltspeech.cubic.RecognitionContext\"k\n\x08\x45ncoding\x12\x10\n\x0cRAW_LINEAR16\x10\x00\x12\x07\n\x03WAV\x10\x01\x12\x07\n\x03MP3\x10\x02\x12\x08\n\x04\x46LAC\x10\x03\x12\x0b\n\x07VOX8000\x10\x04\x12\x0c\n\x08ULAW8000\x10\x05\x12\x0c\n\x08\x41LAW8000\x10\x06\x12\x08\n\x04OPUS\x10\x07\".\n\x13RecognitionMetadata\x12\x17\n\x0f\x63ustom_metadata\x18\x01 \x01(\t\"K\n\x12RecognitionContext\x12\x35\n\x08\x63ompiled\x18\x01 \x03(\x0b\x32#.cobaltspeech.cubic.CompiledContext\"\x1f\n\x0f\x43ompiledContext\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\",\n\rContextPhrase\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\r\n\x05\x62oost\x18\x02 \x01(\x02\" \n\x10RecognitionAudio\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\"Z\n\x05Model\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x37\n\nattributes\x18\x03 \x01(\x0b\x32#.cobaltspeech.cubic.ModelAttributes\"]\n\x0fModelAttributes\x12\x13\n\x0bsample_rate\x18\x01 \x01(\r\x12\x35\n\x0c\x63ontext_info\x18\x02 \x01(\x0b\x32\x1f.cobaltspeech.cubic.ContextInfo\"G\n\x0b\x43ontextInfo\x12\x18\n\x10supports_context\x18\x01 \x01(\x08\x12\x1e\n\x16\x61llowed_context_tokens\x18\x02 \x03(\t\"\xbf\x01\n\x11RecognitionResult\x12@\n\x0c\x61lternatives\x18\x01 \x03(\x0b\x32*.cobaltspeech.cubic.RecognitionAlternative\x12\x12\n\nis_partial\x18\x02 \x01(\x08\x12=\n\x04\x63net\x18\x03 \x01(\x0b\x32/.cobaltspeech.cubic.RecognitionConfusionNetwork\x12\x15\n\raudio_channel\x18\x04 \x01(\r\"\x92\x02\n\x16RecognitionAlternative\x12\x12\n\ntranscript\x18\x01 \x01(\t\x12\x16\n\x0eraw_transcript\x18\x06 \x01(\t\x12\x12\n\nconfidence\x18\x02 \x01(\x01\x12+\n\x05words\x18\x03 \x03(\x0b\x32\x1c.cobaltspeech.cubic.WordInfo\x12/\n\traw_words\x18\x07 \x03(\x0b\x32\x1c.cobaltspeech.cubic.WordInfo\x12-\n\nstart_time\x18\x04 \x01(\x0b\x32\x19.google.protobuf.Duration\x12+\n\x08\x64uration\x18\x05 \x01(\x0b\x32\x19.google.protobuf.Duration\"\x88\x01\n\x08WordInfo\x12\x0c\n\x04word\x18\x01 \x01(\t\x12\x12\n\nconfidence\x18\x02 \x01(\x01\x12-\n\nstart_time\x18\x03 \x01(\x0b\x32\x19.google.protobuf.Duration\x12+\n\x08\x64uration\x18\x04 \x01(\x0b\x32\x19.google.protobuf.Duration\"V\n\x1bRecognitionConfusionNetwork\x12\x37\n\x05links\x18\x01 \x03(\x0b\x32(.cobaltspeech.cubic.ConfusionNetworkLink\"\xa9\x01\n\x14\x43onfusionNetworkLink\x12-\n\nstart_time\x18\x01 \x01(\x0b\x32\x19.google.protobuf.Duration\x12+\n\x08\x64uration\x18\x02 \x01(\x0b\x32\x19.google.protobuf.Duration\x12\x35\n\x04\x61rcs\x18\x03 \x03(\x0b\x32\'.cobaltspeech.cubic.ConfusionNetworkArc\"7\n\x13\x43onfusionNetworkArc\x12\x0c\n\x04word\x18\x01 \x01(\t\x12\x12\n\nconfidence\x18\x02 \x01(\x01\x32\xe4\x04\n\x05\x43ubic\x12\\\n\x07Version\x12\x16.google.protobuf.Empty\x1a#.cobaltspeech.cubic.VersionResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\x0c/api/version\x12t\n\nListModels\x12%.cobaltspeech.cubic.ListModelsRequest\x1a&.cobaltspeech.cubic.ListModelsResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/api/listmodels\x12u\n\tRecognize\x12$.cobaltspeech.cubic.RecognizeRequest\x1a\'.cobaltspeech.cubic.RecognitionResponse\"\x19\x82\xd3\xe4\x93\x02\x13\"\x0e/api/recognize:\x01*\x12\x85\x01\n\x12StreamingRecognize\x12-.cobaltspeech.cubic.StreamingRecognizeRequest\x1a\'.cobaltspeech.cubic.RecognitionResponse\"\x13\x82\xd3\xe4\x93\x02\r\x12\x0b/api/stream(\x01\x30\x01\x12\x87\x01\n\x0e\x43ompileContext\x12).cobaltspeech.cubic.CompileContextRequest\x1a*.cobaltspeech.cubic.CompileContextResponse\"\x1e\x82\xd3\xe4\x93\x02\x18\"\x13/api/compilecontext:\x01*B Z\t.;cubicpb\xaa\x02\x12\x43obaltSpeech.Cubicb\x06proto3'
   ,
   dependencies=[google_dot_api_dot_annotations__pb2.DESCRIPTOR,google_dot_protobuf_dot_duration__pb2.DESCRIPTOR,google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,])
 
@@ -57,11 +57,19 @@ _RECOGNITIONCONFIG_ENCODING = _descriptor.EnumDescriptor(
       name='ULAW8000', index=5, number=5,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ALAW8000', index=6, number=6,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OPUS', index=7, number=7,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=1244,
-  serialized_end=1327,
+  serialized_end=1351,
 )
 _sym_db.RegisterEnumDescriptor(_RECOGNITIONCONFIG_ENCODING)
 
@@ -436,7 +444,7 @@ _RECOGNITIONCONFIG = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=813,
-  serialized_end=1327,
+  serialized_end=1351,
 )
 
 
@@ -466,8 +474,8 @@ _RECOGNITIONMETADATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1329,
-  serialized_end=1375,
+  serialized_start=1353,
+  serialized_end=1399,
 )
 
 
@@ -497,8 +505,8 @@ _RECOGNITIONCONTEXT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1377,
-  serialized_end=1452,
+  serialized_start=1401,
+  serialized_end=1476,
 )
 
 
@@ -528,8 +536,8 @@ _COMPILEDCONTEXT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1454,
-  serialized_end=1485,
+  serialized_start=1478,
+  serialized_end=1509,
 )
 
 
@@ -566,8 +574,8 @@ _CONTEXTPHRASE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1487,
-  serialized_end=1531,
+  serialized_start=1511,
+  serialized_end=1555,
 )
 
 
@@ -597,8 +605,8 @@ _RECOGNITIONAUDIO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1533,
-  serialized_end=1565,
+  serialized_start=1557,
+  serialized_end=1589,
 )
 
 
@@ -642,8 +650,8 @@ _MODEL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1567,
-  serialized_end=1657,
+  serialized_start=1591,
+  serialized_end=1681,
 )
 
 
@@ -680,8 +688,8 @@ _MODELATTRIBUTES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1659,
-  serialized_end=1752,
+  serialized_start=1683,
+  serialized_end=1776,
 )
 
 
@@ -718,8 +726,8 @@ _CONTEXTINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1754,
-  serialized_end=1825,
+  serialized_start=1778,
+  serialized_end=1849,
 )
 
 
@@ -770,8 +778,8 @@ _RECOGNITIONRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1828,
-  serialized_end=2019,
+  serialized_start=1852,
+  serialized_end=2043,
 )
 
 
@@ -843,8 +851,8 @@ _RECOGNITIONALTERNATIVE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2022,
-  serialized_end=2296,
+  serialized_start=2046,
+  serialized_end=2320,
 )
 
 
@@ -895,8 +903,8 @@ _WORDINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2299,
-  serialized_end=2435,
+  serialized_start=2323,
+  serialized_end=2459,
 )
 
 
@@ -926,8 +934,8 @@ _RECOGNITIONCONFUSIONNETWORK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2437,
-  serialized_end=2523,
+  serialized_start=2461,
+  serialized_end=2547,
 )
 
 
@@ -971,8 +979,8 @@ _CONFUSIONNETWORKLINK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2526,
-  serialized_end=2695,
+  serialized_start=2550,
+  serialized_end=2719,
 )
 
 
@@ -1009,8 +1017,8 @@ _CONFUSIONNETWORKARC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2697,
-  serialized_end=2752,
+  serialized_start=2721,
+  serialized_end=2776,
 )
 
 _RECOGNIZEREQUEST.fields_by_name['config'].message_type = _RECOGNITIONCONFIG
@@ -1242,8 +1250,8 @@ _CUBIC = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=2755,
-  serialized_end=3367,
+  serialized_start=2779,
+  serialized_end=3391,
   methods=[
   _descriptor.MethodDescriptor(
     name='Version',
