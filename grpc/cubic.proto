@@ -201,6 +201,12 @@ message RecognitionConfig {
 
     // μ-law (8-bit) encoded RAW data, single channel, sampled at 8 KHz.
     ULAW8000 = 5;
+
+    // A-law (8-bit) encoded RAW data, single channel, sampled at 8 KHz.
+    ALAW8000 = 6;
+
+    // Opus (16-bit) encoded RAW data, sampled at a rate equal to or higher than the sample rate expected by the chosen Model.
+    OPUS = 7;
   }
 
   // Encoding of audio data sent/streamed through the `RecognitionAudio`
