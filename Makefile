@@ -76,7 +76,9 @@ ${DEPSSWIFT}/.done:
  		cp protoc-gen-grpc-swift ${DEPSBIN} && \
  		cp protoc-gen-swift ${DEPSBIN}
 		touch $@
- 
+deps-ts:
+	cd grpc/ts-cubic && npm i
+
 gen: deps 
 	@ source ${DEPSVENV}/bin/activate && \
 		PROTOINC=${DEPSGO}/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v$(PROTOC_GEN_GRPC_GATEWAY_VERSION)/third_party/googleapis \

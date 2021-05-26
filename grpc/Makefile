@@ -84,7 +84,9 @@ swift:
 android:
 	cp cubic.proto android-cubic/src/main/proto/cubic.proto
 	cd android-cubic && gradle wrapper && ./gradlew build
-
+ts:
+	mkdir -p ./ts-cubic/src/grpc
+	protoc -I . -I ${PROTOINC} --plugin=./ts-cubic/node_modules/.bin/protoc-gen-ts_proto --ts_proto_opt=outputClientImpl=grpc-web --ts_proto_out=./ts-cubic/src/grpc cubic.proto
 docs:
 	protoc -I . -I ${PROTOINC} --doc_out=${DOCS_OUTDIR} --doc_opt=doc.md.tmpl,autogen-doc-cubic-proto.md cubic.proto
 
