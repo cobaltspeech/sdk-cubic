@@ -4,7 +4,7 @@ from setuptools import setup
 setup(
     name='cobalt-cubic',
     python_requires='>=3.5.0',
-    version='1.6.1',
+    version='1.6.3',
     description='This client library is designed to support the Cobalt API for speech recognition with Cubic',
     author='Cobalt Speech and Language Inc.',
     maintainer_email='tech@cobaltspeech.com',
