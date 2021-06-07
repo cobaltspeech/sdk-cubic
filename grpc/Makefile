@@ -88,3 +88,13 @@ android:
 docs:
 	protoc -I . -I ${PROTOINC} --doc_out=${DOCS_OUTDIR} --doc_opt=doc.md.tmpl,autogen-doc-cubic-proto.md cubic.proto
 
+NODE_OUT_DIR="./node-cubic/src/grpc"
+node:
+	rm -rf ./node-cubic/src/grpc
+	mkdir -p ./node-cubic/src/grpc
+	protoc -I . -I ${PROTOINC} \
+				--plugin=./node-cubic/node_modules/.bin/protoc-gen-ts \
+				--js_out="import_style=commonjs,binary:$(NODE_OUT_DIR)" \
+				--ts_out="service=grpc-web:$(NODE_OUT_DIR)" \
+				${PROTOINC}/google/api/http.proto ${PROTOINC}/google/api/annotations.proto cubic.proto
+ 

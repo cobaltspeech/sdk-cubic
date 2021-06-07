@@ -551,4 +551,80 @@ class CubicExample {
 }
 {{< /tab >}}
 
+{{< tab "NodeJS" "js" >}}
+import {RecognitionAudio,
+        RecognitionConfig, 
+        ListModelsRequest, 
+        RecognizeRequest } from '@cobaltspeech/sdk-cubic';
+    const serverAddr = "127.0.0.1:2727"
+    let client =new CubicClient(serverAddr)
+let listRequest =new ListModelsRequest()
+client.listModels(listRequest,(err,response)=>{
+    if (err){
+        console.error(err)
+        return
+    }
+    let models = response.getModelsList()
+    for(let model of models){
+        console.log(`${model.getId()} ${model.getName()} ${model.getAttributes()}`)
+    }
+    if (models.length>0){
+        let firstModel = models[0]
+        let phrases = ["NARITA", "KUALA LUMPUR INTERNATIONAL", "ISTANBUL ATATURK", "LAGUARDIA"].map(a=>{
+            let ctx = new ContextPhrase()
+            ctx.setText(a)
+            return ctx
+        })
+
+        let contextToken = firstModel.getAttributes().getContextInfo().addAllowedContextTokens[0] // "airport_names"
+      
+        // sending request to server
+        let completeContext = new CompileContextRequest()
+        completeContext.setModelId(firstModel.getId())
+        completeContext.setPhrasesList(phrases)
+        completeContext.setToken(contextToken)
+
+        client.compileContext(completeContext,(err,response)=>{
+            if (err!=null) {
+                console.error(err)
+                return
+            }
+
+            let stream = client.streamingRecognize()
+            stream.on('data',(response)=>{
+                let results = response.getResultsList()
+                for (let result of results){
+                    let alternatives = result.getAlternativesList()
+                    if (alternatives.length>0){
+                        let words = alternatives[0].getWordsList()
+                        for (let word of words){
+                            console.log(word.getWord())
+                        }
+                    }
+                }
+            })
+
+            let config = new RecognitionConfig()
+            config.addAudioChannels(1)
+            config.setModelId('1');
+            let recContext =new RecognitionContext()
+            let completedContext = response.getContext()
+            recContext.setCompiledList([completedContext])
+            config.setContext()
+            let req = new StreamingRecognizeRequest()
+            req.setConfig(config)
+            stream.write(req)
+
+            for (let chain of audioChunks){
+                req = new StreamingRecognizeRequest()
+                let reqAudio =new RecognitionAudio()
+                reqAudio.setData(chain)
+                req.setAudio(reqAudio)
+                stream.write(req)
+            }
+        })
+    }
+})
+{{< /tab>}}
+
 {{< /tabs >}}

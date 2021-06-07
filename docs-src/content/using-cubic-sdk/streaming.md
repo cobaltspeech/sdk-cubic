@@ -382,6 +382,29 @@ class CubicExample {
 }
 {{< /tab >}}
 
+{{< tab "NodeJS" "js" >}}
+import {RecognitionAudio,
+        RecognitionConfig, 
+        ListModelsRequest, 
+        RecognizeRequest } from '@cobaltspeech/sdk-cubic';
+const serverAddr = "127.0.0.1:2727"
+let client =new CubicClient(serverAddr)
+
+let config = new RecognitionConfig()
+config.addAudioChannels(1)
+config.setModelId('1');
+let req = new StreamingRecognizeRequest()
+req.setConfig(config)
+stream.write(req)
+for (let chain of audioChunks){
+    req = new StreamingRecognizeRequest()
+    let reqAudio =new RecognitionAudio()
+    reqAudio.setData(chain)
+    req.setAudio(reqAudio)
+    stream.write(req)
+}
+{{< /tab >}}
+
 {{< /tabs >}}
 
 ### Streaming from microphone
@@ -699,6 +722,47 @@ public static void streamMicrophoneAudio() {
 // For a complete iOS example, see the `AudioRecorder class` in the examples-ios github repository:
 // https://github.com/cobaltspeech/examples-ios/blob/master/CubicExample/AudioRecorder.swift
 
+{{% /tab %}}
+
+{{< tab "NodeJS" "js" >}}
+    import { SpeechRecorder } from "speech-recorder";
+    import * as fs from 'fs';
+    import {RecognitionAudio, RecognitionConfig, StreamingRecognizeRequest,ListModelsRequest, RecognizeRequest } from '@cobaltspeech/sdk-cubic/grpc/cubic_pb';
+    import CubicClient from '@cobaltspeech/sdk-cubic'
+    const serverAddr = "127.0.0.1:2727"
+    let client =new CubicClient(serverAddr)
+    const recorder = new SpeechRecorder();
+    const writeStream = fs.createWriteStream("audio.raw");
+    let stream = client.streamingRecognize()
+    stream.on('data',(response)=>{
+        let results = response.getResultsList()
+        for (let result of results){
+            let alternatives = result.getAlternativesList()
+            if (alternatives.length>0){
+                let words = alternatives[0].getWordsList()
+                for (let word of words){
+                    console.log(word.getWord())
+                }
+            }
+        }
+    })
+
+    let config = new RecognitionConfig()
+    config.addAudioChannels(1)
+    config.setModelId('1');
+    let req = new StreamingRecognizeRequest()
+    req.setConfig(config)
+    stream.write(req)
+    recorder.start({
+        onAudio: (audio) => {
+            req = new StreamingRecognizeRequest()
+            let reqAudio =new RecognitionAudio()
+            reqAudio.setData(audio)
+            req.setAudio(reqAudio)
+            req.setAudio()
+            stream.write(req)
+        }
+    });
 {{% /tab %}}
 
 {{< /tabs >}}

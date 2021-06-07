@@ -1,0 +1,39 @@
+{
+  "name": "@cobaltspeech/sdk-cubic",
+  "version": "1.0.6",
+  "description": "",
+  "main": "dist/sdk-cubic.umd.js",
+  "module": "dist/sdk-cubic.es5.js",
+  "typings": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts && cp -r src/grpc dist/types/grpc",
+    "start": "rollup -c rollup.config.ts -w",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gen": "protoc -I . --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./src/grpc ../cubic.proto"
+  },
+  "keywords": [],
+  "author": "Cobalt Speech And Language, Inc.",
+  "license": "Apache",
+  "dependencies": {
+    "@improbable-eng/grpc-web": "^0.14.0",
+    "browser-headers": "^0.4.1",
+    "rxjs": "^6.6.0"
+  },
+  "devDependencies": {
+    "@types/google-protobuf": "^3.15.2",
+    "@types/jest": "^26.0.23",
+    "jest": "^27.0.4",
+    "lodash.camelcase": "^4.3.0",
+    "rollup": "^2.48.0",
+    "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "ts-protoc-gen": "^0.15.0",
+    "typescript": "^4.2.4"
+  }
+}

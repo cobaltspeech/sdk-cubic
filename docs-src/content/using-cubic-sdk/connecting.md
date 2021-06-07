@@ -126,7 +126,12 @@ class CubicConnection {
 
 }
 {{< /tab >}}
+{{< tab "NodeJS" "js" >}}
+    import CubicClient from '@cobaltspeech/sdk-cubic'
 
+    const serverAddr = "127.0.0.1:2727"
+    let client =new CubicClient(serverAddr)
+{{< /tab >}}
 {{< /tabs >}}
 
 ## Insecure Connection
@@ -176,7 +181,11 @@ CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(mCubicChannel);
 {{< tab "Swift/iOS" "swift" >}}
 let client = Client(host: serverAddress, port: serverPort, useTLS: false)
 {{< /tab >}}
-
+{{< tab "NodeJS" "js" >}}
+    import {grpc} from "@improbable-eng/grpc-web"
+    const myTransport = grpc.CrossBrowserHttpTransport({ withCredentials: true });
+    grpc.setDefaultTransport(myTransport);
+{{< /tab >}}
 {{< /tabs >}}
 
 ## Client Authentication
@@ -245,6 +254,12 @@ class CubicConnection {
     let client = Client(host: serverAddress, port: serverPort, tlsCertificateFileName: "root", tlsCertificateFormat: .pem)
 
 }
+
+{{< /tab >}}
+
+{{< tab "NodeJS" "js" >}}
+
+NOT SUPPORTING
 
 {{< /tab >}}
 

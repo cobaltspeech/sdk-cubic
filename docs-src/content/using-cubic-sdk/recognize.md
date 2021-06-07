@@ -290,4 +290,51 @@ class CubicExample {
 }
 {{< /tab >}}
 
+{{< tab "NodeJS" "js" >}}
+import {RecognitionAudio,
+        RecognitionConfig, 
+        ListModelsRequest, 
+        RecognizeRequest } from '@cobaltspeech/sdk-cubic';
+const serverAddr = "127.0.0.1:2727"
+let client =new CubicClient(serverAddr)
+let listRequest =new ListModelsRequest()
+client.listModels(listRequest,(err,response)=>{
+    if (err){
+        console.error(err)
+        return
+    }
+    let models = response.getModelsList()
+    for(let model of models){
+        console.log(`${model.getId()} ${model.getName()} ${model.getAttributes()}`)
+    }
+    if (models.length>0){
+        let firstModel = models[0]
+        let recRequest = new RecognizeRequest()
+        var reqConfig = new RecognitionConfig()
+        reqConfig.setAudioEncoding(0)
+        reqConfig.setModelId(firstModel.getId())
+        recRequest.setConfig(reqConfig)
+        let reqAudio =new RecognitionAudio()
+        reqAudio.setData("// audio data here //")
+        recRequest.setAudio(reqAudio)
+        client.recognize(recRequest,(err,response)=>{
+            if (err){
+                console.error(err)
+                return
+            }
+            let results = response.getResultsList()
+            for (let result of results){
+                let alternatives = result.getAlternativesList()
+                if (alternatives.length>0){
+                    let words = alternatives[0].getWordsList()
+                    for (let word of words){
+                        console.log(word.getWord())
+                    }
+                }
+            }
+        })
+    }
+})
+{{< /tab >}}
+
 {{< /tabs >}}

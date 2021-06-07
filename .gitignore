@@ -11,3 +11,6 @@ publish/**
 .classpath
 .project
 .settings
+grpc/py-cubic/dist
+grpc/py-cubic/build
+grpc/py-cubic/cobalt_cubic.egg-info
