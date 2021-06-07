@@ -97,15 +97,11 @@ node:
 				--js_out="import_style=commonjs,binary:$(NODE_OUT_DIR)" \
 				--ts_out="service=grpc-web:$(NODE_OUT_DIR)" \
 				cubic.proto
-# sox -t encoding - -r 16 -b 16 -L -e signed -t raw -R -D - remix 1
 
-# "", "-t", encoding, "-", // parse the specified encoding from stdin
-# 		"-r", fmt.Sprintf("%d", outputSampleRate), // output sample rate
-# 		"-b", "16", // output sample width (bits)
-# 		"-L", "-e", "signed", "-t", "raw", // output is raw signed little endian
+ts:
+	rm -rf ./ts-cubic/src/grpc
+	mkdir -p ./ts-cubic/src/grpc
+	protoc -I . -I ${PROTOINC} --plugin=./ts-cubic/node_modules/.bin/protoc-gen-ts_proto \
+							--ts_proto_opt=outputClientImpl=grpc-web \
+							--ts_proto_out=./ts-cubic/src/grpc cubic.proto
 
-# 		"-R", // use repeatable mode for output
-# 		"-D", // disable dithering
-# 		"-",  // write to stdout
-
-# 		"remix", fmt.Sprintf("%d", audiochan+1),
