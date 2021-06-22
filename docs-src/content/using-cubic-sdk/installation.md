@@ -101,3 +101,12 @@ dependencies: [
     .package(url: "git@github.com:cobaltspeech/sdk-cubic.git", .upToNextMajor(from: "1.6.3"))
 ]
 ```
+
+### NodeJS
+
+#### Node Package Manager
+
+```sh
+    npm install @cobaltspeech/sdk-cubic
+```
+

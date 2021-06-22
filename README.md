@@ -90,6 +90,7 @@ sed -i '' -e 's|<version>v[0-9.]*-java</version>|<version>v'$NEW_VERSION'-java</
 sed -i '' -e 's|<Version>[0-9.]*</Version>|<Version>'$NEW_VERSION'</Version>|g' grpc/csharp-cubic/cubic.csproj
 sed -i '' -e 's|CSHARP_RELEASE_VERSION="[0-9.]*"|CSHARP_RELEASE_VERSION="'$NEW_VERSION'"|g' grpc/Makefile
 sed -i '' -e 's|<version>v[0-9.]*</version>|<version>v$NEW_VERSION</version>|' pom.xml
+sed -i '' -e 's|"version": "[0-9.]*",|"version": "$NEW_VERSION",|' grpc/node-cubic/package.json 
 
 git commit -m "Update version to v$NEW_VERSION"
 git push origin version-update-v$NEW_VERSION

@@ -36,7 +36,7 @@ ifeq ($(SWIFT_BIN),)
 endif
 
 export PATH := ${DEPSBIN}:${DEPSGO}/bin:$(PATH)
-deps: deps-protoc deps-gendoc deps-gengo deps-gengateway deps-py deps-swift
+deps: deps-protoc deps-gendoc deps-gengo deps-gengateway deps-py deps-swift deps-node
 
 deps-protoc: ${DEPSBIN}/protoc
 ${DEPSBIN}/protoc:
@@ -76,7 +76,10 @@ ${DEPSSWIFT}/.done:
  		cp protoc-gen-grpc-swift ${DEPSBIN} && \
  		cp protoc-gen-swift ${DEPSBIN}
 		touch $@
- 
+
+deps-node:
+	cd grpc/node-cubic && npm i
+
 gen: deps 
 	@ source ${DEPSVENV}/bin/activate && \
 		PROTOINC=${DEPSGO}/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v$(PROTOC_GEN_GRPC_GATEWAY_VERSION)/third_party/googleapis \
