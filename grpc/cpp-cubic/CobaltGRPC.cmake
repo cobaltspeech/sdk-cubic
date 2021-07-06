@@ -68,11 +68,13 @@ function(run_protoc)
     if(protobuf_FOUND)
         set(PROTOC_INCLUDE_LIST "${PROTOBUF_INCLUDE_DIR}")
     else()
-        set(PROTOC_INCLUDE_LIST "${grpc_SOURCE_DIR}/third_party/protobuf/src")
+        set(PROTOC_INCLUDE_LIST 
+            "${grpc_SOURCE_DIR}/third_party/protobuf/src"
+            "${grpc_SOURCE_DIR}/third_party/googleapis")
     endif()
 
-    get_filename_component(DIATHEKE_PROTO_DIR "${diatheke_client_SOURCE_DIR}/.." ABSOLUTE)
-    list(APPEND PROTOC_INCLUDE_LIST "${DIATHEKE_PROTO_DIR}")
+    get_filename_component(CUBIC_PROTO_DIR "${cubic_client_SOURCE_DIR}/.." ABSOLUTE)
+    list(APPEND PROTOC_INCLUDE_LIST "${CUBIC_PROTO_DIR}")
 
     foreach(protofile ${RUN_PROTOC_PROTOS})
         get_filename_component(absolute_proto "${protofile}" ABSOLUTE)
