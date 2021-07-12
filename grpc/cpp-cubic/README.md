@@ -58,6 +58,20 @@ FetchContent_Populate(sdk_cubic)
 add_subdirectory(${sdk_cubic_SOURCE_DIR}/grpc/cpp-cubic ${sdk_cubic_BINARY_DIR})
 ```
 
+### Windows Build
+When building for Windows, we recommend running CMake in the Visual
+Studio [command line](https://docs.microsoft.com/en-us/visualstudio/ide/reference/command-prompt-powershell?view=vs-2019).
+The VS command line will automatically set several environment variables
+that will be useful to CMake in defining compilers and other options.
+You will also need to download and install the Netwide Assmbler from
+[here](https://www.nasm.us/). Make sure it is available to your `PATH`
+so that CMake can find it (or specify it manually in the CMake
+configuration).
+
+Also note that gRPC doesn't really support building shared libraries
+on Windows. If you try it, you will likely get build errors, similar to
+what is reported [here](https://github.com/grpc/grpc/issues/25311).
+
 ## Build without CMake
 When building without CMake, you must manually build and install 
 gRPC as [described here](https://grpc.io/docs/quickstart/cpp/).
