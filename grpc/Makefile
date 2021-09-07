@@ -85,6 +85,9 @@ android:
 	cp cubic.proto android-cubic/src/main/proto/cubic.proto
 	cd android-cubic && gradle wrapper && ./gradlew build
 
+rust:
+	protoc -I . -I ${PROTOINC} --rust_out ./rust ./cubic.proto
+	#protoc -I ~/go/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.14.4/third_party/googleapis -I .  --rust_out ./rust ./cubic.proto
+
 docs:
 	protoc -I . -I ${PROTOINC} --doc_out=${DOCS_OUTDIR} --doc_opt=doc.md.tmpl,autogen-doc-cubic-proto.md cubic.proto
-
