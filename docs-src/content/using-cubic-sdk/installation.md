@@ -63,7 +63,7 @@ The Cubic SDK is published to the jitpack repository.  To build using Maven, add
     <dependency>
         <groupId>com.github.cobaltspeech</groupId>
         <artifactId>sdk-cubic</artifactId>
-        <version>v1.6.3-java</version>
+        <version>v1.6.4-java</version>
     </dependency>
 </dependencies>
 ```
@@ -83,7 +83,7 @@ allprojects {
 Then add sdk-cubic as a dependency:
 ``` gradle
 dependencies {
-    implementation 'com.github.cobaltspeech:sdk-cubic:v1.6.3'
+    implementation 'com.github.cobaltspeech:sdk-cubic:v1.6.4'
 }
 ```
 #### From Source Code
@@ -98,6 +98,6 @@ Once you have your Swift package set up, adding swift-cubic as a dependency is a
 
 ```swift
 dependencies: [
-    .package(url: "git@github.com:cobaltspeech/sdk-cubic.git", .upToNextMajor(from: "1.6.3"))
+    .package(url: "git@github.com:cobaltspeech/sdk-cubic.git", .upToNextMajor(from: "1.6.4"))
 ]
 ```

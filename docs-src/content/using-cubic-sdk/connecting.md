@@ -235,14 +235,16 @@ Please see the Java section of https://grpc.io/docs/guides/auth/ for more detail
 
 {{< tab "Swift/iOS" "swift" >}}
 import Cubic
-import NIOSSL
 
 class CubicConnection {
 
     let serverAddress = "demo-cubic.cobaltspeech.com"
     let serverPort = 2727
 
-    let client = Client(host: serverAddress, port: serverPort, tlsCertificateFileName: "root", tlsCertificateFormat: .pem)
+    let client = Client(host: serverAddress,
+                        port: serverPort,
+                        clientCertificatePath: "path/to/client_certificate.pem",
+                        privateKeyPath: "path/to/private_key.pem")
 
 }
 
