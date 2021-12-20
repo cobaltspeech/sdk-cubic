@@ -62,7 +62,7 @@ py-test:
 ## C#
 ## https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-the-dotnet-cli
 ## You need to copy the PROTOINC files over to the ~/.nuget/packages/grpc.tools/1.22.0/build/native/include directory.
-CSHARP_RELEASE_VERSION="1.6.3"
+CSHARP_RELEASE_VERSION="1.6.4"
 NUGET_API_KEY="" # Must be set to push the nuget package.
 cs:
 	cd csharp-cubic/ && dotnet build ./cubic.csproj \

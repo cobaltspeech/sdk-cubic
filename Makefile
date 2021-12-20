@@ -15,7 +15,7 @@ PY_GRPC_VERSION := 1.28.1
 PY_GRPCIO_VERSION := 1.31.0 # 1.32.0 uses boring SSL and some tls tests fail -- https://github.com/grpc/grpc/issues/24252
 PY_GOOGLEAPIS_VERSION := 1.51.0
 
-SWIFT_GRPC_VERSION := 1.0.0
+SWIFT_GRPC_VERSION := 1.6.1
 
 SHELL := /bin/bash
 

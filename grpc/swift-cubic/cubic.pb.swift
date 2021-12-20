@@ -901,12 +901,16 @@ extension Cobaltspeech_Cubic_RecognizeRequest: SwiftProtobuf.Message, SwiftProto
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if let v = self._config {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._config {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
-    }
-    if let v = self._audio {
+    } }()
+    try { if let v = self._audio {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
-    }
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -964,8 +968,9 @@ extension Cobaltspeech_Cubic_StreamingRecognizeRequest: SwiftProtobuf.Message, S
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     // The use of inline closures is to circumvent an issue where the compiler
-    // allocates stack space for every case branch when no optimizations are
-    // enabled. https://github.com/apple/swift-protobuf/issues/1034
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     switch self.request {
     case .config?: try {
       guard case .config(let v)? = self.request else { preconditionFailure() }
@@ -1152,9 +1157,13 @@ extension Cobaltspeech_Cubic_CompileContextResponse: SwiftProtobuf.Message, Swif
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if let v = self._context {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._context {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
-    }
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -1202,15 +1211,19 @@ extension Cobaltspeech_Cubic_RecognitionConfig: SwiftProtobuf.Message, SwiftProt
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.modelID.isEmpty {
       try visitor.visitSingularStringField(value: self.modelID, fieldNumber: 1)
     }
     if self.audioEncoding != .rawLinear16 {
       try visitor.visitSingularEnumField(value: self.audioEncoding, fieldNumber: 2)
     }
-    if let v = self._idleTimeout {
+    try { if let v = self._idleTimeout {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
-    }
+    } }()
     if self.enableWordTimeOffsets != false {
       try visitor.visitSingularBoolField(value: self.enableWordTimeOffsets, fieldNumber: 4)
     }
@@ -1226,12 +1239,12 @@ extension Cobaltspeech_Cubic_RecognitionConfig: SwiftProtobuf.Message, SwiftProt
     if !self.audioChannels.isEmpty {
       try visitor.visitPackedUInt32Field(value: self.audioChannels, fieldNumber: 8)
     }
-    if let v = self._metadata {
+    try { if let v = self._metadata {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 9)
-    }
-    if let v = self._context {
+    } }()
+    try { if let v = self._context {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 10)
-    }
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -1453,15 +1466,19 @@ extension Cobaltspeech_Cubic_Model: SwiftProtobuf.Message, SwiftProtobuf._Messag
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.id.isEmpty {
       try visitor.visitSingularStringField(value: self.id, fieldNumber: 1)
     }
     if !self.name.isEmpty {
       try visitor.visitSingularStringField(value: self.name, fieldNumber: 2)
     }
-    if let v = self._attributes {
+    try { if let v = self._attributes {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
-    }
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -1495,12 +1512,16 @@ extension Cobaltspeech_Cubic_ModelAttributes: SwiftProtobuf.Message, SwiftProtob
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if self.sampleRate != 0 {
       try visitor.visitSingularUInt32Field(value: self.sampleRate, fieldNumber: 1)
     }
-    if let v = self._contextInfo {
+    try { if let v = self._contextInfo {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
-    }
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -1575,15 +1596,19 @@ extension Cobaltspeech_Cubic_RecognitionResult: SwiftProtobuf.Message, SwiftProt
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.alternatives.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.alternatives, fieldNumber: 1)
     }
     if self.isPartial != false {
       try visitor.visitSingularBoolField(value: self.isPartial, fieldNumber: 2)
     }
-    if let v = self._cnet {
+    try { if let v = self._cnet {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
-    }
+    } }()
     if self.audioChannel != 0 {
       try visitor.visitSingularUInt32Field(value: self.audioChannel, fieldNumber: 4)
     }
@@ -1631,6 +1656,10 @@ extension Cobaltspeech_Cubic_RecognitionAlternative: SwiftProtobuf.Message, Swif
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.transcript.isEmpty {
       try visitor.visitSingularStringField(value: self.transcript, fieldNumber: 1)
     }
@@ -1640,12 +1669,12 @@ extension Cobaltspeech_Cubic_RecognitionAlternative: SwiftProtobuf.Message, Swif
     if !self.words.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.words, fieldNumber: 3)
     }
-    if let v = self._startTime {
+    try { if let v = self._startTime {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
-    }
-    if let v = self._duration {
+    } }()
+    try { if let v = self._duration {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
-    }
+    } }()
     if !self.rawTranscript.isEmpty {
       try visitor.visitSingularStringField(value: self.rawTranscript, fieldNumber: 6)
     }
@@ -1693,18 +1722,22 @@ extension Cobaltspeech_Cubic_WordInfo: SwiftProtobuf.Message, SwiftProtobuf._Mes
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.word.isEmpty {
       try visitor.visitSingularStringField(value: self.word, fieldNumber: 1)
     }
     if self.confidence != 0 {
       try visitor.visitSingularDoubleField(value: self.confidence, fieldNumber: 2)
     }
-    if let v = self._startTime {
+    try { if let v = self._startTime {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
-    }
-    if let v = self._duration {
+    } }()
+    try { if let v = self._duration {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
-    }
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -1773,12 +1806,16 @@ extension Cobaltspeech_Cubic_ConfusionNetworkLink: SwiftProtobuf.Message, SwiftP
   }
 
   public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if let v = self._startTime {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    try { if let v = self._startTime {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
-    }
-    if let v = self._duration {
+    } }()
+    try { if let v = self._duration {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
-    }
+    } }()
     if !self.arcs.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.arcs, fieldNumber: 3)
     }
