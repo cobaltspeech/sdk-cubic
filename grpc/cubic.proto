@@ -17,8 +17,6 @@ syntax = "proto3";
 package cobaltspeech.cubic;
 
 import "google/api/annotations.proto";
-import "google/protobuf/duration.proto";
-import "google/protobuf/empty.proto";
 
 option go_package = ".;cubicpb";
 option csharp_namespace = "CobaltSpeech.Cubic";
@@ -26,75 +24,54 @@ option csharp_namespace = "CobaltSpeech.Cubic";
 // Service that implements the Cobalt Cubic Speech Recognition API
 service Cubic {
   // Queries the Version of the Server
-  rpc Version (google.protobuf.Empty) returns (VersionResponse) {
+  rpc Version(VersionRequest) returns (VersionResponse) {
     option (google.api.http) = {
-      get: "/api/version"
+      get : "/api/version"
     };
   }
-
 
   // Retrieves a list of available speech recognition models
-  rpc ListModels (ListModelsRequest) returns (ListModelsResponse) {
+  rpc ListModels(ListModelsRequest) returns (ListModelsResponse) {
     option (google.api.http) = {
-      get: "/api/listmodels"
-    };
-  }
-
-  // Performs synchronous speech recognition: receive results after all audio
-  // has been sent and processed.  It is expected that this request be typically
-  // used for short audio content: less than a minute long.  For longer content,
-  // the `StreamingRecognize` method should be preferred.
-  rpc Recognize(RecognizeRequest) returns (RecognitionResponse) {
-    option (google.api.http) = {
-      post: "/api/recognize"
-      body: "*"
+      get : "/api/listmodels"
     };
   }
 
   // Performs bidirectional streaming speech recognition.  Receive results while
   // sending audio.  This method is only available via GRPC and not via
   // HTTP+JSON. However, a web browser may use websockets to use this service.
-  rpc StreamingRecognize (stream StreamingRecognizeRequest) returns (stream RecognitionResponse) {
+  rpc StreamingRecognize(stream StreamingRecognizeRequest)
+      returns (stream RecognitionResponse) {
     option (google.api.http) = {
-      get: "/api/stream"
+      get : "/api/stream"
     };
   }
 
   // Compiles recognition context information, such as a specialized list of
   // words or phrases, into a compact, efficient form to send with subsequent
-  // `Recognize` or `StreamingRecognize` requests to customize speech
-  // recognition. For example, a list of contact names may be compiled in a
-  // mobile app and sent with each recognition request so that the app user's
-  // contact names are more likely to be recognized than arbitrary names. This
-  // pre-compilation ensures that there is no added latency for the recognition
-  // request. It is important to note that in order to compile context for a
-  // model, that model has to support context in the first place, which can be
-  // verified by checking its `ModelAttributes.ContextInfo` obtained via the
-  // `ListModels` method. Also, the compiled data will be model specific; that
-  // is, the data compiled for one model will generally not be usable with a
-  // different model.
+  // `StreamingRecognize` requests to customize speech recognition. For example,
+  // a list of contact names may be compiled in a mobile app and sent with each
+  // recognition request so that the app user's contact names are more likely to
+  // be recognized than arbitrary names. This pre-compilation ensures that there
+  // is no added latency for the recognition request. It is important to note
+  // that in order to compile context for a model, that model has to support
+  // context in the first place, which can be verified by checking its
+  // `ModelAttributes.ContextInfo` obtained via the `ListModels` method. Also,
+  // the compiled data will be model specific; that is, the data compiled for
+  // one model will generally not be usable with a different model.
   rpc CompileContext(CompileContextRequest) returns (CompileContextResponse) {
     option (google.api.http) = {
-      post: "/api/compilecontext"
-      body: "*"
+      post : "/api/compilecontext"
+      body : "*"
     };
   }
 }
 
+// The top-level message sent by the client for the `Version` method.
+message VersionRequest {}
+
 // The top-level message sent by the client for the `ListModels` method.
 message ListModelsRequest {}
-
-// The top-level message sent by the client for the `Recognize` method.  Both
-// the `RecognitionConfig` and `RecognitionAudio` fields are required.  The
-// entire audio data must be sent in one request.  If your audio data is larger,
-// please use the `StreamingRecognize` call..
-message RecognizeRequest {
-  // Provides configuration to create the recognizer.
-  RecognitionConfig config = 1;
-
-  // The audio data to be recognized
-  RecognitionAudio audio = 2;
-}
 
 // The top-level message sent by the client for the `StreamingRecognize`
 // request.  Multiple `StreamingRecognizeRequest` messages are sent. The first
@@ -107,7 +84,6 @@ message StreamingRecognizeRequest {
     RecognitionConfig config = 1;
     RecognitionAudio audio = 2;
   }
-
 }
 
 // The top-level message sent by the client for the `CompileContext` request. It
@@ -143,7 +119,6 @@ message VersionResponse {
   string server = 2;
 }
 
-
 // The message returned to the client by the `ListModels` method.
 message ListModelsResponse {
   // List of models available for use that match the request.
@@ -157,9 +132,7 @@ message ListModelsResponse {
 // individual channel will be chronological.  No such promise is made for the
 // ordering of results of different channels, as results are returned for each
 // channel individually as soon as they are ready.
-message RecognitionResponse {
-  repeated RecognitionResult results = 1;
-}
+message RecognitionResponse { repeated RecognitionResult results = 1; }
 
 // The message returned to the client by the `CompileContext` method.
 message CompileContextResponse {
@@ -175,72 +148,89 @@ message RecognitionConfig {
   // Unique identifier of the model to use, as obtained from a `Model` message.
   string model_id = 1;
 
-  // The encoding of the audio data to be sent for recognition.
+  // Format of audio data sent/streamed through the `RecognitionAudio` messages.
+  // For formats like WAV/MP3 that have headers, the headers are expected to be
+  // sent at the beginning of the stream, not in every `RecognitionAudio`
+  // message.
   //
-  // For best results, the audio source should be captured and transmitted using
-  // the RAW_LINEAR16 encoding.
-  enum Encoding {
-    // Raw (headerless) Uncompressed 16-bit signed little endian samples (linear
-    // PCM), single channel, sampled at the rate expected by the chosen `Model`.
-    RAW_LINEAR16 = 0;
-
-    // WAV (data with RIFF headers), with data sampled at a rate equal to or
-    // higher than the sample rate expected by the chosen Model.
-    WAV = 1;
-
-    // MP3 data, sampled at a rate equal to or higher than the sampling rate
-    // expected by the chosen Model.
-    MP3 = 2;
-
-    // FLAC data, sampled at a rate equal to or higher than the sample rate
-    // expected by the chosen Model.
-    FLAC = 3;
-
-    // VOX data (Dialogic ADPCM), sampled at 8 KHz.
-    VOX8000 = 4;
-
-    // μ-law (8-bit) encoded RAW data, single channel, sampled at 8 KHz.
-    ULAW8000 = 5;
-
-    // A-law (8-bit) encoded RAW data, single channel, sampled at 8 KHz.
-    ALAW8000 = 6;
-
-    // Opus (16-bit) encoded RAW data, sampled at a rate equal to or higher than the sample rate expected by the chosen Model.
-    OPUS = 7;
-  }
-
-  // Encoding of audio data sent/streamed through the `RecognitionAudio`
-  // messages.  For encodings like WAV/MP3 that have headers, the headers are
-  // expected to be sent at the beginning of the stream, not in every
-  // `RecognitionAudio` message.
-  //
-  // If not specified, the default encoding is RAW_LINEAR16.
+  // An error is returned if the audio format is not specified.
   //
   // Depending on how they are configured, server instances of this service may
-  // not support all the encodings enumerated above. They are always required to
-  // accept RAW_LINEAR16.  If any other `Encoding` is specified, and it is not
-  // available on the server being used, the recognition request will result in
-  // an appropriate error message.
-  Encoding audio_encoding = 2;
+  // not support all the formats provided in this API.
+  //
+  // For best results, use the RAW audio with Little-Endian SignedInteger PCM
+  // encoding of audio sampled at the same rate as the model you are using.
+  oneof audio_format {
+    AudioFormatRAW audio_format_raw = 2;
+    AudioFormatWithHeaders audio_format_with_headers = 3;
+  }
 
-  // Idle Timeout of the created Recognizer.  If no audio data is received by
-  // the recognizer for this duration, ongoing rpc calls will result in an
-  // error, the recognizer will be destroyed and thus more audio may not be sent
-  // to the same recognizer.  The server may impose a limit on the maximum idle
-  // timeout that can be specified, and if the value in this message exceeds
-  // that serverside value, creating of the recognizer will fail with an error.
-  google.protobuf.Duration idle_timeout = 3;
+  message AudioFormatRAW {
+    // Sample Rate of the audio in Hertz (e.g. 16000, 8000)
+    uint32 sample_rate = 1;
+
+    // Bit Depth of each audio sample (e.g. 8, 16, etc.) This field is ignored
+    // for fixed-length encoding such as ULAW.
+    uint32 bit_depth = 2;
+
+    // Encoding of the audio.
+    Encoding encoding = 3;
+
+    // When audio samples have a bit-depth > 8, the data is assumed to be
+    // little-endian, unless this field is set to true.
+    bool big_endian = 4;
+
+    // Number of channels present in the audio.
+    uint32 num_channels = 5;
+
+    // Encoding that describes RAW audio samples
+    enum Encoding {
+      // PCM data encoded as signed integers
+      SIGNED_INTEGER = 0;
+
+      // mu-law encoding.  Bit depth is assumed to be 8.
+      ULAW = 1;
+
+      // a-law encoding.  Bit depth is assumed to be 8.
+      ALAW = 2;
+    }
+  }
+
+  // Self-Describing Audio Formats
+  enum AudioFormatWithHeaders {
+    // WAV (data with RIFF headers), with data sampled at a rate equal to or
+    // higher than the sample rate expected by the chosen model.
+    WAV = 0;
+
+    // MP3 data, sampled at a rate equal to or higher than the sample rate
+    // expected by the chosen model.
+    MP3 = 1;
+
+    // FLAC data, sampled at a rate equal to or higher than the sample rate
+    // expected by the chosen model.
+    FLAC = 2;
+
+    // OPUS data, encoded in an ogg container and sampled at a rate equal to or
+    // higher than the sample rate expected by the chosen model.
+    OPUS = 3;
+  }
+
+  // Initial time offset in milliseconds of audio to be sent to the newly
+  // created Recognizer. This offset will be added to any timestamps returned in
+  // the `RecognitionResult` messages. This field can be useful if a recognition
+  // session was interrupted and needs to be restarted from a certain offset.
+  uint32 initial_time_offset_ms = 4;
 
   // This is an optional field.  If this is set to true, each result will
   // include a list of words and the start time offset (timestamp) and the
   // duration for each of those words.  If set to `false`, no word-level
   // timestamps will be returned.  The default is `false`.
-  bool enable_word_time_offsets = 4;
+  bool enable_word_time_offsets = 5;
 
   // This is an optional field.  If this is set to true, each result will
   // include a list of words and the confidence for those words.  If `false`, no
   // word-level confidence information is returned.  The default is `false`.
-  bool enable_word_confidence = 5;
+  bool enable_word_confidence = 6;
 
   // This is an optional field.  If this is set to true, the field
   // `RecognitionAlternative.raw_transcript` will be populated with the raw
@@ -248,7 +238,7 @@ message RecognitionConfig {
   // formatting rules applied.  If this is set to false, that field will not
   // be set in the results.  The RecognitionAlternative.transcript will
   // always be populated with text formatted according to the server's settings.
-  bool enable_raw_transcript = 6;
+  bool enable_raw_transcript = 7;
 
   // This is an optional field.  If this is set to true, the results will
   // include a confusion network.  If set to `false`, no confusion network will
@@ -256,7 +246,7 @@ message RecognitionConfig {
   // support a confusion network, results may be returned without a confusion
   // network available.  If this field is set to `true`, then
   // `enable_raw_transcript` is also forced to be true.
-  bool enable_confusion_network = 7;
+  bool enable_confusion_network = 8;
 
   // This is an optional field.  If the audio has multiple channels, this field
   // should be configured with the list of channel indices that should be
@@ -264,9 +254,8 @@ message RecognitionConfig {
   //
   // Example: `[0]` for a mono file, `[0, 1]` for a stereo file.
   //
-  // If this field is not set, a mono file will be assumed by default and only
-  // channel-0 will be transcribed even if the file actually has additional
-  // channels.
+  // If this field is not set, all channels in the provided audio will be sent
+  // for transcription.
   //
   // Channels that are present in the audio may be omitted, but it is an error
   // to include a channel index in this field that is not present in the audio.
@@ -274,20 +263,20 @@ message RecognitionConfig {
   // in this list.
   //
   // BAD: `[0, 2]` for a stereo file; BAD: `[0, 0]` for a mono file.
-  repeated uint32 audio_channels = 8;
+  repeated uint32 selected_audio_channels = 9;
 
   // This is an optional field.  If there is any metadata associated with the
   // audio being sent, use this field to provide it to cubic.  The server may
   // record this metadata when processing the request.  The server does not use
   // this field for any other purpose.
-  RecognitionMetadata metadata = 9;
+  RecognitionMetadata metadata = 10;
 
   // This is an optional field for providing any additional context information
   // that may aid speech recognition.  This can also be used to add
   // out-of-vocabulary words to the model or boost recognition of specific
   // proper names or commands. Context information must be pre-compiled via the
   // `CompileContext()` method.
-  RecognitionContext context = 10;
+  RecognitionContext context = 11;
 }
 
 // Metadata associated with the audio to be recognized.
@@ -299,9 +288,9 @@ message RecognitionMetadata {
   string custom_metadata = 1;
 }
 
-  // A collection of additional context information that may aid speech
-  // recognition.  This can be used to add out-of-vocabulary words to  
-  // the model or to boost recognition of specific proper names or commands. 
+// A collection of additional context information that may aid speech
+// recognition.  This can be used to add out-of-vocabulary words to
+// the model or to boost recognition of specific proper names or commands.
 message RecognitionContext {
   // List of compiled context information, with each entry being compiled from a
   // list of words or phrases using the `CompileContext` method.
@@ -313,18 +302,18 @@ message RecognitionContext {
 // of text that was sent for compilation. For 1000 words it's generally less
 // than 100 kilobytes.
 message CompiledContext {
-  // The context information compiled by the `CompileContext` method. 
+  // The context information compiled by the `CompileContext` method.
   bytes data = 1;
 }
 
 // A phrase or word that is to be compiled into context information that can be
-// later used to improve speech recognition during a `Recognize` or
-// `StreamingRecognize` call. Along with the phrase or word itself, there is an
-// optional boost parameter that can be used to boost the likelihood of the
-// phrase or word in the recognition output.
+// later used to improve speech recognition during a `StreamingRecognize` call.
+// Along with the phrase or word itself, there is an optional boost parameter
+// that can be used to boost the likelihood of the phrase or word in the
+// recognition output.
 message ContextPhrase {
   // The actual phrase or word.
-  string text  = 1;
+  string text = 1;
   // This is an optional field. The boost value is a positive number which is
   // used to increase the probability of the phrase or word appearing in the
   // output. This setting can be used to differentiate between similar sounding
@@ -345,9 +334,7 @@ message ContextPhrase {
 }
 
 // Audio to be sent to the recognizer
-message RecognitionAudio {
-  bytes data = 1;
-}
+message RecognitionAudio { bytes data = 1; }
 
 // Description of a Cubic Model
 message Model {
@@ -408,7 +395,6 @@ message RecognitionResult {
   // Channel of the audio file that this result was transcribed from.  For a
   // mono file, or RAW_LINEAR16 input, this will be set to 0.
   uint32 audio_channel = 4;
-
 }
 
 // A recognition hypothesis
@@ -450,13 +436,12 @@ message RecognitionAlternative {
   // `enable_raw_transcript` is also set to `true` in the `RecognitionConfig`.
   repeated WordInfo raw_words = 7;
 
-  // Time offset relative to the beginning of audio received by the recognizer
-  // and corresponding to the start of this utterance.
-  google.protobuf.Duration start_time = 4;
+  // Time offset in milliseconds relative to the beginning of audio received by
+  // the recognizer and corresponding to the start of this utterance.
+  uint32 start_time_ms = 4;
 
-  // Duration of the current utterance in the spoken audio.
-  google.protobuf.Duration duration = 5;
-
+  // Duration in milliseconds of the current utterance in the spoken audio.
+  uint32 duration_ms = 5;
 }
 
 // Word-specific information for recognized words
@@ -468,27 +453,25 @@ message WordInfo {
   // higher likelihood that the word was correctly recognized.
   double confidence = 2;
 
-  // Time offset relative to the beginning of audio received by the recognizer
-  // and corresponding to the start of this spoken word.
-  google.protobuf.Duration start_time = 3;
+  // Time offset in milliseconds relative to the beginning of audio received by
+  // the recognizer and corresponding to the start of this spoken word.
+  uint32 start_time_ms = 3;
 
-  // Duration of the current word in the spoken audio.
-  google.protobuf.Duration duration = 4;
+  // Duration in milliseconds of the current word in the spoken audio.
+  uint32 duration_ms = 4;
 }
 
 // Confusion network in recognition output
-message RecognitionConfusionNetwork {
-  repeated ConfusionNetworkLink links = 1;
-}
+message RecognitionConfusionNetwork { repeated ConfusionNetworkLink links = 1; }
 
 // A Link inside a confusion network
 message ConfusionNetworkLink {
-  // Time offset relative to the beginning of audio received by the recognizer
-  // and corresponding to the start of this link
-  google.protobuf.Duration start_time = 1;
+  // Time offset in milliseconds relative to the beginning of audio received by
+  // the recognizer and corresponding to the start of this link
+  uint32 start_time_ms = 1;
 
-  // Duration of the current link in the confusion network
-  google.protobuf.Duration duration = 2;
+  // Duration in milliseconds of the current link in the confusion network
+  uint32 duration_ms = 2;
 
   // Arcs between this link
   repeated ConfusionNetworkArc arcs = 3;
