@@ -314,22 +314,17 @@ message CompiledContext {
 message ContextPhrase {
   // The actual phrase or word.
   string text = 1;
-  // This is an optional field. The boost value is a positive number which is
-  // used to increase the probability of the phrase or word appearing in the
+
+  // This is an optional field. The boost factor is a positive number which is
+  // used to multiply the probability of the phrase or word appearing in the
   // output. This setting can be used to differentiate between similar sounding
-  // words, with the desired word given a bigger boost value.
+  // words, with the desired word given a bigger boost factor.
   //
-  // By default, all phrases or words are given an equal probability of 1/N
-  // (where N = total number of phrases or words). If a boost value is provided,
-  // the new probability is (boost + 1) * 1/N. We normalize the boosted
-  // probabilities for all the phrases or words so that they sum to one. This
-  // means that the boost value only has an effect if there are relative
-  // differences in the values for different phrases or words. That is, if all
-  // phrases or words have the same boost value, after normalization they will
-  // all still have the same probability. This also means that the boost value
-  // can be any positive value, but it is best to stick between 0 to 20.
-  //
-  // Negative values are not supported and will be treated as 0 values.
+  // By default, all phrases or words provided in the `RecongitionContext` are
+  // given an equal probability of occurring. The boost factors larger than
+  // 1 will make the phrase or word more probable. A boost factor of 2
+  // corresponds to making the phrase or word twice as more likely, while a
+  // boost factor of 0.5 means half as less likely.
   float boost = 2;
 }
 
