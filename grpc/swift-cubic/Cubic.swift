@@ -12,4 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-public let CubicVersion = "1.6.4"
+public let CubicVersion = "1.6.5"
