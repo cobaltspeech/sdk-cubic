@@ -13,6 +13,6 @@ setup(
     install_requires=[
         'googleapis-common-protos==1.56.4',
         'grpcio-tools==1.48.2',
-        'protobuf==3.20.0'
+        'protobuf==3.20.2'
     ]
 )
