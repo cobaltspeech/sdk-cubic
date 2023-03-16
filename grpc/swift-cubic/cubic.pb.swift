@@ -857,6 +857,34 @@ public struct Cobaltspeech_Cubic_ConfusionNetworkArc {
   public init() {}
 }
 
+#if swift(>=5.5) && canImport(_Concurrency)
+extension Cobaltspeech_Cubic_ListModelsRequest: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_RecognizeRequest: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_StreamingRecognizeRequest: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_StreamingRecognizeRequest.OneOf_Request: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_CompileContextRequest: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_VersionResponse: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_ListModelsResponse: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_RecognitionResponse: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_CompileContextResponse: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_RecognitionConfig: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_RecognitionConfig.Encoding: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_RecognitionMetadata: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_RecognitionContext: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_CompiledContext: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_ContextPhrase: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_RecognitionAudio: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_Model: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_ModelAttributes: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_ContextInfo: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_RecognitionResult: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_RecognitionAlternative: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_WordInfo: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_RecognitionConfusionNetwork: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_ConfusionNetworkLink: @unchecked Sendable {}
+extension Cobaltspeech_Cubic_ConfusionNetworkArc: @unchecked Sendable {}
+#endif  // swift(>=5.5) && canImport(_Concurrency)
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "cobaltspeech.cubic"
