@@ -267,7 +267,6 @@ namespace CubicStreamingRecognitionExample {
   Please note: this example does not attempt to handle threading and all exceptions.
   It gives a simplified overview of the essential gRPC calls.
 */
-
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -277,10 +276,14 @@ import com.google.protobuf.ByteString;
 import com.cobaltspeech.cubic.CubicGrpc;
 import com.cobaltspeech.cubic.CubicOuterClass.*;
 
+import java.util.concurrent.CountDownLatch;
+
 public static void transcribeFile() {
     // Setup connection
     CubicGrpc.CubicStub mCubicService = CubicGrpc.newStub(
         ManagedChannelBuilder.forTarget(url).build());
+
+    final CountDownLatch finishLatch = new CountDownLatch(1);
 
     // Setup callback to handle results
     StreamObserver<> responseObserver = new StreamObserver<RecognitionResponse>() {
@@ -296,6 +299,7 @@ public static void transcribeFile() {
 
         @Override
         public void onCompleted() {
+            finishLatch.countDown();
             System.out.println("Server is done sending responses back");
         }
     };
@@ -316,7 +320,7 @@ public static void transcribeFile() {
     // Read the file in chunks and stream to server.
     try {
         FileInputStream is = new FileInputStream(new File("/path/to/file"));
-        byte[] bytes = new byte[1024];
+        byte[] chunk = new byte[1024];
         int len = 0;
 
         // Read the file
@@ -332,10 +336,14 @@ public static void transcribeFile() {
                 .setAudio(audioMsg)
                 .build());
         }
-    } catch (Exception e) { } // Handle exception
 
-    // Close the client side stream
-    requestObserver.onCompleted();
+        // Close the client side stream
+        requestObserver.onCompleted();
+
+        finishLatch.await();
+    } catch (Exception e) {
+        System.err.println(e.toString());
+    } // Handle exception
 
     // Note: Once the server is done transcribing everything, responseObserver.onCompleted() will be called.
 }
