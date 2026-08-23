@@ -49,6 +49,14 @@ type Client struct {
 // the provided address.  Transport security is enabled by default.  Use Options
 // to override default settings if necessary.
 func NewClient(addr string, opts ...Option) (*Client, error) {
+	return NewClientWithDialOptions(addr, []grpc.DialOption{}, opts...)
+}
+
+// NewClientWithDialOptions creates a new Client that connects to a Cubic Server listening on
+// the provided address.  Transport security is enabled by default.  Use Options
+// to override default settings if necessary.
+// Additionally this factory method enables the integration to provide external DialOptions
+func NewClientWithDialOptions(addr string, dialOpt []grpc.DialOption, opts ...Option) (*Client, error) {
 	c := Client{}
 	c.streamingBufSize = defaultStreamingBufsize
 	c.connectTimeout = defaultConnectTimeout
@@ -71,8 +79,12 @@ func NewClient(addr string, opts ...Option) (*Client, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), c.connectTimeout)
 	defer cancel()
 
-	conn, err := grpc.DialContext(ctx, addr, dopt, grpc.WithBlock(),
-		grpc.WithReturnConnectionError(), grpc.FailOnNonTempDialError(true)) // these are both experimental but very useful.
+	dialOpt = append(dialOpt, dopt,
+		grpc.WithBlock(),
+		grpc.WithReturnConnectionError(),
+		grpc.FailOnNonTempDialError(true))
+
+	conn, err := grpc.DialContext(ctx, addr, dialOpt...)
 	if err != nil {
 		return nil, fmt.Errorf("unable to create a client: %v", err)
 	}
@@ -80,6 +92,7 @@ func NewClient(addr string, opts ...Option) (*Client, error) {
 	c.cubic = cubicpb.NewCubicClient(c.conn)
 	return &c, nil
 }
+
 
 // Option configures how we setup the connection with a server.
 type Option func(*Client) error
